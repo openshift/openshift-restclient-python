@@ -1,1 +1,2 @@
-git+https://github.com/detiber/client-python@master
+flake8
+pytest

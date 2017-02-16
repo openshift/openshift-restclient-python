@@ -41,7 +41,7 @@ def test_namespace_exists(k8s_helper, namespace):
     get_result = k8s_helper.get_object(namespace.metadata.name)
     assert get_result is not None
     assert get_result.metadata.name == namespace.metadata.name
-    assert get_result == namespace
+    assert get_result.metadata.uid == namespace.metadata.uid
 
 
 def test_get_exists_not(k8s_helper):
