@@ -7,6 +7,8 @@ import argparse
 import logging
 import sys
 
+from logging import config
+
 from openshift import __version__
 from openshift.helper import OpenShiftException
 
@@ -15,7 +17,6 @@ from .modules import Modules
 
 logger = logging.getLogger(__name__)
 
-from logging import config
 
 LOGGING = {
         'version': 1,
@@ -94,7 +95,7 @@ def run_docstrings_cmd(**kwargs):
     for model in models:
         try:
             strings = DocStrings(model=model, api_version=api_version)
-        except OpenShiftException as exc:
+        except OpenShiftException:
             raise
         print("DOCUMENTATION = '''")
         print(strings.documentation)

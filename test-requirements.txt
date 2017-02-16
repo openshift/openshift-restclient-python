@@ -1,1 +1,3 @@
-git+https://github.com/detiber/client-python@master
+flake8
+pytest
+docker ~= 2.1.0

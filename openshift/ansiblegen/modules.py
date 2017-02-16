@@ -6,7 +6,6 @@ from __future__ import print_function
 import logging
 import inspect
 import os
-import re
 import shutil
 import string_utils
 import sys
@@ -89,7 +88,7 @@ class Modules(object):
                 logger.debug("success!")
             except Exception as exc:
                 logger.debug("failed!!")
-                raise OpenShiftException(exc.message)
+                raise OpenShiftException(str(exc))
 
             context = {
                 'documentation_string': documentation,
@@ -99,8 +98,8 @@ class Modules(object):
             }
             self.__jinja_render_to_temp('k8s_module.j2', module_name, temp_dir, **context)
             if not self.suppress_stdout:
-                sys.stdout.write("\033[F") # cursor up 1 line
-                sys.stdout.write("\033[K") # clear to EOL
+                sys.stdout.write("\033[F")  # cursor up 1 line
+                sys.stdout.write("\033[K")  # clear to EOL
         shutil.rmtree(temp_dir)
         if not self.suppress_stdout:
             print("Generated {} modules".format(len(self.models)))
@@ -133,6 +132,6 @@ class Modules(object):
                 raise OpenShiftException("ERROR: expected {} to be a directory.".format(self.output_path))
         else:
             try:
-                os.makedirs(self.output_path, 0775)
+                os.makedirs(self.output_path, 0o775)
             except os.error as exc:
                 raise OpenShiftException("ERROR: could not create {0} - {1}".format(self.output_path, str(exc)))

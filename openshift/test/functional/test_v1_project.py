@@ -4,13 +4,6 @@ import uuid
 
 from openshift.helper import KubernetesObjectHelper
 
-pytestmark = pytest.mark.functional
-
-@pytest.fixture(scope='module')
-def k8s_helper():
-    k8s_helper = KubernetesObjectHelper('v1', 'project')
-    return k8s_helper
-
 
 @pytest.fixture()
 def project(k8s_helper):
@@ -24,10 +17,10 @@ def project(k8s_helper):
 
     yield project
 
-    k8s_helper.delete_object(name)
+    k8s_helper.delete_object(name, None)
 
 
-@pytest.mark.skip()
+@pytest.mark.skip(reason="project fields are immutable")
 def test_project_patch(k8s_helper, project):
     ns_copy = copy.deepcopy(project)
     ns_copy.metadata.labels = {'test-label': 'test-value'}
@@ -42,7 +35,7 @@ def test_project_exists(k8s_helper, project):
     get_result = k8s_helper.get_object(project.metadata.name)
     assert get_result is not None
     assert get_result.metadata.name == project.metadata.name
-    assert get_result == project
+    assert get_result.metadata.uid == project.metadata.uid
 
 
 def test_get_exists_not(k8s_helper):
