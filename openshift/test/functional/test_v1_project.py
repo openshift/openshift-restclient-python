@@ -42,7 +42,7 @@ def test_project_exists(k8s_helper, project):
     get_result = k8s_helper.get_object(project.metadata.name)
     assert get_result is not None
     assert get_result.metadata.name == project.metadata.name
-    assert get_result == project
+    assert get_result.metadata.uid == project.metadata.uid
 
 
 def test_get_exists_not(k8s_helper):
