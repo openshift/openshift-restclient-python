@@ -1,0 +1,9 @@
+urllib3>=1.19
+six>=1.10
+kubernetes
+certifi
+python-dateutil
+pyyaml
+oauth2client
+ipaddress
+python-string-utils
