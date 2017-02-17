@@ -2,6 +2,7 @@
 
 import inspect
 import re
+import copy
 
 import string_utils
 
@@ -114,13 +115,13 @@ class KubernetesObjectHelper(object):
     @classmethod
     def properties_from_model_obj(cls, model_obj):
         model_class = type(model_obj)
-        property_names = [
-            x for x in dir(model_class)
-            if isinstance(getattr(model_class, x), property)
+        properties = [
+            {'name': x, 'immutable': False if getattr(getattr(model_class, x), 'setter', None) else True}
+            for x in dir(model_class) if isinstance(getattr(model_class, x), property)
         ]
-        properties = {}
-        for name in property_names:
-            prop_kind = model_obj.swagger_types[name]
+        result = {}
+        for prop in properties:
+            prop_kind = model_obj.swagger_types[prop['name']]
             if prop_kind in 'str':
                 prop_class = str
             elif prop_kind == 'int':
@@ -133,9 +134,11 @@ class KubernetesObjectHelper(object):
                 prop_class = bool
             else:
                 prop_class = getattr(client.models, prop_kind)
-            # cls.properties_from_model_obj(())
-            properties[name] = prop_class
-        return properties
+            result[prop['name']] = {
+                'class': prop_class,
+                'immutable': prop['immutable']
+            }
+        return result
 
     def __lookup_method(self, operation, namespaced):
         '''
@@ -190,7 +193,8 @@ class KubernetesObjectHelper(object):
                 'choices': ['present', 'absent']
             },
             'name': {
-                'required': True
+                'required': True,
+                'property_path': ['metadata', 'name']
             },
             # path to a config file
             'kubeconfig': {},
@@ -205,7 +209,10 @@ class KubernetesObjectHelper(object):
             )
 
         if self.namespaced:
-            argument_spec['namespace'] = {'required': True}
+            argument_spec['namespace'] = {
+                'required': True,
+                'property_path': ['metadata', 'name']
+            }
 
         # mutually_exclusive = None
         # required_together = None
@@ -215,7 +222,7 @@ class KubernetesObjectHelper(object):
         argument_spec.update(self.__transform_properties(self.properties))
         return argument_spec
 
-    def __transform_properties(self, properties, prefix=''):
+    def __transform_properties(self, properties, prefix='', path=[]):
         '''
         Convert a list of properties to an argument_spec dictionary
 
@@ -224,18 +231,22 @@ class KubernetesObjectHelper(object):
         :return: dict
         '''
         args = {}
-        for prop, prop_class in properties.items():
-            print("property: {}".format(prop))
+        for prop, prop_attributes in properties.items():
             if prop == 'status':
                 # Do not expose Status to argument spec
                 continue
+            elif prop_attributes['immutable']:
+                # Property cannot be set by the user
+                continue
             elif prop == 'metadata':
                 # Filter metadata properties added to argument spec
-                if prop_class.__name__ != METACLASS_NAME:
-                    raise OpenShiftException("Unknown metadata type: {}".format(prop_class.__name__))
-                args['labels'] = {'required': False, 'type': 'dict'}
-                args['annotations'] = {'required': False, 'type': 'dict'}
-            elif prop_class.__name__ not in ['int', 'str', 'bool', 'list', 'dict']:
+                if prop_attributes['class'].__name__ != METACLASS_NAME:
+                    raise OpenShiftException("Unknown metadata type: {}".format(prop_attributes['class'].__name__))
+                args['labels'] = {'required': False, 'type': 'dict',
+                                  'property_path': ['metadata', 'labels']}
+                args['annotations'] = {'required': False, 'type': 'dict',
+                                       'property_path': ['metadata', 'labels']}
+            elif prop_attributes['class'].__name__ not in ['int', 'str', 'bool', 'list', 'dict']:
                 # Adds nested properties recursively
 
                 # As we traverse deeper into nested properties, we prefix the final primitive property name with the
@@ -244,20 +255,33 @@ class KubernetesObjectHelper(object):
                 #
                 # This may be too hacky, but trying to remove redundant prefixes and generic, non-helpful
                 # prefixes (e.g. Sepc, Template).
-                label = prop_class.__name__\
+                label = prop_attributes['class'].__name__\
                         .replace(self.api_version.capitalize(), '')\
                         .replace(BASE_API_VERSION, '')\
                         .replace(self.base_model_name, '')\
                         .replace('Spec', '')\
                         .replace('Template', '')\
-                        .lower()
+                        .replace('Unversioned', '')
+                label = string_utils.camel_case_to_snake(label, '_')
                 p = prefix
+                paths = copy.copy(path)
+                paths.append(prop)
+                if p:
+                    # Prevent the last prefix from repeating. In other words, avoid something like 'pod_pod'
+                    pieces = prefix.split('_')
+                    label = label.replace(pieces[len(pieces) - 1] + '_', '', 1)
                 if label != self.base_model_name and label not in p:
                     p += '_' + label if p else label
-                sub_props = self.properties_from_model_obj(prop_class())
-                args.update(self.__transform_properties(sub_props, prefix=p))
+                sub_props = self.properties_from_model_obj(prop_attributes['class']())
+                args.update(self.__transform_properties(sub_props, prefix=p, path=paths))
             else:
                 # Adds a primitive property
                 arg_prefix = prefix + '_' if prefix else ''
-                args[arg_prefix + prop] = {'required': False, 'type': prop_class.__name__}
+                paths = copy.copy(path)
+                paths.append(prop)
+                args[arg_prefix + prop] = {
+                    'required': False,
+                    'type': prop_attributes['class'].__name__,
+                    'property_path': paths
+                }
         return args
