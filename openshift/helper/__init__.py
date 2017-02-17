@@ -15,7 +15,7 @@ VERSION_RX = re.compile("V\d((alpha|beta)\d)?")
 
 # Expected metaclass object name
 METACLASS_NAME = 'V1ObjectMeta'
-
+BASE_API_VERSION = 'V1'
 
 class OpenShiftException(Exception):
     """
@@ -49,6 +49,7 @@ class KubernetesObjectHelper(object):
         self.model = self.__get_model(api_version, kind)
         self.properties = self.properties_from_model_obj(self.model())
         self.namespaced = namespaced
+        self.base_model_name = self.model.__name__.replace(api_version.capitalize(), '')
 
         # TODO: handle config better than just using default kubeconfig
         config.load_kube_config()
@@ -214,7 +215,7 @@ class KubernetesObjectHelper(object):
         argument_spec.update(self.__transform_properties(self.properties))
         return argument_spec
 
-    def __transform_properties(self, properties, prefix=None):
+    def __transform_properties(self, properties, prefix=''):
         '''
         Convert a list of properties to an argument_spec dictionary
 
@@ -223,7 +224,6 @@ class KubernetesObjectHelper(object):
         :return: dict
         '''
         args = {}
-        print("here!")
         for prop, prop_class in properties.items():
             print("property: {}".format(prop))
             if prop == 'status':
@@ -236,16 +236,28 @@ class KubernetesObjectHelper(object):
                 args['labels'] = {'required': False, 'type': 'dict'}
                 args['annotations'] = {'required': False, 'type': 'dict'}
             elif prop_class.__name__ not in ['int', 'str', 'bool', 'list', 'dict']:
-                # Adds nested properties
+                # Adds nested properties recursively
+
+                # As we traverse deeper into nested properties, we prefix the final primitive property name with the
+                # chain of property names. For example, 'pod_podsecuritycontext_run_as_user', where 'run_as_user' is
+                # the primitive.
+                #
+                # This may be too hacky, but trying to remove redundant prefixes and generic, non-helpful
+                # prefixes (e.g. Sepc, Template).
+                label = prop_class.__name__\
+                        .replace(self.api_version.capitalize(), '')\
+                        .replace(BASE_API_VERSION, '')\
+                        .replace(self.base_model_name, '')\
+                        .replace('Spec', '')\
+                        .replace('Template', '')\
+                        .lower()
                 p = prefix
-                if prop not in ('spec', 'template'):
-                    # Only prefix property names with meaningful terms
-                    p = prefix + '_' if prefix else ''
-                    p += prop
+                if label != self.base_model_name and label not in p:
+                    p += '_' + label if p else label
                 sub_props = self.properties_from_model_obj(prop_class())
                 args.update(self.__transform_properties(sub_props, prefix=p))
             else:
                 # Adds a primitive property
                 arg_prefix = prefix + '_' if prefix else ''
-                args[arg_prefix + prop] = { 'required': False, 'type': prop_class.__name__}
+                args[arg_prefix + prop] = {'required': False, 'type': prop_class.__name__}
         return args
