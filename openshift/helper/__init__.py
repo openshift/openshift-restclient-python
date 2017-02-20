@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 
 import inspect
 import re
 import copy
+import json
+import logging
 
 import string_utils
 
+from logging import config as logging_config
+
 from kubernetes import config
+from kubernetes.config.config_exception import ConfigException
 from kubernetes.client.rest import ApiException
+
 from openshift import client
 from openshift.client.models import V1DeleteOptions
 
@@ -17,6 +24,38 @@ VERSION_RX = re.compile("V\d((alpha|beta)\d)?")
 # Expected metaclass object name
 METACLASS_NAME = 'V1ObjectMeta'
 BASE_API_VERSION = 'V1'
+
+logger = logging.getLogger(__name__)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'KubeObjHelper.log',
+            'mode': 'w',
+            'encoding': 'utf-8'
+        },
+        'null': {
+            'level': 'ERROR',
+            'class': 'logging.NullHandler'
+        }
+    },
+    'loggers': {
+        'openshift.helper': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': False
+        },
+    },
+    'root': {
+        'handlers': ['null'],
+        'level': 'ERROR'
+    }
+}
+
 
 class OpenShiftException(Exception):
     """
@@ -44,7 +83,9 @@ class OpenShiftException(Exception):
 
 class KubernetesObjectHelper(object):
     # TODO: add support for check mode to helper
-    def __init__(self, api_version, kind, namespaced=False):
+    argspec_cache = None
+
+    def __init__(self, api_version, kind, namespaced=False, debug=False):
         self.api_version = api_version
         self.kind = kind
         self.model = self.__get_model(api_version, kind)
@@ -52,86 +93,318 @@ class KubernetesObjectHelper(object):
         self.namespaced = namespaced
         self.base_model_name = self.model.__name__.replace(api_version.capitalize(), '')
 
-        # TODO: handle config better than just using default kubeconfig
-        config.load_kube_config()
+        if debug:
+            self.enable_debug()
+
+    @staticmethod
+    def enable_debug():
+        """
+        Turn on debugging, which will write to a file named 'KubeObjHelper.log'. If you're
+        running on a remote node, the output will end up on the remote node.
+
+        :return: None
+        """
+        LOGGING['loggers']['openshift.helper']['level'] = 'DEBUG'
+        logging_config.dictConfig(LOGGING)
+
+    def set_client_config(self, module_params):
+        """
+        Handles loading client config from a file, or updating the config object with any user provided
+        authentication data.
+
+        :param module_params: dict of params from AnsibleModule
+        :return: None
+        """
+        if module_params.get('kubeconfig') or module_params.get('context'):
+            # Attempt to load config from file
+            try:
+                config.load_kube_config(config_file=module_params.get('kubeconfig'),
+                                        context=module_params.get('context'))
+            except IOError as e:
+                raise OpenShiftException("Failed to access {}. Does the file exist?".format(
+                    module_params.get('kubeconfig')), error=str(e))
+            except ConfigException as e:
+                raise OpenShiftException("Error accessing context {}.".format(
+                    module_params.get('context')), error=str(e))
+        elif module_params.get('api_url') or module_params.get('api_key') or module_params.get('username'):
+            # Anything in argspec with an auth_option attribute, can be copied
+            for arg_name, arg_value in self.argspec.items():
+                if arg_value.get('auth_option'):
+                    if module_params.get(arg_name, None) is not None:
+                        setattr(client.configuration, arg_name, module_params[arg_name])
+        else:
+            # The user did not pass any options, so load the default kube config file, and use the active
+            # context
+            try:
+                config.load_kube_config()
+            except Exception as e:
+                raise OpenShiftException("Error loading configuration: {}".format(str(e)))
 
     def get_object(self, name, namespace=None):
-        # TODO: better error handling
         k8s_obj = None
         try:
+            get_method = self.__lookup_method('read', namespace)
             if namespace is None:
-                get_method = self.__lookup_method('read', False)
                 k8s_obj = get_method(name)
             else:
-                get_method = self.__lookup_method('read', True)
                 k8s_obj = get_method(name, namespace)
-        except ApiException as e:
-            if e.status != 404:
-                raise
+        except ApiException as exc:
+            if exc.status != 404:
+                msg = json.loads(exc.body).get('message', exc.reason)
+                raise OpenShiftException(msg, status=exc.status)
         return k8s_obj
 
     def patch_object(self, name, namespace, k8s_obj):
-        # TODO: better error handling
         # TODO: add a parameter for waiting until the object is ready
         k8s_obj.status = None
         k8s_obj.metadata.resource_version = None
-        if namespace is None:
-            patch_method = self.__lookup_method('patch', False)
-            return_obj = patch_method(name, k8s_obj)
-        else:
-            patch_method = self.__lookup_method('patch', True)
-            return_obj = patch_method(name, namespace, k8s_obj)
+        try:
+            patch_method = self.__lookup_method('patch', namespace)
+            if namespace:
+                return_obj = patch_method(name, namespace, k8s_obj)
+            else:
+                return_obj = patch_method(name, k8s_obj)
+        except ApiException as exc:
+            msg = json.loads(exc.body).get('message', exc.reason)
+            raise OpenShiftException(msg, status=exc.status)
         return return_obj
 
     def create_object(self, namespace, k8s_obj):
-        # TODO: better error handling
         # TODO: add a parameter for waiting until the object is ready
-        if namespace is None:
-            create_method = self.__lookup_method('create', False)
-            return_obj = create_method(k8s_obj)
-        else:
-            create_method = self.__lookup_method('create', True)
-            return_obj = create_method(namespace, k8s_obj)
+        try:
+            create_method = self.__lookup_method('create', namespace)
+            if namespace is None:
+                return_obj = create_method(k8s_obj)
+            else:
+                return_obj = create_method(namespace, k8s_obj)
+        except ApiException as exc:
+            msg = json.loads(exc.body).get('message', exc.reason)
+            raise OpenShiftException(msg, status=exc.status)
         return return_obj
 
     def delete_object(self, name, namespace=None, delete_opts=None):
-        # TODO: better error handling
         # TODO: add a parameter for waiting until the object has been deleted
         # TODO: deleting a namespace requires a body
-        if namespace is None:
-            delete_method = self.__lookup_method('delete', False)
-            print(inspect.getargspec(delete_method))
-            if 'body' in inspect.getargspec(delete_method).args:
-                delete_method(name, body=V1DeleteOptions())
-            else:
-                delete_method(name)
+        delete_method = self.__lookup_method('delete', False)
+        if namespace:
+            try:
+                if 'body' in inspect.getargspec(delete_method).args:
+                    delete_method(name, body=V1DeleteOptions())
+                else:
+                    delete_method(name)
+            except ApiException as exc:
+                raise OpenShiftException(exc.reason, status=exc.status)
         else:
-            delete_method = self.__lookup_method('delete', True)
-            if 'body' in inspect.getargspec(delete_method).args:
-                delete_method(name, namespace, body=V1DeleteOptions())
+            try:
+                if 'body' in inspect.getargspec(delete_method).args:
+                    delete_method(name, namespace, body=V1DeleteOptions())
+                else:
+                    delete_method(name, namespace)
+            except ApiException as exc:
+                msg = json.loads(exc.body).get('message', exc.reason)
+                raise OpenShiftException(msg, status=exc.status)
+
+    def update_object(self, name, namespace, k8s_obj):
+        pass
+
+    def object_from_params(self, module_params):
+        """
+        Instantiate an instance of the model class, and populate its attributes
+        from the module parameters
+
+        :param module_params: Dict of key:value pairs
+        :return: The instantiated instance
+        """
+        self.__log_argspec()
+        obj = self.model()
+        obj.kind = string_utils.snake_case_to_camel(self.kind).capitalize()
+        obj.api_version = self.api_version.lower()
+        for param_name, param_value in module_params.items():
+            if self.argspec[param_name].get('property_path'):
+                spec = self.argspec[param_name]
+                prop_path = copy.copy(spec['property_path'])
+                self.__set_obj_attribute(obj, prop_path, param_value)
+        logger.debug("Object from params:")
+        logger.debug(json.dumps(obj.to_dict(), indent=4))
+        return obj
+
+    def __set_obj_attribute(self, obj, property_path, param_value):
+        """
+        Recursively set object properties
+        :param obj: The object on which to set a property value.
+        :param property_path: A list of property names in the form of strings.
+        :param param_value: The value to set.
+        :return: The original object.
+        """
+        logger.debug("set {0}, {1} to {2}".format(obj.__class__.__name__,
+                                                  json.dumps(property_path),
+                                                  json.dumps(param_value)))
+        while len(property_path) > 0:
+            prop_name = property_path.pop(0)
+            prop_kind = obj.swagger_types[prop_name]
+            if prop_kind in ('str', 'int', 'bool') or \
+                    prop_kind.startswith('dict(') or \
+                    prop_kind.startswith('list['):
+                # prop_kind is a primitive
+                setattr(obj, prop_name, param_value)
             else:
-                delete_method(name, namespace)
+                # prop_kind is an object class
+                sub_obj = getattr(obj, prop_name)
+                if not sub_obj:
+                    sub_obj = getattr(client.models, prop_kind)()
+                    logger.debug("sub_obj is {}".format(sub_obj.__class__.__name__))
+                logger.debug("set {0}.{1}".format(obj.__class__.__name__, prop_name))
+                setattr(obj, prop_name, self.__set_obj_attribute(sub_obj, property_path, param_value))
+        return obj
+
+    def object_compare(self, k8s_obj, module_params):
+        match = True
+        reasons = []
+        logger.debug("Performing object compare")
+        logger.debug("Starting object:")
+        logger.debug(json.dumps(k8s_obj.to_dict(), indent=4))
+        for param_name, param_value in module_params.items():
+            if param_value is None:
+                # nothing to do
+                continue
+            if not self.argspec.get(param_name, {}).get('property_path', None):
+                # only interested in params that have a property_path
+                continue
+            obj_prop = k8s_obj
+            for prop in self.argspec[param_name]['property_path']:
+                obj_prop = getattr(obj_prop, prop)
+            if obj_prop is None:
+                reasons.append("Property {0} was null".format(param_name))
+                self.__set_obj_attribute(k8s_obj,
+                                         self.argspec[param_name]['property_path'],
+                                         param_value)
+                match = False
+            elif type(obj_prop).__name__ not in ('int', 'bool', 'str', 'list', 'dict'):
+                # If it's not None, then it should be a primitive
+                raise OpenShiftException(
+                    "Error: property_path for {0} returned a value of type {1}."
+                    "Expected one of: int, bool, str, list, dict.".format(param_name, type(obj_prop).__name__)
+                )
+            elif type(obj_prop).__name__ in ('int', 'bool', 'str'):
+                if obj_prop != module_params[param_name]:
+                    reasons.append(
+                        "Property {0} did not match".format(param_name)
+                    )
+                    self.__set_obj_attribute(k8s_obj,
+                                             self.argspec[param_name]['property_path'],
+                                             param_value)
+                    match = False
+            elif type(obj_prop).__name__ in ('list', 'dict'):
+                compare_method = getattr(self, 'compare_' + type(obj_prop).__name__)
+                # perform comparison and update the object property
+                compare_result, sub_reasons = compare_method(obj_prop, module_params[param_name])
+                if not compare_result:
+                    reasons.append(
+                        "Property {0} did not match: {1}".format(param_name, ', '.join(sub_reasons))
+                    )
+                    match = False
+            else:
+                raise OpenShiftException(
+                    "object_compare: Encountered unimplemented object type {0}".format(type(obj_prop).__name__)
+                )
+        logger.debug("Post object compare")
+        logger.debug("Match: {}".format(match))
+        logger.debug("Reasons: {}".format(json.dumps(reasons, indent=4)))
+        logger.debug("Object:")
+        logger.debug(json.dumps(k8s_obj.to_dict(), indent=4))
+        return match, reasons
+
+    def compare_list(self, src_value, request_value):
+        match = True
+        reasons = []
+        for item in request_value:
+            if type(item).__name__ in ('str', 'int', 'bool') and item not in src_value:
+                # type of request item is not a dict or list
+                reasons.append(
+                    "{0} from request list not found in {1}".format(item, json.dumps(src_value))
+                )
+                match = False
+                src_value.append(item)
+            elif type(item).__name__ in ('dict', 'list'):
+                # type of request item is a dict or list
+                match_method = getattr(self, '__compare_' + type(item).__name__)
+                found_match = False
+                for src_item in src_value:
+                    compare_result, reason = match_method(src_item, item)
+                    if compare_result:
+                        found_match = True
+                        break
+                if not found_match:
+                    reasons.append(
+                        "{0} not found in {1}".format(json.dumps(item), json.dumps(src_value))
+                    )
+                    match = False
+                    src_value.append(item)
+            else:
+                raise OpenShiftException(
+                    "__compare_list: Encountered unimplemented object type {0}".format(type(item).__name__)
+                )
+        return match, reasons
+
+    def compare_dict(self, src_value, request_value):
+        match = True
+        reasons = []
+        for item, value in request_value:
+            if not src_value.get(item):
+                reasons.append(
+                    "key {0} not found in {1}".format(item, json.dumps(src_value))
+                )
+                src_value[item] = value
+                match = False
+            if type(value).__name__ in ('str', 'int', 'bool') and value != src_value[item]:
+                reasons.append(
+                    "{0}: {1} not found in src dict {2}".format(item, value, json.dumps(src_value))
+                )
+                src_value[item] = value
+                match = False
+            elif type(value).__name__ in ('list', 'dict'):
+                match_method = getattr(self, '__compare_' + type(value).__name__)
+                compare_result, sub_reasons = match_method(src_value[item], value)
+                if not compare_result:
+                    match = False
+                    reasons.append(
+                        "{0} not found in {1}".format(json.dumps(value), json.dumps(src_value[item]))
+                    )
+            else:
+                raise OpenShiftException(
+                    "__compare_dict: Encountered unimplemented object type {0}".format(type(item).__name__)
+                )
+        return match, reasons
 
     @classmethod
     def properties_from_model_obj(cls, model_obj):
+        """
+        Introspect an object, and return a dict of 'name:dict of properties' pairs. The properties include: class,
+        and immutable (a bool).
+
+        :param model_obj: An object instantiated from openshift.client.models
+        :return: dict
+        """
         model_class = type(model_obj)
+
+        # Create a list of model properties. Each property is represented as a dict of key:value pairs
+        #  If a property does not have a setter, it's considered to be immutable
         properties = [
-            {'name': x, 'immutable': False if getattr(getattr(model_class, x), 'setter', None) else True}
+            {'name': x,
+             'immutable': False if getattr(getattr(model_class, x), 'setter', None) else True
+             }
             for x in dir(model_class) if isinstance(getattr(model_class, x), property)
         ]
+
         result = {}
         for prop in properties:
             prop_kind = model_obj.swagger_types[prop['name']]
-            if prop_kind in 'str':
-                prop_class = str
-            elif prop_kind == 'int':
-                prop_class = int
+            if prop_kind in ('str', 'int', 'bool'):
+                prop_class = eval(prop_kind)
             elif prop_kind.startswith('list['):
                 prop_class = list
             elif prop_kind.startswith('dict('):
                 prop_class = dict
-            elif prop_kind == 'bool':
-                prop_class = bool
             else:
                 prop_class = getattr(client.models, prop_kind)
             result[prop['name']] = {
@@ -140,24 +413,23 @@ class KubernetesObjectHelper(object):
             }
         return result
 
-    def __lookup_method(self, operation, namespaced):
-        '''
-
-        :param operation:
-        :param namespaced:
-        :return:
-        '''
+    def __lookup_method(self, operation, namespace=None):
+        """
+        Get the requested method (e.g. create, delete, patch, update) for
+        the model object.
+        :param operation: one of create, delete, patch, update
+        :param namespace: optional name of the namespace.
+        :return: pointer to the method
+        """
         # TODO: raise error if method not found
         method_name = operation
-        if namespaced:
-            method_name += '_namespaced'
-        method_name += '_' + self.kind
+        method_name += '_namespaced_' if namespace else '_'
+        method_name += self.kind
 
         apis = [x for x in dir(client.apis) if VERSION_RX.search(x)]
         apis.append('OapiApi')
 
         method = None
-
         for api in apis:
             api_class = getattr(client.apis, api)
             method = getattr(api_class(), method_name, None)
@@ -168,13 +440,13 @@ class KubernetesObjectHelper(object):
 
     @staticmethod
     def __get_model(api_version, kind):
-        '''
+        """
         Return the model class for the requested object.
 
         :param api_version: API version string
         :param kind: The name of object type (i.e. Service, Route, Container, etc.)
         :return: class
-        '''
+        """
         camel_kind = string_utils.snake_case_to_camel(kind).capitalize()
         model_name = api_version.capitalize() + camel_kind
         model = getattr(client.models, model_name)
@@ -182,11 +454,14 @@ class KubernetesObjectHelper(object):
 
     @property
     def argspec(self):
-        '''
+        """
         Introspect the model properties, and return an Ansible module arg_spec dict.
 
         :return: dict
-        '''
+        """
+        if self.argspec_cache:
+            return self.argspec_cache
+
         argument_spec = {
             'state': {
                 'default': 'present',
@@ -196,11 +471,35 @@ class KubernetesObjectHelper(object):
                 'required': True,
                 'property_path': ['metadata', 'name']
             },
-            # path to a config file
-            'kubeconfig': {},
+            # path to kube config file
+            'kubeconfig': {'type': 'path'},
 
             # kubectl context name
-            'context': {}
+            'context': {},
+
+            # authentication settings
+            'api_url': {'auth_option': True},
+            'api_key': {'auth_option': True, 'no_log': True},
+            'username': {'auth_option': True},
+            'password': {'auth_option': True, 'no_log': True},
+            'verify_ssl': {
+                'default': True,
+                'type': 'bool',
+                'auth_option': True
+            },
+            'ssl_ca_cert': {
+                'type': 'path',
+                'auth_option': True},
+            'cert_file': {
+                'type': 'path',
+                'auth_option': True},
+            'key_file': {
+                'type': 'path',
+                'auth_option': True},
+            'debug': {
+                'type': 'bool',
+                'default': False
+            }
         }
 
         if 'metadata' not in self.properties.keys():
@@ -220,20 +519,30 @@ class KubernetesObjectHelper(object):
         # required_if = None
 
         argument_spec.update(self.__transform_properties(self.properties))
-        return argument_spec
+        self.argspec_cache = argument_spec
+        return self.argspec_cache
+
+    def __log_argspec(self):
+        # safely log the arg_spec
+        logger.debug("arg_spec:")
+        tmp_arg_spec = copy.deepcopy(self.argspec)
+        for key in tmp_arg_spec.keys():
+            if tmp_arg_spec[key].get('no_log'):
+                tmp_arg_spec.pop(key)
+        logger.debug(json.dumps(tmp_arg_spec, indent=4))
 
     def __transform_properties(self, properties, prefix='', path=[]):
-        '''
+        """
         Convert a list of properties to an argument_spec dictionary
 
         :param properties: List of properties from self.properties_from_model_obj()
         :param prefix: String to prefix to argument names.
         :return: dict
-        '''
+        """
         args = {}
         for prop, prop_attributes in properties.items():
-            if prop == 'status':
-                # Do not expose Status to argument spec
+            if prop in ('api_version', 'status', 'kind'):
+                # Don't expose these properties
                 continue
             elif prop_attributes['immutable']:
                 # Property cannot be set by the user
@@ -245,16 +554,16 @@ class KubernetesObjectHelper(object):
                 args['labels'] = {'required': False, 'type': 'dict',
                                   'property_path': ['metadata', 'labels']}
                 args['annotations'] = {'required': False, 'type': 'dict',
-                                       'property_path': ['metadata', 'labels']}
+                                       'property_path': ['metadata', 'annotations']}
             elif prop_attributes['class'].__name__ not in ['int', 'str', 'bool', 'list', 'dict']:
                 # Adds nested properties recursively
 
                 # As we traverse deeper into nested properties, we prefix the final primitive property name with the
-                # chain of property names. For example, 'pod_podsecuritycontext_run_as_user', where 'run_as_user' is
+                # chain of property names. For example, 'pod_pod_security_context_run_as_user', where 'run_as_user' is
                 # the primitive.
                 #
                 # This may be too hacky, but trying to remove redundant prefixes and generic, non-helpful
-                # prefixes (e.g. Sepc, Template).
+                # prefixes (e.g. Spec, Template).
                 label = prop_attributes['class'].__name__\
                         .replace(self.api_version.capitalize(), '')\
                         .replace(BASE_API_VERSION, '')\
@@ -267,7 +576,7 @@ class KubernetesObjectHelper(object):
                 paths = copy.copy(path)
                 paths.append(prop)
                 if p:
-                    # Prevent the last prefix from repeating. In other words, avoid something like 'pod_pod'
+                    # Prevent the last prefix from repeating. In other words, avoid things like 'pod_pod'
                     pieces = prefix.split('_')
                     label = label.replace(pieces[len(pieces) - 1] + '_', '', 1)
                 if label != self.base_model_name and label not in p:
