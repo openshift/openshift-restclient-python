@@ -15,3 +15,5 @@
 import openshift.client
 import kubernetes.config
 import kubernetes.watch
+
+__version__ = "1.0.0-snapshot"
