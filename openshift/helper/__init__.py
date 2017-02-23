@@ -92,6 +92,7 @@ class KubernetesObjectHelper(object):
         self.properties = self.properties_from_model_obj(self.model())
         self.namespaced = namespaced
         self.base_model_name = self.model.__name__.replace(api_version.capitalize(), '')
+        self.base_model_name_snake = string_utils.camel_case_to_snake(self.base_model_name).lower()
 
         if debug:
             self.enable_debug()
@@ -184,11 +185,11 @@ class KubernetesObjectHelper(object):
             raise OpenShiftException(msg, status=exc.status)
         return return_obj
 
-    def delete_object(self, name, namespace=None, delete_opts=None):
+    def delete_object(self, name, namespace, delete_opts=None):
         # TODO: add a parameter for waiting until the object has been deleted
         # TODO: deleting a namespace requires a body
-        delete_method = self.__lookup_method('delete', False)
-        if namespace:
+        delete_method = self.__lookup_method('delete', namespace)
+        if not namespace:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
                     delete_method(name, body=V1DeleteOptions())
@@ -473,40 +474,95 @@ class KubernetesObjectHelper(object):
         argument_spec = {
             'state': {
                 'default': 'present',
-                'choices': ['present', 'absent']
+                'choices': ['present', 'absent'],
+                'description': [
+                    "Determines if the object should be created, patched or deleted. When set to C(present), "
+                    "the object will be created, if it does not exist, or patched, if requested parameters "
+                    "differ from existing object attributes. Set to C(absent) to delete an existing object."
+                ]
             },
             'name': {
                 'required': True,
-                'property_path': ['metadata', 'name']
+                'property_path': ['metadata', 'name'],
+                'description': [
+                    "The name of the object."
+                ]
             },
             # path to kube config file
-            'kubeconfig': {'type': 'path'},
+            'kubeconfig': {
+                'type': 'path',
+                'description': [
+                    "Path to an existing Kubernetes config file. If not provided, and no other connection "
+                    "options are provided, the openshift client will attempt to load the default configuration "
+                    "file from I(~/.kube/config.json)."
+                ]},
 
             # kubectl context name
-            'context': {},
+            'context': {
+                'description': [
+                    "The name of a context found in the Kubernetes config file."
+                ]
+            },
 
             # authentication settings
-            'api_url': {'auth_option': True},
-            'api_key': {'auth_option': True, 'no_log': True},
-            'username': {'auth_option': True},
-            'password': {'auth_option': True, 'no_log': True},
+            'api_url': {
+                'auth_option': True,
+                'description': ["Provide a URL for acessing the Kubernetes API."]
+            },
+            'api_key': {
+                'auth_option': True,
+                'no_log': True,
+                'description': ["Token used to connect to the API."]
+            },
+            'username': {
+                'auth_option': True,
+                'description': [
+                    "Provide a username for connecting to the API."
+                ]
+            },
+            'password': {
+                'auth_option': True,
+                'no_log': True,
+                'description': [
+                    "Provide a password for connecting to the API. Use in conjunction with I(username)."
+                ]
+            },
             'verify_ssl': {
                 'default': True,
                 'type': 'bool',
-                'auth_option': True
+                'auth_option': True,
+                'description': [
+                    "Whether or not to verify the API server's SSL certificates."
+                ]
             },
             'ssl_ca_cert': {
                 'type': 'path',
-                'auth_option': True},
+                'auth_option': True,
+                'description': [
+                    "Path to a CA certificate used to authenticate with the API."
+                ]
+            },
             'cert_file': {
                 'type': 'path',
-                'auth_option': True},
+                'auth_option': True,
+                'description': [
+                    "Path to a certificate used to authenticate with the API."
+                ]
+            },
             'key_file': {
                 'type': 'path',
-                'auth_option': True},
+                'auth_option': True,
+                'description': [
+                    "Path to a key file used to authenticate with the API."
+                ]
+            },
             'debug': {
                 'type': 'bool',
-                'default': False
+                'default': False,
+                'description': [
+                    "Enable debug output from the OpenShift helper. Logging info is written "
+                    "to KubeObjHelper.log"
+                ]
             }
         }
 

@@ -3,8 +3,6 @@
 from __future__ import absolute_import
 from __future__ import  print_function
 
-from collections import OrderedDict
-
 import logging
 import inspect
 import string_utils
@@ -46,7 +44,7 @@ class DocStrings(object):
         doc_string['short_description'] = "Kubernetes {}".format(self.helper.base_model_name)
         doc_string['description'] = [
             "Manage the lifecycle of a {} object. Supports check mode, and attempts to " \
-            "to be idempotent.".format(self.helper.base_model_name)
+            "to be idempotent.".format(self.helper.base_model_name_snake)
         ]
         doc_string['version_added'] = ANSIBLE_VERSION_ADDED
         doc_string['author'] = "OpenShift (@openshift)"
@@ -56,11 +54,13 @@ class DocStrings(object):
         for param_name in sorted(self.helper.argspec.keys()):
             param_dict = self.helper.argspec[param_name]
             if param_dict.get('property_path'):
+                # parameter comes from the model
                 obj = self.helper.model()
                 for path in param_dict['property_path']:
                     kind = obj.swagger_types[path]
                     if kind in ('str', 'bool', 'int') or \
-                       kind.startswith('dict(') or kind.startswith('list['):
+                       kind.startswith('dict(') or \
+                       kind.startswith('list['):
                         docs = inspect.getdoc(getattr(type(obj), path))
                         string_list = self.__doc_clean_up(docs.split('\n'))
                         doc_string['options'][param_name] = {
@@ -70,8 +70,22 @@ class DocStrings(object):
                             doc_string['options'][param_name]['required'] = True
                         if param_dict.get('default', None) is not None:
                             doc_string['options'][param_name]['default'] = param_dict['default']
+                        if param_dict.get('choices'):
+                            doc_string['options'][param_name]['choices'] = param_dict['choices']
                     else:
                         obj = getattr(models, kind)()
+            elif param_dict.get('description'):
+                # parameters is hard-coded in openshift.helper
+                doc_string['options'][param_name] = {
+                    'description': param_dict['description']
+                }
+                if param_dict.get('required'):
+                    doc_string['options'][param_name]['required'] = True
+                if param_dict.get('default', None) is not None:
+                    doc_string['options'][param_name]['default'] = param_dict['default']
+                if param_dict.get('choices'):
+                    doc_string['options'][param_name]['choices'] = param_dict['choices']
+
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
 
     @property
@@ -86,12 +100,13 @@ class DocStrings(object):
             'type': 'string',
             'description': 'Requested API version',
         }
-        doc_string['kind'] = CommentedMap()
-        doc_string['kind']['type'] = 'complex'
-        doc_string['kind']['returned'] = 'when I(state) = C(present)'
-        doc_string['kind']['contains'] = CommentedMap()
+        obj_name = self.helper.base_model_name_snake
+        doc_string[obj_name] = CommentedMap()
+        doc_string[obj_name]['type'] = 'complex'
+        doc_string[obj_name]['returned'] = 'when I(state) = C(present)'
+        doc_string[obj_name]['contains'] = CommentedMap()
         obj = self.helper.model()
-        self.__get_attributes(obj, doc_key=doc_string['kind'])
+        self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
 
     def __get_attributes(self, obj, doc_key=None):
