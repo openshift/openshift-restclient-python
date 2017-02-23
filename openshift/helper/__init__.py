@@ -88,7 +88,7 @@ class KubernetesObjectHelper(object):
     def __init__(self, api_version, kind, namespaced=False, debug=False):
         self.api_version = api_version
         self.kind = kind
-        self.model = self.__get_model(api_version, kind)
+        self.model = self.get_model(api_version, kind)
         self.properties = self.properties_from_model_obj(self.model())
         self.namespaced = namespaced
         self.base_model_name = self.model.__name__.replace(api_version.capitalize(), '')
@@ -99,8 +99,10 @@ class KubernetesObjectHelper(object):
     @staticmethod
     def enable_debug():
         """
-        Turn on debugging, which will write to a file named 'KubeObjHelper.log'. If you're
-        running on a remote node, the output will end up on the remote node.
+        Turn on debugging, which will write to a file named 'KubeObjHelper.log'.
+
+        NOTE: If you're running via an Ansible module, and targeting a remote node,
+        the output will end up on the remote node, which is most likely not helpful.
 
         :return: None
         """
@@ -439,7 +441,7 @@ class KubernetesObjectHelper(object):
         return method
 
     @staticmethod
-    def __get_model(api_version, kind):
+    def get_model(api_version, kind):
         """
         Return the model class for the requested object.
 
@@ -449,7 +451,13 @@ class KubernetesObjectHelper(object):
         """
         camel_kind = string_utils.snake_case_to_camel(kind).capitalize()
         model_name = api_version.capitalize() + camel_kind
-        model = getattr(client.models, model_name)
+        try:
+            model = getattr(client.models, model_name)
+        except Exception as exc:
+            raise OpenShiftException(
+                    "Error: openshift.client.models.{} was not found. "
+                    "Did you specify the correct Kind and API Version?".format(model_name)
+            )
         return model
 
     @property
@@ -523,7 +531,11 @@ class KubernetesObjectHelper(object):
         return self.argspec_cache
 
     def __log_argspec(self):
-        # safely log the arg_spec
+        """
+        Safely logs the argspec by not including any params with the no_log attribute.
+
+        :return: None
+        """
         logger.debug("arg_spec:")
         tmp_arg_spec = copy.deepcopy(self.argspec)
         for key in tmp_arg_spec.keys():

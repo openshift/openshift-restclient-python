@@ -8,6 +8,9 @@ import logging
 import sys
 
 from openshift import __version__
+from openshift.helper import OpenShiftException
+
+from .docstrings import DocStrings
 
 logger = logging.getLogger(__name__)
 
@@ -55,8 +58,13 @@ def subcmd_version_parser(parser, subparser):
     pass
 
 def subcmd_docstrings_parser(parser, subparser):
-    pass
-
+    subparser.add_argument('models', action='store',
+                           help=u'List of models for which to generate doc strings. Specify '
+                                u'the model Kind using either CamelCase or snake_case.',
+                           nargs='*', )
+    subparser.add_argument('-v', '--api-version', action='store',
+                           help=u'API version. Defaults to v1.',
+                           dest='api_version', default='v1')
 
 def commandline():
     parser = argparse.ArgumentParser(description=u'Uses the OpenShift API models to generate Ansible artifacts')
@@ -85,7 +93,39 @@ def commandline():
         print("{0} version is {1}".format(__name__, __version__))
         sys.exit(0)
 
-    if args.subcommand == 'generate':
-        print("generate")
+    try:
+        globals()['run_{}_cmd'.format(args.subcommand)](**vars(args))
+    except OpenShiftException as exc:
+        logger.error(exc.message)
+        sys.exit(1)
+    except Exception as exc:
+        logger.error(exc.message)
+        sys.exit(1)
 
     sys.exit(0)
+
+
+def run_docstrings_cmd(**kwargs):
+    """
+    Send documentation string and return string to stdout for each model requested
+
+    :param kwargs: parser arguments
+    :return: None
+    """
+    models = kwargs.pop('models')
+    api_version = kwargs.pop('api_version')
+
+    if not models:
+        raise OpenShiftException("ERROR: you mus provide one or more models for docstrings command.")
+
+    for model in models:
+        try:
+            strings = DocStrings(model=model, api_version=api_version)
+        except OpenShiftException as exc:
+            raise
+        print("DOCUMENTATION = '''")
+        print(strings.documentation)
+        print("'''\n")
+        print("RETURN = '''")
+        print(strings.return_block)
+        print("'''\n")
