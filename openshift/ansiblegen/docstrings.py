@@ -42,10 +42,23 @@ class DocStrings(object):
         doc_string['module'] = "k8s_{0}_{1}".format(self.api_version.lower(),
                                                     string_utils.camel_case_to_snake(self.model))
         doc_string['short_description'] = "Kubernetes {}".format(self.helper.base_model_name)
-        doc_string['description'] = [
-            "Manage the lifecycle of a {} object. Supports check mode, and attempts to " \
-            "to be idempotent.".format(self.helper.base_model_name_snake)
-        ]
+
+        if not self.helper.base_model_name_snake.endswith('_list'):
+            # module allows CRUD operations on the object
+            doc_string['description'] = [
+                "Manage the lifecycle of a {} object. Supports check mode, and attempts to " \
+                "to be idempotent.".format(self.helper.base_model_name_snake)
+            ]
+        else:
+            # module allows read only operations
+            base_name = self.helper.base_model_name_snake.replace('_list', '')
+            if not base_name.endswith('s'):
+                base_name += 's'
+            doc_string['description'] = [
+                "Retrieve a list of {}. List operations provide a snapshot read of the "
+                "underlying objects, returning a resource_version representing a consistent "
+                "version of the listed objects.".format(base_name)
+            ]
         doc_string['version_added'] = ANSIBLE_VERSION_ADDED
         doc_string['author'] = "OpenShift (@openshift)"
         doc_string['options'] = CommentedMap()
@@ -127,12 +140,43 @@ class DocStrings(object):
                 kind = obj.swagger_types[attribute]
                 docs = inspect.getdoc(getattr(type(obj), attribute))
                 string_list = self.__doc_clean_up(docs.split('\n'))
-                if kind in ('str', 'int', 'bool') or \
-                   kind.startswith('list[') or \
-                   kind.startswith('dict('):
+                if kind in ('str', 'int', 'bool'):
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = kind
+                elif kind.startswith('list['):
+                    class_name = kind.replace('list[', '').replace(']', '')
+                    logger.debug(class_name)
+                    doc_key[attribute] = CommentedMap()
+                    doc_key[attribute]['description'] = string_list
+                    doc_key[attribute]['type'] = 'list'
+                    sub_obj = None
+                    try:
+                        sub_obj = getattr(models, class_name)()
+                    except:
+                        pass
+                    if sub_obj:
+                        doc_key[attribute]['contains'] = CommentedMap()
+                        self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
+                    else:
+                        doc_key[attribute]['contains'] = class_name
+                elif kind.startswith('dict('):
+                    logger.debug(kind)
+                    class_name = kind.replace('dict(', '').replace(')', '')
+                    logger.debug(class_name)
+                    doc_key[attribute] = CommentedMap()
+                    doc_key[attribute]['description'] = string_list
+                    doc_key[attribute]['type'] = 'complex'
+                    sub_obj = None
+                    try:
+                        sub_obj = getattr(models, class_name)()
+                    except:
+                        pass
+                    if sub_obj:
+                        doc_key[attribute]['contains'] = CommentedMap()
+                        self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
+                    else:
+                        doc_key[attribute]['contains'] = class_name
                 else:
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list

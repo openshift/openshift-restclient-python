@@ -21,9 +21,6 @@ from openshift.client.models import V1DeleteOptions
 # Regex for finding versions
 VERSION_RX = re.compile("V\d((alpha|beta)\d)?")
 
-# Expected metaclass object name
-METACLASS_NAME = 'V1ObjectMeta'
-
 BASE_API_VERSION = 'V1'
 
 logger = logging.getLogger(__name__)
@@ -86,14 +83,13 @@ class KubernetesObjectHelper(object):
     # TODO: add support for check mode to helper
     argspec_cache = None
 
-    def __init__(self, api_version, kind, namespaced=False, debug=False):
+    def __init__(self, api_version, kind, debug=False):
         self.api_version = api_version
         self.kind = kind
         self.model = self.get_model(api_version, kind)
         self.properties = self.properties_from_model_obj(self.model())
-        self.namespaced = namespaced
         self.base_model_name = self.model.__name__.replace(api_version.capitalize(), '')
-        self.base_model_name_snake = string_utils.camel_case_to_snake(self.base_model_name).lower()
+        self.base_model_name_snake = string_utils.camel_case_to_snake(self.base_model_name)
 
         if debug:
             self.enable_debug()
@@ -475,6 +471,7 @@ class KubernetesObjectHelper(object):
             return self.argspec_cache
 
         argument_spec = {
+            # path to kube config file
             'state': {
                 'default': 'present',
                 'choices': ['present', 'absent'],
@@ -484,14 +481,6 @@ class KubernetesObjectHelper(object):
                     "differ from existing object attributes. Set to C(absent) to delete an existing object."
                 ]
             },
-            'name': {
-                'required': True,
-                'property_path': ['metadata', 'name'],
-                'description': [
-                    "The name of the object."
-                ]
-            },
-            # path to kube config file
             'kubeconfig': {
                 'type': 'path',
                 'description': [
@@ -569,23 +558,12 @@ class KubernetesObjectHelper(object):
             }
         }
 
-        if 'metadata' not in self.properties.keys():
-            raise OpenShiftException(
-                "Object {} does not contain metadata field".format(self.model)
-            )
-
-        if self.namespaced:
-            argument_spec['namespace'] = {
-                'required': True,
-                'property_path': ['metadata', 'name']
-            }
-
-        # mutually_exclusive = None
-        # required_together = None
-        # required_one_of = None
-        # required_if = None
-
         argument_spec.update(self.__transform_properties(self.properties))
+
+        if re.search(r'list$', self.base_model_name) and argument_spec.get('items'):
+            # Lists are read only, so having a 'state' option doesn't make sense
+            argument_spec.pop('state')
+
         self.argspec_cache = argument_spec
         return self.argspec_cache
 
@@ -619,15 +597,26 @@ class KubernetesObjectHelper(object):
                 # Property cannot be set by the user
                 continue
             elif prop == 'metadata':
-                # Filter metadata properties added to argument spec
-                if prop_attributes['class'].__name__ != METACLASS_NAME:
-                    raise OpenShiftException(
-                        "ERROR: unknown metadata class {}".format(prop_attributes['class'].__name__)
-                    )
-                args['labels'] = {'required': False, 'type': 'dict',
-                                  'property_path': ['metadata', 'labels']}
-                args['annotations'] = {'required': False, 'type': 'dict',
-                                       'property_path': ['metadata', 'annotations']}
+                if 'labels' in dir(prop_attributes['class']):
+                    args['labels'] = {
+                        'type': 'dict',
+                        'property_path': ['metadata', 'labels']
+                    }
+                if 'annotations' in dir(prop_attributes['class']):
+                    args['annotations'] = {
+                        'type': 'dict',
+                        'property_path': ['metadata', 'annotations']
+                    }
+                if 'namespace' in dir(prop_attributes['class']):
+                    args['namespace'] = {
+                        'required': True,
+                        'property_path': ['metadata', 'name']
+                    }
+                if 'name' in dir(prop_attributes['class']):
+                    args['name'] = {
+                        'required': True,
+                        'property_path': ['metadata', 'name']
+                    }
             elif prop_attributes['class'].__name__ not in ['int', 'str', 'bool', 'list', 'dict']:
                 # Adds nested properties recursively
 
@@ -641,9 +630,9 @@ class KubernetesObjectHelper(object):
                         .replace(self.api_version.capitalize(), '')\
                         .replace(BASE_API_VERSION, '')\
                         .replace(self.base_model_name, '')\
-                        .replace('Spec', '')\
-                        .replace('Template', '')\
                         .replace('Unversioned', '')
+                        # .replace('Spec', '')\
+                        # .replace('Template', '')\
                 label = string_utils.camel_case_to_snake(label, '_')
                 p = prefix
                 paths = copy.copy(path)

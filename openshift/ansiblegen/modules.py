@@ -15,7 +15,7 @@ import tempfile
 from jinja2 import Environment, FileSystemLoader
 
 from openshift.client import models as openshift_models
-from openshift.helper import OpenShiftException, METACLASS_NAME
+from openshift.helper import OpenShiftException, VERSION_RX
 from .docstrings import DocStrings
 
 logger = logging.getLogger(__name__)
@@ -38,10 +38,11 @@ class Modules(object):
         self.models = []
         requested_models = kwargs.pop('models')
         for model, model_class in inspect.getmembers(openshift_models):
-            if 'kind' in dir(model_class):
-                matches = re.match(r'V\d{1,2}((alpha|beta)\d{1,2})?', model)
+            if 'kind' in dir(model_class) and 'metadata' in dir(model_class):
+                # models with a 'kind' are top-level objects that we care about
+                matches = VERSION_RX.match(model)
                 if not matches:
-                    # unrecognized API
+                    # exclude unversioned models
                     continue
                 model_api = matches.group(0)
                 base_model_name = model.replace(model_api, '')
@@ -50,27 +51,22 @@ class Modules(object):
                    base_model_name not in requested_models and \
                    model_name_snake not in requested_models:
                     continue
-                obj = model_class()
-                if obj.swagger_types.get('metadata') == METACLASS_NAME:
-                    # only models that have a kind, and the expected metaclass
-                    if self.api_version:
-                        m = re.match(r'V\d{1,2}((alpha|beta)\d{1,2})?', model)
-                        model_api = m.group(0)
-                        # only grab things that start with the requested version
-                        if model_api == self.api_version.capitalize():
-                            self.models.append({
-                                'model': model,
-                                'model_api': model_api,
-                                'base_model_name': base_model_name,
-                                'model_name_snake': model_name_snake
-                            })
-                    else:
+                if self.api_version:
+                    # only include models for the requested API version
+                    if model_api == self.api_version.capitalize():
                         self.models.append({
                             'model': model,
                             'model_api': model_api,
                             'base_model_name': base_model_name,
                             'model_name_snake': model_name_snake
                         })
+                else:
+                    self.models.append({
+                        'model': model,
+                        'model_api': model_api,
+                        'base_model_name': base_model_name,
+                        'model_name_snake': model_name_snake
+                    })
 
     def generate_modules(self):
         """
@@ -86,8 +82,17 @@ class Modules(object):
             if not self.suppress_stdout:
                 print(module_name)
             docs = DocStrings(model['model_name_snake'], model['model_api'])
+
+            try:
+                logger.debug("get docs for {}".format(model['model_name_snake']))
+                documentation = docs.documentation
+                logger.debug("success!")
+            except Exception as exc:
+                logger.debug("failed!!")
+                raise OpenShiftException(exc.message)
+
             context = {
-                'documentation_string': docs.documentation,
+                'documentation_string': documentation,
                 'return_string': docs.return_block,
                 'kind': model['model_name_snake'],
                 'api_version': model['model_api']

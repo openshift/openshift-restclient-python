@@ -110,14 +110,8 @@ def run_modules_cmd(**kwargs):
     :param kwargs: parser arguments
     :return: None
     """
-    try:
-        modules = Modules(**kwargs)
-    except Exception as exc:
-        raise OpenShiftException(exc.message)
-    try:
-        modules.generate_modules()
-    except Exception as exc:
-        raise OpenShiftException(exc.message)
+    modules = Modules(**kwargs)
+    modules.generate_modules()
 
 
 def commandline():
@@ -151,14 +145,8 @@ def commandline():
     if args.subcommand == 'version':
         print("{0} version is {1}".format(__name__, __version__))
         sys.exit(0)
-
     try:
         globals()['run_{}_cmd'.format(args.subcommand)](**vars(args))
-    except OpenShiftException as exc:
-        logger.error(exc.message)
-        sys.exit(1)
-    except Exception as exc:
-        logger.error(exc.message)
-        sys.exit(1)
-
+    except Exception:
+        raise
     sys.exit(0)
