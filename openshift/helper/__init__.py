@@ -609,8 +609,7 @@ class KubernetesObjectHelper(object):
                     }
                 if 'namespace' in dir(prop_attributes['class']):
                     args['namespace'] = {
-                        'required': True,
-                        'property_path': ['metadata', 'name']
+                        'property_path': ['metadata', 'namespace']
                     }
                 if 'name' in dir(prop_attributes['class']):
                     args['name'] = {
