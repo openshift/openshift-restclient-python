@@ -27,7 +27,6 @@ ANSIBLE_VERSION_ADDED = "2.3.0"
 class Modules(object):
 
     def __init__(self, **kwargs):
-        self.models = kwargs.pop('models')
         self.api_version = kwargs.pop('api_version')
         self.output_path = os.path.normpath(kwargs.pop('output_path'))
         self.suppress_stdout = kwargs.pop('suppress_stdout')
@@ -35,22 +34,43 @@ class Modules(object):
 
         logger.debug("output_path: {}".format(self.output_path))
 
-        if not self.models:
-            self.models = []
-            for model, model_class in inspect.getmembers(openshift_models):
-                if 'kind' in dir(model_class):
-                    obj = model_class()
-                    if obj.swagger_types.get('metadata') == METACLASS_NAME:
-                        # only models that have a kind, and the expected metaclass
-                        if self.api_version:
-                            m = re.match(r'V\d{1,2}((alpha|beta)\d{1,2})?', model)
-                            model_api = m.group(0)
-                            # only grab things that start with the requested version
-                            if model_api == self.api_version.capitalize():
-                                self.models.append(model)
-                        else:
-                            if not model.startswith('Unversioned'):
-                                self.models.append(model)
+        # Evaluate openshift.models.*, and determine which models should be a module
+        self.models = []
+        requested_models = kwargs.pop('models')
+        for model, model_class in inspect.getmembers(openshift_models):
+            if 'kind' in dir(model_class):
+                matches = re.match(r'V\d{1,2}((alpha|beta)\d{1,2})?', model)
+                if not matches:
+                    # unrecognized API
+                    continue
+                model_api = matches.group(0)
+                base_model_name = model.replace(model_api, '')
+                model_name_snake = string_utils.camel_case_to_snake(base_model_name)
+                if requested_models and \
+                   base_model_name not in requested_models and \
+                   model_name_snake not in requested_models:
+                    continue
+                obj = model_class()
+                if obj.swagger_types.get('metadata') == METACLASS_NAME:
+                    # only models that have a kind, and the expected metaclass
+                    if self.api_version:
+                        m = re.match(r'V\d{1,2}((alpha|beta)\d{1,2})?', model)
+                        model_api = m.group(0)
+                        # only grab things that start with the requested version
+                        if model_api == self.api_version.capitalize():
+                            self.models.append({
+                                'model': model,
+                                'model_api': model_api,
+                                'base_model_name': base_model_name,
+                                'model_name_snake': model_name_snake
+                            })
+                    else:
+                        self.models.append({
+                            'model': model,
+                            'model_api': model_api,
+                            'base_model_name': base_model_name,
+                            'model_name_snake': model_name_snake
+                        })
 
     def generate_modules(self):
         """
@@ -59,37 +79,37 @@ class Modules(object):
         :return: None
         """
         self.__create_output_path()
-        temp_dir = os.path.realpath(tempfile.mkdtemp())
-        for model_name in self.models:
-            # Get the model's API
-            m = re.match(r'V\d{1,2}((alpha|beta)\d{1,2})?', model_name)
-            if not m:
-                raise OpenShiftException(
-                    "ERROR: Encountered model {}, which does not have a recognized version".format(model_name)
-                )
-            model_api = m.group(0)
-            base_model_name = model_name.replace(model_api, '')
-            model_name_snake = string_utils.camel_case_to_snake(base_model_name)
-            module_name = "k8s_{0}_{1}.py".format(model_api.lower(), model_name_snake)
+        temp_dir = os.path.realpath(tempfile.mkdtemp())  # jinja temp dir
+        for model in self.models:
+            module_name = "k8s_{0}_{1}.py".format(model['model_api'].lower(),
+                                                  model['model_name_snake'])
             if not self.suppress_stdout:
                 print(module_name)
-            docs = DocStrings(model_name_snake, model_api)
+            docs = DocStrings(model['model_name_snake'], model['model_api'])
             context = {
                 'documentation_string': docs.documentation,
                 'return_string': docs.return_block,
-                'kind': model_name_snake,
-                'api_version': model_api
+                'kind': model['model_name_snake'],
+                'api_version': model['model_api']
             }
             self.__jinja_render_to_temp('k8s_module.j2', module_name, temp_dir, **context)
             if not self.suppress_stdout:
                 sys.stdout.write("\033[F") # cursor up 1 line
                 sys.stdout.write("\033[K") # clear to EOL
-
         shutil.rmtree(temp_dir)
         if not self.suppress_stdout:
             print("Generated {} modules".format(len(self.models)))
 
     def __jinja_render_to_temp(self, template_file, module_name, temp_dir, **context):
+        """
+        Create the module from a jinja template.
+
+        :param template_file: name of the template file
+        :param module_name: the destination file name
+        :param temp_dir: a temporary working dir for jinja
+        :param context: dict of substitution variables
+        :return: None
+        """
         j2_tmpl_path = self.template_path
         j2_env = Environment(loader=FileSystemLoader(j2_tmpl_path))
         j2_tmpl = j2_env.get_template(template_file)
@@ -98,7 +118,11 @@ class Modules(object):
             f.write(rendered.encode('utf8'))
 
     def __create_output_path(self):
-        # Attempt to create the output path, if it does not already exist
+        """
+        Attempt to create the output path, if it does not already exist
+
+        :return: None
+        """
         if os.path.exists(self.output_path):
             if not os.path.isdir(self.output_path):
                 raise OpenShiftException("ERROR: expected {} to be a directory.".format(self.output_path))
