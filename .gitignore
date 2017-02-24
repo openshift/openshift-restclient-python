@@ -66,3 +66,6 @@ target/
 # Intellij IDEA files
 .idea/*
 *.iml
+
+# Generated Ansible modules
+_modules/

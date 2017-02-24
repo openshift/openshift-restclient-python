@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import
-from __future__ import  print_function
+from __future__ import print_function
 
 import logging
 import inspect
@@ -51,6 +51,26 @@ class DocStrings(object):
         doc_string['options'] = CommentedMap()
         doc_string['requirements'] = ["openshift == {}".format(openshift_version)]
 
+        def add_option(pname, pdict, descr=None):
+            """
+            Adds a new parameter option to doc_string['options'].
+            :param pname: name of the option
+            :param pdict: dict of option attributes
+            :param descr: option list of description strings
+            :return: None
+            """
+            doc_string['options'][pname] = CommentedMap()
+            if descr:
+                doc_string['options'][pname]['description'] = descr
+            elif pdict.get('description'):
+                doc_string['options'][pname]['description'] = pdict['description']
+            if pdict.get('required'):
+                doc_string['options'][pname]['required'] = True
+            if pdict.get('default', None) is not None:
+                doc_string['options'][pname]['default'] = pdict['default']
+            if pdict.get('choices'):
+                doc_string['options'][pname]['choices'] = pdict['choices']
+
         for param_name in sorted(self.helper.argspec.keys()):
             param_dict = self.helper.argspec[param_name]
             if param_dict.get('property_path'):
@@ -63,28 +83,12 @@ class DocStrings(object):
                        kind.startswith('list['):
                         docs = inspect.getdoc(getattr(type(obj), path))
                         string_list = self.__doc_clean_up(docs.split('\n'))
-                        doc_string['options'][param_name] = {
-                            'description': string_list
-                        }
-                        if param_dict.get('required'):
-                            doc_string['options'][param_name]['required'] = True
-                        if param_dict.get('default', None) is not None:
-                            doc_string['options'][param_name]['default'] = param_dict['default']
-                        if param_dict.get('choices'):
-                            doc_string['options'][param_name]['choices'] = param_dict['choices']
+                        add_option(param_name, param_dict, descr=string_list)
                     else:
                         obj = getattr(models, kind)()
             elif param_dict.get('description'):
                 # parameters is hard-coded in openshift.helper
-                doc_string['options'][param_name] = {
-                    'description': param_dict['description']
-                }
-                if param_dict.get('required'):
-                    doc_string['options'][param_name]['required'] = True
-                if param_dict.get('default', None) is not None:
-                    doc_string['options'][param_name]['default'] = param_dict['default']
-                if param_dict.get('choices'):
-                    doc_string['options'][param_name]['choices'] = param_dict['choices']
+                add_option(param_name, param_dict)
 
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
 
@@ -118,11 +122,8 @@ class DocStrings(object):
         :return: None
         """
         model_class = type(obj)
-        logger.debug("model_class: {}".format(model_class))
         for attribute in dir(model_class):
-            logger.debug("attribute: {}".format(attribute))
             if isinstance(getattr(model_class, attribute), property):
-                logger.debug("is property")
                 kind = obj.swagger_types[attribute]
                 docs = inspect.getdoc(getattr(type(obj), attribute))
                 string_list = self.__doc_clean_up(docs.split('\n'))

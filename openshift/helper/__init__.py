@@ -23,6 +23,7 @@ VERSION_RX = re.compile("V\d((alpha|beta)\d)?")
 
 # Expected metaclass object name
 METACLASS_NAME = 'V1ObjectMeta'
+
 BASE_API_VERSION = 'V1'
 
 logger = logging.getLogger(__name__)
@@ -450,8 +451,10 @@ class KubernetesObjectHelper(object):
         :param kind: The name of object type (i.e. Service, Route, Container, etc.)
         :return: class
         """
-        camel_kind = string_utils.snake_case_to_camel(kind).capitalize()
-        model_name = api_version.capitalize() + camel_kind
+        camel_kind = string_utils.snake_case_to_camel(kind)
+        # capitalize the first letter of the string without lower-casing the remainder
+        name = camel_kind[:1].capitalize() + camel_kind[1:]
+        model_name = api_version.capitalize() + name
         try:
             model = getattr(client.models, model_name)
         except Exception as exc:
@@ -618,7 +621,9 @@ class KubernetesObjectHelper(object):
             elif prop == 'metadata':
                 # Filter metadata properties added to argument spec
                 if prop_attributes['class'].__name__ != METACLASS_NAME:
-                    raise OpenShiftException("Unknown metadata type: {}".format(prop_attributes['class'].__name__))
+                    raise OpenShiftException(
+                        "ERROR: unknown metadata class {}".format(prop_attributes['class'].__name__)
+                    )
                 args['labels'] = {'required': False, 'type': 'dict',
                                   'property_path': ['metadata', 'labels']}
                 args['annotations'] = {'required': False, 'type': 'dict',
