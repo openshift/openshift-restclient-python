@@ -7,3 +7,5 @@ pyyaml
 oauth2client
 ipaddress
 python-string-utils
+ruamel.yaml
+jinja2

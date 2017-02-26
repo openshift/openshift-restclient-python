@@ -21,10 +21,11 @@ http://pypi.python.org/pypi/setuptools
 """
 
 from setuptools import find_packages, setup
+from openshift import __version__
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-client.sh.
-CLIENT_VERSION = "1.0.0-snapshot"
+CLIENT_VERSION = __version__
 PACKAGE_NAME = "openshift"
 DEVELOPMENT_STATUS = "3 - Alpha"
 
@@ -48,7 +49,7 @@ setup(
     keywords=["Swagger", "OpenAPI", "Kubernetes", "OpenShift"],
     install_requires=extract_requirements('requirements.txt'),
     test_requires=extract_requirements('test-requirements.txt'),
-    packages=find_packages('.'),
+    packages=find_packages(include='openshift.*'),
     include_package_data=True,
     long_description='Python client for OpenShift http://openshift.io/',
     classifiers=[
@@ -65,4 +66,7 @@ setup(
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
     ],
+    entry_points={
+        'console_scripts': ['openshift-ansible-gen = openshift.ansiblegen.cli:commandline']
+    },
 )
