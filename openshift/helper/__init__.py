@@ -23,6 +23,10 @@ VERSION_RX = re.compile("V\d((alpha|beta)\d)?")
 
 BASE_API_VERSION = 'V1'
 
+# Attributes in argspec not needed by Ansible
+ARG_ATTRIBUTES_BLACKLIST = ('description', 'auth_option', 'property_path')
+
+
 logger = logging.getLogger(__name__)
 
 LOGGING = {
@@ -113,6 +117,7 @@ class KubernetesObjectHelper(object):
         authentication data.
 
         :param module_params: dict of params from AnsibleModule
+        :param module_arg_spec: dict containing the Ansible module argument_spec
         :return: None
         """
         if module_params.get('kubeconfig') or module_params.get('context'):
@@ -565,6 +570,7 @@ class KubernetesObjectHelper(object):
             argument_spec.pop('state')
 
         self.argspec_cache = argument_spec
+        self.__log_argspec()
         return self.argspec_cache
 
     def __log_argspec(self):
@@ -578,14 +584,16 @@ class KubernetesObjectHelper(object):
         for key in tmp_arg_spec.keys():
             if tmp_arg_spec[key].get('no_log'):
                 tmp_arg_spec.pop(key)
-        logger.debug(json.dumps(tmp_arg_spec, indent=4))
+        logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True))
 
-    def __transform_properties(self, properties, prefix='', path=[]):
+    def __transform_properties(self, properties, prefix='', path=[], alternate_prefix=''):
         """
         Convert a list of properties to an argument_spec dictionary
 
         :param properties: List of properties from self.properties_from_model_obj()
         :param prefix: String to prefix to argument names.
+        :param path: List of property names providing the recursive path through the model to the property
+        :param alternate_prefix: a more minimal version of prefix
         :return: dict
         """
         args = {}
@@ -628,25 +636,35 @@ class KubernetesObjectHelper(object):
                 label = prop_attributes['class'].__name__\
                         .replace(self.api_version.capitalize(), '')\
                         .replace(BASE_API_VERSION, '')\
-                        .replace(self.base_model_name, '')\
                         .replace('Unversioned', '')
-                        # .replace('Spec', '')\
-                        # .replace('Template', '')\
+
+                # Provide a more human-friendly version of the prefix
+                alternate_label = label\
+                    .replace(self.base_model_name, '')\
+                    .replace('Spec', '')\
+                    .replace('Template', '')
+
+                alternate_label = string_utils.camel_case_to_snake(alternate_label, '_')
                 label = string_utils.camel_case_to_snake(label, '_')
                 p = prefix
+                a = alternate_prefix
                 paths = copy.copy(path)
                 paths.append(prop)
-                if p:
+
+                if a:
                     # Prevent the last prefix from repeating. In other words, avoid things like 'pod_pod'
-                    pieces = prefix.split('_')
-                    label = label.replace(pieces[len(pieces) - 1] + '_', '', 1)
+                    pieces = alternate_prefix.split('_')
+                    alternate_label = alternate_label.replace(pieces[len(pieces) - 1] + '_', '', 1)
                 if label != self.base_model_name and label not in p:
                     p += '_' + label if p else label
+                if alternate_label != self.base_model_name and alternate_label not in a:
+                    a += '_' + alternate_label if a else alternate_label
                 sub_props = self.properties_from_model_obj(prop_attributes['class']())
-                args.update(self.__transform_properties(sub_props, prefix=p, path=paths))
+                args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
             else:
                 # Adds a primitive property
                 arg_prefix = prefix + '_' if prefix else ''
+                arg_alt_prefix = alternate_prefix + '_' if alternate_prefix else ''
                 paths = copy.copy(path)
                 paths.append(prop)
                 args[arg_prefix + prop] = {
@@ -654,4 +672,9 @@ class KubernetesObjectHelper(object):
                     'type': prop_attributes['class'].__name__,
                     'property_path': paths
                 }
+                # Use the alternate prefix to construct a human-friendly, alternate field name, or alias
+                if arg_alt_prefix:
+                    args[arg_prefix + prop]['aliases'] = [arg_alt_prefix + prop]
+                elif arg_prefix:
+                    args[arg_prefix + prop]['aliases'] = [prop]
         return args

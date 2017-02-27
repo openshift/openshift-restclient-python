@@ -83,6 +83,8 @@ class DocStrings(object):
                 doc_string['options'][pname]['default'] = pdict['default']
             if pdict.get('choices'):
                 doc_string['options'][pname]['choices'] = pdict['choices']
+            if pdict.get('aliases'):
+                doc_string['options'][pname]['aliases'] = pdict['aliases']
 
         for param_name in sorted(self.helper.argspec.keys()):
             param_dict = self.helper.argspec[param_name]
