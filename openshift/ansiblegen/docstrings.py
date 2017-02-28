@@ -28,7 +28,7 @@ class DocStrings(object):
         self.api_version = api_version
         try:
             self.helper = KubernetesObjectHelper(self.api_version, self.model)
-        except OpenShiftException as exc:
+        except OpenShiftException:
             raise
 
     @property
@@ -46,7 +46,7 @@ class DocStrings(object):
         if not self.helper.base_model_name_snake.endswith('_list'):
             # module allows CRUD operations on the object
             doc_string['description'] = [
-                "Manage the lifecycle of a {} object. Supports check mode, and attempts to " \
+                "Manage the lifecycle of a {} object. Supports check mode, and attempts to "
                 "to be idempotent.".format(self.helper.base_model_name_snake)
             ]
         else:
@@ -155,7 +155,7 @@ class DocStrings(object):
                     sub_obj = None
                     try:
                         sub_obj = getattr(models, class_name)()
-                    except:
+                    except Exception:
                         pass
                     if sub_obj:
                         doc_key[attribute]['contains'] = CommentedMap()
@@ -172,7 +172,7 @@ class DocStrings(object):
                     sub_obj = None
                     try:
                         sub_obj = getattr(models, class_name)()
-                    except:
+                    except Exception:
                         pass
                     if sub_obj:
                         doc_key[attribute]['contains'] = CommentedMap()

@@ -1,11 +1,4 @@
-urllib3>=1.19
-six>=1.10
-kubernetes
-certifi
-python-dateutil
-pyyaml
-oauth2client
-ipaddress
+kubernetes >= 1.0.0b3
 python-string-utils
 ruamel.yaml
 jinja2

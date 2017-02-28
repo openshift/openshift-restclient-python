@@ -4,13 +4,6 @@ import uuid
 
 from openshift.helper import KubernetesObjectHelper
 
-pytestmark = pytest.mark.functional
-
-@pytest.fixture(scope='module')
-def k8s_helper():
-    k8s_helper = KubernetesObjectHelper('v1', 'namespace')
-    return k8s_helper
-
 
 @pytest.fixture()
 def namespace(k8s_helper):
@@ -24,7 +17,7 @@ def namespace(k8s_helper):
 
     yield namespace
 
-    k8s_helper.delete_object(name)
+    k8s_helper.delete_object(name, None)
 
 
 def test_namespace_patch(k8s_helper, namespace):
@@ -41,10 +34,10 @@ def test_namespace_exists(k8s_helper, namespace):
     get_result = k8s_helper.get_object(namespace.metadata.name)
     assert get_result is not None
     assert get_result.metadata.name == namespace.metadata.name
-    assert get_result == namespace
+    assert get_result.metadata.uid == namespace.metadata.uid
 
 
 def test_get_exists_not(k8s_helper):
     name = "does-not-exist-{}".format(uuid.uuid4())
-    namespace = k8s_helper.get_object(name)
-    assert namespace is None
+    result = k8s_helper.get_object(name)
+    assert result is None

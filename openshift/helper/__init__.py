@@ -161,7 +161,8 @@ class KubernetesObjectHelper(object):
 
     def patch_object(self, name, namespace, k8s_obj):
         # TODO: add a parameter for waiting until the object is ready
-        k8s_obj.status = None
+        empty_status = self.properties['status']['class']()
+        k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
         try:
             patch_method = self.__lookup_method('patch', namespace)
@@ -458,7 +459,7 @@ class KubernetesObjectHelper(object):
         model_name = api_version.capitalize() + name
         try:
             model = getattr(client.models, model_name)
-        except Exception as exc:
+        except Exception:
             raise OpenShiftException(
                     "Error: openshift.client.models.{} was not found. "
                     "Did you specify the correct Kind and API Version?".format(model_name)
@@ -586,7 +587,7 @@ class KubernetesObjectHelper(object):
                 tmp_arg_spec.pop(key)
         logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True))
 
-    def __transform_properties(self, properties, prefix='', path=[], alternate_prefix=''):
+    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix=''):
         """
         Convert a list of properties to an argument_spec dictionary
 
@@ -596,6 +597,9 @@ class KubernetesObjectHelper(object):
         :param alternate_prefix: a more minimal version of prefix
         :return: dict
         """
+        if path is None:
+            path = []
+
         args = {}
         for prop, prop_attributes in properties.items():
             if prop in ('api_version', 'status', 'kind'):

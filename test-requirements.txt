@@ -1,1 +1,5 @@
-git+https://github.com/detiber/client-python@master
+coverage
+docker ~= 2.1.0
+flake8
+pytest
+pytest-cov
