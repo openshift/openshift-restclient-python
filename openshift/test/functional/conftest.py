@@ -40,7 +40,7 @@ def openshift_container(request):
             time.sleep(1)
 
         # TODO: handle waiting for system policy to be fully configured better
-        #time.sleep(1)
+        time.sleep(1)
 
         yield container
     finally:
