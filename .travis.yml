@@ -20,10 +20,13 @@ env:
   - OPENSHIFT_VERSION=1.3
 
 install:
-  - pip install tox-travis
+  - pip install tox-travis coveralls
 
 script:
   - tox
+
+after_success:
+  - coveralls
 
 before_cache:
   - rm ~/.cache/pip/log/debug.log
