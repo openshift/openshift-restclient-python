@@ -587,7 +587,7 @@ class KubernetesObjectHelper(object):
                 tmp_arg_spec.pop(key)
         logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True))
 
-    def __transform_properties(self, properties, prefix='', path=[], alternate_prefix=''):
+    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix=''):
         """
         Convert a list of properties to an argument_spec dictionary
 
