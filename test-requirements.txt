@@ -1,3 +1,5 @@
+coverage
+docker ~= 2.1.0
 flake8
 pytest
-docker ~= 2.1.0
+pytest-cov

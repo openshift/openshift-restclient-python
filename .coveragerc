@@ -1,0 +1,12 @@
+[run]
+branch = True
+omit =
+    */lib/python*/site-packages/*
+    */lib/python*/*
+    /usr/*
+    setup.py
+    conftest.py
+    openshift/test/*
+
+[html]
+directory = cover
