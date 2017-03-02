@@ -5,6 +5,7 @@ import copy
 import inspect
 import json
 import logging
+import os
 import re
 import time
 
@@ -38,7 +39,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': 'KubeObjHelper.log',
-            'mode': 'w',
+            'mode': 'a',
             'encoding': 'utf-8'
         },
         'null': {
@@ -88,19 +89,20 @@ class KubernetesObjectHelper(object):
     # TODO: add support for check mode to helper
     argspec_cache = None
 
-    def __init__(self, api_version, kind, debug=False):
+    def __init__(self, api_version, kind, debug=False, reset_logfile=True):
         self.api_version = api_version
         self.kind = kind
         self.model = self.get_model(api_version, kind)
         self.properties = self.properties_from_model_obj(self.model())
-        self.base_model_name = self.model.__name__.replace(api_version.capitalize(), '')
-        self.base_model_name_snake = string_utils.camel_case_to_snake(self.base_model_name)
+        self.base_model_name = self.get_base_model_name(self.model.__name__)
+        self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
+        self.reset_logfile = reset_logfile
 
         if debug:
             self.enable_debug()
+            self.__log_argspec()
 
-    @staticmethod
-    def enable_debug():
+    def enable_debug(self):
         """
         Turn on debugging, which will write to a file named 'KubeObjHelper.log'.
 
@@ -109,6 +111,9 @@ class KubernetesObjectHelper(object):
 
         :return: None
         """
+        if self.reset_logfile:
+            os.remove(LOGGING['handlers']['file']['filename'])
+
         LOGGING['loggers']['openshift.helper']['level'] = 'DEBUG'
         logging_config.dictConfig(LOGGING)
 
@@ -165,8 +170,6 @@ class KubernetesObjectHelper(object):
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
-        logger.debug("patch obj:")
-        logger.debug(json.dumps(k8s_obj.to_dict()))
         try:
             patch_method = self.__lookup_method('patch', namespace)
             if namespace:
@@ -176,9 +179,6 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason)
             raise OpenShiftException(msg, status=exc.status)
-
-        if hasattr(return_obj, 'status'):
-            logger.debug(json.dumps(return_obj.to_dict()))
 
         return return_obj
 
@@ -299,9 +299,13 @@ class KubernetesObjectHelper(object):
             if not self.argspec.get(param_name, {}).get('property_path', None):
                 # only interested in params that have a property_path
                 continue
+            parent_obj = k8s_obj
             obj_prop = k8s_obj
+            prop_name = None
             for prop in self.argspec[param_name]['property_path']:
-                obj_prop = getattr(obj_prop, prop)
+                parent_obj = obj_prop
+                prop_name = prop
+                obj_prop = getattr(parent_obj, prop)
             if obj_prop is None:
                 reasons.append("Property {0} was null".format(param_name))
                 self.__set_obj_attribute(k8s_obj,
@@ -323,10 +327,23 @@ class KubernetesObjectHelper(object):
                                              self.argspec[param_name]['property_path'],
                                              param_value)
                     match = False
-            elif type(obj_prop).__name__ in ('list', 'dict'):
-                compare_method = getattr(self, 'compare_' + type(obj_prop).__name__)
+            elif type(obj_prop).__name__ == 'list':
+                if hasattr(parent_obj, 'swagger_types') and parent_obj.swagger_types.get(prop_name):
+                    # compare the requested list, which should be a list of dicts to a list of objects
+                    obj_type = parent_obj.swagger_types.get(prop_name).replace('list[', '').replace(']','')
+                    compare_result, sub_reasons =\
+                        self.compare_obj_list(obj_prop, module_params[param_name], obj_type)
+                else:
+                    # Straight list comparison
+                    compare_result, sub_reasons = self.compare_list(obj_prop, module_params[param_name])
+                if not compare_result:
+                    reasons.append(
+                        "Property {0} did not match: {1}".format(param_name, ', '.join(sub_reasons))
+                    )
+                    match = False
+            elif type(obj_prop).__name__ == 'dict':
                 # perform comparison and update the object property
-                compare_result, sub_reasons = compare_method(obj_prop, module_params[param_name])
+                compare_result, sub_reasons = self.compare_dict(obj_prop, module_params[param_name])
                 if not compare_result:
                     reasons.append(
                         "Property {0} did not match: {1}".format(param_name, ', '.join(sub_reasons))
@@ -344,6 +361,13 @@ class KubernetesObjectHelper(object):
         return match, reasons
 
     def compare_list(self, src_value, request_value):
+        """
+        Compare a two lists. Returns bool indicating if they match, and a list
+        of strings describing why not.
+        :param src_value: A list from the existing API object.
+        :param request_value: A list from request params.
+        :return: match, reasons: boolean (whether or not they matched), list of strings
+        """
         match = True
         reasons = []
         for item in request_value:
@@ -356,7 +380,7 @@ class KubernetesObjectHelper(object):
                 match = False
                 src_value.append(item)
             elif type(item).__name__ in ('dict', 'list'):
-                match_method = getattr(self, '__compare_' + type(item).__name__)
+                match_method = getattr(self, 'compare_' + type(item).__name__)
                 found_match = False
                 for src_item in src_value:
                     compare_result, reason = match_method(src_item, item)
@@ -365,17 +389,24 @@ class KubernetesObjectHelper(object):
                         break
                 if not found_match:
                     reasons.append(
-                        "{0} not found in {1}".format(json.dumps(item), json.dumps(src_value))
+                        "{0} not found".format(json.dumps(item))
                     )
                     match = False
                     src_value.append(item)
             else:
                 raise OpenShiftException(
-                    "__compare_list: Encountered unimplemented object type {0}".format(type(item).__name__)
+                    "compare_list: Encountered unimplemented type {0}".format(type(item).__name__)
                 )
         return match, reasons
 
     def compare_dict(self, src_value, request_value):
+        """
+        Compare a two dicts. Returns bool indicating if they match, and a list
+        of strings describing why not.
+        :param src_value: A dict from the existing API object.
+        :param request_value: A dict from request params.
+        :return: match, reasons: boolean (whether or not they matched), list of strings
+        """
         match = True
         reasons = []
         for item, value in request_value.items():
@@ -395,7 +426,7 @@ class KubernetesObjectHelper(object):
                 src_value[item] = value
                 match = False
             elif type(value).__name__ in ('list', 'dict'):
-                match_method = getattr(self, '__compare_' + type(value).__name__)
+                match_method = getattr(self, 'compare_' + type(value).__name__)
                 compare_result, sub_reasons = match_method(src_value[item], value)
                 if not compare_result:
                     match = False
@@ -404,8 +435,81 @@ class KubernetesObjectHelper(object):
                     )
             else:
                 raise OpenShiftException(
-                    "__compare_dict: Encountered unimplemented object type {0}".format(type(value).__name__)
+                    "compare_dict: Encountered unimplemented type {0}".format(type(value).__name__)
                 )
+        return match, reasons
+
+    def compare_obj_list(self, src_value, request_value, obj_class):
+        """
+        Compare a type of object to a dict. Returns bool indicating if they match, and a list
+        of strings describing why not.
+        :param src_value: A sub-object from the existing API object.
+        :param request_value: A dict from the request parameters.
+        :return: match, reasons: boolean (whether or not they matched), list of strings
+        """
+        match = True
+        sample_obj = getattr(client.models, obj_class)()
+        reasons = []
+        for item in request_value:
+            if item is None:
+                continue
+            if not item.get('name'):
+                raise OpenShiftException(
+                    "Error: Expecting dict for {0} to contain a `name` attribute."
+                )
+            found = False
+            for obj in src_value:
+                if obj.name == item.get('name'):
+                    # Assuming both the src_value and the request value include a name property
+                    found = True
+                    for key, value in item.items():
+                        if type(value).__name__ in ('str', 'bool', 'int'):
+                            if value != getattr(obj, key):
+                                setattr(obj, key, value)
+                                reasons.append(
+                                    "In list {0}. Instance {1}, property {2} changed to {3}"
+                                    .format(obj_class, obj.name, key, value)
+                                )
+                                match = False
+                        elif type(value).__name__ == 'list':
+                            if hasattr(sample_obj, 'swagger_types') and sample_obj.swagger_types.get(key):
+                                # compare the requested list, which should be a list of dicts to a list of objects
+                                obj_type = sample_obj.swagger_types.get(key).replace('list[', '').replace(']', '')
+                                compare_result, sub_reasons =\
+                                    self.compare_obj_list(getattr(obj, key), value, obj_type)
+                            else:
+                                # Straight list comparison
+                                compare_result, sub_reasons = self.compare_list(getattr(obj, key), value)
+                            if not compare_result:
+                                reasons.append(
+                                    "In list {0}. Instance {1}, property {2} changed to {3}"
+                                    .format(obj_class, obj.name, key, str(value))
+                                )
+                                match = False
+                        elif type(value).__name__ == 'dict':
+                            compare_result, sub_reasons = self.compare_dict(getattr(obj, key), value)
+                            if not compare_result:
+                                reasons.append(
+                                    "In list {0}. Instance {1}, property {2} changed to {3}"
+                                    .format(obj_class, obj.name, key, str(value))
+                                )
+                                match = False
+                        else:
+                            raise OpenShiftException(
+                                "compare_obj_list: In model {0} encountered unimplemented type {0}"
+                                .format(self.get_base_model_name_snake(obj_class), type(value).__name__)
+                            )
+            if not found:
+                # No matching name found. Add a new instance to the list.
+                for key, value in item.items():
+                    setattr(sample_obj, key, value)
+                    src_value.append(sample_obj)
+                    reasons.append(
+                        "In list {0}. Added new instance for {1}."\
+                        .format(obj_class, str(value))
+                    )
+                    match = False
+
         return match, reasons
 
     @classmethod
@@ -467,8 +571,29 @@ class KubernetesObjectHelper(object):
             method = getattr(api_class(), method_name, None)
             if method is not None:
                 break
-
+        if method is None:
+            raise OpenShiftException(
+                "Error: failed to find method {0} for model {1}".format(method_name, self.kind)
+            )
         return method
+
+    @staticmethod
+    def get_base_model_name(model_name):
+        """
+        Return model_name with API Version removed.
+        :param model_name: string
+        :return: string
+        """
+        return VERSION_RX.sub('', model_name)
+
+    def get_base_model_name_snake(self, model_name):
+        """
+        Return base model name with API version removed, and remainder converted to snake case
+        :param model_name: string
+        :return: string
+        """
+        result = self.get_base_model_name(model_name)
+        return string_utils.camel_case_to_snake(result)
 
     @staticmethod
     def get_model(api_version, kind):
@@ -592,12 +717,11 @@ class KubernetesObjectHelper(object):
 
         argument_spec.update(self.__transform_properties(self.properties))
 
-        if re.search(r'list$', self.base_model_name) and argument_spec.get('items'):
+        if re.search(r'list$', self.base_model_name_snake) and argument_spec.get('items'):
             # Lists are read only, so having a 'state' option doesn't make sense
             argument_spec.pop('state')
 
         self.argspec_cache = argument_spec
-        self.__log_argspec()
         return self.argspec_cache
 
     def __log_argspec(self):

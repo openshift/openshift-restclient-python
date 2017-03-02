@@ -2,7 +2,7 @@ import io
 import os
 import tarfile
 import time
-import uuid
+import yaml
 
 import docker
 import pytest
@@ -63,7 +63,7 @@ def kubeconfig(openshift_container, tmpdir_factory):
 @pytest.fixture()
 def k8s_helper_create(kubeconfig):
     def create_func(api_version, kind):
-        k8s_helper = KubernetesObjectHelper(api_version, kind, debug=True)
+        k8s_helper = KubernetesObjectHelper(api_version, kind, debug=True, reset_logfile=False)
         k8s_helper.set_client_config({'kubeconfig': str(kubeconfig)})
         config.kube_config.configuration.host='https://localhost:8443'
         return k8s_helper
@@ -81,6 +81,7 @@ def pytest_generate_tests(metafunc):
     examples_path = os.path.normpath(os.path.join(this_dir, '../../examples'))
     if not os.path.exists(examples_path):
         raise Exception("ERROR: Unable to locate examples directory!!!")
+
     def get_ids(x):
         """
         Return an id for a given parameter dict.
@@ -88,11 +89,12 @@ def pytest_generate_tests(metafunc):
         :return: id string
         """
         return x['api_version'] + '_' + x['kind']
+
     parameters = []
     for example_file in os.listdir(examples_path):
         with open(os.path.join(examples_path, example_file), 'r') as f:
             api_version, kind = example_file.replace('.yml', '').split('_', 2)
-            examples = ruamel.yaml.load(f.read(), ruamel.yaml.RoundTripLoader)
+            examples = yaml.load(f)
             param_dict = {
                 'api_version': api_version,
                 'kind': kind,
