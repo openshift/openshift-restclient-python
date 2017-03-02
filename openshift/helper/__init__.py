@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
-import inspect
-import re
 import copy
+import inspect
 import json
 import logging
+import re
+import time
 
 import string_utils
 
@@ -164,6 +165,8 @@ class KubernetesObjectHelper(object):
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
+        logger.debug("patch obj:")
+        logger.debug(json.dumps(k8s_obj.to_dict()))
         try:
             patch_method = self.__lookup_method('patch', namespace)
             if namespace:
@@ -173,6 +176,10 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason)
             raise OpenShiftException(msg, status=exc.status)
+
+        if hasattr(return_obj, 'status'):
+            logger.debug(json.dumps(return_obj.to_dict()))
+
         return return_obj
 
     def create_object(self, namespace, k8s_obj):
@@ -188,9 +195,7 @@ class KubernetesObjectHelper(object):
             raise OpenShiftException(msg, status=exc.status)
         return return_obj
 
-    def delete_object(self, name, namespace, delete_opts=None):
-        # TODO: add a parameter for waiting until the object has been deleted
-        # TODO: deleting a namespace requires a body
+    def delete_object(self, name, namespace, delete_opts=None, wait=False, timeout=60):
         delete_method = self.__lookup_method('delete', namespace)
         if not namespace:
             try:
@@ -209,6 +214,16 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason)
                 raise OpenShiftException(msg, status=exc.status)
+
+        if wait:
+            # wait for the object to be removed
+            tries = 0
+            while tries < timeout:
+                obj = self.get_object(name, namespace)
+                if not obj:
+                    break
+                tries += 2
+                time.sleep(2)
 
     def update_object(self, name, namespace, k8s_obj):
         pass
@@ -264,6 +279,14 @@ class KubernetesObjectHelper(object):
         return obj
 
     def object_compare(self, k8s_obj, module_params):
+        """
+        Update an object with Ansible module params. Returns a tuple that includes a boolean and a list of
+         strings. The boolean indicates if the object matched the parameters. If the object already matched
+         and was not updated, the boolean is True. The list of strings provides attributes that did not match.
+        :param k8s_obj:
+        :param module_params: dict of Ansible module params
+        :return: match, reason: match is a boolean and reason is a list of strings
+        """
         match = True
         reasons = []
         logger.debug("Performing object compare")
@@ -324,15 +347,15 @@ class KubernetesObjectHelper(object):
         match = True
         reasons = []
         for item in request_value:
-            if type(item).__name__ in ('str', 'int', 'bool') and item not in src_value:
-                # type of request item is not a dict or list
+            if type(item).__name__ in ('str', 'int', 'bool'):
+                if item in src_value:
+                    continue
                 reasons.append(
                     "{0} from request list not found in {1}".format(item, json.dumps(src_value))
                 )
                 match = False
                 src_value.append(item)
             elif type(item).__name__ in ('dict', 'list'):
-                # type of request item is a dict or list
                 match_method = getattr(self, '__compare_' + type(item).__name__)
                 found_match = False
                 for src_item in src_value:
@@ -355,14 +378,17 @@ class KubernetesObjectHelper(object):
     def compare_dict(self, src_value, request_value):
         match = True
         reasons = []
-        for item, value in request_value:
-            if not src_value.get(item):
+        for item, value in request_value.items():
+            logger.debug('comparing item: {0} - {1}'.format(item, value))
+            if src_value.get(item) == value:
+                continue
+            elif src_value.get(item, None) is None:
                 reasons.append(
                     "key {0} not found in {1}".format(item, json.dumps(src_value))
                 )
                 src_value[item] = value
                 match = False
-            if type(value).__name__ in ('str', 'int', 'bool') and value != src_value[item]:
+            elif type(value).__name__ in ('str', 'int', 'bool') and value != src_value[item]:
                 reasons.append(
                     "{0}: {1} not found in src dict {2}".format(item, value, json.dumps(src_value))
                 )
@@ -378,7 +404,7 @@ class KubernetesObjectHelper(object):
                     )
             else:
                 raise OpenShiftException(
-                    "__compare_dict: Encountered unimplemented object type {0}".format(type(item).__name__)
+                    "__compare_dict: Encountered unimplemented object type {0}".format(type(value).__name__)
                 )
         return match, reasons
 
@@ -582,9 +608,12 @@ class KubernetesObjectHelper(object):
         """
         logger.debug("arg_spec:")
         tmp_arg_spec = copy.deepcopy(self.argspec)
-        for key in tmp_arg_spec.keys():
-            if tmp_arg_spec[key].get('no_log'):
-                tmp_arg_spec.pop(key)
+        pop_keys = []
+        for key, value in tmp_arg_spec.items():
+            if value.get('no_log'):
+                pop_keys.append(key)
+        for key in pop_keys:
+            tmp_arg_spec.pop(key)
         logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True))
 
     def __transform_properties(self, properties, prefix='', path=None, alternate_prefix=''):
@@ -612,12 +641,14 @@ class KubernetesObjectHelper(object):
                 if 'labels' in dir(prop_attributes['class']):
                     args['labels'] = {
                         'type': 'dict',
-                        'property_path': ['metadata', 'labels']
+                        'property_path': ['metadata', 'labels'],
+                        'aliases': ['metadata_labels']
                     }
                 if 'annotations' in dir(prop_attributes['class']):
                     args['annotations'] = {
                         'type': 'dict',
-                        'property_path': ['metadata', 'annotations']
+                        'property_path': ['metadata', 'annotations'],
+                        'aliases': ['metadata_aliases']
                     }
                 if 'namespace' in dir(prop_attributes['class']):
                     args['namespace'] = {
@@ -626,7 +657,8 @@ class KubernetesObjectHelper(object):
                 if 'name' in dir(prop_attributes['class']):
                     args['name'] = {
                         'required': True,
-                        'property_path': ['metadata', 'name']
+                        'property_path': ['metadata', 'name'],
+                        'aliases': ['metadata_name']
                     }
             elif prop_attributes['class'].__name__ not in ['int', 'str', 'bool', 'list', 'dict']:
                 # Adds nested properties recursively
