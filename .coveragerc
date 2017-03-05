@@ -5,8 +5,8 @@ omit =
     */lib/python*/*
     /usr/*
     setup.py
-    conftest.py
-    openshift/test/*
+    */conftest.py
+    */test/*
 
 [html]
 directory = cover

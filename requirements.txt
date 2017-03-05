@@ -1,4 +1,4 @@
-kubernetes >= 1.0.0b3
+kubernetes ~= 1.0.0
 python-string-utils
 ruamel.yaml
 jinja2

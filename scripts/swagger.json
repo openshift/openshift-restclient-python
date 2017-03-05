@@ -7,7 +7,7 @@
       "name": "Apache 2.0 (ASL2.0)",
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     },
-    "version": "v1.5.0-alpha1"
+    "version": "v1.5.0-alpha3"
   },
   "paths": {
     "/api/": {
@@ -48142,7 +48142,9 @@
         "resourceAPIGroup",
         "resourceAPIVersion",
         "resource",
-        "resourceName"
+        "resourceName",
+        "path",
+        "isNonResourceURL"
       ],
       "properties": {
         "apiVersion": {
@@ -48153,12 +48155,20 @@
           "description": "Content is the actual content of the request for create and update",
           "$ref": "#/definitions/runtime.RawExtension"
         },
+        "isNonResourceURL": {
+          "description": "IsNonResourceURL is true if this is a request for a non-resource URL (outside of the resource hieraarchy)",
+          "type": "boolean"
+        },
         "kind": {
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: http://releases.k8s.io/HEAD/docs/devel/api-conventions.md#types-kinds",
           "type": "string"
         },
         "namespace": {
           "description": "Namespace is the namespace of the action being requested.  Currently, there is no distinction between no namespace and all namespaces",
+          "type": "string"
+        },
+        "path": {
+          "description": "Path is the path of a non resource URL",
           "type": "string"
         },
         "resource": {
@@ -48192,6 +48202,8 @@
         "resourceAPIVersion",
         "resource",
         "resourceName",
+        "path",
+        "isNonResourceURL",
         "user",
         "groups",
         "scopes"
@@ -48212,12 +48224,20 @@
             "type": "string"
           }
         },
+        "isNonResourceURL": {
+          "description": "IsNonResourceURL is true if this is a request for a non-resource URL (outside of the resource hieraarchy)",
+          "type": "boolean"
+        },
         "kind": {
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: http://releases.k8s.io/HEAD/docs/devel/api-conventions.md#types-kinds",
           "type": "string"
         },
         "namespace": {
           "description": "Namespace is the namespace of the action being requested.  Currently, there is no distinction between no namespace and all namespaces",
+          "type": "string"
+        },
+        "path": {
+          "description": "Path is the path of a non resource URL",
           "type": "string"
         },
         "resource": {
@@ -50630,7 +50650,9 @@
         "resourceAPIGroup",
         "resourceAPIVersion",
         "resource",
-        "resourceName"
+        "resourceName",
+        "path",
+        "isNonResourceURL"
       ],
       "properties": {
         "apiVersion": {
@@ -50641,12 +50663,20 @@
           "description": "Content is the actual content of the request for create and update",
           "$ref": "#/definitions/runtime.RawExtension"
         },
+        "isNonResourceURL": {
+          "description": "IsNonResourceURL is true if this is a request for a non-resource URL (outside of the resource hieraarchy)",
+          "type": "boolean"
+        },
         "kind": {
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: http://releases.k8s.io/HEAD/docs/devel/api-conventions.md#types-kinds",
           "type": "string"
         },
         "namespace": {
           "description": "Namespace is the namespace of the action being requested.  Currently, there is no distinction between no namespace and all namespaces",
+          "type": "string"
+        },
+        "path": {
+          "description": "Path is the path of a non resource URL",
           "type": "string"
         },
         "resource": {
@@ -52169,6 +52199,8 @@
         "resourceAPIVersion",
         "resource",
         "resourceName",
+        "path",
+        "isNonResourceURL",
         "user",
         "groups",
         "scopes"
@@ -52189,12 +52221,20 @@
             "type": "string"
           }
         },
+        "isNonResourceURL": {
+          "description": "IsNonResourceURL is true if this is a request for a non-resource URL (outside of the resource hieraarchy)",
+          "type": "boolean"
+        },
         "kind": {
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: http://releases.k8s.io/HEAD/docs/devel/api-conventions.md#types-kinds",
           "type": "string"
         },
         "namespace": {
           "description": "Namespace is the namespace of the action being requested.  Currently, there is no distinction between no namespace and all namespaces",
+          "type": "string"
+        },
+        "path": {
+          "description": "Path is the path of a non resource URL",
           "type": "string"
         },
         "resource": {
@@ -52538,7 +52578,7 @@
           "$ref": "#/definitions/v1.ObjectMeta"
         },
         "objects": {
-          "description": "objects is an array of resources to include in this template.",
+          "description": "objects is an array of resources to include in this template. If a namespace value is hardcoded in the object, it will be removed during template instantiation, however if the namespace value is, or contains, a ${PARAMETER_REFERENCE}, the resolved value after parameter substitution will be respected and the object will be created in that namespace.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/runtime.RawExtension"
@@ -52596,7 +52636,7 @@
           "type": "string"
         },
         "groups": {
-          "description": "Groups are the groups that this user is a member of",
+          "description": "Groups specifies group names this user is a member of. This field is deprecated and will be removed in a future release. Instead, create a Group object containing the name of this User.",
           "type": "array",
           "items": {
             "type": "string"
@@ -55076,18 +55116,5 @@
         }
       }
     }
-  },
-  "securityDefintions": {
-    "BearerToken": {
-      "in": "header",
-      "type": "apiKey",
-      "description": "Bearer Token authentication",
-      "name": "authorization"
-    }
-  },
-  "security": [
-    {
-      "BearerToken": []
-    }
-  ]
+  }
 }
