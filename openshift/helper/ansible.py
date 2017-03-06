@@ -12,40 +12,13 @@ from openshift import client
 from . import KubernetesObjectHelper, BASE_API_VERSION
 from .exceptions import OpenShiftException
 
-logger = logging.getLogger(__name__)
+# Attributes in argspec not needed by Ansible
+ARG_ATTRIBUTES_BLACKLIST = ('description', 'auth_option', 'property_path')
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'AnsibleModjHelper.log',
-            'mode': 'a',
-            'encoding': 'utf-8'
-        },
-        'null': {
-            'level': 'ERROR',
-            'class': 'logging.NullHandler'
-        }
-    },
-    'loggers': {
-        'openshift.helper': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': False
-        },
-    },
-    'root': {
-        'handlers': ['null'],
-        'level': 'ERROR'
-    }
-}
+logger = logging.getLogger(__name__)
 
 
 class AnsibleModuleHelper(KubernetesObjectHelper):
-    # TODO: add support for check mode to helper
     _argspec_cache = None
 
     @property
@@ -155,17 +128,19 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         self._argspec_cache = argument_spec
         return self._argspec_cache
 
-    def object_from_params(self, module_params):
+    def object_from_params(self, module_params, obj=None):
         """
-        Instantiate an instance of the model class, and populate its attributes
-        from the module parameters
-
-        :param module_params: Dict of key:value pairs
-        :return: The instantiated instance
+        Update a model object with Ansible module param values. Optionally pass an object
+        to update, otherwise a new object will be created.
+        :param module_params: dict of key:value pairs
+        :param obj: model object to update
+        :return: updated model object
         """
-        obj = self.model()
-        obj.kind = string_utils.snake_case_to_camel(self.kind).capitalize()
-        obj.api_version = self.api_version.lower()
+        if not obj:
+            obj = self.model()
+            camel_kind = string_utils.snake_case_to_camel(self.kind)
+            obj.kind = camel_kind[:1].capitalize() + camel_kind[1:]
+            obj.api_version = self.api_version.lower()
         for param_name, param_value in module_params.items():
             if self.argspec[param_name].get('property_path'):
                 spec = self.argspec[param_name]
@@ -189,11 +164,23 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         while len(property_path) > 0:
             prop_name = property_path.pop(0)
             prop_kind = obj.swagger_types[prop_name]
-            if prop_kind in ('str', 'int', 'bool') or \
-                    prop_kind.startswith('dict(') or \
-                    prop_kind.startswith('list['):
+            if prop_kind in ('str', 'int', 'bool'):
                 # prop_kind is a primitive
                 setattr(obj, prop_name, param_value)
+            elif prop_kind.startswith('dict('):
+                if not getattr(obj, prop_name):
+                    setattr(obj, prop_name, param_value)
+                else:
+                    self.__compare_dict(getattr(obj, prop_name), param_value)
+            elif prop_kind.startswith('list['):
+                if getattr(obj, prop_name) is None:
+                    setattr(obj, prop_name, [])
+                logger.debug("prop.kind: {}".format(prop_kind))
+                obj_type = prop_kind.replace('list[', '').replace(']','')
+                if obj_type not in ('str', 'int', 'bool', 'list', 'dict'):
+                    self.__compare_obj_list(getattr(obj, prop_name), param_value, obj_type)
+                else:
+                    self.__compare_list(getattr(obj, prop_name), param_value)
             else:
                 # prop_kind is an object class
                 sub_obj = getattr(obj, prop_name)
@@ -204,178 +191,78 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 setattr(obj, prop_name, self.__set_obj_attribute(sub_obj, property_path, param_value))
         return obj
 
-    def object_compare(self, k8s_obj, module_params):
+    @staticmethod
+    def __compare_list(src_values, request_values):
         """
-        Update an object with Ansible module params. Returns a tuple that includes a boolean and a list of
-         strings. The boolean indicates if the object matched the parameters. If the object already matched
-         and was not updated, the boolean is True. The list of strings provides attributes that did not match.
-        :param k8s_obj:
-        :param module_params: dict of Ansible module params
-        :return: match, reason: match is a boolean and reason is a list of strings
+        Compare src_values list with request_values list, and ppend any missing
+        request_values to src_values.
         """
-        match = True
-        reasons = []
-        logger.debug("Performing object compare")
-        logger.debug("Starting object:")
-        logger.debug(json.dumps(k8s_obj.to_dict(), indent=4))
-        for param_name, param_value in module_params.items():
-            if param_value is None:
-                # nothing to do
-                continue
-            if not self.argspec.get(param_name, {}).get('property_path', None):
-                # only interested in params that have a property_path
-                continue
-            parent_obj = k8s_obj
-            obj_prop = k8s_obj
-            prop_name = None
-            for prop in self.argspec[param_name]['property_path']:
-                parent_obj = obj_prop
-                prop_name = prop
-                obj_prop = getattr(parent_obj, prop)
-            if obj_prop is None:
-                reasons.append("Property {0} was null".format(param_name))
-                self.__set_obj_attribute(k8s_obj,
-                                         self.argspec[param_name]['property_path'],
-                                         param_value)
-                match = False
-            elif type(obj_prop).__name__ not in ('int', 'bool', 'str', 'list', 'dict'):
-                # If it's not None, then it should be a primitive
-                raise OpenShiftException(
-                    "Error: property_path for {0} returned a value of type {1}."
-                    "Expected one of: int, bool, str, list, dict.".format(param_name, type(obj_prop).__name__)
-                )
-            elif type(obj_prop).__name__ in ('int', 'bool', 'str'):
-                if obj_prop != module_params[param_name]:
-                    reasons.append(
-                        "Property {0} did not match".format(param_name)
-                    )
-                    self.__set_obj_attribute(k8s_obj,
-                                             self.argspec[param_name]['property_path'],
-                                             param_value)
-                    match = False
-            elif type(obj_prop).__name__ == 'list':
-                if hasattr(parent_obj, 'swagger_types') and parent_obj.swagger_types.get(prop_name):
-                    # compare the requested list, which should be a list of dicts to a list of objects
-                    obj_type = parent_obj.swagger_types.get(prop_name).replace('list[', '').replace(']','')
-                    compare_result, sub_reasons =\
-                        self.compare_obj_list(obj_prop, module_params[param_name], obj_type)
-                else:
-                    # Straight list comparison
-                    compare_result, sub_reasons = self.compare_list(obj_prop, module_params[param_name])
-                if not compare_result:
-                    reasons.append(
-                        "Property {0} did not match: {1}".format(param_name, ', '.join(sub_reasons))
-                    )
-                    match = False
-            elif type(obj_prop).__name__ == 'dict':
-                # perform comparison and update the object property
-                compare_result, sub_reasons = self.compare_dict(obj_prop, module_params[param_name])
-                if not compare_result:
-                    reasons.append(
-                        "Property {0} did not match: {1}".format(param_name, ', '.join(sub_reasons))
-                    )
-                    match = False
-            else:
-                raise OpenShiftException(
-                    "object_compare: Encountered unimplemented object type {0}".format(type(obj_prop).__name__)
-                )
-        logger.debug("Post object compare")
-        logger.debug("Match: {}".format(match))
-        logger.debug("Reasons: {}".format(json.dumps(reasons, indent=4)))
-        logger.debug("Object:")
-        logger.debug(json.dumps(k8s_obj.to_dict(), indent=4))
-        return match, reasons
+        if not request_values:
+            return
 
-    def compare_list(self, src_value, request_value):
-        """
-        Compare a two lists. Returns bool indicating if they match, and a list
-        of strings describing why not.
-        :param src_value: A list from the existing API object.
-        :param request_value: A list from request params.
-        :return: match, reasons: boolean (whether or not they matched), list of strings
-        """
-        match = True
-        reasons = []
-        for item in request_value:
-            if type(item).__name__ in ('str', 'int', 'bool'):
-                if item in src_value:
-                    continue
-                reasons.append(
-                    "{0} from request list not found in {1}".format(item, json.dumps(src_value))
-                )
+        if not src_values:
+            src_values += request_values
+
+        if type(src_values[0]).__name__ in ('str', 'int', 'bool'):
+            # lists contain primitive types
+            if set(src_values) >= set(request_values):
+                # src_value list includes request_value list
+                return
+            # append the missing elements from request value
+            src_values += list(set(request_values) - set(src_values))
+        elif type(src_values[0]).__name__ == 'dict':
+            missing = []
+            for request_dict in request_values:
                 match = False
-                src_value.append(item)
-            elif type(item).__name__ in ('dict', 'list'):
-                match_method = getattr(self, 'compare_' + type(item).__name__)
-                found_match = False
-                for src_item in src_value:
-                    compare_result, reason = match_method(src_item, item)
-                    if compare_result:
-                        found_match = True
+                for src_dict in src_values:
+                    if src_dict.items() == request_dict.items():
+                        match = True
                         break
-                if not found_match:
-                    reasons.append(
-                        "{0} not found".format(json.dumps(item))
-                    )
-                    match = False
-                    src_value.append(item)
-            else:
-                raise OpenShiftException(
-                    "compare_list: Encountered unimplemented type {0}".format(type(item).__name__)
-                )
-        return match, reasons
+                if not match:
+                    missing.append(request_dict)
+            src_values += missing
+        elif type(src_values[0]).__name__ == 'list':
+            missing = []
+            for request_list in request_values:
+                match = False
+                for src_list in src_values:
+                    if set(request_list) >= set(src_list):
+                        match = True
+                        break
+                if not match:
+                    missing.append(request_list)
+            src_values += missing
+        else:
+            raise OpenShiftException(
+                "__compare_list: Encountered unimplemented type {0}".format(type(src_values[0]).__name__)
+            )
 
-    def compare_dict(self, src_value, request_value):
+    def __compare_dict(self, src_value, request_value):
         """
-        Compare a two dicts. Returns bool indicating if they match, and a list
-        of strings describing why not.
-        :param src_value: A dict from the existing API object.
-        :param request_value: A dict from request params.
-        :return: match, reasons: boolean (whether or not they matched), list of strings
+        Compare src_value dict with request_value dict, and update src_value with any differences.
+        Does not remove items from src_value dict.
         """
-        match = True
-        reasons = []
+        if not request_value:
+            return
         for item, value in request_value.items():
-            logger.debug('comparing item: {0} - {1}'.format(item, value))
-            if src_value.get(item) == value:
-                continue
-            elif src_value.get(item, None) is None:
-                reasons.append(
-                    "key {0} not found in {1}".format(item, json.dumps(src_value))
-                )
+            if type(value).__name__ in ('str', 'int', 'bool'):
                 src_value[item] = value
-                match = False
-            elif type(value).__name__ in ('str', 'int', 'bool') and value != src_value[item]:
-                reasons.append(
-                    "{0}: {1} not found in src dict {2}".format(item, value, json.dumps(src_value))
-                )
-                src_value[item] = value
-                match = False
-            elif type(value).__name__ in ('list', 'dict'):
-                match_method = getattr(self, 'compare_' + type(value).__name__)
-                compare_result, sub_reasons = match_method(src_value[item], value)
-                if not compare_result:
-                    match = False
-                    reasons.append(
-                        "{0} not found in {1}".format(json.dumps(value), json.dumps(src_value[item]))
-                    )
+            elif type(value).__name__ == 'list':
+                self.__compare_list(src_value[item], value)
+            elif type(value).__name__ == 'dict':
+                self.__compare_dict(src_value[item], value)
             else:
                 raise OpenShiftException(
-                    "compare_dict: Encountered unimplemented type {0}".format(type(value).__name__)
+                    "__compare_dict: Encountered unimplemented type {0}".format(type(value).__name__)
                 )
-        return match, reasons
 
-    def compare_obj_list(self, src_value, request_value, obj_class):
+    def __compare_obj_list(self, src_value, request_value, obj_class):
         """
-        Compare a type of object to a dict. Returns bool indicating if they match, and a list
-        of strings describing why not.
-        :param src_value: A sub-object from the existing API object.
-        :param request_value: A dict from the request parameters.
-        :return: match, reasons: boolean (whether or not they matched), list of strings
+        Compare a src_value (list of ojects) with a request_value (list of dicts), and update
+        src_value with differences. Assumes each object and each dict has a 'name' attributes,
+        which can be used for matching. Elements are not removed from the src_value list.
         """
-        match = True
         sample_obj = getattr(client.models, obj_class)()
-        reasons = []
         for item in request_value:
             if item is None:
                 continue
@@ -385,44 +272,26 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 )
             found = False
             for obj in src_value:
-                if obj.name == item.get('name'):
+                if obj.name == item['name']:
                     # Assuming both the src_value and the request value include a name property
                     found = True
                     for key, value in item.items():
                         if type(value).__name__ in ('str', 'bool', 'int'):
                             if value != getattr(obj, key):
                                 setattr(obj, key, value)
-                                reasons.append(
-                                    "In list {0}. Instance {1}, property {2} changed to {3}"
-                                    .format(obj_class, obj.name, key, value)
-                                )
-                                match = False
                         elif type(value).__name__ == 'list':
                             if hasattr(sample_obj, 'swagger_types') and sample_obj.swagger_types.get(key):
                                 # compare the requested list, which should be a list of dicts to a list of objects
                                 obj_type = sample_obj.swagger_types.get(key).replace('list[', '').replace(']', '')
-                                compare_result, sub_reasons =\
-                                    self.compare_obj_list(getattr(obj, key), value, obj_type)
+                                self.__compare_obj_list(getattr(obj, key), value, obj_type)
                             else:
                                 # Straight list comparison
-                                compare_result, sub_reasons = self.compare_list(getattr(obj, key), value)
-                            if not compare_result:
-                                reasons.append(
-                                    "In list {0}. Instance {1}, property {2} changed to {3}"
-                                    .format(obj_class, obj.name, key, str(value))
-                                )
-                                match = False
+                                self.__compare_list(getattr(obj, key), value)
                         elif type(value).__name__ == 'dict':
-                            compare_result, sub_reasons = self.compare_dict(getattr(obj, key), value)
-                            if not compare_result:
-                                reasons.append(
-                                    "In list {0}. Instance {1}, property {2} changed to {3}"
-                                    .format(obj_class, obj.name, key, str(value))
-                                )
-                                match = False
+                            self.__compare_dict(getattr(obj, key), value)
                         else:
                             raise OpenShiftException(
-                                "compare_obj_list: In model {0} encountered unimplemented type {0}"
+                                "__compare_obj_list: In model {0} encountered unimplemented type {0}"
                                 .format(self.get_base_model_name_snake(obj_class), type(value).__name__)
                             )
             if not found:
@@ -430,13 +299,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 for key, value in item.items():
                     setattr(sample_obj, key, value)
                     src_value.append(sample_obj)
-                    reasons.append(
-                        "In list {0}. Added new instance for {1}."\
-                        .format(obj_class, str(value))
-                    )
-                    match = False
-
-        return match, reasons
 
     def __log_argspec(self):
         """

@@ -4,6 +4,7 @@ from __future__ import absolute_import
 import inspect
 import json
 import logging
+import math
 import os
 import re
 import time
@@ -25,10 +26,6 @@ from .exceptions import OpenShiftException
 VERSION_RX = re.compile("V\d((alpha|beta)\d)?")
 
 BASE_API_VERSION = 'V1'
-
-# Attributes in argspec not needed by Ansible
-ARG_ATTRIBUTES_BLACKLIST = ('description', 'auth_option', 'property_path')
-
 
 logger = logging.getLogger(__name__)
 
@@ -71,24 +68,15 @@ class KubernetesObjectHelper(object):
         self.properties = self.properties_from_model_obj(self.model())
         self.base_model_name = self.get_base_model_name(self.model.__name__)
         self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
-        self.reset_logfile = reset_logfile
 
         if debug:
-            self.__enable_debug()
+            self.enable_debug(reset_logfile)
 
-    def __enable_debug(self):
-        """
-        Turn on debugging, which will write to a file named 'KubeObjHelper.log'.
-
-        NOTE: If you're running via an Ansible module, and targeting a remote node,
-        the output will end up on the remote node, which is most likely not helpful.
-
-        :return: None
-        """
-        if self.reset_logfile:
+    def enable_debug(self, reset_logfile=True):
+        """ Turn on debugging. If reset_logfile, then remove the existing log file. """
+        if reset_logfile and os.path.exists(LOGGING['handlers']['file']['filename']):
             os.remove(LOGGING['handlers']['file']['filename'])
-
-        LOGGING['loggers'][self.__name__]['level'] = 'DEBUG'
+        LOGGING['loggers'][__name__]['level'] = 'DEBUG'
         logging_config.dictConfig(LOGGING)
 
     def set_client_config(self, module_params):
@@ -123,7 +111,7 @@ class KubernetesObjectHelper(object):
             try:
                 config.load_kube_config()
             except Exception as e:
-                raise OpenShiftException("Error loading configuration: {}".format(str(e)))
+                raise OpenShiftException("Error loading configuration: {}".format(e))
 
     def get_object(self, name, namespace=None):
         k8s_obj = None
@@ -169,7 +157,7 @@ class KubernetesObjectHelper(object):
             raise OpenShiftException(msg, status=exc.status)
         return return_obj
 
-    def delete_object(self, name, namespace, delete_opts=None, wait=False, timeout=60):
+    def delete_object(self, name, namespace, wait=False, timeout=60):
         delete_method = self.__lookup_method('delete', namespace)
         if not namespace:
             try:
@@ -192,7 +180,8 @@ class KubernetesObjectHelper(object):
         if wait:
             # wait for the object to be removed
             tries = 0
-            while tries < timeout:
+            half = math.ceil(timeout / 2)
+            while tries <= half:
                 obj = self.get_object(name, namespace)
                 if not obj:
                     break
@@ -201,6 +190,14 @@ class KubernetesObjectHelper(object):
 
     def update_object(self, name, namespace, k8s_obj):
         pass
+
+    def objects_match(self, obj_a, obj_b):
+        """ Test the equality of two objects. """
+        if type(obj_a).__name__ != type(obj_b).__name__:
+            return False
+        if obj_a == obj_b:
+            return True
+        return False
 
     @classmethod
     def properties_from_model_obj(cls, model_obj):
@@ -247,7 +244,6 @@ class KubernetesObjectHelper(object):
         :param namespace: optional name of the namespace.
         :return: pointer to the method
         """
-        # TODO: raise error if method not found
         method_name = operation
         method_name += '_namespaced_' if namespace else '_'
         method_name += self.kind
