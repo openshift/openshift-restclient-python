@@ -6,8 +6,6 @@ import docker
 import pytest
 import requests
 
-from six import StringIO
-
 from kubernetes import config
 from openshift.helper import KubernetesObjectHelper
 
@@ -64,8 +62,8 @@ def kubeconfig(openshift_container, tmpdir_factory):
 @pytest.fixture()
 def k8s_helper(request, kubeconfig):
     print(request.module.__name__)
-    _,api_version,resource = request.module.__name__.split('_', 2)
+    _, api_version, resource = request.module.__name__.split('_', 2)
     k8s_helper = KubernetesObjectHelper(api_version, resource)
     k8s_helper.set_client_config({'kubeconfig': str(kubeconfig)})
-    config.kube_config.configuration.host='https://127.0.0.1:8443'
+    config.kube_config.configuration.host = 'https://127.0.0.1:8443'
     yield k8s_helper

@@ -2,8 +2,6 @@ import copy
 import pytest
 import uuid
 
-from openshift.helper import KubernetesObjectHelper
-
 
 @pytest.fixture()
 def namespace(k8s_helper):

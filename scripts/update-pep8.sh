@@ -31,7 +31,8 @@ if [[ -z ${ENV} ]]; then
 fi
 
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE}")
-CLIENT_ROOT="${SCRIPT_ROOT}/../openshift"
+PACKAGE_NAME=$(python "${SCRIPT_ROOT}/constants.py" PACKAGE_NAME)
+CLIENT_ROOT="${SCRIPT_ROOT}/../${PACKAGE_NAME}"
 
 pushd "${SCRIPT_ROOT}" > /dev/null
 SCRIPT_ROOT=`pwd`
@@ -58,8 +59,7 @@ SAVEIFS=$IFS
 trap "IFS=$SAVEIFS" EXIT SIGINT
 IFS=,
 
-#SOURCES="${SCRIPT_ROOT}/../setup.py,${CLIENT_ROOT}/config/*.py,${CLIENT_ROOT}/watch/*.py,${SCRIPT_ROOT}/*.py,${CLIENT_ROOT}/../examples/*.py"
-SOURCES="${SCRIPT_ROOT}/../setup.py,${SCRIPT_ROOT}/*.py"
+SOURCES="${SCRIPT_ROOT}/../setup.py,${CLIENT_ROOT}/config/*.py,${CLIENT_ROOT}/watch/*.py,${SCRIPT_ROOT}/*.py,${CLIENT_ROOT}/../examples/*.py"
 
 echo "--- applying autopep8"
 for SOURCE in $SOURCES; do

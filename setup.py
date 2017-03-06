@@ -45,13 +45,12 @@ setup(
     author_email="",
     author="OpenShift",
     license="Apache License Version 2.0",
-    url="https://github.com/ftl-toolbox/python-openshift",
+    url="https://github.com/openshift/openshift-restclient-python",
     keywords=["Swagger", "OpenAPI", "Kubernetes", "OpenShift"],
     install_requires=extract_requirements('requirements.txt'),
-    test_requires=extract_requirements('test-requirements.txt'),
     packages=find_packages(include='openshift.*'),
     include_package_data=True,
-    long_description='Python client for OpenShift http://openshift.io/',
+    long_description='Python client for OpenShift http://openshift.redhat.com/',
     classifiers=[
         "Development Status :: %s" % DEVELOPMENT_STATUS,
         "Topic :: Utilities",
@@ -63,7 +62,6 @@ setup(
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
     ],
     entry_points={

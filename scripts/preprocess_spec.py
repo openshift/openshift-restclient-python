@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import, print_function
+
+import codecs
 import json
 import operator
 import os.path
@@ -62,7 +65,7 @@ def apply_func_to_spec_operations(spec, func, *params):
                  If the return value of the func is True, then the operation
                  will be deleted from the spec.
     """
-    for k, v in spec['paths'].iteritems():
+    for v in list(spec['paths'].values()):
         for op in _ops:
             if op not in v:
                 continue
@@ -116,19 +119,6 @@ def process_swagger(spec):
     except PreprocessingException as e:
         print(e.message)
 
-    if 'securityDefinitions' not in list(spec.keys()):
-        spec['securityDefintions'] = {
-            'BearerToken': {
-                'description': 'Bearer Token authentication',
-                'type': 'apiKey',
-                'name': 'authorization',
-                'in': 'header'
-            }
-        }
-
-    if 'security' not in list(spec.keys()):
-        spec['security'] = [{'BearerToken': []}]
-
     # TODO: Kubernetes does not set a version for OpenAPI spec yet,
     # remove this when that is fixed.
     spec['info']['version'] = SPEC_VERSION
@@ -138,11 +128,12 @@ def process_swagger(spec):
 
 def main():
     pool = urllib3.PoolManager()
+    reader = codecs.getreader('utf-8')
     with pool.request('GET', SPEC_URL, preload_content=False) as response:
         if response.status != 200:
-            print "Error downloading spec file. Reason: %s" % response.reason
+            print("Error downloading spec file. Reason: %s" % response.reason)
             return 1
-        in_spec = json.load(response, object_pairs_hook=OrderedDict)
+        in_spec = json.load(reader(response), object_pairs_hook=OrderedDict)
         out_spec = process_swagger(in_spec)
         with open(OUTPUT_PATH, 'w') as out:
             json.dump(out_spec, out, sort_keys=False, indent=2,

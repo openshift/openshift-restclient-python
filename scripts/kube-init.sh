@@ -27,7 +27,7 @@ function clean_exit(){
 
 trap "clean_exit" EXIT
 
-oc cluster up
+oc cluster up --version=${SPEC_VERSION} --public-hostname=localhost
 oc login -u system:admin
 
 echo "SUCCESS"

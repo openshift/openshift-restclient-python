@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.openshift</groupId>
-    <artifactId>python-openshift</artifactId>
+    <groupId>com.openshift</groupId>
+    <artifactId>openshift-restclient-python</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>python-openshi8ft</name>
-    <url>http://openshift.io</url>
+    <name>openshift-restclient-python</name>
+    <url>http://openshift.redhat.com</url>
     <build>
         <plugins>
             <plugin>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>2.2.2-SNAPSHOT</version>
+                <version>2.2.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -19,8 +19,8 @@
                         <configuration>
                             <inputSpec>${generator.spec.path}</inputSpec>
                             <language>python</language>
-                            <gitUserId>ftl-toolbox</gitUserId>
-                            <gitRepoId>python-openshift</gitRepoId>
+                            <gitUserId>openshift</gitUserId>
+                            <gitRepoId>openshift-restclient-python</gitRepoId>
                             <configOptions>
                                 <packageName>${generator.package.name}</packageName>
                                 <packageVersion>${generator.client.version}</packageVersion>
@@ -32,7 +32,7 @@
                 </executions>
             </plugin>
         </plugins>
-      </build>
+    </build>
     <dependencies>
         <!-- dependencies are needed for the client being generated -->
         <dependency>
