@@ -13,7 +13,8 @@ from ruamel.yaml.comments import CommentedMap
 
 from openshift import __version__ as openshift_version
 from openshift.client import models
-from openshift.helper import KubernetesObjectHelper, OpenShiftException
+from openshift.helper import OpenShiftException
+from openshift.helper.ansible import AnsibleModuleHelper
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ class DocStrings(object):
         self.model = model
         self.api_version = api_version
         try:
-            self.helper = KubernetesObjectHelper(self.api_version, self.model)
+            self.helper = AnsibleModuleHelper(self.api_version, self.model)
         except OpenShiftException:
             raise
 
@@ -155,7 +156,7 @@ class DocStrings(object):
                     sub_obj = None
                     try:
                         sub_obj = getattr(models, class_name)()
-                    except Exception:
+                    except:
                         pass
                     if sub_obj:
                         doc_key[attribute]['contains'] = CommentedMap()

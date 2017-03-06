@@ -14,7 +14,9 @@ import tempfile
 from jinja2 import Environment, FileSystemLoader
 
 from openshift.client import models as openshift_models
-from openshift.helper import OpenShiftException, VERSION_RX
+from openshift.helper import VERSION_RX
+from openshift.helper.exceptions import OpenShiftException
+
 from .docstrings import DocStrings
 
 logger = logging.getLogger(__name__)
