@@ -270,8 +270,10 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 raise OpenShiftException(
                     "Error: Expecting dict for {0} to contain a `name` attribute."
                 )
+            logger.debug("Comparing item {}".format(item))
             found = False
             for obj in src_value:
+                logger.debug("obj.name: {} == item['name'] {}".format(obj.name, item['name']))
                 if obj.name == item['name']:
                     # Assuming both the src_value and the request value include a name property
                     found = True
@@ -288,17 +290,20 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                                 # Straight list comparison
                                 self.__compare_list(getattr(obj, key), value)
                         elif type(value).__name__ == 'dict':
+                            logger.debug("Updating dict")
                             self.__compare_dict(getattr(obj, key), value)
                         else:
                             raise OpenShiftException(
                                 "__compare_obj_list: In model {0} encountered unimplemented type {0}"
                                 .format(self.get_base_model_name_snake(obj_class), type(value).__name__)
                             )
+                    logger.debug("Updated obj: {}".format(obj.to_dict()))
             if not found:
                 # No matching name found. Add a new instance to the list.
+                new_obj = getattr(client.models, obj_class)()
                 for key, value in item.items():
-                    setattr(sample_obj, key, value)
-                    src_value.append(sample_obj)
+                    setattr(new_obj, key, value)
+                src_value.append(new_obj)
 
     def __log_argspec(self):
         """

@@ -1,0 +1,19 @@
+# v1_project.yml
+---
+
+- create:
+    name: example
+  name: Create project
+
+- create:
+    name: example2
+    labels:
+      app_name: examples.com
+      app_env: production
+    annotations:
+      app_domain: com.example.example2
+  name: Create project
+
+- remove:
+    name: example
+
