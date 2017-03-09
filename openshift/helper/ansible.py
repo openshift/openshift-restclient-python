@@ -7,7 +7,7 @@ import logging
 import re
 import string_utils
 
-from openshift import client
+from openshift.client import models
 
 from . import KubernetesObjectHelper, BASE_API_VERSION
 from .exceptions import OpenShiftException
@@ -126,6 +126,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             argument_spec.pop('state')
 
         self._argspec_cache = argument_spec
+        logger.debug(self.__log_argspec())
         return self._argspec_cache
 
     def object_from_params(self, module_params, obj=None):
@@ -142,15 +143,34 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             obj.kind = camel_kind[:1].capitalize() + camel_kind[1:]
             obj.api_version = self.api_version.lower()
         for param_name, param_value in module_params.items():
-            if self.argspec[param_name].get('property_path'):
-                spec = self.argspec[param_name]
+            spec = self.find_arg_spec(param_name)
+            if spec.get('property_path'):
                 prop_path = copy.copy(spec['property_path'])
-                self.__set_obj_attribute(obj, prop_path, param_value)
+                self.__set_obj_attribute(obj, prop_path, param_value, param_name)
         logger.debug("Object from params:")
         logger.debug(json.dumps(obj.to_dict(), indent=4))
         return obj
 
-    def __set_obj_attribute(self, obj, property_path, param_value):
+    def find_arg_spec(self, module_param_name):
+        """For testing, allow the param_name value to be an alias"""
+        if self.argspec.get(module_param_name):
+            return self.argspec[module_param_name]
+        result = None
+        for key, value in self.argspec.items():
+            if value.get('aliases'):
+                for alias in value['aliases']:
+                    if alias == module_param_name:
+                        result = self.argspec[key]
+                        break
+                if result:
+                    break
+        if not result:
+            raise OpenShiftException(
+                "Error: received unrecognized module parameter {}".format(module_param_name)
+            )
+        return result
+
+    def __set_obj_attribute(self, obj, property_path, param_value, param_name):
         """
         Recursively set object properties
         :param obj: The object on which to set a property value.
@@ -158,12 +178,13 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         :param param_value: The value to set.
         :return: The original object.
         """
-        logger.debug("set {0}, {1} to {2}".format(obj.__class__.__name__,
-                                                  json.dumps(property_path),
-                                                  json.dumps(param_value)))
+        logger.debug("set_obj_attribute {0}, {1} to {2}".format(obj.__class__.__name__,
+                                                                json.dumps(property_path),
+                                                                json.dumps(param_value)))
         while len(property_path) > 0:
             prop_name = property_path.pop(0)
             prop_kind = obj.swagger_types[prop_name]
+            logger.debug("set_obj_attributes: property_name: {0} kind: {1}".format(prop_name, prop_kind))
             if prop_kind in ('str', 'int', 'bool'):
                 # prop_kind is a primitive
                 setattr(obj, prop_name, param_value)
@@ -171,28 +192,26 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 if not getattr(obj, prop_name):
                     setattr(obj, prop_name, param_value)
                 else:
-                    self.__compare_dict(getattr(obj, prop_name), param_value)
+                    self.__compare_dict(getattr(obj, prop_name), param_value, param_name)
             elif prop_kind.startswith('list['):
                 if getattr(obj, prop_name) is None:
                     setattr(obj, prop_name, [])
-                logger.debug("prop.kind: {}".format(prop_kind))
                 obj_type = prop_kind.replace('list[', '').replace(']','')
                 if obj_type not in ('str', 'int', 'bool', 'list', 'dict'):
-                    self.__compare_obj_list(getattr(obj, prop_name), param_value, obj_type)
+                    self.__compare_obj_list(getattr(obj, prop_name), param_value, obj_type, param_name)
                 else:
-                    self.__compare_list(getattr(obj, prop_name), param_value)
+                    self.__compare_list(getattr(obj, prop_name), param_value, param_name)
             else:
                 # prop_kind is an object class
+                logger.debug("SUB OBJ: {}".format(prop_name))
                 sub_obj = getattr(obj, prop_name)
                 if not sub_obj:
-                    sub_obj = getattr(client.models, prop_kind)()
-                    logger.debug("sub_obj is {}".format(sub_obj.__class__.__name__))
-                logger.debug("set {0}.{1}".format(obj.__class__.__name__, prop_name))
-                setattr(obj, prop_name, self.__set_obj_attribute(sub_obj, property_path, param_value))
+                    sub_obj = getattr(models, prop_kind)()
+                setattr(obj, prop_name, self.__set_obj_attribute(sub_obj, property_path, param_value, param_name))
         return obj
 
     @staticmethod
-    def __compare_list(src_values, request_values):
+    def __compare_list(src_values, request_values, param_name):
         """
         Compare src_values list with request_values list, and ppend any missing
         request_values to src_values.
@@ -215,7 +234,13 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             for request_dict in request_values:
                 match = False
                 for src_dict in src_values:
-                    if src_dict.items() == request_dict.items():
+                    if '__cmp__' in dir(src_dict):
+                        # python < 3
+                        if src_dict >= request_dict:
+                            match = True
+                            break
+                    elif src_dict.items() == request_dict.items():
+                        # python >= 3
                         match = True
                         break
                 if not match:
@@ -234,10 +259,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             src_values += missing
         else:
             raise OpenShiftException(
-                "__compare_list: Encountered unimplemented type {0}".format(type(src_values[0]).__name__)
+                "Evaluating {0}: encountered unimplemented type {1} in "
+                "__compare_list()".format(param_name, type(src_values[0]).__name__)
             )
 
-    def __compare_dict(self, src_value, request_value):
+    def __compare_dict(self, src_value, request_value, param_name):
         """
         Compare src_value dict with request_value dict, and update src_value with any differences.
         Does not remove items from src_value dict.
@@ -248,62 +274,127 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             if type(value).__name__ in ('str', 'int', 'bool'):
                 src_value[item] = value
             elif type(value).__name__ == 'list':
-                self.__compare_list(src_value[item], value)
+                self.__compare_list(src_value[item], value, param_name)
             elif type(value).__name__ == 'dict':
-                self.__compare_dict(src_value[item], value)
+                self.__compare_dict(src_value[item], value, param_name)
             else:
                 raise OpenShiftException(
-                    "__compare_dict: Encountered unimplemented type {0}".format(type(value).__name__)
+                    "Evaluating {0}: encountered unimplemented type {1} in "
+                    "__compare_dict()".format(param_name, type(value).__name__)
                 )
 
-    def __compare_obj_list(self, src_value, request_value, obj_class):
+    def __compare_obj_list(self, src_value, request_value, obj_class, param_name):
         """
         Compare a src_value (list of ojects) with a request_value (list of dicts), and update
         src_value with differences. Assumes each object and each dict has a 'name' attributes,
         which can be used for matching. Elements are not removed from the src_value list.
         """
-        sample_obj = getattr(client.models, obj_class)()
-        for item in request_value:
-            if item is None:
-                continue
-            if not item.get('name'):
-                raise OpenShiftException(
-                    "Error: Expecting dict for {0} to contain a `name` attribute."
-                )
-            logger.debug("Comparing item {}".format(item))
-            found = False
-            for obj in src_value:
-                logger.debug("obj.name: {} == item['name'] {}".format(obj.name, item['name']))
-                if obj.name == item['name']:
-                    # Assuming both the src_value and the request value include a name property
-                    found = True
-                    for key, value in item.items():
-                        if type(value).__name__ in ('str', 'bool', 'int'):
-                            if value != getattr(obj, key):
-                                setattr(obj, key, value)
-                        elif type(value).__name__ == 'list':
-                            if hasattr(sample_obj, 'swagger_types') and sample_obj.swagger_types.get(key):
-                                # compare the requested list, which should be a list of dicts to a list of objects
-                                obj_type = sample_obj.swagger_types.get(key).replace('list[', '').replace(']', '')
-                                self.__compare_obj_list(getattr(obj, key), value, obj_type)
+        sample_obj = getattr(models, obj_class)()
+
+        # Try to determine the unique key for the array
+        key_names = [
+            'name',
+            'type'
+        ]
+        key_name = None
+        for key in key_names:
+            if hasattr(sample_obj, key):
+                key_name = key
+                break
+
+        if key_name and request_value[0].get(key_name):
+            # compare by key field
+            for item in request_value:
+                if not item.get(key_name):
+                    logger.debug("FAILED on: {}".format(item))
+                    raise OpenShiftException(
+                        "Evaluating {0} - expecting dict to contain a `{1}` attribute "
+                        "in __compare_obj_list()  for model {2}.".format(param_name,
+                                                                         key_name,
+                                                                         self.get_base_model_name_snake(obj_class))
+                    )
+                found = False
+                for obj in src_value:
+                    if not obj:
+                        continue
+                    if getattr(obj, key_name) == item[key_name]:
+                        # Assuming both the src_value and the request value include a name property
+                        found = True
+                        for key, value in item.items():
+                            item_kind = sample_obj.swagger_types.get(key)
+                            if item_kind in ('str', 'bool', 'int'):
+                                if value != getattr(obj, key):
+                                    setattr(obj, key, value)
+                            elif item_kind.startswith('list['):
+                                obj_type = item_kind.replace('list[', '').replace(']', '')
+                                if obj_type not in ('str', 'int', 'bool'):
+                                    self.__compare_obj_list(getattr(obj, key), value, obj_type, param_name)
+                                else:
+                                    # Straight list comparison
+                                    self.__compare_list(getattr(obj, key), value, param_name)
+                            elif item_kind.startswith('dict('):
+                                self.__compare_dict(getattr(obj, key), value, param_name)
+                            elif item_kind.endswith('Params') and type(value).__name__ == 'dict':
+                                # parameter object
+                                param_obj = getattr(obj, key)
+                                if not param_obj:
+                                    setattr(obj, key, getattr(models, item_kind)())
+                                    param_obj = getattr(obj, key)
+                                self.__update_object_properties(param_obj, value)
                             else:
-                                # Straight list comparison
-                                self.__compare_list(getattr(obj, key), value)
-                        elif type(value).__name__ == 'dict':
-                            logger.debug("Updating dict")
-                            self.__compare_dict(getattr(obj, key), value)
-                        else:
-                            raise OpenShiftException(
-                                "__compare_obj_list: In model {0} encountered unimplemented type {0}"
-                                .format(self.get_base_model_name_snake(obj_class), type(value).__name__)
-                            )
-                    logger.debug("Updated obj: {}".format(obj.to_dict()))
-            if not found:
-                # No matching name found. Add a new instance to the list.
-                new_obj = getattr(client.models, obj_class)()
-                for key, value in item.items():
-                    setattr(new_obj, key, value)
-                src_value.append(new_obj)
+                                raise OpenShiftException(
+                                    "Evaluating {0}: encountered unimplemented type {1} in "
+                                    "__compare_obj_list() for model {2}".format(param_name,
+                                                                                item_kind,
+                                                                                self.get_base_model_name_snake(obj_class))
+                                )
+                if not found:
+                    src_value.append(
+                        self.__update_object_properties(getattr(models, obj_class)(), item)
+                    )
+        else:
+            # There isn't a key, or we don't know what it is, so check for all properties to match
+            for item in request_value:
+                found = False
+                for obj in src_value:
+                    match = True
+                    for item_key, item_value in item.items():
+                        # TODO: this should probably take the property type into account
+                        if getattr(obj, item_key) != item_value:
+                            match = False
+                            break
+                    if match:
+                        found = True
+                        break
+                if not found:
+                    src_value.append(
+                        self.__update_object_properties(getattr(models, obj_class)(), item)
+                    )
+
+    def __update_object_properties(self, obj, item):
+        """ Recursively update an object's properties. Returns a pointer to the object. """
+        logger.debug("Update object {0} with attributes: {1}".format(type(obj).__name__,
+                                                                     item))
+        for key, value in item.items():
+            try:
+                kind = obj.swagger_types[key]
+            except:
+                possible_matches = ', '.join(list(obj.swagger_types.keys()))
+                class_snake_name = self.get_base_model_name_snake(type(obj).__name__)
+                raise OpenShiftException(
+                    "Unable to find '{0}' in {1}. Valid property names include: {2}".format(key,
+                                                                                            class_snake_name,
+                                                                                            possible_matches)
+                )
+            if kind in ('str', 'int', 'bool') or kind.startswith('list[') or kind.startswith('dict('):
+                self.__set_obj_attribute(obj, [key], value, key)
+            else:
+                # kind is an object
+                if not getattr(obj, key):
+                    setattr(obj, key, getattr(models, kind)())
+                self.__update_object_properties(getattr(obj, key), value)
+
+        return obj
 
     def __log_argspec(self):
         """
@@ -321,7 +412,14 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             tmp_arg_spec.pop(key)
         logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True))
 
-    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix=''):
+    @staticmethod
+    def __convert_params_to_choices(properties):
+        def snake_case(name):
+            result = string_utils.snake_case_to_camel(name.replace('_params', ''))
+            return result[:1].capitalize() + result[1:]
+        return [snake_case(x) for x in list(properties.keys()) if x.endswith('params')]
+
+    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix='', hidden=False):
         """
         Convert a list of properties to an argument_spec dictionary
 
@@ -335,6 +433,20 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             path = []
 
         args = {}
+
+        def add_meta(prop_name, prop_prefix, prop_alt_prefix):
+            """ Adds metadata properties to the argspec """
+            if prop_alt_prefix:
+                args[prop_prefix + prop_name]['aliases'] = [prop_alt_prefix + prop_name]
+            elif prop_prefix:
+                args[prop_prefix + prop_name]['aliases'] = [prop_name]
+            prop_paths = copy.copy(path)  # copy path from outer scope
+            prop_paths.append('metadata')
+            prop_paths.append(prop_name)
+            args[prop_prefix + prop_name]['property_path'] = prop_paths
+            if hidden:
+                args[prop_prefix + prop_name]['hide_from_module'] = True
+
         for prop, prop_attributes in properties.items():
             if prop in ('api_version', 'status', 'kind'):
                 # Don't expose these properties
@@ -343,28 +455,26 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 # Property cannot be set by the user
                 continue
             elif prop == 'metadata':
+                meta_prefix = prefix + '_metadata_' if prefix else ''
+                meta_alt_prefix = alternate_prefix + '_metadata_' if alternate_prefix else ''
                 if 'labels' in dir(prop_attributes['class']):
-                    args['labels'] = {
+                    args[meta_prefix + 'labels'] = {
                         'type': 'dict',
-                        'property_path': ['metadata', 'labels'],
-                        'aliases': ['metadata_labels']
                     }
+                    add_meta('labels', meta_prefix, meta_alt_prefix)
                 if 'annotations' in dir(prop_attributes['class']):
-                    args['annotations'] = {
+                    args[meta_prefix + 'annotations'] = {
                         'type': 'dict',
-                        'property_path': ['metadata', 'annotations'],
-                        'aliases': ['metadata_aliases']
                     }
+                    add_meta('annotations', meta_prefix, meta_alt_prefix)
                 if 'namespace' in dir(prop_attributes['class']):
-                    args['namespace'] = {
-                        'property_path': ['metadata', 'namespace']
-                    }
+                    args[meta_prefix + 'namespace'] = {}
+                    add_meta('namespace', meta_prefix, meta_alt_prefix)
                 if 'name' in dir(prop_attributes['class']):
-                    args['name'] = {
+                    args[meta_prefix + 'name'] = {
                         'required': True,
-                        'property_path': ['metadata', 'name'],
-                        'aliases': ['metadata_name']
                     }
+                    add_meta('name', meta_prefix, meta_alt_prefix)
             elif prop_attributes['class'].__name__ not in ['int', 'str', 'bool', 'list', 'dict']:
                 # Adds nested properties recursively
 
@@ -375,13 +485,13 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 # This may be too hacky, but trying to remove redundant prefixes and generic, non-helpful
                 # prefixes (e.g. Spec, Template).
                 label = prop_attributes['class'].__name__\
+                        .replace(self.base_model_name, '')\
                         .replace(self.api_version.capitalize(), '')\
                         .replace(BASE_API_VERSION, '')\
                         .replace('Unversioned', '')
 
                 # Provide a more human-friendly version of the prefix
                 alternate_label = label\
-                    .replace(self.base_model_name, '')\
                     .replace('Spec', '')\
                     .replace('Template', '')
 
@@ -400,8 +510,14 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     p += '_' + label if p else label
                 if alternate_label != self.base_model_name and alternate_label not in a:
                     a += '_' + alternate_label if a else alternate_label
+                sub_is_hidden = hidden
+                if prop.endswith('params') and 'type' in properties:
+                    # If the object contains a 'type' field (e.g. v1_deployment_trigger_policy),
+                    # then '_params' objects should not be picked up by the Ansible module.
+                    sub_is_hidden = True
                 sub_props = self.properties_from_model_obj(prop_attributes['class']())
-                args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
+                args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a,
+                                                        hidden=sub_is_hidden))
             else:
                 # Adds a primitive property
                 arg_prefix = prefix + '_' if prefix else ''
@@ -413,9 +529,16 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     'type': prop_attributes['class'].__name__,
                     'property_path': paths
                 }
-                # Use the alternate prefix to construct a human-friendly, alternate field name, or alias
+
+                if hidden:
+                    args[arg_prefix + prop]['hide_from_module'] = True
+
+                # Use the alternate prefix to construct a human-friendly alias
                 if arg_alt_prefix:
                     args[arg_prefix + prop]['aliases'] = [arg_alt_prefix + prop]
                 elif arg_prefix:
                     args[arg_prefix + prop]['aliases'] = [prop]
+
+                if prop == 'type':
+                    args[arg_prefix + prop]['choices'] = self.__convert_params_to_choices(properties)
         return args

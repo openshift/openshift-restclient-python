@@ -28,7 +28,7 @@ class DocStrings(object):
         self.model = model
         self.api_version = api_version
         try:
-            self.helper = AnsibleModuleHelper(self.api_version, self.model)
+            self.helper = AnsibleModuleHelper(self.api_version, self.model, debug=True)
         except OpenShiftException:
             raise
 
@@ -89,6 +89,8 @@ class DocStrings(object):
 
         for param_name in sorted(self.helper.argspec.keys()):
             param_dict = self.helper.argspec[param_name]
+            if param_dict.get('hide_from_module'):
+                continue
             if param_dict.get('property_path'):
                 # parameter comes from the model
                 obj = self.helper.model()
@@ -138,6 +140,7 @@ class DocStrings(object):
         :return: None
         """
         model_class = type(obj)
+        model_name = self.helper.get_base_model_name_snake(model_class.__name__)
         for attribute in dir(model_class):
             if isinstance(getattr(model_class, attribute), property):
                 kind = obj.swagger_types[attribute]
@@ -147,6 +150,20 @@ class DocStrings(object):
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = kind
+                elif attribute.endswith('params'):
+                    # Parameters are associate with a 'type' property. If the object has a 'type', then
+                    #  it will also contain one or more 'param' objects, where each describes its
+                    #  associated type. Rather than list every property of each param object, the
+                    #  following attempts to summarize.
+                    snake_name = string_utils.snake_case_to_camel(attribute.replace('_params', ''))
+                    cap_snake_name = snake_name[:1].capitalize() + snake_name[1:]
+                    model_name_text = ' '.join(model_name.split('_')).capitalize()
+                    doc_key[attribute] = CommentedMap()
+                    doc_key[attribute]['description'] = (
+                        model_name_text + ' parameters when I(type) is {}.'.format(cap_snake_name)
+                    )
+                    doc_key[attribute]['type'] = 'complex'
+                    doc_key[attribute]['returned'] = 'when I(type) is {}'.format(cap_snake_name)
                 elif kind.startswith('list['):
                     class_name = kind.replace('list[', '').replace(']', '')
                     logger.debug(class_name)

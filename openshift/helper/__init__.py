@@ -72,10 +72,11 @@ class KubernetesObjectHelper(object):
         if debug:
             self.enable_debug(reset_logfile)
 
-    def enable_debug(self, reset_logfile=True):
+    @staticmethod
+    def enable_debug(reset_logfile=True):
         """ Turn on debugging. If reset_logfile, then remove the existing log file. """
-        if reset_logfile and os.path.exists(LOGGING['handlers']['file']['filename']):
-            os.remove(LOGGING['handlers']['file']['filename'])
+        if reset_logfile:
+            LOGGING['loggers']['handlers']['file']['mode'] = 'w'
         LOGGING['loggers'][__name__]['level'] = 'DEBUG'
         logging_config.dictConfig(LOGGING)
 
@@ -297,8 +298,9 @@ class KubernetesObjectHelper(object):
             if method is not None:
                 break
         if method is None:
+            msg = "Did you forget to include the namespace?" if not namespace else ""
             raise OpenShiftException(
-                "Error: failed to find method {0} for model {1}".format(method_name, self.kind)
+                "Error: method {0} not found for model {1}. {2}".format(method_name, self.kind, msg)
             )
         return method
 

@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import io
+import json
 import os
 import tarfile
 import time
@@ -74,7 +75,7 @@ def k8s_helper(request, kubeconfig):
 @pytest.fixture()
 def ansible_helper(request, kubeconfig):
     _, api_version, resource = request.module.__name__.split('_', 2)
-    helper = AnsibleModuleHelper(api_version, resource, debug=False, reset_logfile=False)
+    helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False)
     helper.set_client_config({'kubeconfig': str(kubeconfig)})
     config.kube_config.configuration.host = 'https://localhost:8443'
     yield helper
@@ -83,50 +84,11 @@ def ansible_helper(request, kubeconfig):
 @pytest.fixture(scope='session')
 def obj_compare():
     def compare_func(ansible_helper, k8s_obj, parameters):
-        """
-        Compare a k8s object to module parameters
-        """
-        for param_name, param_value in parameters.items():
-            spec = ansible_helper.argspec[param_name]
-            if not spec.get('property_path'):
-                continue
-            property_paths = spec['property_path']
-
-            # Find the matching parameter in the object we just created
-            prop_value = k8s_obj
-            prop_name = None
-            parent_obj = None
-            for prop_path in property_paths:
-                parent_obj = prop_value
-                prop_name = prop_path
-                prop_value = getattr(prop_value, prop_path)
-
-            if parent_obj.swagger_types[prop_name] in ('str', 'int', 'bool'):
-                assert prop_value == param_value
-            elif parent_obj.swagger_types[prop_name].startswith('list['):
-                obj_type = parent_obj.swagger_types[prop_name].replace('list(', '').replace(')', '')
-                if obj_type not in ('str', 'int', 'bool', 'list', 'dict'):
-                    # list of objects
-                    for item in param_value:
-                        assert item.get('name') is not None
-                        found = False
-                        for src_item in prop_value:
-                            if getattr(src_item, 'name') == item['name']:
-                                for key, value in item.items():
-                                    assert getattr(src_item, key) == value
-                                found = True
-                                break
-                        assert found
-                else:
-                    # regular list
-                    assert set(prop_value) >= set(param_value)
-            elif parent_obj.swagger_types[prop_name].startswith('dict('):
-                if '__cmp__' in dir(prop_value):
-                    assert prop_value >= param_value
-                else:
-                    assert prop_value.items() >= param_value.items()
-            else:
-                raise Exception("unimplemented type {}".format(parent_obj.swagger_types[prop_name]))
+        name = parameters.get('name')
+        namespace = parameters.get('namespace')
+        existing_object = ansible_helper.get_object(name, namespace)
+        requested_obj = ansible_helper.object_from_params(parameters, obj=existing_object)
+        assert ansible_helper.objects_match(k8s_obj, requested_obj)
     return compare_func
 
 
