@@ -4,52 +4,52 @@
 - create:
     name: myservice
     namespace: myproject
-    service_spec_selector:
+    selector:
       app: django
-    service_spec_ports:
+    ports:
       - port: 8765
         target_port: 8000
         name: http-port
-    service_spec_type: ClusterIP
+    type: ClusterIP
   name: Create service
 
 - patch:
     name: myservice
     namespace: myproject
-    service_spec_selector:
+    selector:
       app: django
       env: production
-    service_spec_ports:
+    ports:
       - port: 8765
         target_port: 8010
         name: http-port
       - port: 8788
         target_port: 8080
         name: socket-port
-    service_spec_type: NodePort
+    type: NodePort
   name: Patch service
 
 - create:
     name: myservice01
     namespace: myproject
-    service_spec_selector:
+    selector:
       app_name: service_testing
       app_env: production
-    service_spec_ports:
+    ports:
       - port: 8888
         target_port: 8010
         name: http
-    service_spec_type: ClusterIP
+    type: ClusterIP
   name: Create service
 
 - patch:
     name: myservice01
     namespace: myproject
-    service_spec_ports:
-      - port: 9443
-        target_port: 9443
-        name: https
-      - port: 8888
-        target_port: 8015
-        name: http
+    ports:
+     - port: 9443
+       target_port: 9443
+       name: https
+     - port: 8888
+       target_port: 8015
+       name: http
   name: Patch service
