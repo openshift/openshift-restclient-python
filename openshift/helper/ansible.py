@@ -320,9 +320,8 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                         found = True
                         for key, value in item.items():
                             item_kind = sample_obj.swagger_types.get(key)
-                            if item_kind in ('str', 'bool', 'int'):
-                                if value != getattr(obj, key):
-                                    setattr(obj, key, value)
+                            if item_kind in ('str', 'bool', 'int') or type(value).__name__ in ('str', 'int', 'bool'):
+                                setattr(obj, key, value)
                             elif item_kind.startswith('list['):
                                 obj_type = item_kind.replace('list[', '').replace(']', '')
                                 if obj_type not in ('str', 'int', 'bool'):
@@ -384,8 +383,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 )
             if kind in ('str', 'int', 'bool') or kind.startswith('list[') or kind.startswith('dict('):
                 self.__set_obj_attribute(obj, [key], value, key)
+            elif type(value).__name__ != 'dict':
+                # likely hit IntstrIntOrString
+                setattr(obj, key, value)
             else:
-                # kind is an object
+                # kind is an object, hopefully
                 if not getattr(obj, key):
                     setattr(obj, key, getattr(models, kind)())
                 self.__update_object_properties(getattr(obj, key), value)
