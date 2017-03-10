@@ -37,8 +37,6 @@
     - name: helloworld
       image: "openshift/origin-ruby-sample:v1.0"
       ports:
-      - container_port: 8080
-        protocol: TCP
       - container_port: 9000
         protocol: UDP
     replicas: 3

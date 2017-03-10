@@ -22,15 +22,6 @@ def test_get_project(ansible_helper, create_tasks):
     assert k8s_obj is not None
 
 
-def test_project_idempotence(ansible_helper, create_tasks):
-    parameters = create_tasks['create']
-    namespace = parameters.get('namespace')
-    k8s_obj = ansible_helper.get_object(parameters['name'], namespace)
-    updated_obj = copy.deepcopy(k8s_obj)
-    ansible_helper.object_from_params(parameters, obj=updated_obj)
-    assert ansible_helper.objects_match(k8s_obj, updated_obj)
-
-
 def test_patch_project(ansible_helper, patch_tasks, obj_compare):
     parameters = patch_tasks['patch']
     namespace = parameters.get('namespace')

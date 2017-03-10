@@ -184,7 +184,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         while len(property_path) > 0:
             prop_name = property_path.pop(0)
             prop_kind = obj.swagger_types[prop_name]
-            logger.debug("set_obj_attributes: property_name: {0} kind: {1}".format(prop_name, prop_kind))
             if prop_kind in ('str', 'int', 'bool'):
                 # prop_kind is a primitive
                 setattr(obj, prop_name, param_value)
@@ -203,7 +202,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     self.__compare_list(getattr(obj, prop_name), param_value, param_name)
             else:
                 # prop_kind is an object class
-                logger.debug("SUB OBJ: {}".format(prop_name))
                 sub_obj = getattr(obj, prop_name)
                 if not sub_obj:
                     sub_obj = getattr(models, prop_kind)()
@@ -373,8 +371,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
 
     def __update_object_properties(self, obj, item):
         """ Recursively update an object's properties. Returns a pointer to the object. """
-        logger.debug("Update object {0} with attributes: {1}".format(type(obj).__name__,
-                                                                     item))
         for key, value in item.items():
             try:
                 kind = obj.swagger_types[key]
@@ -542,3 +538,4 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 if prop == 'type':
                     args[arg_prefix + prop]['choices'] = self.__convert_params_to_choices(properties)
         return args
+

@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
+import copy
 import io
 import json
 import os
@@ -86,11 +87,10 @@ def ansible_helper(request, kubeconfig):
 @pytest.fixture(scope='session')
 def obj_compare():
     def compare_func(ansible_helper, k8s_obj, parameters):
-        name = parameters.get('name')
-        namespace = parameters.get('namespace')
-        existing_object = ansible_helper.get_object(name, namespace)
-        requested_obj = ansible_helper.object_from_params(parameters, obj=existing_object)
-        assert ansible_helper.objects_match(k8s_obj, requested_obj)
+        """ Assert that an object matches an expected object """
+        requested = copy.deepcopy(k8s_obj)
+        ansible_helper.object_from_params(parameters, obj=requested)
+        assert ansible_helper.objects_match(k8s_obj, requested)
     return compare_func
 
 
@@ -161,4 +161,4 @@ def pytest_generate_tests(metafunc):
         unique_namespaces = dict()
         for task in tasks:
             unique_namespaces[task['create']['namespace']] = None
-        metafunc.parametrize("namespaces", unique_namespaces.keys())
+        metafunc.parametrize("namespaces", list(unique_namespaces.keys()))

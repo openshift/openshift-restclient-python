@@ -133,7 +133,8 @@ class KubernetesObjectHelper(object):
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
-        logger.debug("Patching object: {}".format(k8s_obj.to_dict()))
+        self.__remove_creation_timestamps(k8s_obj)
+        logger.debug("Patching object: {}".format(json.dumps(k8s_obj.to_dict(), indent=4)))
         try:
             patch_method = self.__lookup_method('patch', namespace)
             if namespace:
@@ -206,7 +207,8 @@ class KubernetesObjectHelper(object):
                 else:
                     delete_method(name)
             except ApiException as exc:
-                raise OpenShiftException(exc.reason, status=exc.status)
+                msg = json.loads(exc.body).get('message', exc.reason)
+                raise OpenShiftException(msg, status=exc.status)
         else:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
@@ -233,11 +235,87 @@ class KubernetesObjectHelper(object):
 
     def objects_match(self, obj_a, obj_b):
         """ Test the equality of two objects. """
+        if obj_a is None and obj_b is None:
+            return True
+        if not obj_a or not obj_b:
+            return False
         if type(obj_a).__name__ != type(obj_b).__name__:
             return False
-        if obj_a == obj_b:
+        dict_a = obj_a.to_dict()
+        dict_b = obj_b.to_dict()
+        return self.__match_dict(dict_a, dict_b)
+
+    def __match_dict(self, dict_a, dict_b):
+        if not dict_a and not dict_b:
             return True
-        return False
+        if not dict_a or not dict_b:
+            return False
+        match = True
+        for key_a, value_a in dict_a.items():
+            if key_a not in dict_b:
+                logger.debug("obj_compare: {0} not found in {1}".format(key_a, dict_b))
+                match = False
+                break
+            elif value_a is None and dict_b[key_a] is None:
+                continue
+            elif value_a is None or dict_b[key_a] is None:
+                logger.debug("obj_compare: {0}:{1} !=  {2}:{3}".format(key_a, value_a, key_a, dict_b[key_a]))
+                match = False
+                break
+            elif type(value_a).__name__ == 'list':
+                sub_match = self.__match_list(value_a, dict_b[key_a])
+                if not sub_match:
+                    match = False
+                    logger.debug("obj_compare: {0}:{1} !=  {2}:{3}".format(key_a, value_a, key_a, dict_b[key_a]))
+                    break
+            elif type(value_a).__name__ == 'dict':
+                sub_match = self.__match_dict(value_a, dict_b[key_a])
+                if not sub_match:
+                    match = False
+                    logger.debug("obj_compare: {0}:{1} !=  {2}:{3}".format(key_a, value_a, key_a, dict_b[key_a]))
+                    break
+            elif value_a != dict_b[key_a]:
+                logger.debug("obj_compare: {0}:{1} !=  {2}:{3}".format(key_a, value_a, key_a, dict_b[key_a]))
+                match = False
+                break
+        return match
+
+    def __match_list(self, list_a, list_b):
+        if not list_a and not list_b:
+            return True
+        if not list_a or not list_b:
+            return False
+        match = True
+        if type(list_a[0]).__name__ == 'dict':
+            for item_a in list_a:
+                found = False
+                for item_b in list_b:
+                    if '__cmp__' in dir(item_b):
+                        if item_a == item_b:
+                            found = True
+                            break
+                    else:
+                        if item_a.items() == item_b.items():
+                            found = True
+                            break
+                if not found:
+                    match = False
+                    break
+        elif type(list_a[0]).__name__ == 'list':
+            for item_a in list_a:
+                found = False
+                for item_b in list_b:
+                    sub_match = self.__match_list(item_a, item_b)
+                    if sub_match:
+                        found = True
+                        break
+                if not found:
+                    match = False
+                    break
+        else:
+            if set(list_a) != set(list_b):
+                match = False
+        return match
 
     @classmethod
     def properties_from_model_obj(cls, model_obj):
@@ -343,3 +421,17 @@ class KubernetesObjectHelper(object):
                     "Did you specify the correct Kind and API Version?".format(model_name)
             )
         return model
+
+    def __remove_creation_timestamps(self, obj):
+        """ Recursively look for creation_timestamp property, and set it to None """
+        if hasattr(obj, 'swagger_types'):
+            for key, value in obj.swagger_types.items():
+                if key == 'creation_timestamp':
+                    obj.creation_timestamp = None
+                    continue
+                if value.startswith('dict(') or value.startswith('list['):
+                    continue
+                if value in ('str', 'int', 'bool'):
+                    continue
+                if getattr(obj, key) is not None:
+                    self.__remove_creation_timestamps(getattr(obj, key))
