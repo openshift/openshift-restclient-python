@@ -129,7 +129,6 @@ class KubernetesObjectHelper(object):
         return k8s_obj
 
     def patch_object(self, name, namespace, k8s_obj, wait=False, timeout=60):
-        # TODO: add a parameter for waiting until the object is ready
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
@@ -142,32 +141,13 @@ class KubernetesObjectHelper(object):
             else:
                 return_obj = patch_method(name, k8s_obj)
         except ApiException as exc:
-
             msg = json.loads(exc.body).get('message', exc.reason)
-            raise OpenShiftException(str(exc))
-
+            raise OpenShiftException(msg, status=exc.status)
         if wait:
-            # wait for the object to be ready
-            tries = 0
-            half = math.ceil(timeout / 2)
-            while tries <= half:
-                obj = self.get_object(name, namespace)
-                if hasattr(obj.status, 'phase'):
-                    return_obj = obj
-                    if obj.status.phase == 'Active':
-                        break
-                elif obj is not None:
-                    # TODO: is there a better way?
-                    # if the object exists, then assume it's ready?
-                    return_obj = obj
-                    break
-                tries += 2
-                time.sleep(2)
-
+            return_obj = self.__wait_for_response(name, namespace, timeout)
         return return_obj
 
     def create_object(self, namespace, k8s_obj, wait=False, timeout=60):
-        # TODO: add a parameter for waiting until the object is ready
         try:
             create_method = self.__lookup_method('create', namespace)
             if namespace is None:
@@ -177,25 +157,8 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason)
             raise OpenShiftException(msg, status=exc.status)
-
         if wait:
-            # wait for the object to be ready
-            tries = 0
-            half = math.ceil(timeout / 2)
-            while tries <= half:
-                obj = self.get_object(k8s_obj.metadata.name, namespace)
-                if hasattr(obj.status, 'phase'):
-                    return_obj = obj
-                    if obj.status.phase == 'Active':
-                        break
-                elif obj is not None:
-                    # TODO: is there a better way?
-                    # if the object exists, then assume it's ready?
-                    return_obj = obj
-                    break
-                tries += 2
-                time.sleep(2)
-
+            return_obj = self.__wait_for_response(k8s_obj.metadata.name, namespace, timeout)
         return return_obj
 
     def delete_object(self, name, namespace, wait=False, timeout=60):
@@ -218,19 +181,30 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason)
                 raise OpenShiftException(msg, status=exc.status)
-
         if wait:
-            # wait for the object to be removed
-            tries = 0
-            half = math.ceil(timeout / 2)
-            while tries <= half:
-                obj = self.get_object(name, namespace)
+            self.__wait_for_response(name, namespace, timeout=timeout, delete=True)
+
+    def __wait_for_response(self, name, namespace, timeout, delete=False):
+        """ Wait for an API response """
+        tries = 0
+        half = math.ceil(timeout / 2)
+        obj = None
+        while tries <= half:
+            obj = self.get_object(name, namespace)
+            if delete:
                 if not obj:
                     break
-                tries += 2
-                time.sleep(2)
+            elif obj and hasattr(obj.status, 'phase'):
+                if obj.status.phase == 'Active':
+                    break
+            elif obj and obj.status:
+                break
+            tries += 2
+            time.sleep(2)
+        return obj
 
     def update_object(self, name, namespace, k8s_obj):
+        # TODO: write me
         pass
 
     def objects_match(self, obj_a, obj_b):
