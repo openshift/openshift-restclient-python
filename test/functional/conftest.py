@@ -37,7 +37,7 @@ def openshift_container(request):
         # Wait for the api server to be ready before continuing
         for _ in range(10):
             try:
-                resp = requests.head("https://localhost:8443/healthz/ready", verify=False)
+                resp = requests.head("https://127.0.0.1:8443/healthz/ready", verify=False)
             except requests.RequestException:
                 pass
             time.sleep(1)
@@ -69,6 +69,7 @@ def k8s_helper(request, kubeconfig):
     helper = KubernetesObjectHelper(api_version, resource)
     helper.set_client_config({'kubeconfig': str(kubeconfig)})
     config.kube_config.configuration.host = 'https://localhost:8443'
+    config.kube_config.configuration.verify_ssl = False
     yield helper
 
 
@@ -78,6 +79,7 @@ def ansible_helper(request, kubeconfig):
     helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False)
     helper.set_client_config({'kubeconfig': str(kubeconfig)})
     config.kube_config.configuration.host = 'https://localhost:8443'
+    config.kube_config.configuration.verify_ssl = False
     yield helper
 
 
