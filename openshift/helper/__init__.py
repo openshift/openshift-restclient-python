@@ -184,6 +184,23 @@ class KubernetesObjectHelper(object):
         if wait:
             self.__wait_for_response(name, namespace, timeout=timeout, delete=True)
 
+    def replace_object(self, name, namespace, k8s_obj, wait=False, timeout=60):
+        empty_status = self.properties['status']['class']()
+        k8s_obj.status = empty_status
+        self.__remove_creation_timestamps(k8s_obj)
+        try:
+            replace_method = self.__lookup_method('replace', namespace)
+            if namespace is None:
+                return_obj = replace_method(name, k8s_obj)
+            else:
+                return_obj = replace_method(name, namespace, k8s_obj)
+        except ApiException as exc:
+            msg = json.loads(exc.body).get('message', exc.reason)
+            raise OpenShiftException(msg, status=exc.status)
+        if wait:
+            return_obj = self.__wait_for_response(k8s_obj.metadata.name, namespace, timeout)
+        return return_obj
+
     def __wait_for_response(self, name, namespace, timeout, delete=False):
         """ Wait for an API response """
         tries = 0
@@ -194,7 +211,7 @@ class KubernetesObjectHelper(object):
             if delete:
                 if not obj:
                     break
-            elif obj and hasattr(obj.status, 'phase'):
+            elif obj and obj.status and hasattr(obj.status, 'phase'):
                 if obj.status.phase == 'Active':
                     break
             elif obj and obj.status:
@@ -202,10 +219,6 @@ class KubernetesObjectHelper(object):
             tries += 2
             time.sleep(2)
         return obj
-
-    def update_object(self, name, namespace, k8s_obj):
-        # TODO: write me
-        pass
 
     def objects_match(self, obj_a, obj_b):
         """ Test the equality of two objects. """

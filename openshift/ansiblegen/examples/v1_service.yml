@@ -53,3 +53,19 @@
        target_port: 8015
        name: http
   name: Patch service
+
+- replace:
+    name: myservice01
+    namespace: myproject
+    selector:
+      app_name: web_site
+      app_env: testing
+    ports:
+     - port: 9999
+       target_port: 9999
+       name: https
+     - port: 8080
+       target_port: 8080
+       name: http
+    type: ClusterIP
+  name: Repace service

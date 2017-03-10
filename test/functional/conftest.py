@@ -130,6 +130,8 @@ def _get_id(argvalue):
         type = 'patch'
     elif argvalue.get('remove'):
         type = 'remove'
+    elif argvalue.get('replace'):
+        type = 'replace'
     return type + '_' + argvalue[type]['name'] + '_' + "{:0>3}".format(argvalue['seq'])
 
 
@@ -156,6 +158,9 @@ def pytest_generate_tests(metafunc):
     if 'remove_tasks' in metafunc.fixturenames:
         tasks = [x for x in data if x.get('remove')]
         metafunc.parametrize("remove_tasks", tasks, False, _get_id)
+    if 'replace_tasks' in metafunc.fixturenames:
+        tasks = [x for x in data if x.get('replace')]
+        metafunc.parametrize("replace_tasks", tasks, False, _get_id)
     if 'namespaces' in metafunc.fixturenames:
         tasks = [x for x in data if x.get('create') and x['create'].get('namespace')]
         unique_namespaces = dict()

@@ -35,11 +35,13 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             # path to kube config file
             'state': {
                 'default': 'present',
-                'choices': ['present', 'absent'],
+                'choices': ['present', 'absent', 'replaced'],
                 'description': [
-                    "Determines if the object should be created, patched or deleted. When set to C(present), "
-                    "the object will be created, if it does not exist, or patched, if requested parameters "
-                    "differ from existing object attributes. Set to C(absent) to delete an existing object."
+                    "Determines if the object should be created, patched, deleted or replaced. When set to "
+                    "C(present), the object will be created, if it does not exist, or patched, if requested "
+                    "parameters differ from existing object attributes. If set to C(absent), an existing "
+                    "object will be deleted, and if set to C(replaced), an existing object will be completely "
+                    "replaced with a new object created from the supplied parameters."
                 ]
             },
             'kubeconfig': {

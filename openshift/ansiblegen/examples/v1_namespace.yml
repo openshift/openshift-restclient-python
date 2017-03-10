@@ -45,6 +45,15 @@
       type: web
   task_name: Update labels
 
+- replace:
+    name: search-project
+    labels:
+       app: web_app
+       level: '3'
+    annotations:
+       company: acme.com
+  name: Replace namespace
+
 - remove:
     name: search-project
   name: Remove namespace
