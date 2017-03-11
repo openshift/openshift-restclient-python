@@ -343,9 +343,10 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                             else:
                                 raise OpenShiftException(
                                     "Evaluating {0}: encountered unimplemented type {1} in "
-                                    "__compare_obj_list() for model {2}".format(param_name,
-                                                                                item_kind,
-                                                                                self.get_base_model_name_snake(obj_class))
+                                    "__compare_obj_list() for model {2}".format(
+                                        param_name,
+                                        item_kind,
+                                        self.get_base_model_name_snake(obj_class))
                                 )
                 if not found:
                     src_value.append(
@@ -448,7 +449,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 args[prop_prefix + prop_name]['hide_from_module'] = True
 
         for prop, prop_attributes in properties.items():
-            if prop in ('api_version', 'status', 'kind'):
+            if prop in ('api_version', 'status', 'kind') and not prefix:
                 # Don't expose these properties
                 continue
             elif prop_attributes['immutable']:
@@ -475,7 +476,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                         'required': True,
                     }
                     add_meta('name', meta_prefix, meta_alt_prefix)
-            elif prop_attributes['class'].__name__ not in ['int', 'str', 'bool', 'list', 'dict']:
+            elif prop_attributes['class'].__name__ not in ('int', 'str', 'bool', 'list', 'dict'):
                 # Adds nested properties recursively
 
                 # As we traverse deeper into nested properties, we prefix the final primitive property name with the
@@ -493,9 +494,10 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 # Provide a more human-friendly version of the prefix
                 alternate_label = label\
                     .replace('Spec', '')\
-                    .replace('Template', '')
+                    .replace('Template', '')\
+                    .replace('Config', '')
 
-                alternate_label = string_utils.camel_case_to_snake(alternate_label, '_')
+                alternate_label = string_utils.camel_case_to_snake(alternate_label, '_').lower()
                 label = string_utils.camel_case_to_snake(label, '_')
                 p = prefix
                 a = alternate_prefix
@@ -515,6 +517,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     # If the object contains a 'type' field (e.g. v1_deployment_trigger_policy),
                     # then '_params' objects should not be picked up by the Ansible module.
                     sub_is_hidden = True
+
                 sub_props = self.properties_from_model_obj(prop_attributes['class']())
                 args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a,
                                                         hidden=sub_is_hidden))

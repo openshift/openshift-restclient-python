@@ -76,7 +76,7 @@ class KubernetesObjectHelper(object):
     def enable_debug(reset_logfile=True):
         """ Turn on debugging. If reset_logfile, then remove the existing log file. """
         if reset_logfile:
-            LOGGING['loggers']['handlers']['file']['mode'] = 'w'
+            LOGGING['handlers']['file']['mode'] = 'w'
         LOGGING['loggers'][__name__]['level'] = 'DEBUG'
         logging_config.dictConfig(LOGGING)
 
