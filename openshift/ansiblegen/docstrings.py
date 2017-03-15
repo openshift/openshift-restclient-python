@@ -125,7 +125,10 @@ class DocStrings(object):
         obj_name = self.helper.base_model_name_snake
         doc_string[obj_name] = CommentedMap()
         doc_string[obj_name]['type'] = 'complex'
-        doc_string[obj_name]['returned'] = 'when I(state) = C(present)'
+        if self.helper.argspec.get('state'):
+            doc_string[obj_name]['returned'] = 'when I(state) = C(present)'
+        else:
+            doc_string[obj_name]['returned'] = 'on success'
         doc_string[obj_name]['contains'] = CommentedMap()
         obj = self.helper.model()
         self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])

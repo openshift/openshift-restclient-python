@@ -39,7 +39,8 @@ class Modules(object):
         self.models = []
         requested_models = kwargs.pop('models')
         for model, model_class in inspect.getmembers(openshift_models):
-            if 'kind' in dir(model_class) and 'metadata' in dir(model_class):
+            if 'kind' in dir(model_class) and \
+                    ('metadata' in dir(model_class) or 'spec' in dir(model_class)):
                 # models with a 'kind' are top-level objects that we care about
                 matches = VERSION_RX.match(model)
                 if not matches:
