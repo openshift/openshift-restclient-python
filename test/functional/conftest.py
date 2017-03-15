@@ -68,9 +68,14 @@ def kubeconfig(openshift_container, tmpdir_factory):
 def k8s_helper(request, kubeconfig):
     _, api_version, resource = request.module.__name__.split('_', 2)
     helper = KubernetesObjectHelper(api_version, resource)
-    helper.set_client_config({'kubeconfig': str(kubeconfig)})
-    config.kube_config.configuration.host = 'https://localhost:8443'
-    config.kube_config.configuration.verify_ssl = False
+    auth = {
+        'kubeconfig': str(kubeconfig),
+        'host': 'https://localhost:8443',
+        'verify_ssl': False
+    }
+    helper.set_client_config(**auth)
+    #config.kube_config.configuration.host = 'https://localhost:8443'
+    #config.kube_config.configuration.verify_ssl = False
     yield helper
 
 
@@ -78,9 +83,14 @@ def k8s_helper(request, kubeconfig):
 def ansible_helper(request, kubeconfig):
     _, api_version, resource = request.module.__name__.split('_', 2)
     helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False)
-    helper.set_client_config({'kubeconfig': str(kubeconfig)})
-    config.kube_config.configuration.host = 'https://localhost:8443'
-    config.kube_config.configuration.verify_ssl = False
+    auth = {
+        'kubeconfig': str(kubeconfig),
+        'host': 'https://localhost:8443',
+        'verify_ssl': False
+    }
+    helper.set_client_config(**auth)
+    #config.kube_config.configuration.host = 'https://localhost:8443'
+    #config.kube_config.configuration.verify_ssl = False
     yield helper
 
 

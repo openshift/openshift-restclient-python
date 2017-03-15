@@ -5,7 +5,6 @@ import inspect
 import json
 import logging
 import math
-import os
 import re
 import time
 
@@ -14,10 +13,11 @@ import string_utils
 from logging import config as logging_config
 
 from kubernetes import config
-from kubernetes.config.config_exception import ConfigException
 from kubernetes.client.rest import ApiException
+from kubernetes.config.config_exception import ConfigException
 
 from openshift import client
+from openshift.client import configuration, ApiClient
 from openshift.client.models import V1DeleteOptions
 
 from .exceptions import OpenShiftException
@@ -68,9 +68,47 @@ class KubernetesObjectHelper(object):
         self.properties = self.properties_from_model_obj(self.model())
         self.base_model_name = self.get_base_model_name(self.model.__name__)
         self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
+        self.api_client = self.api_client = ApiClient()
 
         if debug:
             self.enable_debug(reset_logfile)
+
+    def set_client_config(self, **kwargs):
+        """
+        Handles loading client config from a file, or updating the config object with any user provided
+        authentication data.
+        """
+        config_set = False
+        if kwargs.get('kubeconfig') or kwargs.get('context'):
+            # Attempt to load config from file
+            try:
+                config.load_kube_config(config_file=kwargs.get('kubeconfig'),
+                                        context=kwargs.get('context'))
+            except IOError as e:
+                raise OpenShiftException(
+                    "Failed to access {}. Does the file exist?".format(kwargs.get('kubeconfig')), error=str(e)
+                )
+            except ConfigException as e:
+                raise OpenShiftException(
+                    "Error accessing context {}.".format(kwargs.get('context')), error=str(e))
+            config_set = True
+
+        auth_keys = ['api_key', 'host', 'ssl_ca_cert', 'cert_file', 'key_file', 'verify_ssl']
+        for key in auth_keys:
+            if kwargs.get(key, None) is not None:
+                config_set = True
+                if key == 'api_key':
+                    configuration.api_key = {'authorization': kwargs[key]}
+                else:
+                    setattr(configuration, key, kwargs[key])
+        if not config_set:
+            # No configuration parameters were passed, attempt to load default config
+            try:
+                config.load_kube_config()
+            except Exception as e:
+                raise OpenShiftException("Error loading configuration: {}".format(e))
+
+        self.api_client = self.api_client = ApiClient()
 
     @staticmethod
     def enable_debug(reset_logfile=True):
@@ -80,51 +118,20 @@ class KubernetesObjectHelper(object):
         LOGGING['loggers'][__name__]['level'] = 'DEBUG'
         logging_config.dictConfig(LOGGING)
 
-    def set_client_config(self, module_params):
-        """
-        Handles loading client config from a file, or updating the config object with any user provided
-        authentication data.
-
-        :param module_params: dict of params from AnsibleModule
-        :param module_arg_spec: dict containing the Ansible module argument_spec
-        :return: None
-        """
-        if module_params.get('kubeconfig') or module_params.get('context'):
-            # Attempt to load config from file
-            try:
-                config.load_kube_config(config_file=module_params.get('kubeconfig'),
-                                        context=module_params.get('context'))
-            except IOError as e:
-                raise OpenShiftException("Failed to access {}. Does the file exist?".format(
-                    module_params.get('kubeconfig')), error=str(e))
-            except ConfigException as e:
-                raise OpenShiftException("Error accessing context {}.".format(
-                    module_params.get('context')), error=str(e))
-        elif module_params.get('api_url') or module_params.get('api_key') or module_params.get('username'):
-            # Anything in argspec with an auth_option attribute, can be copied
-            for arg_name, arg_value in self.argspec.items():
-                if arg_value.get('auth_option'):
-                    if module_params.get(arg_name, None) is not None:
-                        setattr(client.configuration, arg_name, module_params[arg_name])
-        else:
-            # The user did not pass any options, so load the default kube config file, and use the active
-            # context
-            try:
-                config.load_kube_config()
-            except Exception as e:
-                raise OpenShiftException("Error loading configuration: {}".format(e))
-
     def get_object(self, name, namespace=None):
         k8s_obj = None
         try:
-            get_method = self.__lookup_method('read', namespace)
+            get_method = self.lookup_method('read', namespace)
             if namespace is None:
                 k8s_obj = get_method(name)
             else:
                 k8s_obj = get_method(name, namespace)
         except ApiException as exc:
             if exc.status != 404:
-                msg = json.loads(exc.body).get('message', exc.reason)
+                if exc.body:
+                    msg = json.loads(exc.body).get('message', exc.reason)
+                else:
+                    msg = str(exc)
                 raise OpenShiftException(msg, status=exc.status)
         return k8s_obj
 
@@ -135,7 +142,7 @@ class KubernetesObjectHelper(object):
         self.__remove_creation_timestamps(k8s_obj)
         logger.debug("Patching object: {}".format(json.dumps(k8s_obj.to_dict(), indent=4)))
         try:
-            patch_method = self.__lookup_method('patch', namespace)
+            patch_method = self.lookup_method('patch', namespace)
             if namespace:
                 return_obj = patch_method(name, namespace, k8s_obj)
             else:
@@ -149,7 +156,7 @@ class KubernetesObjectHelper(object):
 
     def create_object(self, namespace, k8s_obj, wait=False, timeout=60):
         try:
-            create_method = self.__lookup_method('create', namespace)
+            create_method = self.lookup_method('create', namespace)
             if namespace is None:
                 return_obj = create_method(k8s_obj)
             else:
@@ -162,7 +169,7 @@ class KubernetesObjectHelper(object):
         return return_obj
 
     def delete_object(self, name, namespace, wait=False, timeout=60):
-        delete_method = self.__lookup_method('delete', namespace)
+        delete_method = self.lookup_method('delete', namespace)
         if not namespace:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
@@ -189,7 +196,7 @@ class KubernetesObjectHelper(object):
         k8s_obj.status = empty_status
         self.__remove_creation_timestamps(k8s_obj)
         try:
-            replace_method = self.__lookup_method('replace', namespace)
+            replace_method = self.lookup_method('replace', namespace)
             if namespace is None:
                 return_obj = replace_method(name, k8s_obj)
             else:
@@ -341,7 +348,7 @@ class KubernetesObjectHelper(object):
             }
         return result
 
-    def __lookup_method(self, operation, namespace=None):
+    def lookup_method(self, operation, namespace=None):
         """
         Get the requested method (e.g. create, delete, patch, update) for
         the model object.
@@ -359,7 +366,7 @@ class KubernetesObjectHelper(object):
         method = None
         for api in apis:
             api_class = getattr(client.apis, api)
-            method = getattr(api_class(), method_name, None)
+            method = getattr(api_class(api_client= self.api_client), method_name, None)
             if method is not None:
                 break
         if method is None:

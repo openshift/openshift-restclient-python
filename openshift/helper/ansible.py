@@ -4,7 +4,6 @@ from __future__ import absolute_import
 import copy
 import json
 import logging
-import re
 import string_utils
 
 from openshift.client import models
@@ -60,7 +59,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             },
 
             # authentication settings
-            'api_url': {
+            'host': {
                 'auth_option': True,
                 'description': ["Provide a URL for acessing the Kubernetes API."]
             },
@@ -83,7 +82,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 ]
             },
             'verify_ssl': {
-                'default': True,
                 'type': 'bool',
                 'auth_option': True,
                 'description': [
@@ -123,13 +121,28 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
 
         argument_spec.update(self.__transform_properties(self.properties))
 
-        if re.search(r'list$', self.base_model_name_snake) and argument_spec.get('items'):
-            # Lists are read only, so having a 'state' option doesn't make sense
+        if not self.has_delete_method:
+            # if no delete method, then we likely don't need a state attribute
             argument_spec.pop('state')
 
         self._argspec_cache = argument_spec
         logger.debug(self.__log_argspec())
         return self._argspec_cache
+
+    @property
+    def has_delete_method(self):
+        """ Determine if the object has a delete method """
+        delete_method = None
+        try:
+            delete_method = self.lookup_method('delete')
+        except:
+            pass
+        if not delete_method:
+            try:
+                delete_method = self.lookup_method('delete', namespace='namespace')
+            except:
+                pass
+        return delete_method is not None
 
     def object_from_params(self, module_params, obj=None):
         """
