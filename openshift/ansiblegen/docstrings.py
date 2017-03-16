@@ -13,7 +13,8 @@ from ruamel.yaml.comments import CommentedMap
 
 from openshift import __version__ as openshift_version
 from openshift.client import models
-from openshift.helper import KubernetesObjectHelper, OpenShiftException
+from openshift.helper import OpenShiftException
+from openshift.helper.ansible import AnsibleModuleHelper
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ class DocStrings(object):
         self.model = model
         self.api_version = api_version
         try:
-            self.helper = KubernetesObjectHelper(self.api_version, self.model)
+            self.helper = AnsibleModuleHelper(self.api_version, self.model, debug=True)
         except OpenShiftException:
             raise
 
@@ -82,13 +83,21 @@ class DocStrings(object):
             if pdict.get('default', None) is not None:
                 doc_string['options'][pname]['default'] = pdict['default']
             if pdict.get('choices'):
-                doc_string['options'][pname]['choices'] = pdict['choices']
+                if isinstance(pdict.get('choices'), dict):
+                    doc_string['options'][pname]['choices'] = [value for key, value in pdict['choices'].items()]
+                else:
+                    doc_string['options'][pname]['choices'] = pdict['choices']
             if pdict.get('aliases'):
                 doc_string['options'][pname]['aliases'] = pdict['aliases']
+            if pdict.get('type') and pdict.get('type') != 'str':
+                doc_string['options'][pname]['type'] = pdict['type']
 
         for param_name in sorted(self.helper.argspec.keys()):
             param_dict = self.helper.argspec[param_name]
-            if param_dict.get('property_path'):
+            if param_name.endswith('params'):
+                descr = [self.__params_descr(param_name)]
+                add_option(param_name, param_dict, descr=descr)
+            elif param_dict.get('property_path'):
                 # parameter comes from the model
                 obj = self.helper.model()
                 for path in param_dict['property_path']:
@@ -107,6 +116,19 @@ class DocStrings(object):
 
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
 
+    def __params_descr(self, name):
+        descr = None
+        for arg in self.helper.argspec:
+            if self.helper.argspec[arg].get('choices'):
+                for key in self.helper.argspec[arg]['choices']:
+                    if key in name:
+                        descr = "When C({0}) is I({1}), provide a mapping of 'key:value' settings.".format(
+                            arg, self.helper.argspec[arg]['choices'][key])
+                        break
+                if descr:
+                    break
+        return descr
+
     @property
     def return_block(self):
         """
@@ -122,7 +144,10 @@ class DocStrings(object):
         obj_name = self.helper.base_model_name_snake
         doc_string[obj_name] = CommentedMap()
         doc_string[obj_name]['type'] = 'complex'
-        doc_string[obj_name]['returned'] = 'when I(state) = C(present)'
+        if self.helper.argspec.get('state'):
+            doc_string[obj_name]['returned'] = 'when I(state) = C(present)'
+        else:
+            doc_string[obj_name]['returned'] = 'on success'
         doc_string[obj_name]['contains'] = CommentedMap()
         obj = self.helper.model()
         self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])
@@ -137,6 +162,7 @@ class DocStrings(object):
         :return: None
         """
         model_class = type(obj)
+        model_name = self.helper.get_base_model_name_snake(model_class.__name__)
         for attribute in dir(model_class):
             if isinstance(getattr(model_class, attribute), property):
                 kind = obj.swagger_types[attribute]
@@ -146,6 +172,20 @@ class DocStrings(object):
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = kind
+                elif attribute.endswith('params'):
+                    # Parameters are associate with a 'type' property. If the object has a 'type', then
+                    #  it will also contain one or more 'param' objects, where each describes its
+                    #  associated type. Rather than list every property of each param object, the
+                    #  following attempts to summarize.
+                    snake_name = string_utils.snake_case_to_camel(attribute.replace('_params', ''))
+                    cap_snake_name = snake_name[:1].capitalize() + snake_name[1:]
+                    model_name_text = ' '.join(model_name.split('_')).capitalize()
+                    doc_key[attribute] = CommentedMap()
+                    doc_key[attribute]['description'] = (
+                        model_name_text + ' parameters when I(type) is {}.'.format(cap_snake_name)
+                    )
+                    doc_key[attribute]['type'] = 'complex'
+                    doc_key[attribute]['returned'] = 'when I(type) is {}'.format(cap_snake_name)
                 elif kind.startswith('list['):
                     class_name = kind.replace('list[', '').replace(']', '')
                     logger.debug(class_name)
@@ -155,7 +195,7 @@ class DocStrings(object):
                     sub_obj = None
                     try:
                         sub_obj = getattr(models, class_name)()
-                    except Exception:
+                    except:
                         pass
                     if sub_obj:
                         doc_key[attribute]['contains'] = CommentedMap()

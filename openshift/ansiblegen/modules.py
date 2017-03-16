@@ -14,7 +14,9 @@ import tempfile
 from jinja2 import Environment, FileSystemLoader
 
 from openshift.client import models as openshift_models
-from openshift.helper import OpenShiftException, VERSION_RX
+from openshift.helper import VERSION_RX
+from openshift.helper.exceptions import OpenShiftException
+
 from .docstrings import DocStrings
 
 logger = logging.getLogger(__name__)
@@ -37,7 +39,8 @@ class Modules(object):
         self.models = []
         requested_models = kwargs.pop('models')
         for model, model_class in inspect.getmembers(openshift_models):
-            if 'kind' in dir(model_class) and 'metadata' in dir(model_class):
+            if 'kind' in dir(model_class) and \
+                    ('metadata' in dir(model_class) or 'spec' in dir(model_class)):
                 # models with a 'kind' are top-level objects that we care about
                 matches = VERSION_RX.match(model)
                 if not matches:
@@ -88,7 +91,7 @@ class Modules(object):
                 logger.debug("success!")
             except Exception as exc:
                 logger.debug("failed!!")
-                raise OpenShiftException(str(exc))
+                raise
 
             context = {
                 'documentation_string': documentation,

@@ -1,42 +1,58 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import print_function
+
 import copy
-import pytest
-import uuid
 
 
-@pytest.fixture()
-def project(k8s_helper):
-    name = "test-{}".format(uuid.uuid4())
-    project_obj = k8s_helper.model(metadata={'name': name})
-    project = k8s_helper.create_object(None, project_obj)
-    assert project is not None
-    assert project.kind == 'Project'
-    assert project.api_version == 'v1'
-    assert project.metadata.name == name
-
-    yield project
-
-    k8s_helper.delete_object(name, None)
+def test_create_project(ansible_helper, create_tasks, obj_compare, create_namespace):
+    parameters = create_tasks['create']
+    new_obj = ansible_helper.object_from_params(parameters)
+    namespace = parameters.get('namespace')
+    if namespace:
+        create_namespace(namespace)
+    k8s_obj = ansible_helper.create_object(namespace, new_obj)
+    obj_compare(ansible_helper, k8s_obj, parameters)
 
 
-@pytest.mark.skip(reason="project fields are immutable")
-def test_project_patch(k8s_helper, project):
-    ns_copy = copy.deepcopy(project)
-    ns_copy.metadata.labels = {'test-label': 'test-value'}
-    patch_result = k8s_helper.patch_object(project.metadata.name, None, ns_copy)
-    assert patch_result is not None
-    assert patch_result.metadata.name == project.metadata.name
-    assert patch_result != project
-    assert patch_result.metadata.labels == {'test-label': 'test-value'}
+def test_get_project(ansible_helper, create_tasks):
+    parameters = create_tasks['create']
+    namespace = parameters.get('namespace')
+    k8s_obj = ansible_helper.get_object(parameters['name'], namespace)
+    assert k8s_obj is not None
 
 
-def test_project_exists(k8s_helper, project):
-    get_result = k8s_helper.get_object(project.metadata.name)
-    assert get_result is not None
-    assert get_result.metadata.name == project.metadata.name
-    assert get_result.metadata.uid == project.metadata.uid
+def test_patch_project(ansible_helper, patch_tasks, obj_compare):
+    parameters = patch_tasks['patch']
+    namespace = parameters.get('namespace')
+    existing_obj = ansible_helper.get_object(parameters['name'], namespace)
+    updated_obj = copy.deepcopy(existing_obj)
+    ansible_helper.object_from_params(parameters, obj=updated_obj)
+    match = ansible_helper.objects_match(existing_obj, updated_obj)
+    assert not match
+    new_obj = ansible_helper.patch_object(parameters['name'], namespace, updated_obj)
+    assert new_obj is not None
+    obj_compare(ansible_helper, new_obj, parameters)
 
 
-def test_get_exists_not(k8s_helper):
-    name = "does-not-exist-{}".format(uuid.uuid4())
-    project = k8s_helper.get_object(name)
-    assert project is None
+def test_replace_project(ansible_helper, replace_tasks, obj_compare):
+    parameters = replace_tasks['replace']
+    name = parameters.get('name')
+    namespace = parameters.get('namespace')
+    existing_obj = ansible_helper.get_object(name, namespace)
+    ansible_helper.object_from_params(parameters, obj=existing_obj)
+    k8s_obj = ansible_helper.replace_object(name, namespace, existing_obj)
+    obj_compare(ansible_helper, k8s_obj, parameters)
+
+
+def test_remove_project(ansible_helper, create_tasks):
+    parameters = create_tasks['create']
+    namespace = parameters.get('namespace')
+    ansible_helper.delete_object(parameters['name'], namespace)
+    k8s_obj = ansible_helper.get_object(parameters['name'], namespace)
+    assert k8s_obj is None
+
+
+def test_remove_namespace(namespaces, delete_namespace):
+    k8s_obj = delete_namespace(namespaces)
+    assert k8s_obj is None
