@@ -81,10 +81,8 @@ class KubernetesObjectHelper(object):
 
     def set_client_config(self, **kwargs):
         """ Convenience method for updating the configuration object, and instantiating a new client """
-        logger.debug("Setting client config!!")
         if kwargs.get('kubeconfig') or kwargs.get('context'):
             # Attempt to load config from file
-            logger.debug("set context: {}".format(kwargs['context']))
             try:
                 config.load_kube_config(config_file=kwargs.get('kubeconfig'),
                                         context=kwargs.get('context'))
