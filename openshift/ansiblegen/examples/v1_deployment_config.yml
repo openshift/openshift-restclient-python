@@ -12,6 +12,7 @@
       ports:
       - container_port: 8080
         protocol: TCP
+        name: http-port
     replicas: 5
     selector:
       name: frontend
@@ -39,6 +40,7 @@
       ports:
       - container_port: 9000
         protocol: UDP
+        name: udp-port
     replicas: 3
   name: Patch deployment config
 
@@ -53,6 +55,7 @@
       ports:
       - container_port: 8888
         protocol: TCP
+        name: http-port
     replicas: 2
     selector:
       name: frontend_app
