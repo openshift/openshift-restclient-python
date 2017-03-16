@@ -195,8 +195,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         :param param_value: The value to set.
         :return: The original object.
         """
-        if param_value is None:
-            return obj
 
         logger.debug("set_obj_attribute {0}, {1} to {2}".format(obj.__class__.__name__,
                                                                 json.dumps(property_path),
@@ -206,7 +204,15 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             prop_kind = obj.swagger_types[prop_name]
             if prop_kind in ('str', 'int', 'bool'):
                 # prop_kind is a primitive
-                setattr(obj, prop_name, param_value)
+                try:
+                    setattr(obj, prop_name, param_value)
+                except ValueError as exc:
+                    if param_value is None and 'None' in exc.message:
+                        pass
+                    else:
+                        raise OpenShiftException(
+                            "Error setting {0} to {1}: {2}".format(prop_name, param_value, exc.message)
+                        )
             elif prop_kind.startswith('dict('):
                 if not getattr(obj, prop_name):
                     setattr(obj, prop_name, param_value)
@@ -441,7 +447,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         def snake_case(name):
             result = string_utils.snake_case_to_camel(name.replace('_params', ''))
             return result[:1].capitalize() + result[1:]
-        return [snake_case(x) for x in list(properties.keys()) if x.endswith('params')]
+        choices = {}
+        for x in list(properties.keys()):
+            if x.endswith('params'):
+                choices[x] = snake_case(x)
+        return choices
 
     def __transform_properties(self, properties, prefix='', path=None, alternate_prefix='', hidden=False):
         """
@@ -499,7 +509,8 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                         'required': True,
                     }
                     add_meta('name', meta_prefix, meta_alt_prefix)
-            elif prop_attributes['class'].__name__ not in ('int', 'str', 'bool', 'list', 'dict'):
+            elif prop_attributes['class'].__name__ not in ('int', 'str', 'bool', 'list', 'dict') and \
+                    not prop.endswith('params'):
                 # Adds nested properties recursively
 
                 # As we traverse deeper into nested properties, we prefix the final primitive property name with the
@@ -535,15 +546,22 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     p += '_' + label if p else label
                 if alternate_label != self.base_model_name and alternate_label not in a:
                     a += '_' + alternate_label if a else alternate_label
-                sub_is_hidden = hidden
+                #sub_is_hidden = hidden
                 if prop.endswith('params') and 'type' in properties:
                     # If the object contains a 'type' field (e.g. v1_deployment_trigger_policy),
                     # then '_params' objects should not be picked up by the Ansible module.
-                    sub_is_hidden = True
-
-                sub_props = self.properties_from_model_obj(prop_attributes['class']())
-                args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a,
-                                                        hidden=sub_is_hidden))
+                    #sub_is_hidden = True
+                    sub_props = {}
+                    sub_props[prop] = {
+                        'class': dict,
+                        'immutable': False
+                    }
+                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a,
+                                                            hidden=False))
+                else:
+                    sub_props = self.properties_from_model_obj(prop_attributes['class']())
+                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a,
+                                                            hidden=False))
             else:
                 # Adds a primitive property
                 arg_prefix = prefix + '_' if prefix else ''
@@ -556,11 +574,14 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     'property_path': paths
                 }
 
+                if prop.endswith('params') and 'type' in properties:
+                    args[arg_prefix + prop]['type'] = 'dict'
+
                 if hidden:
                     args[arg_prefix + prop]['hide_from_module'] = True
 
                 # Use the alternate prefix to construct a human-friendly alias
-                if arg_alt_prefix:
+                if arg_alt_prefix and arg_prefix != arg_alt_prefix:
                     args[arg_prefix + prop]['aliases'] = [arg_alt_prefix + prop]
                 elif arg_prefix:
                     args[arg_prefix + prop]['aliases'] = [prop]

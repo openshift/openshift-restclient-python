@@ -83,15 +83,21 @@ class DocStrings(object):
             if pdict.get('default', None) is not None:
                 doc_string['options'][pname]['default'] = pdict['default']
             if pdict.get('choices'):
-                doc_string['options'][pname]['choices'] = pdict['choices']
+                if isinstance(pdict.get('choices'), dict):
+                    doc_string['options'][pname]['choices'] = [value for key, value in pdict['choices'].items()]
+                else:
+                    doc_string['options'][pname]['choices'] = pdict['choices']
             if pdict.get('aliases'):
                 doc_string['options'][pname]['aliases'] = pdict['aliases']
+            if pdict.get('type') and pdict.get('type') != 'str':
+                doc_string['options'][pname]['type'] = pdict['type']
 
         for param_name in sorted(self.helper.argspec.keys()):
             param_dict = self.helper.argspec[param_name]
-            if param_dict.get('hide_from_module'):
-                continue
-            if param_dict.get('property_path'):
+            if param_name.endswith('params'):
+                descr = [self.__params_descr(param_name)]
+                add_option(param_name, param_dict, descr=descr)
+            elif param_dict.get('property_path'):
                 # parameter comes from the model
                 obj = self.helper.model()
                 for path in param_dict['property_path']:
@@ -109,6 +115,19 @@ class DocStrings(object):
                 add_option(param_name, param_dict)
 
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
+
+    def __params_descr(self, name):
+        descr = None
+        for arg in self.helper.argspec:
+            if self.helper.argspec[arg].get('choices'):
+                for key in self.helper.argspec[arg]['choices']:
+                    if key in name:
+                        descr = "When C({0}) is I({1}), provide a mapping of 'key:value' settings.".format(
+                            arg, self.helper.argspec[arg]['choices'][key])
+                        break
+                if descr:
+                    break
+        return descr
 
     @property
     def return_block(self):

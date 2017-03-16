@@ -12,7 +12,7 @@ import string_utils
 
 from logging import config as logging_config
 
-from kubernetes import config
+from kubernetes import config, watch
 from kubernetes.client.rest import ApiException
 from kubernetes.config.config_exception import ConfigException
 
@@ -61,21 +61,22 @@ LOGGING = {
 
 class KubernetesObjectHelper(object):
 
-    def __init__(self, api_version, kind, debug=False, reset_logfile=True):
+    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=60):
         self.api_version = api_version
         self.kind = kind
         self.model = self.get_model(api_version, kind)
         self.properties = self.properties_from_model_obj(self.model())
         self.base_model_name = self.get_base_model_name(self.model.__name__)
         self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
+        self.timeout = timeout  # number of seconds to wait for an API request
 
         if debug:
             self.enable_debug(reset_logfile)
 
         try:
             config.load_kube_config()
-        except Exception as e:
-            logger.debug("Loading default config: {}".format(e))
+        except Exception as exc:
+            logger.debug("Unable to load default config: {}".format(exc))
 
         self.api_client = self.api_client = ApiClient()
 
@@ -133,6 +134,7 @@ class KubernetesObjectHelper(object):
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
         self.__remove_creation_timestamps(k8s_obj)
+        #w, stream = self.__create_stream(namespace)
         logger.debug("Patching object: {}".format(json.dumps(k8s_obj.to_dict(), indent=4)))
         try:
             patch_method = self.lookup_method('patch', namespace)
@@ -143,26 +145,28 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason)
             raise OpenShiftException(msg, status=exc.status)
-        if wait:
-            return_obj = self.__wait_for_response(name, namespace, timeout)
+        #return_obj = self.__read_stream(w, stream, 'patch', name, namespace)
+        return_obj = self.__wait_for_response(name, namespace, 'patch')
         return return_obj
 
-    def create_object(self, namespace, k8s_obj, wait=False, timeout=60):
+    def create_object(self, namespace, k8s_obj):
+        #w, stream = self.__create_stream(namespace)
         try:
             create_method = self.lookup_method('create', namespace)
             if namespace is None:
-                return_obj = create_method(k8s_obj)
+                create_method(k8s_obj)
             else:
-                return_obj = create_method(namespace, k8s_obj)
+                create_method(namespace, k8s_obj)
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason)
             raise OpenShiftException(msg, status=exc.status)
-        if wait:
-            return_obj = self.__wait_for_response(k8s_obj.metadata.name, namespace, timeout)
+        #return_obj = self.__read_stream(w, stream, 'create', k8s_obj.metadata.name, namespace)
+        return_obj = self.__wait_for_response(k8s_obj.metadata.name, namespace, 'create')
         return return_obj
 
-    def delete_object(self, name, namespace, wait=False, timeout=60):
+    def delete_object(self, name, namespace):
         delete_method = self.lookup_method('delete', namespace)
+        #w, stream = self.__create_stream(namespace)
         if not namespace:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
@@ -181,13 +185,14 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason)
                 raise OpenShiftException(msg, status=exc.status)
-        if wait:
-            self.__wait_for_response(name, namespace, timeout=timeout, delete=True)
+        #self.__read_stream(w, stream, 'delete', name, namespace)
+        self.__wait_for_response(name, namespace, 'delete')
 
-    def replace_object(self, name, namespace, k8s_obj, wait=False, timeout=60):
+    def replace_object(self, name, namespace, k8s_obj):
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         self.__remove_creation_timestamps(k8s_obj)
+        #w, stream = self.__create_stream(namespace)
         try:
             replace_method = self.lookup_method('replace', namespace)
             if namespace is None:
@@ -197,28 +202,9 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason)
             raise OpenShiftException(msg, status=exc.status)
-        if wait:
-            return_obj = self.__wait_for_response(k8s_obj.metadata.name, namespace, timeout)
+        #retur_obj = self.__read_stream(w, stream, 'replace', name, namespace)
+        return_obj = self.__wait_for_response(name, namespace, 'replace')
         return return_obj
-
-    def __wait_for_response(self, name, namespace, timeout, delete=False):
-        """ Wait for an API response """
-        tries = 0
-        half = math.ceil(timeout / 2)
-        obj = None
-        while tries <= half:
-            obj = self.get_object(name, namespace)
-            if delete:
-                if not obj:
-                    break
-            elif obj and obj.status and hasattr(obj.status, 'phase'):
-                if obj.status.phase == 'Active':
-                    break
-            elif obj and obj.status:
-                break
-            tries += 2
-            time.sleep(2)
-        return obj
 
     def objects_match(self, obj_a, obj_b):
         """ Test the equality of two objects. """
@@ -285,7 +271,7 @@ class KubernetesObjectHelper(object):
         method = None
         for api in apis:
             api_class = getattr(client.apis, api)
-            method = getattr(api_class(api_client= self.api_client), method_name, None)
+            method = getattr(api_class(), method_name, None)
             if method is not None:
                 break
         if method is None:
@@ -348,3 +334,75 @@ class KubernetesObjectHelper(object):
                     continue
                 if getattr(obj, key) is not None:
                     self.__remove_creation_timestamps(getattr(obj, key))
+
+    def __wait_for_response(self, name, namespace, action):
+        """ Wait for an API response """
+        tries = 0
+        half = math.ceil(self.timeout / 2)
+        obj = None
+        while tries <= half:
+            obj = self.get_object(name, namespace)
+            if action == 'delete':
+                if not obj:
+                    break
+            elif obj and obj.status and hasattr(obj.status, 'phase'):
+                if obj.status.phase == 'Active':
+                    break
+            elif obj and obj.status:
+                break
+            tries += 2
+            time.sleep(2)
+        return obj
+
+    def __create_stream(self, namespace):
+        """ Create a stream that gets events for the our model """
+        w = watch.Watch()
+        w._api_client = self.api_client # monkey patch for access to OpenShift models
+        list_method = self.lookup_method('list', namespace)
+        if namespace:
+            stream = w.stream(list_method, namespace, _request_timeout=self.timeout)
+        else:
+            stream = w.stream(list_method, _request_timeout=self.timeout)
+        return w, stream
+
+    def __read_stream(self, watcher, stream, action, name, namespace):
+        #TODO https://cobe.io/blog/posts/kubernetes-watch-python/    <--- might help?
+        return_obj = None
+        try:
+            for event in stream:
+                logger.debug(
+                    "EVENT type: {0} object: {1} {2} requested action: {3}".format(event['type'],
+                                                                                   event['object'].kind,
+                                                                                   event['object'].metadata.name,
+                                                                                   action)
+                )
+
+                #TODO: Are these the correct event['type'] names?
+
+                if action == 'create' and event['type'] == 'ADDED':
+                    return_obj = event['object']
+                elif action == 'delete' and event['type'] == 'DELETED':
+                    return_obj = None
+                    watcher.stop()
+                    break
+                elif action in ('patch', 'replace') and event['type'] == 'MODIFIED':
+                    return_obj = event['object']
+
+                if return_obj and return_obj.metadata.name == name and return_obj.metadata.namespace == namespace:
+                    if return_obj.status and hasattr(return_obj.status, 'phase'):
+                        if return_obj.status.phase == 'active':
+                            watcher.stop()
+                            break
+                    elif return_obj.status:
+                        watcher.stop()
+                        break
+        except Exception as exc:
+            # A timeout occurred
+            logger.debug('STREAM FAILED: {}'.format(exc))
+            pass
+
+        if action != 'delete' and return_obj is None:
+            # Somehow we didn't get an event that matched our object
+            return_obj = self.get_object(name, namespace)
+
+        return return_obj

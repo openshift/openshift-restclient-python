@@ -91,7 +91,7 @@ class Modules(object):
                 logger.debug("success!")
             except Exception as exc:
                 logger.debug("failed!!")
-                raise OpenShiftException(str(exc))
+                raise
 
             context = {
                 'documentation_string': documentation,

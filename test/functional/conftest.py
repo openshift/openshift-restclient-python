@@ -4,7 +4,6 @@ from __future__ import print_function
 
 import copy
 import io
-import json
 import os
 import tarfile
 import time
@@ -14,11 +13,12 @@ import docker
 import pytest
 import requests
 
-from kubernetes import config
 from openshift.helper import KubernetesObjectHelper
 from openshift.client import models
 from openshift.helper.ansible import AnsibleModuleHelper
 
+if os.path.exists(os.path.join(os.getcwd(), 'KubeObjHelper.log')):
+    os.remove(os.path.join(os.getcwd(), 'KubeObjHelper.log'))
 
 @pytest.fixture(scope='session')
 def openshift_container(request):
@@ -126,7 +126,7 @@ def delete_namespace():
         helper = KubernetesObjectHelper('v1', 'namespace')
         k8s_obj = helper.get_object(namespace)
         if k8s_obj:
-            helper.delete_object(namespace, None, wait=True)
+            helper.delete_object(namespace, None)
             k8s_obj = helper.get_object(namespace)
         return k8s_obj
     return delete_func
