@@ -45,6 +45,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             },
             'kubeconfig': {
                 'type': 'path',
+                'auth_option': True,
                 'description': [
                     "Path to an existing Kubernetes config file. If not provided, and no other connection "
                     "options are provided, the openshift client will attempt to load the default configuration "
@@ -53,6 +54,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
 
             # kubectl context name
             'context': {
+                'auth_option': True,
                 'description': [
                     "The name of a context found in the Kubernetes config file."
                 ]
@@ -193,6 +195,9 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         :param param_value: The value to set.
         :return: The original object.
         """
+        if param_value is None:
+            return obj
+
         logger.debug("set_obj_attribute {0}, {1} to {2}".format(obj.__class__.__name__,
                                                                 json.dumps(property_path),
                                                                 json.dumps(param_value)))
@@ -302,6 +307,9 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         src_value with differences. Assumes each object and each dict has a 'name' attributes,
         which can be used for matching. Elements are not removed from the src_value list.
         """
+        if not request_value:
+            return
+
         sample_obj = getattr(models, obj_class)()
 
         # Try to determine the unique key for the array
@@ -315,16 +323,17 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 key_name = key
                 break
 
-        if key_name and request_value[0].get(key_name):
+        if key_name:
             # compare by key field
             for item in request_value:
                 if not item.get(key_name):
+                    # Prevent user from creating something that will be impossible to patch or update later
                     logger.debug("FAILED on: {}".format(item))
                     raise OpenShiftException(
-                        "Evaluating {0} - expecting dict to contain a `{1}` attribute "
-                        "in __compare_obj_list()  for model {2}.".format(param_name,
-                                                                         key_name,
-                                                                         self.get_base_model_name_snake(obj_class))
+                        "Evaluating {0} - expecting parameter {1} to contain a `{2}` attribute "
+                        "in __compare_obj_list().".format(param_name,
+                                                          self.get_base_model_name_snake(obj_class),
+                                                          key_name)
                     )
                 found = False
                 for obj in src_value:
@@ -362,6 +371,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                                         self.get_base_model_name_snake(obj_class))
                                 )
                 if not found:
+                    # Requested item not found. Adding.
                     src_value.append(
                         self.__update_object_properties(getattr(models, obj_class)(), item)
                     )

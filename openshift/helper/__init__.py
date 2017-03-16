@@ -68,19 +68,23 @@ class KubernetesObjectHelper(object):
         self.properties = self.properties_from_model_obj(self.model())
         self.base_model_name = self.get_base_model_name(self.model.__name__)
         self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
-        self.api_client = self.api_client = ApiClient()
 
         if debug:
             self.enable_debug(reset_logfile)
 
+        try:
+            config.load_kube_config()
+        except Exception as e:
+            logger.debug("Loading default config: {}".format(e))
+
+        self.api_client = self.api_client = ApiClient()
+
     def set_client_config(self, **kwargs):
-        """
-        Handles loading client config from a file, or updating the config object with any user provided
-        authentication data.
-        """
-        config_set = False
+        """ Convenience method for updating the configuration object, and instantiating a new client """
+        logger.debug("Setting client config!!")
         if kwargs.get('kubeconfig') or kwargs.get('context'):
             # Attempt to load config from file
+            logger.debug("set context: {}".format(kwargs['context']))
             try:
                 config.load_kube_config(config_file=kwargs.get('kubeconfig'),
                                         context=kwargs.get('context'))
@@ -91,23 +95,14 @@ class KubernetesObjectHelper(object):
             except ConfigException as e:
                 raise OpenShiftException(
                     "Error accessing context {}.".format(kwargs.get('context')), error=str(e))
-            config_set = True
 
         auth_keys = ['api_key', 'host', 'ssl_ca_cert', 'cert_file', 'key_file', 'verify_ssl']
         for key in auth_keys:
             if kwargs.get(key, None) is not None:
-                config_set = True
                 if key == 'api_key':
                     configuration.api_key = {'authorization': kwargs[key]}
                 else:
                     setattr(configuration, key, kwargs[key])
-        if not config_set:
-            # No configuration parameters were passed, attempt to load default config
-            try:
-                config.load_kube_config()
-            except Exception as e:
-                raise OpenShiftException("Error loading configuration: {}".format(e))
-
         self.api_client = self.api_client = ApiClient()
 
     @staticmethod
@@ -235,81 +230,7 @@ class KubernetesObjectHelper(object):
             return False
         if type(obj_a).__name__ != type(obj_b).__name__:
             return False
-        dict_a = obj_a.to_dict()
-        dict_b = obj_b.to_dict()
-        return self.__match_dict(dict_a, dict_b)
-
-    def __match_dict(self, dict_a, dict_b):
-        if not dict_a and not dict_b:
-            return True
-        if not dict_a or not dict_b:
-            return False
-        match = True
-        for key_a, value_a in dict_a.items():
-            if key_a not in dict_b:
-                logger.debug("obj_compare: {0} not found in {1}".format(key_a, dict_b))
-                match = False
-                break
-            elif value_a is None and dict_b[key_a] is None:
-                continue
-            elif value_a is None or dict_b[key_a] is None:
-                logger.debug("obj_compare: {0}:{1} !=  {2}:{3}".format(key_a, value_a, key_a, dict_b[key_a]))
-                match = False
-                break
-            elif type(value_a).__name__ == 'list':
-                sub_match = self.__match_list(value_a, dict_b[key_a])
-                if not sub_match:
-                    match = False
-                    logger.debug("obj_compare: {0}:{1} !=  {2}:{3}".format(key_a, value_a, key_a, dict_b[key_a]))
-                    break
-            elif type(value_a).__name__ == 'dict':
-                sub_match = self.__match_dict(value_a, dict_b[key_a])
-                if not sub_match:
-                    match = False
-                    logger.debug("obj_compare: {0}:{1} !=  {2}:{3}".format(key_a, value_a, key_a, dict_b[key_a]))
-                    break
-            elif value_a != dict_b[key_a]:
-                logger.debug("obj_compare: {0}:{1} !=  {2}:{3}".format(key_a, value_a, key_a, dict_b[key_a]))
-                match = False
-                break
-        return match
-
-    def __match_list(self, list_a, list_b):
-        if not list_a and not list_b:
-            return True
-        if not list_a or not list_b:
-            return False
-        match = True
-        if type(list_a[0]).__name__ == 'dict':
-            for item_a in list_a:
-                found = False
-                for item_b in list_b:
-                    if '__cmp__' in dir(item_b):
-                        if item_a == item_b:
-                            found = True
-                            break
-                    else:
-                        if item_a.items() == item_b.items():
-                            found = True
-                            break
-                if not found:
-                    match = False
-                    break
-        elif type(list_a[0]).__name__ == 'list':
-            for item_a in list_a:
-                found = False
-                for item_b in list_b:
-                    sub_match = self.__match_list(item_a, item_b)
-                    if sub_match:
-                        found = True
-                        break
-                if not found:
-                    match = False
-                    break
-        else:
-            if set(list_a) != set(list_b):
-                match = False
-        return match
+        return obj_a == obj_b
 
     @classmethod
     def properties_from_model_obj(cls, model_obj):
