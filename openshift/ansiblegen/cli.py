@@ -31,7 +31,7 @@ LOGGING = {
             'openshift': {
                 'handlers': ['console'],
                 'level': 'INFO',
-                'propagate': False
+                'propagate': True
             },
         },
         'root': {

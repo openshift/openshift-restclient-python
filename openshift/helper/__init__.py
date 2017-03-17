@@ -114,10 +114,13 @@ class KubernetesObjectHelper(object):
 
     def get_object(self, name, namespace=None):
         k8s_obj = None
+        method_name = 'list' if self.kind.endswith('list') else 'read'
         try:
-            get_method = self.lookup_method('read', namespace)
-            if namespace is None:
+            get_method = self.lookup_method(method_name, namespace)
+            if name and namespace is None:
                 k8s_obj = get_method(name)
+            elif namespace and not name:
+                k8s_obj = get_method(namespace)
             else:
                 k8s_obj = get_method(name, namespace)
         except ApiException as ex:
@@ -285,7 +288,7 @@ class KubernetesObjectHelper(object):
 
         method_name = operation
         method_name += '_namespaced_' if namespace else '_'
-        method_name += self.kind
+        method_name += self.kind.replace('_list', '') if self.kind.endswith('_list') else self.kind
 
         apis = [x for x in dir(client.apis) if VERSION_RX.search(x)]
         apis.append('OapiApi')

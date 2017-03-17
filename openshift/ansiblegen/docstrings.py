@@ -18,6 +18,7 @@ from openshift.helper.ansible import AnsibleModuleHelper
 
 logger = logging.getLogger(__name__)
 
+
 # Once the modules land in Ansible core, this should not change
 ANSIBLE_VERSION_ADDED = "2.3.0"
 
@@ -92,7 +93,7 @@ class DocStrings(object):
             if pdict.get('type') and pdict.get('type') != 'str':
                 doc_string['options'][pname]['type'] = pdict['type']
 
-        for param_name in sorted(self.helper.argspec.keys()):
+        for param_name in sorted([x for x, _ in self.helper.argspec.items()]):
             param_dict = self.helper.argspec[param_name]
             if param_name.endswith('params'):
                 descr = [self.__params_descr(param_name)]

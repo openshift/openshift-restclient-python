@@ -123,7 +123,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
 
         argument_spec.update(self.__transform_properties(self.properties))
 
-        if not self.has_delete_method:
+        if not self.has_method('delete'):
             # if no delete method, then we likely don't need a state attribute
             argument_spec.pop('state')
 
@@ -131,20 +131,23 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         logger.debug(self.__log_argspec())
         return self._argspec_cache
 
-    @property
-    def has_delete_method(self):
-        """ Determine if the object has a delete method """
-        delete_method = None
+    def has_method(self, method_action):
+        """
+        Determine if the object has a particular method.
+
+        :param method_action: string. one of 'create', 'update', 'delete', 'patch', 'list'
+        """
+        method = None
         try:
-            delete_method = self.lookup_method('delete')
+            method = self.lookup_method(method_action)
         except:
             pass
-        if not delete_method:
+        if not method:
             try:
-                delete_method = self.lookup_method('delete', namespace='namespace')
+                method = self.lookup_method(method_action, namespace='namespace')
             except:
                 pass
-        return delete_method is not None
+        return method is not None
 
     def object_from_params(self, module_params, obj=None):
         """
@@ -453,7 +456,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 choices[x] = snake_case(x)
         return choices
 
-    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix='', hidden=False):
+    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix=''):
         """
         Convert a list of properties to an argument_spec dictionary
 
@@ -478,17 +481,22 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             prop_paths.append('metadata')
             prop_paths.append(prop_name)
             args[prop_prefix + prop_name]['property_path'] = prop_paths
-            if hidden:
-                args[prop_prefix + prop_name]['hide_from_module'] = True
 
         for prop, prop_attributes in properties.items():
-            if prop in ('api_version', 'status', 'kind') and not prefix:
+            if prop in ('api_version', 'status', 'kind', 'items') and not prefix:
                 # Don't expose these properties
                 continue
             elif prop_attributes['immutable']:
                 # Property cannot be set by the user
                 continue
-            elif prop == 'metadata':
+            elif prop == 'metadata' and prop_attributes['class'].__name__ == 'UnversionedListMeta':
+                args['namespace'] = {
+                    'description': [
+                        'Namespaces provide a scope for names. Names of resources need to be unique within a '
+                        'namespace, but not across namespaces. Provide the namespace for the object.'
+                    ]
+                }
+            elif prop == 'metadata' and prop_attributes['class'].__name__ != 'UnversionedListMeta':
                 meta_prefix = prefix + '_metadata_' if prefix else ''
                 meta_alt_prefix = alternate_prefix + '_metadata_' if alternate_prefix else ''
                 if 'labels' in dir(prop_attributes['class']):
@@ -546,22 +554,16 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     p += '_' + label if p else label
                 if alternate_label != self.base_model_name and alternate_label not in a:
                     a += '_' + alternate_label if a else alternate_label
-                #sub_is_hidden = hidden
                 if prop.endswith('params') and 'type' in properties:
-                    # If the object contains a 'type' field (e.g. v1_deployment_trigger_policy),
-                    # then '_params' objects should not be picked up by the Ansible module.
-                    #sub_is_hidden = True
                     sub_props = {}
                     sub_props[prop] = {
                         'class': dict,
                         'immutable': False
                     }
-                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a,
-                                                            hidden=False))
+                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
                 else:
                     sub_props = self.properties_from_model_obj(prop_attributes['class']())
-                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a,
-                                                            hidden=False))
+                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
             else:
                 # Adds a primitive property
                 arg_prefix = prefix + '_' if prefix else ''
@@ -576,9 +578,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
 
                 if prop.endswith('params') and 'type' in properties:
                     args[arg_prefix + prop]['type'] = 'dict'
-
-                if hidden:
-                    args[arg_prefix + prop]['hide_from_module'] = True
 
                 # Use the alternate prefix to construct a human-friendly alias
                 if arg_alt_prefix and arg_prefix != arg_alt_prefix:
