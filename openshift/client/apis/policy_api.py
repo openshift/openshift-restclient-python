@@ -120,7 +120,7 @@ class PolicyApi(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
