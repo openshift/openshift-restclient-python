@@ -14,7 +14,6 @@ import docker
 import pytest
 import requests
 
-from openshift.helper import KubernetesObjectHelper
 from openshift.client import models
 from openshift.helper.ansible import AnsibleModuleHelper
 
@@ -44,7 +43,7 @@ def openshift_container(request):
             # Wait for the api server to be ready before continuing
             for _ in range(10):
                 try:
-                    resp = requests.head("https://127.0.0.1:8443/healthz/ready", verify=False)
+                    requests.head("https://127.0.0.1:8443/healthz/ready", verify=False)
                 except requests.RequestException:
                     pass
                 time.sleep(1)
@@ -62,7 +61,7 @@ def kubeconfig(openshift_container, tmpdir_factory):
     # get_archive returns a stream of the tar archive containing the requested
     # files/directories, so we need use BytesIO as an intermediate step.
     if openshift_container is None:
-        return  None
+        return None
     else:
         tar_stream, _ = openshift_container.get_archive('/var/lib/origin/openshift.local.config/master/admin.kubeconfig')
         tar_obj = tarfile.open(fileobj=io.BytesIO(tar_stream.read()))
@@ -93,7 +92,8 @@ def obj_compare():
         """ Assert that an object matches an expected object """
         requested = copy.deepcopy(k8s_obj)
         ansible_helper.object_from_params(parameters, obj=requested)
-        assert ansible_helper.objects_match(k8s_obj, requested)
+        match, _ = ansible_helper.objects_match(k8s_obj, requested)
+        assert match
     return compare_func
 
 

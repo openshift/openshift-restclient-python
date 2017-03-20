@@ -128,7 +128,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             argument_spec.pop('state')
 
         self._argspec_cache = argument_spec
-        logger.debug(self.__log_argspec())
+        self.log_argspec()
         return self._argspec_cache
 
     def has_method(self, method_action):
@@ -164,12 +164,68 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             obj.api_version = self.api_version.lower()
         for param_name, param_value in module_params.items():
             spec = self.find_arg_spec(param_name)
-            if spec.get('property_path'):
+            if param_value is not None and spec.get('property_path'):
                 prop_path = copy.copy(spec['property_path'])
                 self.__set_obj_attribute(obj, prop_path, param_value, param_name)
         logger.debug("Object from params:")
         logger.debug(json.dumps(obj.to_dict(), indent=4))
         return obj
+
+    def request_body_from_params(self, module_params):
+        request = {
+            'kind': self.base_model_name,
+            'apiVersion': self.api_version.lower()
+        }
+        for param_name, param_value in module_params.items():
+            spec = self.find_arg_spec(param_name)
+            if spec and spec.get('property_path') and param_value is not None:
+                self.__add_path_to_dict(request, param_name, param_value, spec['property_path'])
+        logger.debug('request_body:')
+        logger.debug(json.dumps(request, indent=4))
+        return request
+
+    def __add_path_to_dict(self, request_dict, param_name, param_value, path):
+        local_path = copy.copy(path)
+        spec = self.find_arg_spec(param_name)
+        while len(local_path):
+            p = local_path.pop(0)
+            if len(local_path):
+                if request_dict.get(p, None) is None:
+                    request_dict[p] = {}
+                self.__add_path_to_dict(request_dict[p], param_name, param_value, local_path)
+                break
+            else:
+                param_type = spec.get('type', 'str')
+                if param_type == 'dict':
+                    request_dict[p] = self.__dict_keys_to_camel(param_value)
+                elif param_type == 'list':
+                    request_dict[p] = self.__list_keys_to_camel(param_value)
+                else:
+                    request_dict[p] = param_value
+
+    def __dict_keys_to_camel(self, param_dict):
+        result = {}
+        for item, value in param_dict.items():
+            camel_name = string_utils.snake_case_to_camel(item)
+            key_name = camel_name[:1].lower() + camel_name[1:]
+            key_name = key_name[1:] if key_name.startswith('_') else key_name
+            if value:
+                if isinstance(value, list):
+                    result[key_name] = self.__list_keys_to_camel(value)
+                elif isinstance(value, dict):
+                    result[key_name] = self.__dict_keys_to_camel(value)
+                else:
+                    result[key_name] = value
+        return result
+
+    def __list_keys_to_camel(self, param_list):
+        result = []
+        if isinstance(param_list[0], dict):
+            for item in param_list:
+                result.append(self.__dict_keys_to_camel(item))
+        else:
+            result = param_list
+        return result
 
     def find_arg_spec(self, module_param_name):
         """For testing, allow the param_name value to be an alias"""
@@ -236,6 +292,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     sub_obj = getattr(models, prop_kind)()
                 setattr(obj, prop_name, self.__set_obj_attribute(sub_obj, property_path, param_value, param_name))
         return obj
+
+    @staticmethod
+    def log(msg):
+        """ Allow Ansible module to add debug messages to the log """
+        logger.debug(msg)
 
     @staticmethod
     def __compare_list(src_values, request_values, param_name):
@@ -429,14 +490,10 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
 
         return obj
 
-    def __log_argspec(self):
-        """
-        Safely logs the argspec by not including any params with the no_log attribute.
-
-        :return: None
-        """
+    def log_argspec(self):
+        """ Safely logs the argspec by not including any params with the no_log attribute. """
         logger.debug("arg_spec:")
-        tmp_arg_spec = copy.deepcopy(self.argspec)
+        tmp_arg_spec = copy.deepcopy(self._argspec_cache)
         pop_keys = []
         for key, value in tmp_arg_spec.items():
             if value.get('no_log'):
