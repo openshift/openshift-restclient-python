@@ -177,6 +177,11 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason)
             raise OpenShiftException(msg, status=exc.status)
         #return_obj = self.__read_stream(w, stream, 'create', k8s_obj.metadata.name, namespace)
+
+        # Allow OpenShift annotations to be added to Namespace
+        if isinstance(k8s_obj, client.models.V1Namespace):
+            time.sleep(1)
+
         return_obj = self.__wait_for_response(k8s_obj.metadata.name, namespace, 'create')
         return return_obj
 
@@ -207,7 +212,6 @@ class KubernetesObjectHelper(object):
     def replace_object(self, name, namespace, k8s_obj):
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
-        k8s_obj.metadata.resource_version = None
         self.__remove_creation_timestamps(k8s_obj)
         #w, stream = self.__create_stream(namespace)
         try:
