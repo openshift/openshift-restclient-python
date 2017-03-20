@@ -74,4 +74,9 @@ find "${CLIENT_ROOT}/" -type f -name \*.py -exec sed -i 's/^from \.\+rest/from k
 find "${CLIENT_ROOT}/" -type f -name \*.py -exec sed -i "s/^from ${PACKAGE_NAME}.client.rest/from kubernetes.client.rest/g" {} +
 find "${CLIENT_ROOT}/" -type f -name \*.md -exec sed -i "s/^from ${PACKAGE_NAME}.client.rest/from kubernetes.client.rest/g" {} +
 
+
+echo "--- Patching auth_settings"
+find "${CLIENT_ROOT}/client/apis" -type f -name \*.py -exec sed -i "s/auth_settings = \[\]/auth_settings = \['BearerToken'\]/g" {} +
+
+
 echo "---Done."

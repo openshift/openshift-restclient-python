@@ -119,6 +119,21 @@ def process_swagger(spec):
     except PreprocessingException as e:
         print(e.message)
 
+    # TODO: This is to accomodate a difference between OpenShift and
+    # Kubernetes specs
+    if 'securityDefinitions' not in list(spec.keys()):
+        spec['securityDefintions'] = {
+            'BearerToken': {
+                'description': 'Bearer Token authentication',
+                'type': 'apiKey',
+                'name': 'authorization',
+                'in': 'header'
+            }
+        }
+
+    if 'security' not in list(spec.keys()):
+        spec['security'] = [{'BearerToken': []}]
+
     # TODO: Kubernetes does not set a version for OpenAPI spec yet,
     # remove this when that is fixed.
     spec['info']['version'] = SPEC_VERSION

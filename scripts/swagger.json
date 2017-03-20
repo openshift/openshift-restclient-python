@@ -55116,5 +55116,18 @@
         }
       }
     }
-  }
+  },
+  "securityDefintions": {
+    "BearerToken": {
+      "type": "apiKey",
+      "description": "Bearer Token authentication",
+      "in": "header",
+      "name": "authorization"
+    }
+  },
+  "security": [
+    {
+      "BearerToken": []
+    }
+  ]
 }

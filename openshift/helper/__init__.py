@@ -120,13 +120,16 @@ class KubernetesObjectHelper(object):
                 k8s_obj = get_method(name)
             else:
                 k8s_obj = get_method(name, namespace)
-        except ApiException as exc:
-            if exc.status != 404:
-                if exc.body:
-                    msg = json.loads(exc.body).get('message', exc.reason)
+        except ApiException as ex:
+            if ex.status != 404:
+                if self.base_model_name == 'Project'and ex.status == 403:
+                    pass
                 else:
-                    msg = str(exc)
-                raise OpenShiftException(msg, status=exc.status)
+                    if ex.body:
+                        msg = json.loads(ex.body).get('message', ex.reason)
+                    else:
+                        msg = str(ex)
+                    raise OpenShiftException(msg, status=ex.status)
         return k8s_obj
 
     def patch_object(self, name, namespace, k8s_obj, wait=False, timeout=60):
@@ -149,6 +152,19 @@ class KubernetesObjectHelper(object):
         return_obj = self.__wait_for_response(name, namespace, 'patch')
         return return_obj
 
+    def create_project(self, metadata, display_name=None, description=None):
+        # TODO: handle admin-level project creation
+        try:
+            proj_req = client.V1ProjectRequest(metadata=metadata, display_name=display_name, description=description)
+            client.OapiApi().create_project_request(proj_req)
+        except ApiException as ex:
+            msg = json.loads(ex.body).get('message', ex.reason)
+            raise OpenShiftException(msg, status=ex.status)
+
+        return_obj = self.__wait_for_response(metadata.name, None, 'create')
+
+        return return_obj
+
     def create_object(self, namespace, k8s_obj):
         #w, stream = self.__create_stream(namespace)
         try:
@@ -161,6 +177,11 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason)
             raise OpenShiftException(msg, status=exc.status)
         #return_obj = self.__read_stream(w, stream, 'create', k8s_obj.metadata.name, namespace)
+
+        # Allow OpenShift annotations to be added to Namespace
+        if isinstance(k8s_obj, client.models.V1Namespace):
+            time.sleep(1)
+
         return_obj = self.__wait_for_response(k8s_obj.metadata.name, namespace, 'create')
         return return_obj
 
@@ -261,6 +282,7 @@ class KubernetesObjectHelper(object):
         :param namespace: optional name of the namespace.
         :return: pointer to the method
         """
+
         method_name = operation
         method_name += '_namespaced_' if namespace else '_'
         method_name += self.kind

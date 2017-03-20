@@ -7,6 +7,7 @@ import io
 import os
 import tarfile
 import time
+import uuid
 import yaml
 
 import docker
@@ -20,78 +21,70 @@ from openshift.helper.ansible import AnsibleModuleHelper
 if os.path.exists(os.path.join(os.getcwd(), 'KubeObjHelper.log')):
     os.remove(os.path.join(os.getcwd(), 'KubeObjHelper.log'))
 
+
 @pytest.fixture(scope='session')
 def openshift_container(request):
     client = docker.from_env()
     # TODO: bind to a random host port
-    image_name = 'openshift/origin:{}'.format(request.config.getoption('--openshift-version'))
-    container = client.containers.run(image_name, 'start master', detach=True,
-                                      ports={'8443/tcp': 8443})
+    openshift_version = request.config.getoption('--openshift-version')
+    if openshift_version is None:
+        yield None
+    else:
+        image_name = 'openshift/origin:{}'.format(openshift_version)
+        container = client.containers.run(image_name, 'start master', detach=True,
+                                          ports={'8443/tcp': 8443})
 
-    try:
-        # Wait for the container to no longer be in the created state before
-        # continuing
-        while container.status == u'created':
-            time.sleep(0.2)
-            container = client.containers.get(container.id)
+        try:
+            # Wait for the container to no longer be in the created state before
+            # continuing
+            while container.status == u'created':
+                time.sleep(0.2)
+                container = client.containers.get(container.id)
 
-        # Wait for the api server to be ready before continuing
-        for _ in range(10):
-            try:
-                resp = requests.head("https://127.0.0.1:8443/healthz/ready", verify=False)
-            except requests.RequestException:
-                pass
+            # Wait for the api server to be ready before continuing
+            for _ in range(10):
+                try:
+                    resp = requests.head("https://127.0.0.1:8443/healthz/ready", verify=False)
+                except requests.RequestException:
+                    pass
+                time.sleep(1)
+
             time.sleep(1)
 
-        time.sleep(1)
-
-        yield container
-    finally:
-        # Always remove the container
-        container.remove(force=True)
+            yield container
+        finally:
+            # Always remove the container
+            container.remove(force=True)
 
 
 @pytest.fixture(scope='session')
 def kubeconfig(openshift_container, tmpdir_factory):
     # get_archive returns a stream of the tar archive containing the requested
     # files/directories, so we need use BytesIO as an intermediate step.
-    tar_stream, _ = openshift_container.get_archive('/var/lib/origin/openshift.local.config/master/admin.kubeconfig')
-    tar_obj = tarfile.open(fileobj=io.BytesIO(tar_stream.read()))
-    kubeconfig_contents = tar_obj.extractfile('admin.kubeconfig').read()
+    if openshift_container is None:
+        return  None
+    else:
+        tar_stream, _ = openshift_container.get_archive('/var/lib/origin/openshift.local.config/master/admin.kubeconfig')
+        tar_obj = tarfile.open(fileobj=io.BytesIO(tar_stream.read()))
+        kubeconfig_contents = tar_obj.extractfile('admin.kubeconfig').read()
 
-    kubeconfig_file = tmpdir_factory.mktemp('kubeconfig').join('admin.kubeconfig')
-    kubeconfig_file.write(kubeconfig_contents)
-    yield kubeconfig_file
-
-
-@pytest.fixture()
-def k8s_helper(request, kubeconfig):
-    _, api_version, resource = request.module.__name__.split('_', 2)
-    helper = KubernetesObjectHelper(api_version, resource)
-    auth = {
-        'kubeconfig': str(kubeconfig),
-        'host': 'https://localhost:8443',
-        'verify_ssl': False
-    }
-    helper.set_client_config(**auth)
-    #config.kube_config.configuration.host = 'https://localhost:8443'
-    #config.kube_config.configuration.verify_ssl = False
-    yield helper
+        kubeconfig_file = tmpdir_factory.mktemp('kubeconfig').join('admin.kubeconfig')
+        kubeconfig_file.write(kubeconfig_contents)
+        return kubeconfig_file
 
 
-@pytest.fixture()
+@pytest.fixture(scope='module')
 def ansible_helper(request, kubeconfig):
     _, api_version, resource = request.module.__name__.split('_', 2)
     helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False)
-    auth = {
-        'kubeconfig': str(kubeconfig),
-        'host': 'https://localhost:8443',
-        'verify_ssl': False
-    }
-    helper.set_client_config(**auth)
-    #config.kube_config.configuration.host = 'https://localhost:8443'
-    #config.kube_config.configuration.verify_ssl = False
-    yield helper
+    if kubeconfig is not None:
+        auth = {
+            'kubeconfig': str(kubeconfig),
+            'host': 'https://localhost:8443',
+            'verify_ssl': False
+        }
+        helper.set_client_config(**auth)
+    return helper
 
 
 @pytest.fixture(scope='session')
@@ -104,32 +97,48 @@ def obj_compare():
     return compare_func
 
 
-@pytest.fixture(scope='session')
-def create_namespace():
-    def create_func(namespace):
-        """ Create a namespace """
-        helper = KubernetesObjectHelper('v1', 'namespace')
-        k8s_obj = helper.get_object(namespace)
-        if not k8s_obj:
-            k8s_obj = helper.model()
-            k8s_obj.metadata =  models.V1ObjectMeta()
-            k8s_obj.metadata.name = namespace
-            k8s_obj = helper.create_object(None, k8s_obj)
-        assert k8s_obj is not None
-    return create_func
+@pytest.fixture(scope='module')
+def namespace(kubeconfig):
+    name = "test-{}".format(uuid.uuid4())
+    helper = AnsibleModuleHelper('v1', 'namespace', debug=True, reset_logfile=False)
+    if kubeconfig is not None:
+        auth = {
+            'kubeconfig': str(kubeconfig),
+            'host': 'https://localhost:8443',
+            'verify_ssl': False
+        }
+        helper.set_client_config(**auth)
+
+    k8s_obj = helper.create_object(models.V1Namespace(metadata=models.V1ObjectMeta(name=name)))
+
+    yield k8s_obj
+
+    helper.delete_object(name, None)
 
 
-@pytest.fixture(scope='session')
-def delete_namespace():
-    def delete_func(namespace):
-        """ Delete an existing namespace """
-        helper = KubernetesObjectHelper('v1', 'namespace')
-        k8s_obj = helper.get_object(namespace)
-        if k8s_obj:
-            helper.delete_object(namespace, None)
-            k8s_obj = helper.get_object(namespace)
-        return k8s_obj
-    return delete_func
+@pytest.fixture()
+def object_name():
+    name = 'test-{}'.format(uuid.uuid4())
+    return name
+
+
+@pytest.fixture(scope='module')
+def project(kubeconfig):
+    name = "test-{}".format(uuid.uuid4())
+    helper = AnsibleModuleHelper('v1', 'project', debug=True, reset_logfile=False)
+    if kubeconfig is not None:
+        auth = {
+            'kubeconfig': str(kubeconfig),
+            'host': 'https://localhost:8443',
+            'verify_ssl': False
+        }
+        helper.set_client_config(**auth)
+
+    k8s_obj = helper.create_project(metadata=models.V1ObjectMeta(name=name))
+
+    yield name
+
+    helper.delete_object(name, None)
 
 
 def _get_id(argvalue):
