@@ -13,6 +13,7 @@ import yaml
 import docker
 import pytest
 import requests
+import json
 
 from openshift.client import models
 from openshift.helper.ansible import AnsibleModuleHelper
@@ -92,7 +93,25 @@ def obj_compare():
         """ Assert that an object matches an expected object """
         requested = copy.deepcopy(k8s_obj)
         ansible_helper.object_from_params(parameters, obj=requested)
-        match, _ = ansible_helper.objects_match(k8s_obj, requested)
+
+        ansible_helper.log('paramters:')
+        ansible_helper.log(json.dumps(parameters, indent=4))
+        ansible_helper.log('\n\n')
+
+        ansible_helper.log('k8s_obj:')
+        ansible_helper.log(json.dumps(k8s_obj.to_dict(), indent=4))
+        ansible_helper.log('\n\n')
+
+        ansible_helper.log('from params:')
+        ansible_helper.log(json.dumps(requested.to_dict(), indent=4))
+        ansible_helper.log('\n\n')
+
+        match, diff = ansible_helper.objects_match(k8s_obj, requested)
+        if not match:
+            ansible_helper.log('\n\n')
+            ansible_helper.log('Differences:')
+            ansible_helper.log(list(diff))
+            ansible_helper.log('\n\n')
         assert match
     return compare_func
 

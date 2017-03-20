@@ -3,7 +3,7 @@
 
 - create:
     name: frontend
-    namespace: myproject
+    namespace: k8s-project
     pod_metadata_labels:
       name: frontend
     pod_containers:
@@ -31,7 +31,7 @@
 
 - patch:
     name: frontend
-    namespace: myproject
+    namespace: k8s-project
     pod_metadata_labels:
       name: frontend
     pod_containers:
@@ -46,7 +46,7 @@
 
 - replace:
     name: frontend
-    namespace: myproject
+    namespace: k8s-project
     pod_metadata_labels:
       name: frontend_app
     pod_containers:
@@ -74,5 +74,5 @@
 
 - remove:
     name: frontend
-    namespace: myproject
+    namespace: k8s-project
   name: Remove deployment config

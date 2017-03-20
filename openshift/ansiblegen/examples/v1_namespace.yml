@@ -2,11 +2,11 @@
 ---
 
 - create:
-    name: myproject
+    name: k8s-project
   name: Create a namespace
 
 - patch:
-    name: myproject
+    name: k8s-project
     labels:
       app_env: production
       app_class: '3'
@@ -15,7 +15,7 @@
   name: Add labels and annotations
 
 - patch:
-    name: myproject
+    name: k8s-project
     labels:
       app_env: production
       app_class: '4'
@@ -26,7 +26,7 @@
   name: Update labels and annotations
 
 - remove:
-    name: myproject
+    name: k8s-project
   task_name: Delete a namespace
 
 - create:

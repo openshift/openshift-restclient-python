@@ -3,7 +3,7 @@
 
 - create:
     name: myroute
-    namespace: myproject
+    namespace: k8s-project
     host: www.example.com
     target_reference_kind: Service
     target_reference_name: service-name
@@ -25,7 +25,7 @@
 
 - patch:
     name: myroute
-    namespace: myproject
+    namespace: k8s-project
     host: www.example.com
     tls_termination: reencrypt
     target_reference_kind: Service
@@ -38,7 +38,7 @@
 
 - replace:
     name: myroute
-    namespace: myproject
+    namespace: k8s-project
     host: www.example.com
     path: /foo/bar/baz.html
     target_reference_kind: Service
@@ -60,5 +60,5 @@
 
 - remove:
     name: myroute
-    namespace: myproject
+    namespace: k8s-project
   name: Remove route
