@@ -66,7 +66,7 @@ def test_patch_service(ansible_helper, service, patch_params, obj_compare):
     namespace = patch_params.get('namespace')
     existing_obj = service
     updated_obj = copy.deepcopy(existing_obj)
-    ansible_helper.object_from_params(parameters, obj=updated_obj)
+    ansible_helper.object_from_params(patch_params, obj=updated_obj)
     match, _ = ansible_helper.objects_match(existing_obj, updated_obj)
     assert not match
     new_obj = ansible_helper.patch_object(name, namespace, updated_obj)
@@ -77,7 +77,11 @@ def test_patch_service(ansible_helper, service, patch_params, obj_compare):
 def test_replace_service(ansible_helper, service, replace_params, obj_compare):
     name = replace_params.get('name')
     namespace = replace_params.get('namespace')
+    existing = service
     request_body = ansible_helper.request_body_from_params(replace_params)
+    if existing.spec.cluster_ip:
+        # can't change the cluster_ip value
+        request_body['spec']['clusterIP'] = existing.spec.cluster_ip
     k8s_obj = ansible_helper.replace_object(name, namespace, body=request_body)
     obj_compare(ansible_helper, k8s_obj, replace_params)
 

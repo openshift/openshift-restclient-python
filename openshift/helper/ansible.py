@@ -188,7 +188,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         local_path = copy.copy(path)
         spec = self.find_arg_spec(param_name)
         while len(local_path):
-            p = local_path.pop(0)
+            p = self.__property_name_to_camel(param_name, local_path.pop(0))
             if len(local_path):
                 if request_dict.get(p, None) is None:
                     request_dict[p] = {}
@@ -197,32 +197,39 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             else:
                 param_type = spec.get('type', 'str')
                 if param_type == 'dict':
-                    request_dict[p] = self.__dict_keys_to_camel(param_value)
+                    request_dict[p] = self.__dict_keys_to_camel(param_name, param_value)
                 elif param_type == 'list':
-                    request_dict[p] = self.__list_keys_to_camel(param_value)
+                    request_dict[p] = self.__list_keys_to_camel(param_name, param_value)
                 else:
                     request_dict[p] = param_value
 
-    def __dict_keys_to_camel(self, param_dict):
+    def __dict_keys_to_camel(self, param_name, param_dict):
         result = {}
         for item, value in param_dict.items():
-            camel_name = string_utils.snake_case_to_camel(item)
-            key_name = camel_name[:1].lower() + camel_name[1:]
-            key_name = key_name[1:] if key_name.startswith('_') else key_name
+            key_name = self.__property_name_to_camel(param_name, item)
             if value:
                 if isinstance(value, list):
-                    result[key_name] = self.__list_keys_to_camel(value)
+                    result[key_name] = self.__list_keys_to_camel(param_name, value)
                 elif isinstance(value, dict):
-                    result[key_name] = self.__dict_keys_to_camel(value)
+                    result[key_name] = self.__dict_keys_to_camel(param_name, value)
                 else:
                     result[key_name] = value
         return result
 
-    def __list_keys_to_camel(self, param_list):
+    @staticmethod
+    def __property_name_to_camel(param_name, property_name):
+        new_name = property_name
+        if 'annotations' not in param_name and 'labels' not in param_name and 'selector' not in param_name:
+            camel_name = string_utils.snake_case_to_camel(property_name)
+            new_name = camel_name[:1].lower() + camel_name[1:]
+            new_name = new_name[1:] if new_name.startswith('_') else new_name
+        return new_name
+
+    def __list_keys_to_camel(self, param_name, param_list):
         result = []
         if isinstance(param_list[0], dict):
             for item in param_list:
-                result.append(self.__dict_keys_to_camel(item))
+                result.append(self.__dict_keys_to_camel(param_name, item))
         else:
             result = param_list
         return result

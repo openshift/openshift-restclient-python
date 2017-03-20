@@ -3,7 +3,7 @@
 
 - create:
     name: myservice
-    namespace: myproject
+    namespace: k8s-project
     selector:
       app: django
     ports:
@@ -15,7 +15,7 @@
 
 - patch:
     name: myservice
-    namespace: myproject
+    namespace: k8s-project
     selector:
       app: django
       env: production
@@ -31,7 +31,7 @@
 
 - create:
     name: myservice01
-    namespace: myproject
+    namespace: k8s-project
     selector:
       app_name: service_testing
       app_env: production
@@ -44,7 +44,7 @@
 
 - patch:
     name: myservice01
-    namespace: myproject
+    namespace: k8s-project
     ports:
      - port: 9443
        target_port: 9443
@@ -56,7 +56,7 @@
 
 - replace:
     name: myservice01
-    namespace: myproject
+    namespace: k8s-project
     selector:
       app_name: web_site
       app_env: testing
