@@ -12,6 +12,8 @@ import string_utils
 
 from logging import config as logging_config
 
+from dictdiffer import diff
+
 from kubernetes import config, watch
 from kubernetes.client.rest import ApiException
 from kubernetes.config.config_exception import ConfigException
@@ -114,25 +116,25 @@ class KubernetesObjectHelper(object):
 
     def get_object(self, name, namespace=None):
         k8s_obj = None
+        method_name = 'list' if self.kind.endswith('list') else 'read'
         try:
-            get_method = self.lookup_method('read', namespace)
-            if namespace is None:
+            get_method = self.lookup_method(method_name, namespace)
+            if name and namespace is None:
                 k8s_obj = get_method(name)
+            elif namespace and not name:
+                k8s_obj = get_method(namespace)
             else:
                 k8s_obj = get_method(name, namespace)
-        except ApiException as ex:
-            if ex.status != 404:
-                if self.base_model_name == 'Project'and ex.status == 403:
+        except ApiException as exc:
+            if exc.status != 404:
+                if self.base_model_name == 'Project'and exc.status == 403:
                     pass
                 else:
-                    if ex.body:
-                        msg = json.loads(ex.body).get('message', ex.reason)
-                    else:
-                        msg = str(ex)
-                    raise OpenShiftException(msg, status=ex.status)
+                    msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
+                    raise OpenShiftException(msg, status=exc.status)
         return k8s_obj
 
-    def patch_object(self, name, namespace, k8s_obj, wait=False, timeout=60):
+    def patch_object(self, name, namespace, k8s_obj):
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
@@ -142,11 +144,11 @@ class KubernetesObjectHelper(object):
         try:
             patch_method = self.lookup_method('patch', namespace)
             if namespace:
-                return_obj = patch_method(name, namespace, k8s_obj)
+                patch_method(name, namespace, k8s_obj)
             else:
-                return_obj = patch_method(name, k8s_obj)
+                patch_method(name, k8s_obj)
         except ApiException as exc:
-            msg = json.loads(exc.body).get('message', exc.reason)
+            msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
         #return_obj = self.__read_stream(w, stream, 'patch', name, namespace)
         return_obj = self.__wait_for_response(name, namespace, 'patch')
@@ -157,24 +159,41 @@ class KubernetesObjectHelper(object):
         try:
             proj_req = client.V1ProjectRequest(metadata=metadata, display_name=display_name, description=description)
             client.OapiApi().create_project_request(proj_req)
-        except ApiException as ex:
-            msg = json.loads(ex.body).get('message', ex.reason)
+        except ApiException as exc:
+            msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=ex.status)
 
         return_obj = self.__wait_for_response(metadata.name, None, 'create')
 
         return return_obj
 
-    def create_object(self, namespace, k8s_obj):
+    def create_object(self, namespace, k8s_obj=None, body=None):
+        """
+        Send a POST request to the API. Pass either k8s_obj or body.
+        :param namespace: namespace value or None
+        :param k8s_obj: optional k8s object model
+        :param body: optional JSON dict
+        :return: new object returned from the API
+        """
         #w, stream = self.__create_stream(namespace)
+        if k8s_obj:
+            name = k8s_obj.metadata.name
+        elif body:
+            name = body.get('metadata', {}).get('name', None)
         try:
             create_method = self.lookup_method('create', namespace)
-            if namespace is None:
-                create_method(k8s_obj)
+            if namespace:
+                if k8s_obj:
+                    create_method(namespace, k8s_obj)
+                else:
+                    create_method(namespace, body=body)
             else:
-                create_method(namespace, k8s_obj)
+                if k8s_obj:
+                    create_method(k8s_obj)
+                else:
+                    create_method(body=body)
         except ApiException as exc:
-            msg = json.loads(exc.body).get('message', exc.reason)
+            msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
         #return_obj = self.__read_stream(w, stream, 'create', k8s_obj.metadata.name, namespace)
 
@@ -182,7 +201,7 @@ class KubernetesObjectHelper(object):
         if isinstance(k8s_obj, client.models.V1Namespace):
             time.sleep(1)
 
-        return_obj = self.__wait_for_response(k8s_obj.metadata.name, namespace, 'create')
+        return_obj = self.__wait_for_response(name, namespace, 'create')
         return return_obj
 
     def delete_object(self, name, namespace):
@@ -204,38 +223,60 @@ class KubernetesObjectHelper(object):
                 else:
                     delete_method(name, namespace)
             except ApiException as exc:
-                msg = json.loads(exc.body).get('message', exc.reason)
+                msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                 raise OpenShiftException(msg, status=exc.status)
         #self.__read_stream(w, stream, 'delete', name, namespace)
         self.__wait_for_response(name, namespace, 'delete')
 
-    def replace_object(self, name, namespace, k8s_obj):
-        empty_status = self.properties['status']['class']()
-        k8s_obj.status = empty_status
-        self.__remove_creation_timestamps(k8s_obj)
+    def replace_object(self, name, namespace, k8s_obj=None, body=None):
+        """ Replace an existing object. Pass in a model object or request dict().
+            Will first lookup the existing object to get the resource version and
+            update the request.
+        """
+        existing_obj = self.get_object(name, namespace)
+        if not existing_obj:
+            msg = "Error: Replacing object. Unable to find {}".format(name)
+            msg += " in namespace {}".format(namespace) if namespace else ""
+            raise OpenShiftException(msg)
+        if k8s_obj:
+            k8s_obj.status = self.properties['status']['class']()
+            self.__remove_creation_timestamps(k8s_obj)
+            k8s_obj.metadata.resource_version = existing_obj.metadata.resource_version
+        elif body:
+            body['metadata']['resourceVersion'] = existing_obj.metadata.resource_version
         #w, stream = self.__create_stream(namespace)
         try:
             replace_method = self.lookup_method('replace', namespace)
-            if namespace is None:
-                return_obj = replace_method(name, k8s_obj)
+            if k8s_obj:
+                if namespace is None:
+                    replace_method(name, k8s_obj)
+                else:
+                    replace_method(name, namespace, k8s_obj)
             else:
-                return_obj = replace_method(name, namespace, k8s_obj)
+                if namespace is None:
+                    replace_method(name, body=body)
+                else:
+                    replace_method(name, namespace, body=body)
         except ApiException as exc:
-            msg = json.loads(exc.body).get('message', exc.reason)
+            msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
-        #retur_obj = self.__read_stream(w, stream, 'replace', name, namespace)
+        #return_obj = self.__read_stream(w, stream, 'replace', name, namespace)
         return_obj = self.__wait_for_response(name, namespace, 'replace')
         return return_obj
 
     def objects_match(self, obj_a, obj_b):
-        """ Test the equality of two objects. """
+        """ Test the equality of two objects. Returns bool, diff object. Use list(diff object) to
+            log or iterate over differences """
         if obj_a is None and obj_b is None:
             return True
         if not obj_a or not obj_b:
             return False
         if type(obj_a).__name__ != type(obj_b).__name__:
             return False
-        return obj_a == obj_b
+        dict_a = obj_a.to_dict()
+        dict_b = obj_b.to_dict()
+        diff_result = diff(dict_a, dict_b)
+        return obj_a == obj_b, diff_result
 
     @classmethod
     def properties_from_model_obj(cls, model_obj):
@@ -285,7 +326,7 @@ class KubernetesObjectHelper(object):
 
         method_name = operation
         method_name += '_namespaced_' if namespace else '_'
-        method_name += self.kind
+        method_name += self.kind.replace('_list', '') if self.kind.endswith('_list') else self.kind
 
         apis = [x for x in dir(client.apis) if VERSION_RX.search(x)]
         apis.append('OapiApi')

@@ -56,8 +56,7 @@
       -----BEGIN CERTIFICATE-----
       ca_certificate_contents
       -----END CERTIFICATE-----
-    tls_destination_ca_certificate:
-  name: Create route
+  name: Replace route
 
 - remove:
     name: myroute
