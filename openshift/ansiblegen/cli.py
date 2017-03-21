@@ -29,9 +29,10 @@ LOGGING = {
     },
     'loggers': {
         'openshift.ansiblegen': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False
+                'handlers': ['console'],
+                'level': 'INFO',
+                'propagate': False
+            },
         },
     },
     'root': {
