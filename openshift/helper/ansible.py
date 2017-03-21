@@ -127,6 +127,18 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             # if no delete method, then we likely don't need a state attribute
             argument_spec.pop('state')
 
+        if self.kind.lower() == 'project':
+            argument_spec['display_name'] = {
+                'description': [
+                    "Provides a descriptive name for the project."
+                ]
+            }
+            argument_spec['description'] = {
+                'description': [
+                    "Provides a brief overview or narrative for the project."
+                ]
+            }
+
         self._argspec_cache = argument_spec
         self.log_argspec()
         return self._argspec_cache
@@ -167,6 +179,16 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             if param_value is not None and spec.get('property_path'):
                 prop_path = copy.copy(spec['property_path'])
                 self.__set_obj_attribute(obj, prop_path, param_value, param_name)
+
+        if self.kind.lower() == 'project' and (module_params.get('display_name') or
+                                               module_params.get('description')):
+            if not obj.metadata.annotations:
+                obj.metadata.annotations = {}
+            if module_params.get('display_name'):
+                obj.metadata.annotations['openshift.io/display-name'] = module_params['display_name']
+            if module_params.get('description'):
+                obj.metadata.annotations['openshift.io/description'] = module_params['description']
+
         logger.debug("Object from params:")
         logger.debug(json.dumps(obj.to_dict(), indent=4))
         return obj
@@ -180,6 +202,19 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             spec = self.find_arg_spec(param_name)
             if spec and spec.get('property_path') and param_value is not None:
                 self.__add_path_to_dict(request, param_name, param_value, spec['property_path'])
+
+        if self.kind.lower() == 'project' and (module_params.get('display_name') or
+                                               module_params.get('description')):
+            if not request.get('metadata'):
+                request['metadata'] = {}
+            if not request['metadata'].get('annotations'):
+                request['metadata']['annotations'] = {}
+            if module_params.get('display_name'):
+                request['metadata']['annotations']['openshift.io/display-name'] = module_params['display_name']
+            if module_params.get('description'):
+                request['metadata']['annotations']['openshift.io/description'] = module_params['description']
+
+
         logger.debug('request_body:')
         logger.debug(json.dumps(request, indent=4))
         return request
@@ -537,10 +572,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
 
         def add_meta(prop_name, prop_prefix, prop_alt_prefix):
             """ Adds metadata properties to the argspec """
-            if prop_alt_prefix:
-                args[prop_prefix + prop_name]['aliases'] = [prop_alt_prefix + prop_name]
-            elif prop_prefix:
-                args[prop_prefix + prop_name]['aliases'] = [prop_name]
+            if prop_alt_prefix != prop_prefix:
+                if prop_alt_prefix:
+                    args[prop_prefix + prop_name]['aliases'] = [prop_alt_prefix + prop_name]
+                elif prop_prefix:
+                    args[prop_prefix + prop_name]['aliases'] = [prop_name]
             prop_paths = copy.copy(path)  # copy path from outer scope
             prop_paths.append('metadata')
             prop_paths.append(prop_name)
@@ -563,6 +599,8 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             elif prop == 'metadata' and prop_attributes['class'].__name__ != 'UnversionedListMeta':
                 meta_prefix = prefix + '_metadata_' if prefix else ''
                 meta_alt_prefix = alternate_prefix + '_metadata_' if alternate_prefix else ''
+                if meta_prefix and not meta_alt_prefix:
+                    meta_alt_prefix = meta_prefix
                 if 'labels' in dir(prop_attributes['class']):
                     args[meta_prefix + 'labels'] = {
                         'type': 'dict',
@@ -585,32 +623,20 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     not prop.endswith('params'):
                 # Adds nested properties recursively
 
-                # As we traverse deeper into nested properties, we prefix the final primitive property name with the
-                # chain of property names. For example, 'pod_pod_security_context_run_as_user', where 'run_as_user' is
-                # the primitive.
-                #
-                # This may be too hacky, but trying to remove redundant prefixes and generic, non-helpful
-                # prefixes (e.g. Spec, Template).
-                label = prop_attributes['class'].__name__\
-                        .replace(self.base_model_name, '')\
-                        .replace(self.api_version.capitalize(), '')\
-                        .replace(BASE_API_VERSION, '')\
-                        .replace('Unversioned', '')
+                label = prop
 
                 # Provide a more human-friendly version of the prefix
                 alternate_label = label\
-                    .replace('Spec', '')\
-                    .replace('Template', '')\
-                    .replace('Config', '')
+                    .replace('spec', '')\
+                    .replace('template', '')\
+                    .replace('config', '')
 
-                alternate_label = string_utils.camel_case_to_snake(alternate_label, '_').lower()
-                label = string_utils.camel_case_to_snake(label, '_')
                 p = prefix
                 a = alternate_prefix
                 paths = copy.copy(path)
                 paths.append(prop)
 
-                if a:
+                if alternate_prefix:
                     # Prevent the last prefix from repeating. In other words, avoid things like 'pod_pod'
                     pieces = alternate_prefix.split('_')
                     alternate_label = alternate_label.replace(pieces[len(pieces) - 1] + '_', '', 1)
@@ -619,7 +645,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 if alternate_label != self.base_model_name and alternate_label not in a:
                     a += '_' + alternate_label if a else alternate_label
                 if prop.endswith('params') and 'type' in properties:
-                    sub_props = {}
+                    sub_props = dict()
                     sub_props[prop] = {
                         'class': dict,
                         'immutable': False

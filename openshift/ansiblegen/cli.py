@@ -28,10 +28,10 @@ LOGGING = {
             },
         },
         'loggers': {
-            'openshift': {
+            'openshift.ansiblegen': {
                 'handlers': ['console'],
                 'level': 'INFO',
-                'propagate': True
+                'propagate': False
             },
         },
         'root': {
@@ -75,6 +75,14 @@ def subcmd_docstrings_parser(parser, subparser):
     subparser.add_argument('-v', '--api-version', action='store',
                            help=u'API version. Defaults to v1.',
                            dest='api_version', default='v1')
+
+
+def subcmd_version_parser(parser, subparser):
+    pass
+
+
+def subcmd_help_parser(parser, subparser):
+    pass
 
 
 def run_docstrings_cmd(**kwargs):
@@ -136,7 +144,7 @@ def commandline():
 
     if args.debug:
         # enable debug output
-        LOGGING['loggers']['openshift']['level'] = 'DEBUG'
+        LOGGING['loggers']['openshift.ansiblegen']['level'] = 'DEBUG'
     config.dictConfig(LOGGING)
 
     if args.subcommand == 'help':
@@ -144,7 +152,7 @@ def commandline():
         sys.exit(0)
 
     if args.subcommand == 'version':
-        print("{0} version is {1}".format(__name__, __version__))
+        logger.info("{0} version is {1}".format(__name__, __version__))
         sys.exit(0)
     try:
         globals()['run_{}_cmd'.format(args.subcommand)](**vars(args))

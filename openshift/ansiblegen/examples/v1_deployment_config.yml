@@ -4,9 +4,9 @@
 - create:
     name: frontend
     namespace: k8s-project
-    pod_metadata_labels:
+    spec_template_metadata_labels:
       name: frontend
-    pod_containers:
+    containers:
     - name: helloworld
       image: openshift/origin-ruby-sample
       ports:
@@ -26,15 +26,15 @@
         _from:
           kind: ImageStreamTag
           name: "origin-ruby-sample:latest"
-    deployment_strategy_type: Rolling
+    strategy_type: Rolling
   name: Create deployment config
 
 - patch:
     name: frontend
     namespace: k8s-project
-    pod_metadata_labels:
+    spec_template_metadata_labels:
       name: frontend
-    pod_containers:
+    containers:
     - name: helloworld
       image: "openshift/origin-ruby-sample:v1.0"
       ports:
@@ -47,9 +47,9 @@
 - replace:
     name: frontend
     namespace: k8s-project
-    pod_metadata_labels:
+    spec_template_metadata_labels:
       name: frontend_app
-    pod_containers:
+    containers:
     - name: helloworld
       image: openshift/origin-ruby-sample:v2
       ports:
@@ -69,7 +69,7 @@
         _from:
           kind: ImageStreamTag
           name: "origin-ruby-sample:v2"
-    deployment_strategy_type: Rolling
+    strategy_type: Rolling
   name: Replace deployment config
 
 - remove:
