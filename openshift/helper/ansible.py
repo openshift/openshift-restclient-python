@@ -322,7 +322,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             elif prop_kind.startswith('list['):
                 if getattr(obj, prop_name) is None:
                     setattr(obj, prop_name, [])
-                obj_type = prop_kind.replace('list[', '').replace(']','')
+                obj_type = prop_kind.replace('list[', '').replace(']', '')
                 if obj_type not in ('str', 'int', 'bool', 'list', 'dict'):
                     self.__compare_obj_list(getattr(obj, prop_name), param_value, obj_type, param_name)
                 else:
@@ -678,4 +678,3 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 if prop == 'type':
                     args[arg_prefix + prop]['choices'] = self.__convert_params_to_choices(properties)
         return args
-
