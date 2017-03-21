@@ -170,7 +170,7 @@ class KubernetesObjectHelper(object):
             client.OapiApi().create_project_request(proj_req)
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
-            raise OpenShiftException(msg, status=ex.status)
+            raise OpenShiftException(msg, status=exc.status)
 
         return_obj = self.__wait_for_response(metadata.name, None, 'create')
 
