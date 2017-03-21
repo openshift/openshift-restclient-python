@@ -143,7 +143,9 @@ def namespace(kubeconfig):
 
 @pytest.fixture()
 def object_name():
-    name = 'test-{}'.format(uuid.uuid4())
+    # v1.3 services cannot be longer than 24 characters long
+    # truncate at 23 to avoid a trailing '-'
+    name = 'test-{}'.format(uuid.uuid4())[:23]
     return name
 
 
