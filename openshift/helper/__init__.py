@@ -63,7 +63,7 @@ LOGGING = {
 
 class KubernetesObjectHelper(object):
 
-    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=20):
+    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=20, **auth):
         self.api_version = api_version
         self.kind = kind
         self.model = self.get_model(api_version, kind)
@@ -75,10 +75,14 @@ class KubernetesObjectHelper(object):
         if debug:
             self.enable_debug(reset_logfile)
 
-        try:
-            config.load_kube_config()
-        except Exception as exc:
-            logger.debug("Unable to load default config: {}".format(exc))
+        # TODO: properly handle layering auth settings over default kubeconfig
+        if auth is not None:
+            self.set_client_config(**auth)
+        else:
+            try:
+                config.load_kube_config()
+            except Exception as exc:
+                logger.debug("Unable to load default config: {}".format(exc))
 
         self.api_client = self.api_client = ApiClient()
 
@@ -135,7 +139,7 @@ class KubernetesObjectHelper(object):
         return k8s_obj
 
     def patch_object(self, name, namespace, k8s_obj):
-        logger.debug('Starting create object')
+        logger.debug('Starting patch object')
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
@@ -186,6 +190,7 @@ class KubernetesObjectHelper(object):
         """
         logger.debug('Starting create object')
         w, stream = self.__create_stream(namespace)
+        name = None
         if k8s_obj:
             name = k8s_obj.metadata.name
         elif body:
@@ -282,7 +287,8 @@ class KubernetesObjectHelper(object):
 
         return return_obj
 
-    def objects_match(self, obj_a, obj_b):
+    @staticmethod
+    def objects_match(obj_a, obj_b):
         """ Test the equality of two objects. Returns bool, diff object. Use list(diff object) to
             log or iterate over differences """
         if obj_a is None and obj_b is None:
@@ -438,7 +444,7 @@ class KubernetesObjectHelper(object):
     def __create_stream(self, namespace):
         """ Create a stream that gets events for the our model """
         w = watch.Watch()
-        w._api_client = self.api_client # monkey patch for access to OpenShift models
+        w._api_client = self.api_client  # monkey patch for access to OpenShift models
         list_method = self.lookup_method('list', namespace)
         if namespace:
             stream = w.stream(list_method, namespace, _request_timeout=self.timeout)
