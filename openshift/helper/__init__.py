@@ -508,13 +508,16 @@ class KubernetesObjectHelper(object):
 
                         if self.kind == 'namespace':
                             if self.is_openshift:
-                                annotation_keys = obj.metadata.annotations.keys()
-                                required_annotations = [u'openshift.io/sa.scc.mcs',
-                                                        u'openshift.io/sa.scc.supplemental-groups',
-                                                        u'openshift.io/sa.scc.uid-range']
-                                for key in required_annotations:
-                                    if key not in annotation_keys:
-                                        continue
+                                try:
+                                    annotation_keys = obj.metadata.annotations.keys()
+                                    required_annotations = [u'openshift.io/sa.scc.mcs',
+                                                            u'openshift.io/sa.scc.supplemental-groups',
+                                                            u'openshift.io/sa.scc.uid-range']
+                                    for key in required_annotations:
+                                        if key not in annotation_keys:
+                                            continue
+                                except AttributeError:
+                                    continue
                             if status.phase == 'Active':
                                 return_obj = obj
                                 watcher.stop()
