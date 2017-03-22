@@ -5,8 +5,8 @@
     name: myroute
     namespace: k8s-project
     host: www.example.com
-    target_reference_kind: Service
-    target_reference_name: service-name
+    spec_to_kind: Service
+    spec_to_name: service-name
     tls_termination: edge
     tls_key: |-
       -----BEGIN PRIVATE KEY-----
@@ -28,8 +28,8 @@
     namespace: k8s-project
     host: www.example.com
     tls_termination: reencrypt
-    target_reference_kind: Service
-    target_reference_name: other-service-name
+    spec_to_kind: Service
+    spec_to_name: other-service-name
     tls_destination_ca_certificate: |-
       -----BEGIN CERTIFICATE-----
       destination cetricate_contents
@@ -41,8 +41,8 @@
     namespace: k8s-project
     host: www.example.com
     path: /foo/bar/baz.html
-    target_reference_kind: Service
-    target_reference_name: whimsy-name
+    spec_to_kind: Service
+    spec_to_name: whimsy-name
     tls_termination: edge
     tls_key: |-
       -----BEGIN PRIVATE KEY-----
