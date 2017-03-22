@@ -565,10 +565,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         :param alternate_prefix: a more minimal version of prefix
         :return: dict
         """
+        primitive_types = ('int', 'str', 'bool', 'list', 'dict', 'IntstrIntOrString')
+        args = {}
+
         if path is None:
             path = []
-
-        args = {}
 
         def add_meta(prop_name, prop_prefix, prop_alt_prefix):
             """ Adds metadata properties to the argspec """
@@ -583,6 +584,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             args[prop_prefix + prop_name]['property_path'] = prop_paths
 
         for prop, prop_attributes in properties.items():
+            logger.debug("Prop: {0} attributes: {1}".format(prop, str(prop_attributes)))
             if prop in ('api_version', 'status', 'kind', 'items') and not prefix:
                 # Don't expose these properties
                 continue
@@ -619,8 +621,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                         'required': True,
                     }
                     add_meta('name', meta_prefix, meta_alt_prefix)
-            elif prop_attributes['class'].__name__ not in ('int', 'str', 'bool', 'list', 'dict') and \
-                    not prop.endswith('params'):
+            elif prop_attributes['class'].__name__ not in primitive_types and not prop.endswith('params'):
                 # Adds nested properties recursively
 
                 label = prop
@@ -660,9 +661,14 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 arg_alt_prefix = alternate_prefix + '_' if alternate_prefix else ''
                 paths = copy.copy(path)
                 paths.append(prop)
+
+                property_type = prop_attributes['class'].__name__
+                if property_type == 'IntstrIntOrString':
+                    property_type = 'str'
+
                 args[arg_prefix + prop] = {
                     'required': False,
-                    'type': prop_attributes['class'].__name__,
+                    'type': property_type,
                     'property_path': paths
                 }
 

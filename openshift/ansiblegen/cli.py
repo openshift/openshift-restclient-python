@@ -29,11 +29,14 @@ LOGGING = {
     },
     'loggers': {
         'openshift.ansiblegen': {
-                'handlers': ['console'],
-                'level': 'INFO',
-                'propagate': False
-            },
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False
         },
+        'openshift.helper.ansible': {
+            'level': 'ERROR',
+            'propogate': False
+        }
     },
     'root': {
         'handlers': ['console'],
