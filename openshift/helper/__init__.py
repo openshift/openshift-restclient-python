@@ -70,6 +70,7 @@ class KubernetesObjectHelper(object):
         self.base_model_name = self.get_base_model_name(self.model.__name__)
         self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
         self.timeout = timeout  # number of seconds to wait for an API request
+        self.is_openshift = False
 
         if debug:
             self.enable_debug(reset_logfile)
@@ -107,6 +108,12 @@ class KubernetesObjectHelper(object):
                     self.api_client.config.api_key = {'authorization': auth[key]}
                 else:
                     setattr(self.api_client.config, key, auth[key])
+
+        try:
+            client.OapiApi(api_client=self.api_client).get_api_resources()
+            self.is_openshift = True
+        except ApiException:
+            pass
 
     @staticmethod
     def enable_debug(reset_logfile=True):
@@ -502,8 +509,35 @@ class KubernetesObjectHelper(object):
                     elif obj is not None:
                         # Object is either added or modified. Check the status and determine if we
                         #  should continue waiting
-                        if hasattr(obj, 'status'):
-                            status = getattr(obj, 'status')
+                        status = getattr(obj, 'status', None)
+
+                        if self.kind == 'namespace':
+                            if self.is_openshift:
+                                annotation_keys = obj.metadata.annotations.keys()
+                                required_annotations = ['openshift.io/sa.scc.mcs', 'openshift.io/sa.scc.supplemental-groups', 'openshift.io/sa.scc.uid-range']
+                                for key in required_annotations:
+                                    if key not in annotation_keys:
+                                        continue
+
+                            if status.phase == 'Active':
+                                return_obj = obj
+                                watcher.stop()
+                                break
+
+                        elif self.kind == 'route':
+                            route_statuses = set()
+                            for route_ingress in status.ingress:
+                                for condition in route_ingress.conditions:
+                                    route_statuses.add(condition.type)
+                            if route_statuses <= set(['Ready', 'Admitted']):
+                                return_obj = obj
+                                watcher.stop()
+                                break
+                        elif self.kind == 'service':
+                            return_obj = obj
+                            watcher.stop()
+                            break
+                        else:
                             if hasattr(status, 'phase'):
                                 if status.phase == 'Active':
                                     # TODO other phase values ??
@@ -512,22 +546,10 @@ class KubernetesObjectHelper(object):
                                     watcher.stop()
                                     break
                             elif hasattr(status, 'conditions'):
+                                # TODO: attempt to handle generic conditions better
                                 conditions = getattr(status, 'conditions')
                                 if conditions and len(conditions) > 0:
                                     # We know there is a status, but it's up to the user to determine meaning.
-                                    return_obj = obj
-                                    watcher.stop()
-                                    break
-                            elif obj.kind == 'Service' and status is not None:
-                                return_obj = obj
-                                watcher.stop()
-                                break
-                            elif obj.kind == 'Route':
-                                route_statuses = set()
-                                for route_ingress in status.ingress:
-                                    for condition in route_ingress.conditions:
-                                        route_statuses.add(condition.type)
-                                if route_statuses <= set(['Ready', 'Admitted']):
                                     return_obj = obj
                                     watcher.stop()
                                     break
