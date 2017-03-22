@@ -61,7 +61,6 @@ LOGGING = {
 
 
 class KubernetesObjectHelper(object):
-
     def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=20, **auth):
         self.api_version = api_version
         self.kind = kind
@@ -136,7 +135,7 @@ class KubernetesObjectHelper(object):
                 k8s_obj = get_method(name, namespace)
         except ApiException as exc:
             if exc.status != 404:
-                if self.base_model_name == 'Project'and exc.status == 403:
+                if self.base_model_name == 'Project' and exc.status == 403:
                     pass
                 else:
                     msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
@@ -220,10 +219,6 @@ class KubernetesObjectHelper(object):
             raise OpenShiftException(msg, status=exc.status)
 
         return_obj = self.__read_stream(w, stream, name)
-
-        # Allow OpenShift annotations to be added to Namespace
-        #if isinstance(k8s_obj, client.models.V1Namespace):
-        #    time.sleep(1)
 
         if not return_obj:
             return_obj = self.__wait_for_response(name, namespace, 'create')
@@ -484,7 +479,7 @@ class KubernetesObjectHelper(object):
         return w, stream
 
     def __read_stream(self, watcher, stream, name):
-        #TODO https://cobe.io/blog/posts/kubernetes-watch-python/    <--- might help?
+        # TODO https://cobe.io/blog/posts/kubernetes-watch-python/    <--- might help?
 
         return_obj = None
 
@@ -514,16 +509,16 @@ class KubernetesObjectHelper(object):
                         if self.kind == 'namespace':
                             if self.is_openshift:
                                 annotation_keys = obj.metadata.annotations.keys()
-                                required_annotations = ['openshift.io/sa.scc.mcs', 'openshift.io/sa.scc.supplemental-groups', 'openshift.io/sa.scc.uid-range']
+                                required_annotations = [u'openshift.io/sa.scc.mcs',
+                                                        u'openshift.io/sa.scc.supplemental-groups',
+                                                        u'openshift.io/sa.scc.uid-range']
                                 for key in required_annotations:
                                     if key not in annotation_keys:
                                         continue
-
                             if status.phase == 'Active':
                                 return_obj = obj
                                 watcher.stop()
                                 break
-
                         elif self.kind == 'route':
                             route_statuses = set()
                             for route_ingress in status.ingress:
@@ -533,7 +528,7 @@ class KubernetesObjectHelper(object):
                                 return_obj = obj
                                 watcher.stop()
                                 break
-                        elif self.kind == 'service':
+                        elif self.kind in ['service', 'deployment_config']:
                             return_obj = obj
                             watcher.stop()
                             break
