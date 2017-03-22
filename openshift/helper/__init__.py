@@ -226,27 +226,39 @@ class KubernetesObjectHelper(object):
     def delete_object(self, name, namespace):
         logger.debug('Starting delete object {0} {1} {2}'.format(self.kind, name, namespace))
         delete_method = self.lookup_method('delete', namespace)
-        w, stream = self.__create_stream(namespace)
+
+        if self.kind in ('project', 'namespace'):
+            w, stream = self.__create_stream(namespace)
+
+        status_obj = None
         if not namespace:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
-                    delete_method(name, body=V1DeleteOptions())
+                    status_obj = delete_method(name, body=V1DeleteOptions())
                 else:
-                    delete_method(name)
+                    status_obj = delete_method(name)
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason)
                 raise OpenShiftException(msg, status=exc.status)
         else:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
-                    delete_method(name, namespace, body=V1DeleteOptions())
+                    status_obj = delete_method(name, namespace, body=V1DeleteOptions())
                 else:
-                    delete_method(name, namespace)
+                    status_obj = delete_method(name, namespace)
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                 raise OpenShiftException(msg, status=exc.status)
-        self.__read_stream(w, stream, name)
-        #self.__wait_for_response(name, namespace, 'delete')
+
+        if status_obj is None or status_obj.status == 'Failure':
+            msg = 'Failed to delete {}'.format(name)
+            if namespace is not None:
+                msg += ' in namespace {}'.format(namespace)
+            msg += ' status: {}'.format(status_obj)
+            raise OpenShiftException(msg)
+
+        if self.kind in ('project', 'namespace'):
+            self.__read_stream(w, stream, name)
 
     def replace_object(self, name, namespace, k8s_obj=None, body=None):
         """ Replace an existing object. Pass in a model object or request dict().
