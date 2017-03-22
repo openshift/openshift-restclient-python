@@ -14,12 +14,11 @@ from logging import config as logging_config
 
 from dictdiffer import diff
 
-from kubernetes import config, watch
+from kubernetes import watch
 from kubernetes.client.rest import ApiException
 from kubernetes.config.config_exception import ConfigException
 
-from openshift import client
-from openshift.client import configuration, ApiClient
+from openshift import client, config
 from openshift.client.models import V1DeleteOptions
 
 from .exceptions import OpenShiftException
@@ -75,40 +74,39 @@ class KubernetesObjectHelper(object):
         if debug:
             self.enable_debug(reset_logfile)
 
-        # TODO: properly handle layering auth settings over default kubeconfig
-        if auth is not None:
-            self.set_client_config(**auth)
-        else:
-            try:
-                config.load_kube_config()
-            except Exception as exc:
-                logger.debug("Unable to load default config: {}".format(exc))
+        self.set_client_config(**auth)
 
-        self.api_client = self.api_client = ApiClient()
-
-    def set_client_config(self, **kwargs):
+    def set_client_config(self, **auth):
         """ Convenience method for updating the configuration object, and instantiating a new client """
-        if kwargs.get('kubeconfig') or kwargs.get('context'):
-            # Attempt to load config from file
-            try:
-                config.load_kube_config(config_file=kwargs.get('kubeconfig'),
-                                        context=kwargs.get('context'))
-            except IOError as e:
-                raise OpenShiftException(
-                    "Failed to access {}. Does the file exist?".format(kwargs.get('kubeconfig')), error=str(e)
-                )
-            except ConfigException as e:
-                raise OpenShiftException(
-                    "Error accessing context {}.".format(kwargs.get('context')), error=str(e))
+        config_file = auth.get('kubeconfig')
+        context = auth.get('context')
 
-        auth_keys = ['api_key', 'host', 'ssl_ca_cert', 'cert_file', 'key_file', 'verify_ssl']
+        try:
+            self.api_client = config.new_client_from_config(config_file, context)
+        except ConfigException as e:
+            raise OpenShiftException(
+                "Error accessing context {}.".format(auth.get('context')), error=str(e))
+        except IOError as e:
+            if config_file is not None:
+                # Missing specified config file, cannot continue
+                raise OpenShiftException(
+                    "Failed to access {}. Does the file exist?".format(config_file), error=str(e)
+                )
+            else:
+                # Default config is missing, but other auth params may be provided, continue
+                logger.debug("Unable to load default config: {}".format(e))
+
+        if auth.get('host') is not None:
+            self.api_client.host = auth['host']
+
+        auth_keys = ['api_key', 'ssl_ca_cert', 'cert_file', 'key_file', 'verify_ssl']
+
         for key in auth_keys:
-            if kwargs.get(key, None) is not None:
+            if auth.get(key, None) is not None:
                 if key == 'api_key':
-                    configuration.api_key = {'authorization': kwargs[key]}
+                    self.api_client.config.api_key = {'authorization': auth[key]}
                 else:
-                    setattr(configuration, key, kwargs[key])
-        self.api_client = self.api_client = ApiClient()
+                    setattr(self.api_client.config, key, auth[key])
 
     @staticmethod
     def enable_debug(reset_logfile=True):
@@ -171,7 +169,7 @@ class KubernetesObjectHelper(object):
 
         try:
             proj_req = client.V1ProjectRequest(metadata=metadata, display_name=display_name, description=description)
-            client.OapiApi().create_project_request(proj_req)
+            client.OapiApi(self.api_client).create_project_request(proj_req)
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
@@ -358,7 +356,7 @@ class KubernetesObjectHelper(object):
         method = None
         for api in apis:
             api_class = getattr(client.apis, api)
-            method = getattr(api_class(), method_name, None)
+            method = getattr(api_class(self.api_client), method_name, None)
             if method is not None:
                 break
         if method is None:
