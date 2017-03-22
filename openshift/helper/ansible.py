@@ -8,7 +8,7 @@ import string_utils
 
 from openshift.client import models
 
-from . import KubernetesObjectHelper, BASE_API_VERSION
+from . import KubernetesObjectHelper
 from .exceptions import OpenShiftException
 
 # Attributes in argspec not needed by Ansible

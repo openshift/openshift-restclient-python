@@ -24,5 +24,7 @@ def main():
     except OpenShiftAnsibleException as exc:
         module.fail_json(msg="Module failed!", error=str(exc))
 
+
 if __name__ == '__main__':
     main()
+

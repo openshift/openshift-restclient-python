@@ -5,10 +5,10 @@ from __future__ import print_function
 
 import inspect
 import logging
-import json
 import os
-import string_utils
 import re
+import string_utils
+import shlex
 
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
@@ -117,7 +117,7 @@ class DocStrings(object):
                 # parameters is hard-coded in openshift.helper
                 add_option(param_name, param_dict)
 
-        return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
+        return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper, width=80)
 
     def __params_descr(self, name):
         descr = None
@@ -154,7 +154,7 @@ class DocStrings(object):
         doc_string[obj_name]['contains'] = CommentedMap()
         obj = self.helper.model()
         self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])
-        return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
+        return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper, width=80)
 
     def __get_attributes(self, obj, doc_key=None):
         """
@@ -280,13 +280,44 @@ class DocStrings(object):
                     result.append(new_example)
 
         if len(result):
-            result_str = ruamel.yaml.dump(result, Dumper=ruamel.yaml.RoundTripDumper)
+            result_str = ruamel.yaml.dump(result, Dumper=ruamel.yaml.RoundTripDumper, width=80)
             result_str = re.sub('\n- name:', '\n\n- name:', result_str)
 
         return result_str
 
     @staticmethod
     def __doc_clean_up(doc_strings):
+        def _split_words(l):
+            # Split a line into whitespace separated words
+            lex = shlex.shlex(l)
+            lex.whitespace_split = True
+            lex.quotes = ''
+            return list(lex)
+
+        def _remove_more_info(l):
+            # Remove 'More info: http...'
+            words = _split_words(l)
+            i = 0
+            while i < len(words) - 1:
+                if words[i] == 'More' and words[i + 1] == 'info:':
+                    i += 2
+                    words.pop(i)
+                    words.pop(i - 1)
+                    words.pop(i - 2)
+                    break
+                i += 1
+            return ' '.join(words)
+
+        def _remove_link(l):
+            words = _split_words(l)
+            i = 0
+            while i <= len(words) - 1:
+                if 'https://' in words[i]:
+                    words.pop(i)
+                    break
+                i += 1
+            return ' '.join(words)
+
         result = []
         for line in doc_strings:
             if re.match(':', line):
@@ -295,5 +326,9 @@ class DocStrings(object):
                 continue
             if re.match('Gets the', line) or re.match('Sets the', line):
                 continue
+            line = _remove_more_info(line)
+            line = _remove_link(line)
             result.append(line)
         return result
+
+

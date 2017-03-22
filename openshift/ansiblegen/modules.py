@@ -87,12 +87,6 @@ class Modules(object):
             if not self.suppress_stdout:
                 print(module_name)
             docs = DocStrings(model['model_name_snake'], model['model_api'])
-
-            try:
-                examples = docs.examples
-            except:
-                raise
-
             context = {
                 'documentation_string': docs.documentation,
                 'return_string': docs.return_block,
@@ -119,7 +113,7 @@ class Modules(object):
         :return: None
         """
         j2_tmpl_path = self.template_path
-        j2_env = Environment(loader=FileSystemLoader(j2_tmpl_path))
+        j2_env = Environment(loader=FileSystemLoader(j2_tmpl_path), keep_trailing_newline=True)
         j2_tmpl = j2_env.get_template(template_file)
         rendered = j2_tmpl.render(dict(temp_dir=temp_dir, **context))
         with open(os.path.normpath(os.path.join(self.output_path, module_name)), 'wb') as f:

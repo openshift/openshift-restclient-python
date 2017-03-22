@@ -397,8 +397,8 @@ class KubernetesObjectHelper(object):
             model = getattr(client.models, model_name)
         except Exception:
             raise OpenShiftException(
-                    "Error: openshift.client.models.{} was not found. "
-                    "Did you specify the correct Kind and API Version?".format(model_name)
+                "Error: openshift.client.models.{} was not found. "
+                "Did you specify the correct Kind and API Version?".format(model_name)
             )
         return model
 

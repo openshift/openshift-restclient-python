@@ -19,26 +19,26 @@ logger = logging.getLogger(__name__)
 
 
 LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': True,
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-            },
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
         },
-        'loggers': {
-            'openshift.ansiblegen': {
-                'handlers': ['console'],
-                'level': 'INFO',
-                'propagate': False
-            },
-        },
-        'root': {
+    },
+    'loggers': {
+        'openshift.ansiblegen': {
             'handlers': ['console'],
-            'level': 'ERROR'
-        }
+            'level': 'INFO',
+            'propagate': False
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'ERROR'
     }
+}
 
 AVAILABLE_COMMANDS = {
     'help':       'Display this help message',
