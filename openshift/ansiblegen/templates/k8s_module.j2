@@ -5,6 +5,9 @@ from ansible.module_utils.k8s_common import OpenShiftAnsibleModule, OpenShiftAns
 DOCUMENTATION = '''
 {{ documentation_string }}'''
 
+EXAMPLES = '''
+{{ examples_string }}'''
+
 RETURN = '''
 {{ return_string }}'''
 
@@ -21,5 +24,7 @@ def main():
     except OpenShiftAnsibleException as exc:
         module.fail_json(msg="Module failed!", error=str(exc))
 
+
 if __name__ == '__main__':
     main()
+

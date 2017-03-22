@@ -3,10 +3,12 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-import logging
 import inspect
-import string_utils
+import logging
+import os
 import re
+import string_utils
+import shlex
 
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
@@ -29,7 +31,7 @@ class DocStrings(object):
         self.model = model
         self.api_version = api_version
         try:
-            self.helper = AnsibleModuleHelper(self.api_version, self.model, debug=True)
+            self.helper = AnsibleModuleHelper(self.api_version, self.model)
         except OpenShiftException:
             raise
 
@@ -115,7 +117,7 @@ class DocStrings(object):
                 # parameters is hard-coded in openshift.helper
                 add_option(param_name, param_dict)
 
-        return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
+        return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper, width=80)
 
     def __params_descr(self, name):
         descr = None
@@ -152,7 +154,7 @@ class DocStrings(object):
         doc_string[obj_name]['contains'] = CommentedMap()
         obj = self.helper.model()
         self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])
-        return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper)
+        return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper, width=80)
 
     def __get_attributes(self, obj, doc_key=None):
         """
@@ -189,7 +191,6 @@ class DocStrings(object):
                     doc_key[attribute]['returned'] = 'when I(type) is {}'.format(cap_snake_name)
                 elif kind.startswith('list['):
                     class_name = kind.replace('list[', '').replace(']', '')
-                    logger.debug(class_name)
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = 'list'
@@ -204,16 +205,14 @@ class DocStrings(object):
                     else:
                         doc_key[attribute]['contains'] = class_name
                 elif kind.startswith('dict('):
-                    logger.debug(kind)
                     class_name = kind.replace('dict(', '').replace(')', '')
-                    logger.debug(class_name)
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = 'complex'
                     sub_obj = None
                     try:
                         sub_obj = getattr(models, class_name)()
-                    except Exception:
+                    except:
                         pass
                     if sub_obj:
                         doc_key[attribute]['contains'] = CommentedMap()
@@ -228,8 +227,97 @@ class DocStrings(object):
                     sub_obj = getattr(models, kind)()
                     self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
 
+    @property
+    def examples(self):
+        """ Generate EXAMPLES doc string by matching the API version and model name to a YAML file found in
+             ./examples """
+        result = []
+        result_str = ''
+        # check if an example file exists
+        file_name = "{0}_{1}.yml".format(self.api_version.lower(),
+                                         self.helper.base_model_name_snake)
+        example_path = os.path.join(os.path.dirname(__file__), 'examples', file_name)
+        if os.path.exists(example_path):
+            logger.debug('parsing {}'.format(example_path))
+            yaml_examples = ruamel.yaml.load(open(example_path, 'r'), Loader=ruamel.yaml.RoundTripLoader)
+            for ex in yaml_examples:
+                new_example = CommentedMap()
+                for key, value in ex.items():
+                    if key == 'name':
+                        # Add name as the first key in new_example
+                        new_example['name'] = value
+
+                for key, value in ex.items():
+                    if key != 'name':
+                        # Add the module name as the second key
+                        module_name = 'k8s_{0}_{1}'.format(self.api_version.lower(),
+                                                           self.helper.base_model_name_snake)
+                        new_example[module_name] = value
+                        if 'state' in self.helper.argspec:
+                            # Add a state parameter to the example, placing it after the namespace parameter, or name,
+                            #  if no namespace.
+                            new_example[module_name] = CommentedMap()
+                            if isinstance(value, type(CommentedMap())):
+                                params = list(value.keys())
+                                i = 0
+                                add_after = 'name'
+                                if 'namespace' in params:
+                                    add_after = 'namespace'
+                                if key in ('create', 'patch'):
+                                    state = 'present'
+                                elif key == 'replace':
+                                    state = 'replaced'
+                                else:
+                                    state = 'absent'
+
+                                while i < len(params):
+                                    new_example[module_name][params[i]] = value[params[i]]
+                                    if params[i] == add_after:
+                                        new_example[module_name]['state'] = state
+                                    i += 1
+
+                if new_example.get('name'):
+                    result.append(new_example)
+
+        if len(result):
+            result_str = ruamel.yaml.dump(result, Dumper=ruamel.yaml.RoundTripDumper, width=80)
+            result_str = re.sub('\n- name:', '\n\n- name:', result_str)
+
+        return result_str
+
     @staticmethod
     def __doc_clean_up(doc_strings):
+        def _split_words(l):
+            # Split a line into whitespace separated words
+            lex = shlex.shlex(l)
+            lex.whitespace_split = True
+            lex.quotes = ''
+            return list(lex)
+
+        def _remove_more_info(l):
+            # Remove 'More info: http...'
+            words = _split_words(l)
+            i = 0
+            while i < len(words) - 1:
+                if words[i] == 'More' and words[i + 1] == 'info:':
+                    i += 2
+                    words.pop(i)
+                    words.pop(i - 1)
+                    words.pop(i - 2)
+                    break
+                i += 1
+            return ' '.join(words)
+
+        def _remove_link(l):
+            words = _split_words(l)
+            i = 0
+            while i <= len(words) - 1:
+                if 'https://' in words[i]:
+                    words.pop(i)
+                    break
+                i += 1
+            return ' '.join(words)
+
         result = []
         for line in doc_strings:
             if re.match(':', line):
@@ -238,5 +326,9 @@ class DocStrings(object):
                 continue
             if re.match('Gets the', line) or re.match('Sets the', line):
                 continue
+            line = _remove_more_info(line)
+            line = _remove_link(line)
             result.append(line)
         return result
+
+

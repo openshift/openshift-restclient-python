@@ -32,6 +32,7 @@ class Modules(object):
         self.output_path = os.path.normpath(kwargs.pop('output_path'))
         self.suppress_stdout = kwargs.pop('suppress_stdout')
         self.template_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'templates'))
+        self.debug = kwargs.get('debug', False)
 
         logger.debug("output_path: {}".format(self.output_path))
 
@@ -39,8 +40,10 @@ class Modules(object):
         self.models = []
         requested_models = kwargs.pop('models')
         for model, model_class in inspect.getmembers(openshift_models):
-            if 'kind' in dir(model_class) and \
-                    ('metadata' in dir(model_class) or 'spec' in dir(model_class)):
+            if model == 'V1ProjectRequest':
+                continue
+            if 'kind' in dir(model_class) and ('metadata' in dir(model_class) or
+                                               'spec' in dir(model_class)):
                 # models with a 'kind' are top-level objects that we care about
                 matches = VERSION_RX.match(model)
                 if not matches:
@@ -84,23 +87,15 @@ class Modules(object):
             if not self.suppress_stdout:
                 print(module_name)
             docs = DocStrings(model['model_name_snake'], model['model_api'])
-
-            try:
-                logger.debug("get docs for {}".format(model['model_name_snake']))
-                documentation = docs.documentation
-                logger.debug("success!")
-            except Exception as exc:
-                logger.debug("failed!!")
-                raise
-
             context = {
-                'documentation_string': documentation,
+                'documentation_string': docs.documentation,
                 'return_string': docs.return_block,
+                'examples_string': docs.examples,
                 'kind': model['model_name_snake'],
                 'api_version': model['model_api']
             }
             self.__jinja_render_to_temp('k8s_module.j2', module_name, temp_dir, **context)
-            if not self.suppress_stdout:
+            if not self.suppress_stdout and not self.debug:
                 sys.stdout.write("\033[F")  # cursor up 1 line
                 sys.stdout.write("\033[K")  # clear to EOL
         shutil.rmtree(temp_dir)
@@ -118,7 +113,7 @@ class Modules(object):
         :return: None
         """
         j2_tmpl_path = self.template_path
-        j2_env = Environment(loader=FileSystemLoader(j2_tmpl_path))
+        j2_env = Environment(loader=FileSystemLoader(j2_tmpl_path), keep_trailing_newline=True)
         j2_tmpl = j2_env.get_template(template_file)
         rendered = j2_tmpl.render(dict(temp_dir=temp_dir, **context))
         with open(os.path.normpath(os.path.join(self.output_path, module_name)), 'wb') as f:
