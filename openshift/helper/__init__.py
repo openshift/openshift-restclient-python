@@ -153,7 +153,7 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
-        return_obj = self.__read_stream(w, stream)
+        return_obj = self.__read_stream(w, stream, name)
         if not return_obj:
             self.__wait_for_response(name, namespace, 'patch')
         return return_obj
@@ -209,7 +209,7 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__read_stream(w, stream)
+        return_obj = self.__read_stream(w, stream, name)
 
         # Allow OpenShift annotations to be added to Namespace
         #if isinstance(k8s_obj, client.models.V1Namespace):
@@ -242,7 +242,7 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                 raise OpenShiftException(msg, status=exc.status)
-        self.__read_stream(w, stream)
+        self.__read_stream(w, stream, name)
         #self.__wait_for_response(name, namespace, 'delete')
 
     def replace_object(self, name, namespace, k8s_obj=None, body=None):
@@ -279,7 +279,7 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__read_stream(w, stream)
+        return_obj = self.__read_stream(w, stream, name)
         if not return_obj:
             return_obj = self.__wait_for_response(name, namespace, 'replace')
 
@@ -450,7 +450,7 @@ class KubernetesObjectHelper(object):
             stream = w.stream(list_method, _request_timeout=self.timeout)
         return w, stream
 
-    def __read_stream(self, watcher, stream):
+    def __read_stream(self, watcher, stream, name):
         #TODO https://cobe.io/blog/posts/kubernetes-watch-python/    <--- might help?
 
         return_obj = None
@@ -467,33 +467,34 @@ class KubernetesObjectHelper(object):
                 else:
                     logger.debug(repr(event))
 
-                if event['type'] == 'DELETED':
-                    # Object was deleted
-                    return_obj = obj
-                    watcher.stop()
-                    break
-                elif obj is not None:
-                    # Object is either added or modified. Check the status and determine if we
-                    #  should continue waiting
-                    if hasattr(obj, 'status'):
-                        status = getattr(obj, 'status')
-                        if hasattr(status, 'phase'):
-                            if status.phase == 'Active':
-                                # TODO other phase values ??
+                if event['object'].metadata.name == name:
+                    if event['type'] == 'DELETED':
+                        # Object was deleted
+                        return_obj = obj
+                        watcher.stop()
+                        break
+                    elif obj is not None:
+                        # Object is either added or modified. Check the status and determine if we
+                        #  should continue waiting
+                        if hasattr(obj, 'status'):
+                            status = getattr(obj, 'status')
+                            if hasattr(status, 'phase'):
+                                if status.phase == 'Active':
+                                    # TODO other phase values ??
+                                    return_obj = obj
+                                    watcher.stop()
+                                    break
+                            elif hasattr(status, 'conditions'):
+                                conditions = getattr(status, 'conditions')
+                                if conditions and len(conditions) > 0:
+                                    # We know there is a status, but it's up to the user to determine meaning.
+                                    return_obj = obj
+                                    watcher.stop()
+                                    break
+                            elif obj.kind == 'Service' and status is not None:
                                 return_obj = obj
                                 watcher.stop()
                                 break
-                        elif hasattr(status, 'conditions'):
-                            conditions = getattr(status, 'conditions')
-                            if conditions and len(conditions) > 0:
-                                # We know there is a status, but it's up to the user to determine meaning.
-                                return_obj = obj
-                                watcher.stop()
-                                break
-                        elif obj.kind == 'Service' and status is not None:
-                            return_obj = obj
-                            watcher.stop()
-                            break
 
         except Exception as exc:
             # A timeout occurred
