@@ -14,12 +14,11 @@ from logging import config as logging_config
 
 from dictdiffer import diff
 
-from kubernetes import config, watch
+from kubernetes import watch
 from kubernetes.client.rest import ApiException
 from kubernetes.config.config_exception import ConfigException
 
-from openshift import client
-from openshift.client import configuration, ApiClient
+from openshift import client, config
 from openshift.client.models import V1DeleteOptions
 
 from .exceptions import OpenShiftException
@@ -63,7 +62,7 @@ LOGGING = {
 
 class KubernetesObjectHelper(object):
 
-    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=20):
+    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=20, **auth):
         self.api_version = api_version
         self.kind = kind
         self.model = self.get_model(api_version, kind)
@@ -75,36 +74,39 @@ class KubernetesObjectHelper(object):
         if debug:
             self.enable_debug(reset_logfile)
 
-        try:
-            config.load_kube_config()
-        except Exception as exc:
-            logger.debug("Unable to load default config: {}".format(exc))
+        self.set_client_config(**auth)
 
-        self.api_client = self.api_client = ApiClient()
-
-    def set_client_config(self, **kwargs):
+    def set_client_config(self, **auth):
         """ Convenience method for updating the configuration object, and instantiating a new client """
-        if kwargs.get('kubeconfig') or kwargs.get('context'):
-            # Attempt to load config from file
-            try:
-                config.load_kube_config(config_file=kwargs.get('kubeconfig'),
-                                        context=kwargs.get('context'))
-            except IOError as e:
-                raise OpenShiftException(
-                    "Failed to access {}. Does the file exist?".format(kwargs.get('kubeconfig')), error=str(e)
-                )
-            except ConfigException as e:
-                raise OpenShiftException(
-                    "Error accessing context {}.".format(kwargs.get('context')), error=str(e))
+        config_file = auth.get('kubeconfig')
+        context = auth.get('context')
 
-        auth_keys = ['api_key', 'host', 'ssl_ca_cert', 'cert_file', 'key_file', 'verify_ssl']
+        try:
+            self.api_client = config.new_client_from_config(config_file, context)
+        except ConfigException as e:
+            raise OpenShiftException(
+                "Error accessing context {}.".format(auth.get('context')), error=str(e))
+        except IOError as e:
+            if config_file is not None:
+                # Missing specified config file, cannot continue
+                raise OpenShiftException(
+                    "Failed to access {}. Does the file exist?".format(config_file), error=str(e)
+                )
+            else:
+                # Default config is missing, but other auth params may be provided, continue
+                logger.debug("Unable to load default config: {}".format(e))
+
+        if auth.get('host') is not None:
+            self.api_client.host = auth['host']
+
+        auth_keys = ['api_key', 'ssl_ca_cert', 'cert_file', 'key_file', 'verify_ssl']
+
         for key in auth_keys:
-            if kwargs.get(key, None) is not None:
+            if auth.get(key, None) is not None:
                 if key == 'api_key':
-                    configuration.api_key = {'authorization': kwargs[key]}
+                    self.api_client.config.api_key = {'authorization': auth[key]}
                 else:
-                    setattr(configuration, key, kwargs[key])
-        self.api_client = self.api_client = ApiClient()
+                    setattr(self.api_client.config, key, auth[key])
 
     @staticmethod
     def enable_debug(reset_logfile=True):
@@ -135,7 +137,7 @@ class KubernetesObjectHelper(object):
         return k8s_obj
 
     def patch_object(self, name, namespace, k8s_obj):
-        logger.debug('Starting create object')
+        logger.debug('Starting patch object')
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
@@ -151,7 +153,7 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
-        return_obj = self.__read_stream(w, stream)
+        return_obj = self.__read_stream(w, stream, name)
         if not return_obj:
             self.__wait_for_response(name, namespace, 'patch')
         return return_obj
@@ -165,14 +167,17 @@ class KubernetesObjectHelper(object):
         """
         # TODO: handle admin-level project creation
 
+        w, stream = self.__create_stream(None)
         try:
             proj_req = client.V1ProjectRequest(metadata=metadata, display_name=display_name, description=description)
-            client.OapiApi().create_project_request(proj_req)
+            client.OapiApi(self.api_client).create_project_request(proj_req)
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__wait_for_response(metadata.name, None, 'create')
+        return_obj = self.__read_stream(w, stream, metadata.name)
+        if not return_obj:
+            return_obj = self.__wait_for_response(metadata.name, None, 'create')
 
         return return_obj
 
@@ -186,6 +191,7 @@ class KubernetesObjectHelper(object):
         """
         logger.debug('Starting create object')
         w, stream = self.__create_stream(namespace)
+        name = None
         if k8s_obj:
             name = k8s_obj.metadata.name
         elif body:
@@ -206,7 +212,7 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__read_stream(w, stream)
+        return_obj = self.__read_stream(w, stream, name)
 
         # Allow OpenShift annotations to be added to Namespace
         #if isinstance(k8s_obj, client.models.V1Namespace):
@@ -220,27 +226,39 @@ class KubernetesObjectHelper(object):
     def delete_object(self, name, namespace):
         logger.debug('Starting delete object {0} {1} {2}'.format(self.kind, name, namespace))
         delete_method = self.lookup_method('delete', namespace)
-        w, stream = self.__create_stream(namespace)
+
+        if self.kind in ('project', 'namespace'):
+            w, stream = self.__create_stream(namespace)
+
+        status_obj = None
         if not namespace:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
-                    delete_method(name, body=V1DeleteOptions())
+                    status_obj = delete_method(name, body=V1DeleteOptions())
                 else:
-                    delete_method(name)
+                    status_obj = delete_method(name)
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason)
                 raise OpenShiftException(msg, status=exc.status)
         else:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
-                    delete_method(name, namespace, body=V1DeleteOptions())
+                    status_obj = delete_method(name, namespace, body=V1DeleteOptions())
                 else:
-                    delete_method(name, namespace)
+                    status_obj = delete_method(name, namespace)
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                 raise OpenShiftException(msg, status=exc.status)
-        self.__read_stream(w, stream)
-        #self.__wait_for_response(name, namespace, 'delete')
+
+        if status_obj is None or status_obj.status == 'Failure':
+            msg = 'Failed to delete {}'.format(name)
+            if namespace is not None:
+                msg += ' in namespace {}'.format(namespace)
+            msg += ' status: {}'.format(status_obj)
+            raise OpenShiftException(msg)
+
+        if self.kind in ('project', 'namespace'):
+            self.__read_stream(w, stream, name)
 
     def replace_object(self, name, namespace, k8s_obj=None, body=None):
         """ Replace an existing object. Pass in a model object or request dict().
@@ -276,13 +294,14 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__read_stream(w, stream)
+        return_obj = self.__read_stream(w, stream, name)
         if not return_obj:
             return_obj = self.__wait_for_response(name, namespace, 'replace')
 
         return return_obj
 
-    def objects_match(self, obj_a, obj_b):
+    @staticmethod
+    def objects_match(obj_a, obj_b):
         """ Test the equality of two objects. Returns bool, diff object. Use list(diff object) to
             log or iterate over differences """
         if obj_a is None and obj_b is None:
@@ -352,7 +371,7 @@ class KubernetesObjectHelper(object):
         method = None
         for api in apis:
             api_class = getattr(client.apis, api)
-            method = getattr(api_class(), method_name, None)
+            method = getattr(api_class(self.api_client), method_name, None)
             if method is not None:
                 break
         if method is None:
@@ -438,7 +457,7 @@ class KubernetesObjectHelper(object):
     def __create_stream(self, namespace):
         """ Create a stream that gets events for the our model """
         w = watch.Watch()
-        w._api_client = self.api_client # monkey patch for access to OpenShift models
+        w._api_client = self.api_client  # monkey patch for access to OpenShift models
         list_method = self.lookup_method('list', namespace)
         if namespace:
             stream = w.stream(list_method, namespace, _request_timeout=self.timeout)
@@ -446,7 +465,7 @@ class KubernetesObjectHelper(object):
             stream = w.stream(list_method, _request_timeout=self.timeout)
         return w, stream
 
-    def __read_stream(self, watcher, stream):
+    def __read_stream(self, watcher, stream, name):
         #TODO https://cobe.io/blog/posts/kubernetes-watch-python/    <--- might help?
 
         return_obj = None
@@ -463,33 +482,44 @@ class KubernetesObjectHelper(object):
                 else:
                     logger.debug(repr(event))
 
-                if event['type'] == 'DELETED':
-                    # Object was deleted
-                    return_obj = obj
-                    watcher.stop()
-                    break
-                elif obj is not None:
-                    # Object is either added or modified. Check the status and determine if we
-                    #  should continue waiting
-                    if hasattr(obj, 'status'):
-                        status = getattr(obj, 'status')
-                        if hasattr(status, 'phase'):
-                            if status.phase == 'Active':
-                                # TODO other phase values ??
+                if event['object'].metadata.name == name:
+                    if event['type'] == 'DELETED':
+                        # Object was deleted
+                        return_obj = obj
+                        watcher.stop()
+                        break
+                    elif obj is not None:
+                        # Object is either added or modified. Check the status and determine if we
+                        #  should continue waiting
+                        if hasattr(obj, 'status'):
+                            status = getattr(obj, 'status')
+                            if hasattr(status, 'phase'):
+                                if status.phase == 'Active':
+                                    # TODO other phase values ??
+                                    # TODO test namespaces for OpenShift annotations if needed
+                                    return_obj = obj
+                                    watcher.stop()
+                                    break
+                            elif hasattr(status, 'conditions'):
+                                conditions = getattr(status, 'conditions')
+                                if conditions and len(conditions) > 0:
+                                    # We know there is a status, but it's up to the user to determine meaning.
+                                    return_obj = obj
+                                    watcher.stop()
+                                    break
+                            elif obj.kind == 'Service' and status is not None:
                                 return_obj = obj
                                 watcher.stop()
                                 break
-                        elif hasattr(status, 'conditions'):
-                            conditions = getattr(status, 'conditions')
-                            if conditions and len(conditions) > 0:
-                                # We know there is a status, but it's up to the user to determine meaning.
-                                return_obj = obj
-                                watcher.stop()
-                                break
-                        elif obj.kind == 'Service' and status is not None:
-                            return_obj = obj
-                            watcher.stop()
-                            break
+                            elif obj.kind == 'Route':
+                                route_statuses = set()
+                                for route_ingress in status.ingress:
+                                    for condition in route_ingress.conditions:
+                                        route_statuses.add(condition.type)
+                                if route_statuses <= set(['Ready', 'Admitted']):
+                                    return_obj = obj
+                                    watcher.stop()
+                                    break
 
         except Exception as exc:
             # A timeout occurred

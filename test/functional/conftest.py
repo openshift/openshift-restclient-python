@@ -64,7 +64,27 @@ def kubeconfig(openshift_container, tmpdir_factory):
     if openshift_container is None:
         return None
     else:
-        tar_stream, _ = openshift_container.get_archive('/var/lib/origin/openshift.local.config/master/admin.kubeconfig')
+        openshift_container.exec_run('oc login -u test -p test')
+        tar_stream, _ = openshift_container.get_archive(
+            '/var/lib/origin/openshift.local.config/master/admin.kubeconfig')
+        tar_obj = tarfile.open(fileobj=io.BytesIO(tar_stream.read()))
+        kubeconfig_contents = tar_obj.extractfile('admin.kubeconfig').read()
+
+        kubeconfig_file = tmpdir_factory.mktemp('kubeconfig').join('admin.kubeconfig')
+        kubeconfig_file.write(kubeconfig_contents)
+        return kubeconfig_file
+
+
+@pytest.fixture(scope='session')
+def admin_kubeconfig(openshift_container, tmpdir_factory):
+    # get_archive returns a stream of the tar archive containing the requested
+    # files/directories, so we need use BytesIO as an intermediate step.
+    if openshift_container is None:
+        return None
+    else:
+        openshift_container.exec_run('oc login -u system:admin')
+        tar_stream, _ = openshift_container.get_archive(
+            '/var/lib/origin/openshift.local.config/master/admin.kubeconfig')
         tar_obj = tarfile.open(fileobj=io.BytesIO(tar_stream.read()))
         kubeconfig_contents = tar_obj.extractfile('admin.kubeconfig').read()
 
@@ -76,14 +96,32 @@ def kubeconfig(openshift_container, tmpdir_factory):
 @pytest.fixture(scope='module')
 def ansible_helper(request, kubeconfig):
     _, api_version, resource = request.module.__name__.split('_', 2)
-    helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False)
+    auth = {}
     if kubeconfig is not None:
         auth = {
             'kubeconfig': str(kubeconfig),
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-        helper.set_client_config(**auth)
+    helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
+    helper.api_client.config.debug = True
+
+    return helper
+
+
+@pytest.fixture(scope='module')
+def admin_ansible_helper(request, admin_kubeconfig):
+    _, api_version, resource = request.module.__name__.split('_', 2)
+    auth = {}
+    if admin_kubeconfig is not None:
+        auth = {
+            'kubeconfig': str(admin_kubeconfig),
+            'host': 'https://localhost:8443',
+            'verify_ssl': False
+        }
+    helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
+    helper.api_client.config.debug = True
+
     return helper
 
 
@@ -113,47 +151,53 @@ def obj_compare():
             ansible_helper.log(list(diff))
             ansible_helper.log('\n\n')
         assert match
+
     return compare_func
 
 
 @pytest.fixture(scope='module')
 def namespace(kubeconfig):
     name = "test-{}".format(uuid.uuid4())
-    helper = AnsibleModuleHelper('v1', 'namespace', debug=True, reset_logfile=False)
+
+    auth = {}
     if kubeconfig is not None:
         auth = {
             'kubeconfig': str(kubeconfig),
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-        helper.set_client_config(**auth)
+    helper = AnsibleModuleHelper('v1', 'namespace', debug=True, reset_logfile=False, **auth)
 
     k8s_obj = helper.create_object(models.V1Namespace(metadata=models.V1ObjectMeta(name=name)))
+    assert k8s_obj is not None
 
-    yield k8s_obj
+    yield name
 
     helper.delete_object(name, None)
 
 
 @pytest.fixture()
 def object_name():
-    name = 'test-{}'.format(uuid.uuid4())
+    # v1.3 services cannot be longer than 24 characters long
+    # truncate at 23 to avoid a trailing '-'
+    name = 'test-{}'.format(uuid.uuid4())[:23]
     return name
 
 
 @pytest.fixture(scope='module')
 def project(kubeconfig):
     name = "test-{}".format(uuid.uuid4())
-    helper = AnsibleModuleHelper('v1', 'project', debug=True, reset_logfile=False)
+    auth = {}
     if kubeconfig is not None:
         auth = {
             'kubeconfig': str(kubeconfig),
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-        helper.set_client_config(**auth)
+    helper = AnsibleModuleHelper('v1', 'project', debug=True, reset_logfile=False, **auth)
 
     k8s_obj = helper.create_project(metadata=models.V1ObjectMeta(name=name))
+    assert k8s_obj is not None
 
     yield name
 
@@ -161,16 +205,16 @@ def project(kubeconfig):
 
 
 def _get_id(argvalue):
-    type = ''
+    op_type = ''
     if argvalue.get('create'):
-        type = 'create'
+        op_type = 'create'
     elif argvalue.get('patch'):
-        type = 'patch'
+        op_type = 'patch'
     elif argvalue.get('remove'):
-        type = 'remove'
+        op_type = 'remove'
     elif argvalue.get('replace'):
-        type = 'replace'
-    return type + '_' + argvalue[type]['name'] + '_' + "{:0>3}".format(argvalue['seq'])
+        op_type = 'replace'
+    return op_type + '_' + argvalue[op_type]['name'] + '_' + "{:0>3}".format(argvalue['seq'])
 
 
 def pytest_generate_tests(metafunc):
