@@ -481,6 +481,7 @@ class KubernetesObjectHelper(object):
                             if hasattr(status, 'phase'):
                                 if status.phase == 'Active':
                                     # TODO other phase values ??
+                                    # TODO test namespaces for OpenShift annotations if needed
                                     return_obj = obj
                                     watcher.stop()
                                     break
@@ -495,6 +496,15 @@ class KubernetesObjectHelper(object):
                                 return_obj = obj
                                 watcher.stop()
                                 break
+                            elif obj.kind == 'Route':
+                                route_statuses = set()
+                                for route_ingress in status.ingress:
+                                    for condition in route_ingress.conditions:
+                                        route_statuses.add(condition.type)
+                                if route_statuses <= set(['Ready', 'Admitted']):
+                                    return_obj = obj
+                                    watcher.stop()
+                                    break
 
         except Exception as exc:
             # A timeout occurred
