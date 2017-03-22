@@ -167,6 +167,7 @@ class KubernetesObjectHelper(object):
         """
         # TODO: handle admin-level project creation
 
+        w, stream = self.__create_stream(None)
         try:
             proj_req = client.V1ProjectRequest(metadata=metadata, display_name=display_name, description=description)
             client.OapiApi(self.api_client).create_project_request(proj_req)
@@ -174,7 +175,9 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__wait_for_response(metadata.name, None, 'create')
+        return_obj = self.__read_stream(w, stream, metadata.name)
+        if not return_obj:
+            return_obj = self.__wait_for_response(metadata.name, None, 'create')
 
         return return_obj
 
