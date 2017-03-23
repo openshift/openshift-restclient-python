@@ -16,6 +16,7 @@ ARG_ATTRIBUTES_BLACKLIST = ('description', 'auth_option', 'property_path')
 
 logger = logging.getLogger(__name__)
 
+PRIMITIVES = ('str', 'int', 'bool', 'float', 'IntstrIntOrString')
 
 class AnsibleModuleHelper(KubernetesObjectHelper):
     _argspec_cache = None
@@ -311,11 +312,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         logger.debug("set_obj_attribute {0}, {1} to {2}".format(obj.__class__.__name__,
                                                                 json.dumps(property_path),
                                                                 json.dumps(param_value)))
+
         while len(property_path) > 0:
             prop_name = property_path.pop(0)
             prop_kind = obj.swagger_types[prop_name]
-            if prop_kind in ('str', 'int', 'bool'):
-                # prop_kind is a primitive
+            if prop_kind in PRIMITIVES:
                 try:
                     setattr(obj, prop_name, param_value)
                 except ValueError as exc:
@@ -334,7 +335,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 if getattr(obj, prop_name) is None:
                     setattr(obj, prop_name, [])
                 obj_type = prop_kind.replace('list[', '').replace(']', '')
-                if obj_type not in ('str', 'int', 'bool', 'list', 'dict'):
+                if obj_type not in PRIMITIVES and obj_type not in ('list', 'dict'):
                     self.__compare_obj_list(getattr(obj, prop_name), param_value, obj_type, param_name)
                 else:
                     self.__compare_list(getattr(obj, prop_name), param_value, param_name)
@@ -363,8 +364,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         if not src_values:
             src_values += request_values
 
-        if type(src_values[0]).__name__ in ('str', 'int', 'bool'):
-            # lists contain primitive types
+        if type(src_values[0]).__name__ in PRIMITIVES:
             if set(src_values) >= set(request_values):
                 # src_value list includes request_value list
                 return
@@ -433,8 +433,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         if not request_value:
             return
 
-        primitives = ('str', 'int', 'bool', 'IntstrIntOrString')
-
         sample_obj = getattr(models, obj_class)()
 
         # Try to determine the unique key for the array
@@ -469,7 +467,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                         found = True
                         for key, value in item.items():
                             item_kind = sample_obj.swagger_types.get(key)
-                            if item_kind in primitives or type(value).__name__ in primitives:
+                            if item_kind in PRIMITIVES or type(value).__name__ in PRIMITIVES:
                                 setattr(obj, key, value)
                             elif item_kind.startswith('list['):
                                 obj_type = item_kind.replace('list[', '').replace(']', '')
@@ -521,22 +519,21 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
 
     def __update_object_properties(self, obj, item):
         """ Recursively update an object's properties. Returns a pointer to the object. """
+
         for key, value in item.items():
+            snake_key = self.attribute_to_snake(key)
             try:
-                kind = obj.swagger_types[key]
+                kind = obj.swagger_types[snake_key]
             except:
                 possible_matches = ', '.join(list(obj.swagger_types.keys()))
                 class_snake_name = self.get_base_model_name_snake(type(obj).__name__)
                 raise OpenShiftException(
-                    "Unable to find '{0}' in {1}. Valid property names include: {2}".format(key,
+                    "Unable to find '{0}' in {1}. Valid property names include: {2}".format(snake_key,
                                                                                             class_snake_name,
                                                                                             possible_matches)
                 )
-            if kind in ('str', 'int', 'bool') or kind.startswith('list[') or kind.startswith('dict('):
-                self.__set_obj_attribute(obj, [key], value, key)
-            elif type(value).__name__ != 'dict':
-                # likely hit IntstrIntOrString
-                setattr(obj, key, value)
+            if kind in PRIMITIVES or kind.startswith('list[') or kind.startswith('dict('):
+                self.__set_obj_attribute(obj, [snake_key], value, snake_key)
             else:
                 # kind is an object, hopefully
                 if not getattr(obj, key):
@@ -577,7 +574,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         :param alternate_prefix: a more minimal version of prefix
         :return: dict
         """
-        primitive_types = ('int', 'str', 'bool', 'list', 'dict', 'IntstrIntOrString')
+        primitive_types = list(PRIMITIVES) + ['list', 'dict']
         args = {}
 
         if path is None:

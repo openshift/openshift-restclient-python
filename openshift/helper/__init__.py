@@ -304,16 +304,23 @@ class KubernetesObjectHelper(object):
     def objects_match(obj_a, obj_b):
         """ Test the equality of two objects. Returns bool, diff object. Use list(diff object) to
             log or iterate over differences """
+        match = False
+        diffs = None
         if obj_a is None and obj_b is None:
-            return True
-        if not obj_a or not obj_b:
-            return False
-        if type(obj_a).__name__ != type(obj_b).__name__:
-            return False
-        dict_a = obj_a.to_dict()
-        dict_b = obj_b.to_dict()
-        diff_result = diff(dict_a, dict_b)
-        return obj_a == obj_b, diff_result
+            match = True 
+        elif not obj_a or not obj_b:
+            pass  
+        elif type(obj_a).__name__ != type(obj_b).__name__:
+            pass 
+        else:
+            match = obj_a == obj_b
+            dict_a = obj_a.to_dict()
+            dict_b = obj_b.to_dict()
+            diffs = diff(dict_a, dict_b)
+            if not match and not list(diffs):
+                # defer to diff results
+                match = True    
+        return match, diffs 
 
     @classmethod
     def properties_from_model_obj(cls, model_obj):
@@ -398,7 +405,15 @@ class KubernetesObjectHelper(object):
         """
         result = self.get_base_model_name(model_name)
         return string_utils.camel_case_to_snake(result)
-
+   
+    @staticmethod
+    def attribute_to_snake(name):
+        """ Convert an object property name from camel to snake """
+        result = string_utils.camel_case_to_snake(name)
+        if result.endswith('_i_p'):        
+           result = re.sub(r'\_i\_p$', '_ip', result) 
+        return result
+ 
     @staticmethod
     def get_model(api_version, kind):
         """
