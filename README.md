@@ -64,7 +64,7 @@ The modules are currently in pre-release. For convenience there is an Ansible ro
 Using the Galaxy client, download and install the role as follows:
 
 ```
-$ ansible-galaxy install ansible.ansible-kubernetes-modules
+$ ansible-galaxy install ansible.kubernetes-modules
 ```
 
 Include the role in your playbook, and the modules will be available, allowing tasks from any other play or role to reference them. Here's an example:
@@ -74,7 +74,7 @@ Include the role in your playbook, and the modules will be available, allowing t
   connection: local
   gather_facts: no
   roles:
-    - role: ansible.ansible-kubernetes-modules
+    - role: ansible.kubernetes-modules
     - role: hello-world
 ```
 
