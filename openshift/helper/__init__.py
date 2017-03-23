@@ -88,16 +88,38 @@ class KubernetesObjectHelper(object):
 
     @staticmethod
     def enable_debug(to_file=True, filename='KubeObjHelper.log', reset_logfile=True):
+        logger_config = {
+            'version': 1,
+            'level': 'DEBUG',
+            'propogate': False,
+            'loggers':{
+                'openshift.helper': {
+                    'handlers': ['debug_logger'],
+                    'level': 'DEBUG',
+                    'propagate': False
+                }
+            }
+        }
         if to_file:
             mode = 'w' if reset_logfile else 'a'
-            handler = logging.FileHandler(filename=filename, mode=mode, encoding='utf-8')
+            logger_config['handlers'] = {
+                'debug_logger': {
+                    'class': 'logging.FileHandler',
+                    'level': 'DEBUG',
+                    'filename': filename,
+                    'mode': mode,
+                    'encoding': 'utf-8'
+                }
+            }
         else:
-            handler = logging.StreamHandler()
+            logger_config['handlers'] = {
+                'debug_logger': {
+                    'class': 'logging.StreamHandler',
+                    'level': 'DEBUG'
+                }
+            }
+        logging.config.dictConfig(logger_config)
 
-        handler.setLevel(logging.DEBUG)
-        logger.addHandler(handler)
-        logger.propagate = False
-        logger.setLevel(logging.DEBUG)
 
     def get_object(self, name, namespace=None):
         k8s_obj = None
