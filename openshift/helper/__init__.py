@@ -9,6 +9,7 @@ import re
 import time
 
 import string_utils
+from urllib3.exceptions import MaxRetryError
 
 from logging import config as logging_config
 
@@ -30,39 +31,9 @@ BASE_API_VERSION = 'V1'
 
 logger = logging.getLogger(__name__)
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'KubeObjHelper.log',
-            'mode': 'a',
-            'encoding': 'utf-8'
-        },
-        'null': {
-            'level': 'ERROR',
-            'class': 'logging.NullHandler'
-        }
-    },
-    'loggers': {
-        'openshift.helper': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': False
-        },
-    },
-    'root': {
-        'handlers': ['null'],
-        'level': 'ERROR'
-    }
-}
-
 
 class KubernetesObjectHelper(object):
-
-    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=20, **auth):
+    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=30, **auth):
         self.api_version = api_version
         self.kind = kind
         self.model = self.get_model(api_version, kind)
@@ -70,6 +41,7 @@ class KubernetesObjectHelper(object):
         self.base_model_name = self.get_base_model_name(self.model.__name__)
         self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
         self.timeout = timeout  # number of seconds to wait for an API request
+        self.is_openshift = False
 
         if debug:
             self.enable_debug(reset_logfile)
@@ -108,13 +80,46 @@ class KubernetesObjectHelper(object):
                 else:
                     setattr(self.api_client.config, key, auth[key])
 
+        try:
+            client.OapiApi(api_client=self.api_client).get_api_resources()
+            self.is_openshift = True
+        except (ApiException,MaxRetryError):
+            pass
+
     @staticmethod
-    def enable_debug(reset_logfile=True):
-        """ Turn on debugging. If reset_logfile, then remove the existing log file. """
-        if reset_logfile:
-            LOGGING['handlers']['file']['mode'] = 'w'
-        LOGGING['loggers'][__name__]['level'] = 'DEBUG'
-        logging_config.dictConfig(LOGGING)
+    def enable_debug(to_file=True, filename='KubeObjHelper.log', reset_logfile=True):
+        logger_config = {
+            'version': 1,
+            'level': 'DEBUG',
+            'propogate': False,
+            'loggers':{
+                'openshift.helper': {
+                    'handlers': ['debug_logger'],
+                    'level': 'DEBUG',
+                    'propagate': False
+                }
+            }
+        }
+        if to_file:
+            mode = 'w' if reset_logfile else 'a'
+            logger_config['handlers'] = {
+                'debug_logger': {
+                    'class': 'logging.FileHandler',
+                    'level': 'DEBUG',
+                    'filename': filename,
+                    'mode': mode,
+                    'encoding': 'utf-8'
+                }
+            }
+        else:
+            logger_config['handlers'] = {
+                'debug_logger': {
+                    'class': 'logging.StreamHandler',
+                    'level': 'DEBUG'
+                }
+            }
+        logging.config.dictConfig(logger_config)
+
 
     def get_object(self, name, namespace=None):
         k8s_obj = None
@@ -129,11 +134,14 @@ class KubernetesObjectHelper(object):
                 k8s_obj = get_method(name, namespace)
         except ApiException as exc:
             if exc.status != 404:
-                if self.base_model_name == 'Project'and exc.status == 403:
+                if self.base_model_name == 'Project' and exc.status == 403:
                     pass
                 else:
                     msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                     raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
+
         return k8s_obj
 
     def patch_object(self, name, namespace, k8s_obj):
@@ -153,7 +161,10 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
-        return_obj = self.__read_stream(w, stream, name)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
+
+        return_obj = self.__read_stream(w, stream, name, 'patch')
         if not return_obj:
             return_obj = self.__wait_for_response(name, namespace, 'patch')
         return return_obj
@@ -174,8 +185,10 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
-        return_obj = self.__read_stream(w, stream, metadata.name)
+        return_obj = self.__read_stream(w, stream, metadata.name, 'create')
         if not return_obj:
             return_obj = self.__wait_for_response(metadata.name, None, 'create')
 
@@ -211,12 +224,10 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
-        return_obj = self.__read_stream(w, stream, name)
-
-        # Allow OpenShift annotations to be added to Namespace
-        #if isinstance(k8s_obj, client.models.V1Namespace):
-        #    time.sleep(1)
+        return_obj = self.__read_stream(w, stream, name, 'create')
 
         if not return_obj:
             return_obj = self.__wait_for_response(name, namespace, 'create')
@@ -240,6 +251,8 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason)
                 raise OpenShiftException(msg, status=exc.status)
+            except MaxRetryError as ex:
+                raise OpenShiftException(str(ex.reason))
         else:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
@@ -249,6 +262,8 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                 raise OpenShiftException(msg, status=exc.status)
+            except MaxRetryError as ex:
+                raise OpenShiftException(str(ex.reason))
 
         if status_obj is None or status_obj.status == 'Failure':
             msg = 'Failed to delete {}'.format(name)
@@ -257,8 +272,7 @@ class KubernetesObjectHelper(object):
             msg += ' status: {}'.format(status_obj)
             raise OpenShiftException(msg)
 
-        if self.kind in ('project', 'namespace'):
-            self.__read_stream(w, stream, name)
+        self.__wait_for_response(name, namespace, 'delete')
 
     def replace_object(self, name, namespace, k8s_obj=None, body=None):
         """ Replace an existing object. Pass in a model object or request dict().
@@ -293,8 +307,10 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
-        return_obj = self.__read_stream(w, stream, name)
+        return_obj = self.__read_stream(w, stream, name, 'replace')
         if not return_obj:
             return_obj = self.__wait_for_response(name, namespace, 'replace')
 
@@ -302,18 +318,21 @@ class KubernetesObjectHelper(object):
 
     @staticmethod
     def objects_match(obj_a, obj_b):
-        """ Test the equality of two objects. Returns bool, diff object. Use list(diff object) to
-            log or iterate over differences """
+        """ Test the equality of two objects. Returns bool, list(differences). """
+        match = False
+        diffs = []
         if obj_a is None and obj_b is None:
-            return True
-        if not obj_a or not obj_b:
-            return False
-        if type(obj_a).__name__ != type(obj_b).__name__:
-            return False
-        dict_a = obj_a.to_dict()
-        dict_b = obj_b.to_dict()
-        diff_result = diff(dict_a, dict_b)
-        return obj_a == obj_b, diff_result
+            match = True 
+        elif not obj_a or not obj_b:
+            pass  
+        elif type(obj_a).__name__ != type(obj_b).__name__:
+            pass 
+        else:
+            dict_a = obj_a.to_dict()
+            dict_b = obj_b.to_dict()
+            diffs = list(diff(dict_a, dict_b))
+            match = len(diffs) == 0
+        return match, diffs
 
     @classmethod
     def properties_from_model_obj(cls, model_obj):
@@ -398,7 +417,15 @@ class KubernetesObjectHelper(object):
         """
         result = self.get_base_model_name(model_name)
         return string_utils.camel_case_to_snake(result)
-
+   
+    @staticmethod
+    def attribute_to_snake(name):
+        """ Convert an object property name from camel to snake """
+        result = string_utils.camel_case_to_snake(name)
+        if result.endswith('_i_p'):        
+           result = re.sub(r'\_i\_p$', '_ip', result) 
+        return result
+ 
     @staticmethod
     def get_model(api_version, kind):
         """
@@ -465,53 +492,58 @@ class KubernetesObjectHelper(object):
             stream = w.stream(list_method, _request_timeout=self.timeout)
         return w, stream
 
-    def __read_stream(self, watcher, stream, name):
-        #TODO https://cobe.io/blog/posts/kubernetes-watch-python/    <--- might help?
+    def __read_stream(self, watcher, stream, name, action):
+        # TODO https://cobe.io/blog/posts/kubernetes-watch-python/    <--- might help?
 
         return_obj = None
 
         try:
             for event in stream:
-                obj = None
-                if event.get('object'):
-                    obj_json = json.dumps(event['object'].to_dict())
-                    logger.debug(
-                        "EVENT type: {0} object: {1}".format(event['type'], obj_json)
-                    )
-                    obj = event['object']
+                if action == 'delete':
+                    event_types = ['DELETED']
                 else:
-                    logger.debug(repr(event))
+                    event_types = ['ADDED', 'MODIFIED']
 
                 if event['object'].metadata.name == name:
-                    if event['type'] == 'DELETED':
-                        # Object was deleted
-                        return_obj = obj
-                        watcher.stop()
-                        break
-                    elif obj is not None:
-                        # Object is either added or modified. Check the status and determine if we
-                        #  should continue waiting
-                        if hasattr(obj, 'status'):
-                            status = getattr(obj, 'status')
-                            if hasattr(status, 'phase'):
-                                if status.phase == 'Active':
-                                    # TODO other phase values ??
-                                    # TODO test namespaces for OpenShift annotations if needed
-                                    return_obj = obj
-                                    watcher.stop()
-                                    break
-                            elif hasattr(status, 'conditions'):
-                                conditions = getattr(status, 'conditions')
-                                if conditions and len(conditions) > 0:
-                                    # We know there is a status, but it's up to the user to determine meaning.
-                                    return_obj = obj
-                                    watcher.stop()
-                                    break
-                            elif obj.kind == 'Service' and status is not None:
-                                return_obj = obj
-                                watcher.stop()
-                                break
-                            elif obj.kind == 'Route':
+                    obj = None
+                    if event.get('object'):
+                        obj_json = json.dumps(event['object'].to_dict())
+                        logger.debug(
+                            "EVENT type: {0} object: {1}".format(event['type'], obj_json)
+                        )
+                        obj = event['object']
+                    else:
+                        logger.debug(repr(event))
+
+                    if event['type'] in event_types:
+                        if event['type'] == 'DELETED':
+                           # Object was deleted
+                            return_obj = obj
+                            watcher.stop()
+                            break
+                        else:
+                            # TODO: better handle modified events to ensure we are returning the right one
+                            # Object is either added or modified. Check the status and determine if we
+                            #  should continue waiting
+                            status = getattr(obj, 'status', None)
+
+                            # if self.kind == 'namespace':
+                            #     if self.is_openshift:
+                            #         try:
+                            #             annotation_keys = obj.metadata.annotations.keys()
+                            #             required_annotations = [u'openshift.io/sa.scc.mcs',
+                            #                                     u'openshift.io/sa.scc.supplemental-groups',
+                            #                                     u'openshift.io/sa.scc.uid-range']
+                            #             for key in required_annotations:
+                            #                 if key not in annotation_keys:
+                            #                     continue
+                            #         except AttributeError:
+                            #             continue
+                            #     if status.phase == 'Active':
+                            #         return_obj = obj
+                            #         watcher.stop()
+                            #         break
+                            if self.kind == 'route':
                                 route_statuses = set()
                                 for route_ingress in status.ingress:
                                     for condition in route_ingress.conditions:
@@ -520,7 +552,26 @@ class KubernetesObjectHelper(object):
                                     return_obj = obj
                                     watcher.stop()
                                     break
-
+                            elif self.kind in ['service', 'deployment_config']:
+                                return_obj = obj
+                                watcher.stop()
+                                break
+                            else:
+                                if hasattr(status, 'phase'):
+                                    if status.phase == 'Active':
+                                        # TODO other phase values ??
+                                        # TODO test namespaces for OpenShift annotations if needed
+                                        return_obj = obj
+                                        watcher.stop()
+                                        break
+                                elif hasattr(status, 'conditions'):
+                                    # TODO: attempt to handle generic conditions better
+                                    conditions = getattr(status, 'conditions')
+                                    if conditions and len(conditions) > 0:
+                                        # We know there is a status, but it's up to the user to determine meaning.
+                                        return_obj = obj
+                                        watcher.stop()
+                                        break
         except Exception as exc:
             # A timeout occurred
             logger.debug('STREAM FAILED: {}'.format(exc))

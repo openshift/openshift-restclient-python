@@ -119,7 +119,8 @@ def admin_ansible_helper(request, admin_kubeconfig):
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-    helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
+    helper = AnsibleModuleHelper(api_version, resource, **auth)
+    helper.enable_debug(False)
     helper.api_client.config.debug = True
 
     return helper
@@ -148,7 +149,7 @@ def obj_compare():
         if not match:
             ansible_helper.log('\n\n')
             ansible_helper.log('Differences:')
-            ansible_helper.log(list(diff))
+            ansible_helper.log(json.dumps(diff, indent=4))
             ansible_helper.log('\n\n')
         assert match
 
