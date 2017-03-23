@@ -9,6 +9,7 @@ import re
 import time
 
 import string_utils
+from urllib3.exceptions import MaxRetryError
 
 from logging import config as logging_config
 
@@ -29,35 +30,6 @@ VERSION_RX = re.compile("V\d((alpha|beta)\d)?")
 BASE_API_VERSION = 'V1'
 
 logger = logging.getLogger(__name__)
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'KubeObjHelper.log',
-            'mode': 'a',
-            'encoding': 'utf-8'
-        },
-        'null': {
-            'level': 'ERROR',
-            'class': 'logging.NullHandler'
-        }
-    },
-    'loggers': {
-        'openshift.helper': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': False
-        },
-    },
-    'root': {
-        'handlers': ['null'],
-        'level': 'ERROR'
-    }
-}
 
 
 class KubernetesObjectHelper(object):
@@ -111,16 +83,21 @@ class KubernetesObjectHelper(object):
         try:
             client.OapiApi(api_client=self.api_client).get_api_resources()
             self.is_openshift = True
-        except ApiException:
+        except (ApiException,MaxRetryError):
             pass
 
     @staticmethod
-    def enable_debug(reset_logfile=True):
-        """ Turn on debugging. If reset_logfile, then remove the existing log file. """
-        if reset_logfile:
-            LOGGING['handlers']['file']['mode'] = 'w'
-        LOGGING['loggers'][__name__]['level'] = 'DEBUG'
-        logging_config.dictConfig(LOGGING)
+    def enable_debug(to_file=True, filename='KubeObjHelper.log', reset_logfile=True):
+        if to_file:
+            mode = 'w' if reset_logfile else 'a'
+            handler = logging.FileHandler(filename=filename, mode=mode, encoding='utf-8')
+        else:
+            handler = logging.StreamHandler()
+
+        handler.setLevel(logging.DEBUG)
+        logger.addHandler(handler)
+        logger.propagate = False
+        logger.setLevel(logging.DEBUG)
 
     def get_object(self, name, namespace=None):
         k8s_obj = None
@@ -140,6 +117,9 @@ class KubernetesObjectHelper(object):
                 else:
                     msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                     raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
+
         return k8s_obj
 
     def patch_object(self, name, namespace, k8s_obj):
@@ -159,6 +139,9 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
+
         return_obj = self.__read_stream(w, stream, name)
         if not return_obj:
             return_obj = self.__wait_for_response(name, namespace, 'patch')
@@ -180,6 +163,8 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
         return_obj = self.__read_stream(w, stream, metadata.name)
         if not return_obj:
@@ -217,6 +202,8 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
         return_obj = self.__read_stream(w, stream, name)
 
@@ -242,6 +229,8 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason)
                 raise OpenShiftException(msg, status=exc.status)
+            except MaxRetryError as ex:
+                raise OpenShiftException(str(ex.reason))
         else:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
@@ -251,6 +240,8 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                 raise OpenShiftException(msg, status=exc.status)
+            except MaxRetryError as ex:
+                raise OpenShiftException(str(ex.reason))
 
         if status_obj is None or status_obj.status == 'Failure':
             msg = 'Failed to delete {}'.format(name)
@@ -295,6 +286,8 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
         return_obj = self.__read_stream(w, stream, name)
         if not return_obj:
