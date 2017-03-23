@@ -31,7 +31,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             return self._argspec_cache
 
         argument_spec = {
-            # path to kube config file
             'state': {
                 'default': 'present',
                 'choices': ['present', 'absent', 'replaced'],
@@ -52,15 +51,12 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     "file from I(~/.kube/config.json)."
                 ]},
 
-            # kubectl context name
             'context': {
                 'auth_option': True,
                 'description': [
                     "The name of a context found in the Kubernetes config file."
                 ]
             },
-
-            # authentication settings
             'host': {
                 'auth_option': True,
                 'description': ["Provide a URL for acessing the Kubernetes API."]
@@ -118,14 +114,31 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     "Enable debug output from the OpenShift helper. Logging info is written "
                     "to KubeObjHelper.log"
                 ]
+            },
+            'resource_definition': {
+                'type': 'dict',
+                'description': [
+                    "Provide the YAML definition for the object, bypassing any modules parameters intended to "
+                    "define object attributes."
+                ]
+            },
+            'src': {
+                'type': 'path',
+                'description': [
+                    "Provide a path to a file containing the YAML definition of the object. Mutually exclusive "
+                    "with I(resource_definition)."
+                ]
             }
+
         }
 
         argument_spec.update(self.__transform_properties(self.properties))
 
         if not self.has_method('delete'):
-            # if no delete method, then we likely don't need a state attribute
+            # if no delete method, then we likely don't need these options
             argument_spec.pop('state')
+            argument_spec.pop('src')
+            argument_spec.pop('resource_definition')
 
         if self.kind.lower() == 'project':
             argument_spec['display_name'] = {
@@ -171,8 +184,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         """
         if not obj:
             obj = self.model()
-            camel_kind = string_utils.snake_case_to_camel(self.kind)
-            obj.kind = camel_kind[:1].capitalize() + camel_kind[1:]
+            obj.kind = string_utils.snake_case_to_camel(self.kind, upper_case_first=False)
             obj.api_version = self.api_version.lower()
         for param_name, param_value in module_params.items():
             spec = self.find_arg_spec(param_name)
@@ -255,9 +267,8 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
     def __property_name_to_camel(param_name, property_name):
         new_name = property_name
         if 'annotations' not in param_name and 'labels' not in param_name and 'selector' not in param_name:
-            camel_name = string_utils.snake_case_to_camel(property_name)
-            new_name = camel_name[:1].lower() + camel_name[1:]
-            new_name = new_name[1:] if new_name.startswith('_') else new_name
+            camel_name = string_utils.snake_case_to_camel(property_name, upper_case_first=False)
+            new_name = camel_name[1:] if camel_name.startswith('_') else camel_name
         return new_name
 
     def __list_keys_to_camel(self, param_name, param_list):
@@ -422,6 +433,8 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         if not request_value:
             return
 
+        primitives = ('str', 'int', 'bool', 'IntstrIntOrString')
+
         sample_obj = getattr(models, obj_class)()
 
         # Try to determine the unique key for the array
@@ -456,7 +469,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                         found = True
                         for key, value in item.items():
                             item_kind = sample_obj.swagger_types.get(key)
-                            if item_kind in ('str', 'bool', 'int') or type(value).__name__ in ('str', 'int', 'bool'):
+                            if item_kind in primitives or type(value).__name__ in primitives:
                                 setattr(obj, key, value)
                             elif item_kind.startswith('list['):
                                 obj_type = item_kind.replace('list[', '').replace(']', '')
@@ -467,8 +480,8 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                                     self.__compare_list(getattr(obj, key), value, param_name)
                             elif item_kind.startswith('dict('):
                                 self.__compare_dict(getattr(obj, key), value, param_name)
-                            elif item_kind.endswith('Params') and type(value).__name__ == 'dict':
-                                # parameter object
+                            elif type(value).__name__ == 'dict':
+                                # object
                                 param_obj = getattr(obj, key)
                                 if not param_obj:
                                     setattr(obj, key, getattr(models, item_kind)())
@@ -547,8 +560,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
     @staticmethod
     def __convert_params_to_choices(properties):
         def snake_case(name):
-            result = string_utils.snake_case_to_camel(name.replace('_params', ''))
-            return result[:1].capitalize() + result[1:]
+            return string_utils.snake_case_to_camel(name.replace('_params', ''), upper_case_first=False)
         choices = {}
         for x in list(properties.keys()):
             if x.endswith('params'):
@@ -617,9 +629,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     args[meta_prefix + 'namespace'] = {}
                     add_meta('namespace', meta_prefix, meta_alt_prefix)
                 if 'name' in dir(prop_attributes['class']):
-                    args[meta_prefix + 'name'] = {
-                        'required': True,
-                    }
+                    args[meta_prefix + 'name'] = {}
                     add_meta('name', meta_prefix, meta_alt_prefix)
             elif prop_attributes['class'].__name__ not in primitive_types and not prop.endswith('params'):
                 # Adds nested properties recursively
@@ -633,6 +643,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     .replace('config', '')
 
                 p = prefix
+                p += '_' + label if p else label
                 a = alternate_prefix
                 paths = copy.copy(path)
                 paths.append(prop)
@@ -641,8 +652,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     # Prevent the last prefix from repeating. In other words, avoid things like 'pod_pod'
                     pieces = alternate_prefix.split('_')
                     alternate_label = alternate_label.replace(pieces[len(pieces) - 1] + '_', '', 1)
-                if label != self.base_model_name and label not in p:
-                    p += '_' + label if p else label
                 if alternate_label != self.base_model_name and alternate_label not in a:
                     a += '_' + alternate_label if a else alternate_label
                 if prop.endswith('params') and 'type' in properties:
