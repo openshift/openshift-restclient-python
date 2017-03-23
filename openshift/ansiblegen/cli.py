@@ -33,6 +33,10 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False
         },
+        'openshift.helper.ansible': {
+            'level': 'ERROR',
+            'propogate': False
+        }
     },
     'root': {
         'handlers': ['console'],

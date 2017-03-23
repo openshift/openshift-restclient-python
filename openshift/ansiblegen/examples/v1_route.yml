@@ -10,16 +10,15 @@
     tls_termination: edge
     tls_key: |-
       -----BEGIN PRIVATE KEY-----
-      asjdflajd0fjasldjflsjflkjlkjfaljsdfljasljflasjfljsdf
-      sdlfjalsdjfljasdfljsljfljsfljdf
+      key_file_contents
       -----END PRIVATE KEY-----
     tls_certificate: |-
       -----BEGIN CERTIFICATE-----
-      kdlslfsfljetuoeiursljflsdjffljsfsf90909wrjf94lsjdf99KK
+      certificate contents
       -----END CERTIFICATE-----
     tls_ca_certificate: |-
       -----BEGIN CERTIFICATE-----
-      asdfajflasfjfsljlrjlrjlsjfoijlsornkvksflsbgoehfflf54444
+      ca_certificate_contents
       -----END CERTIFICATE-----
   name: Create route
 
@@ -32,7 +31,7 @@
     spec_to_name: other-service-name
     tls_destination_ca_certificate: |-
       -----BEGIN CERTIFICATE-----
-      destination cetricate_contents
+      destination_cetricate_contents
       -----END CERTIFICATE-----
   name: Patch route
 

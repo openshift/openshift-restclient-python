@@ -31,7 +31,7 @@ class DocStrings(object):
         self.model = model
         self.api_version = api_version
         try:
-            self.helper = AnsibleModuleHelper(self.api_version, self.model)
+            self.helper = AnsibleModuleHelper(self.api_version, self.model, debug=True)
         except OpenShiftException:
             raise
 
@@ -105,7 +105,7 @@ class DocStrings(object):
                 obj = self.helper.model()
                 for path in param_dict['property_path']:
                     kind = obj.swagger_types[path]
-                    if kind in ('str', 'bool', 'int') or \
+                    if kind in ('str', 'bool', 'int', 'IntstrIntOrString') or \
                        kind.startswith('dict(') or \
                        kind.startswith('list['):
                         docs = inspect.getdoc(getattr(type(obj), path))
