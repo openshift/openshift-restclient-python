@@ -2,11 +2,11 @@
 ---
 
 - create:
-    name: k8s-project
+    name: k8s-namespace
   name: Create a namespace
 
 - patch:
-    name: k8s-project
+    name: k8s-namespace
     labels:
       app_env: production
       app_class: '3'
@@ -15,7 +15,7 @@
   name: Add labels and annotations
 
 - patch:
-    name: k8s-project
+    name: k8s-namespace
     labels:
       app_env: production
       app_class: '4'
@@ -26,11 +26,11 @@
   name: Update labels and annotations
 
 - remove:
-    name: k8s-project
+    name: k8s-namespace
   task_name: Delete a namespace
 
 - create:
-    name: search-project
+    name: search-namespace
     labels:
        app: web
        level: '1'
@@ -39,14 +39,14 @@
   name: Create a namespace
 
 - patch:
-    name: search-project
+    name: search-namespace
     labels:
       app: search
       type: web
   task_name: Update labels
 
 - replace:
-    name: search-project
+    name: search-namespace
     labels:
        app: web_app
        level: '3'
@@ -55,5 +55,5 @@
   name: Replace namespace
 
 - remove:
-    name: search-project
+    name: search-namespace
   name: Remove namespace
