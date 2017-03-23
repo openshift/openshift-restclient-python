@@ -41,8 +41,8 @@ def k8s_namespace(admin_ansible_helper, create_params):
     try:
         admin_ansible_helper.delete_object(name, None)
     except OpenShiftException as ex:
-        # Swallow exception if object is already removed
-        if ex.value.get('status') != 404:
+        # Swallow exception if object is already removed or being removed
+        if ex.value.get('status') not in [404, 409]:
             raise
 
 
