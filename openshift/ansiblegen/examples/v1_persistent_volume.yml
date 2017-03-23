@@ -1,0 +1,6 @@
+# v1_persistent_volume.yml
+---
+
+- create:
+    name: mypv
+  name: Create persitent volume
