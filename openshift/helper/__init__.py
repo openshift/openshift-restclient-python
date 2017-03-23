@@ -155,7 +155,7 @@ class KubernetesObjectHelper(object):
             raise OpenShiftException(msg, status=exc.status)
         return_obj = self.__read_stream(w, stream, name)
         if not return_obj:
-            self.__wait_for_response(name, namespace, 'patch')
+            return_obj = self.__wait_for_response(name, namespace, 'patch')
         return return_obj
 
     def create_project(self, metadata, display_name=None, description=None):
