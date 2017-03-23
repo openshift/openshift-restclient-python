@@ -61,7 +61,7 @@ LOGGING = {
 
 
 class KubernetesObjectHelper(object):
-    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=20, **auth):
+    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=30, **auth):
         self.api_version = api_version
         self.kind = kind
         self.model = self.get_model(api_version, kind)
