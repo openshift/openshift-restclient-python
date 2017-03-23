@@ -44,33 +44,33 @@ def replace_params(replace_tasks, project, object_name):
 
 
 @pytest.fixture()
-def persistent_volume(ansible_helper, create_params):
-    request_body = ansible_helper.request_body_from_params(create_params)
+def persistent_volume(admin_ansible_helper, create_params):
+    request_body = admin_ansible_helper.request_body_from_params(create_params)
     name = create_params.get('name')
-    k8s_obj = ansible_helper.create_object(None, body=request_body)
+    k8s_obj = admin_ansible_helper.create_object(None, body=request_body)
 
     yield k8s_obj
 
     try:
-        ansible_helper.delete_object(name, None)
+        admin_ansible_helper.delete_object(name, None)
     except OpenShiftException as ex:
         # Swallow exception if object is already removed
         if ex.value.get('status') != 404 and ex.value.get('status') != 403:
             raise
 
 
-def test_create_persistent_volume(ansible_helper, create_params, persistent_volume, obj_compare):
-    obj_compare(ansible_helper, persistent_volume, create_params)
+def test_create_persistent_volume(admin_ansible_helper, create_params, persistent_volume, obj_compare):
+    obj_compare(admin_ansible_helper, persistent_volume, create_params)
 
 
-def test_get_persistent_volume(ansible_helper, persistent_volume):
+def test_get_persistent_volume(admin_ansible_helper, persistent_volume):
     name = persistent_volume.metadata.name
-    k8s_obj = ansible_helper.get_object(name, None)
+    k8s_obj = admin_ansible_helper.get_object(name, None)
     assert k8s_obj is not None
 
 
-def test_remove_persistent_volume(ansible_helper, persistent_volume):
+def test_remove_persistent_volume(admin_ansible_helper, persistent_volume):
     name = persistent_volume.metadata.name
-    ansible_helper.delete_object(name, None)
-    k8s_obj = ansible_helper.get_object(name, None)
+    admin_ansible_helper.delete_object(name, None)
+    k8s_obj = admin_ansible_helper.get_object(name, None)
     assert k8s_obj is None
