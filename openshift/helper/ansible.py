@@ -557,7 +557,8 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
     @staticmethod
     def __convert_params_to_choices(properties):
         def snake_case(name):
-            return string_utils.snake_case_to_camel(name.replace('_params', ''), upper_case_first=False)
+            result = string_utils.snake_case_to_camel(name.replace('_params', ''), upper_case_first=True)
+            return result[:1].upper() + result[1:]
         choices = {}
         for x in list(properties.keys()):
             if x.endswith('params'):

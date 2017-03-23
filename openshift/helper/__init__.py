@@ -302,10 +302,9 @@ class KubernetesObjectHelper(object):
 
     @staticmethod
     def objects_match(obj_a, obj_b):
-        """ Test the equality of two objects. Returns bool, diff object. Use list(diff object) to
-            log or iterate over differences """
+        """ Test the equality of two objects. Returns bool, list(differences). """
         match = False
-        diffs = None
+        diffs = []
         if obj_a is None and obj_b is None:
             match = True 
         elif not obj_a or not obj_b:
@@ -313,14 +312,11 @@ class KubernetesObjectHelper(object):
         elif type(obj_a).__name__ != type(obj_b).__name__:
             pass 
         else:
-            match = obj_a == obj_b
             dict_a = obj_a.to_dict()
             dict_b = obj_b.to_dict()
-            diffs = diff(dict_a, dict_b)
-            if not match and not list(diffs):
-                # defer to diff results
-                match = True    
-        return match, diffs 
+            diffs = list(diff(dict_a, dict_b))
+            match = len(diffs) == 0
+        return match, diffs
 
     @classmethod
     def properties_from_model_obj(cls, model_obj):

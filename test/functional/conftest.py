@@ -148,7 +148,7 @@ def obj_compare():
         if not match:
             ansible_helper.log('\n\n')
             ansible_helper.log('Differences:')
-            ansible_helper.log(list(diff))
+            ansible_helper.log(json.dumps(diff, indent=4))
             ansible_helper.log('\n\n')
         assert match
 
