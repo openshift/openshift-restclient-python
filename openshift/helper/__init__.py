@@ -31,35 +31,6 @@ BASE_API_VERSION = 'V1'
 
 logger = logging.getLogger(__name__)
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'KubeObjHelper.log',
-            'mode': 'a',
-            'encoding': 'utf-8'
-        },
-        'null': {
-            'level': 'ERROR',
-            'class': 'logging.NullHandler'
-        }
-    },
-    'loggers': {
-        'openshift.helper': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': False
-        },
-    },
-    'root': {
-        'handlers': ['null'],
-        'level': 'ERROR'
-    }
-}
-
 
 class KubernetesObjectHelper(object):
 
@@ -110,12 +81,39 @@ class KubernetesObjectHelper(object):
                     setattr(self.api_client.config, key, auth[key])
 
     @staticmethod
-    def enable_debug(reset_logfile=True):
-        """ Turn on debugging. If reset_logfile, then remove the existing log file. """
-        if reset_logfile:
-            LOGGING['handlers']['file']['mode'] = 'w'
-        LOGGING['loggers'][__name__]['level'] = 'DEBUG'
-        logging_config.dictConfig(LOGGING)
+    def enable_debug(to_file=True, filename='KubeObjHelper.log', reset_logfile=True):
+        logger_config = {
+            'version': 1,
+            'level': 'DEBUG',
+            'propogate': False,
+            'loggers':{
+                'openshift.helper': {
+                    'handlers': ['debug_logger'],
+                    'level': 'DEBUG',
+                    'propagate': False
+                }
+            }
+        }
+        if to_file:
+            mode = 'w' if reset_logfile else 'a'
+            logger_config['handlers'] = {
+                'debug_logger': {
+                    'class': 'logging.FileHandler',
+                    'level': 'DEBUG',
+                    'filename': filename,
+                    'mode': mode,
+                    'encoding': 'utf-8'
+                }
+            }
+        else:
+            logger_config['handlers'] = {
+                'debug_logger': {
+                    'class': 'logging.StreamHandler',
+                    'level': 'DEBUG'
+                }
+            }
+        logging.config.dictConfig(logger_config)
+
 
     def get_object(self, name, namespace=None):
         k8s_obj = None

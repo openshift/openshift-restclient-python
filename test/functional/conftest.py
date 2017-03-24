@@ -119,7 +119,8 @@ def admin_ansible_helper(request, admin_kubeconfig):
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-    helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
+    helper = AnsibleModuleHelper(api_version, resource, **auth)
+    helper.enable_debug(to_file=False)
     helper.api_client.config.debug = True
 
     return helper
