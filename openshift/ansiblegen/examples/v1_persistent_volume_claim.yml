@@ -1,0 +1,6 @@
+# v1_persistent_volume.yml
+---
+
+- create:
+    name: mypvc
+  name: Create persitent volume claim
