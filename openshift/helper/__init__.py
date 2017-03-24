@@ -9,6 +9,7 @@ import re
 import time
 
 import string_utils
+from urllib3.exceptions import MaxRetryError
 
 from logging import config as logging_config
 
@@ -134,6 +135,9 @@ class KubernetesObjectHelper(object):
                 else:
                     msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                     raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
+
         return k8s_obj
 
     def patch_object(self, name, namespace, k8s_obj):
@@ -174,6 +178,8 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
         self.__read_stream(w, stream, metadata.name, 'create')
 
@@ -209,6 +215,8 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
         return_obj = self.__read_stream(w, stream, name, 'create')
 
@@ -233,6 +241,8 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason)
                 raise OpenShiftException(msg, status=exc.status)
+            except MaxRetryError as ex:
+                raise OpenShiftException(str(ex.reason))
         else:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
@@ -242,6 +252,8 @@ class KubernetesObjectHelper(object):
             except ApiException as exc:
                 msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
                 raise OpenShiftException(msg, status=exc.status)
+            except MaxRetryError as ex:
+                raise OpenShiftException(str(ex.reason))
 
         if status_obj is None or status_obj.status == 'Failure':
             msg = 'Failed to delete {}'.format(name)
@@ -286,6 +298,8 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
+        except MaxRetryError as ex:
+            raise OpenShiftException(str(ex.reason))
 
         return_obj = self.__read_stream(w, stream, name, 'replace')
 
