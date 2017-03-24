@@ -138,6 +138,7 @@ class KubernetesObjectHelper(object):
 
     def patch_object(self, name, namespace, k8s_obj):
         logger.debug('Starting patch object')
+        return_obj = None
         empty_status = self.properties['status']['class']()
         k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
@@ -153,18 +154,17 @@ class KubernetesObjectHelper(object):
         except ApiException as exc:
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
-        return_obj = self.__read_stream(w, stream, name)
-        if not return_obj:
+
+        return_obj = self.__read_stream(w, stream, name, 'patch')
+
+        if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self.__wait_for_response(name, namespace, 'patch')
+
         return return_obj
 
     def create_project(self, metadata, display_name=None, description=None):
-        """ Creating a project requires using the project_request endpoint. Because, why
-            on earth would you follow the same pattern as every other object? Instead, we
-            created a special snowflake. Yay!!!
+        """ Creating a project requires using the project_request endpoint. """
 
-            Also, just to be extra special, creating a project does not generate events.
-        """
         # TODO: handle admin-level project creation
 
         w, stream = self.__create_stream(None)
@@ -175,11 +175,9 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__read_stream(w, stream, metadata.name)
-        if not return_obj:
-            return_obj = self.__wait_for_response(metadata.name, None, 'create')
+        self.__read_stream(w, stream, metadata.name, 'create')
 
-        return return_obj
+        return self.__wait_for_response(metadata.name, None, 'create')
 
     def create_object(self, namespace, k8s_obj=None, body=None):
         """
@@ -212,13 +210,9 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__read_stream(w, stream, name)
+        return_obj = self.__read_stream(w, stream, name, 'create')
 
-        # Allow OpenShift annotations to be added to Namespace
-        #if isinstance(k8s_obj, client.models.V1Namespace):
-        #    time.sleep(1)
-
-        if not return_obj:
+        if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self.__wait_for_response(name, namespace, 'create')
 
         return return_obj
@@ -230,7 +224,6 @@ class KubernetesObjectHelper(object):
         if self.kind in ('project', 'namespace'):
             w, stream = self.__create_stream(namespace)
 
-        status_obj = None
         if not namespace:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
@@ -258,7 +251,7 @@ class KubernetesObjectHelper(object):
             raise OpenShiftException(msg)
 
         if self.kind in ('project', 'namespace'):
-            self.__read_stream(w, stream, name)
+            self.__read_stream(w, stream, name, 'delete')
 
     def replace_object(self, name, namespace, k8s_obj=None, body=None):
         """ Replace an existing object. Pass in a model object or request dict().
@@ -294,8 +287,9 @@ class KubernetesObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise OpenShiftException(msg, status=exc.status)
 
-        return_obj = self.__read_stream(w, stream, name)
-        if not return_obj:
+        return_obj = self.__read_stream(w, stream, name, 'replace')
+
+        if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self.__wait_for_response(name, namespace, 'replace')
 
         return return_obj
@@ -451,6 +445,11 @@ class KubernetesObjectHelper(object):
         tries = 0
         half = math.ceil(self.timeout / 2)
         obj = None
+
+        if self.kind in ('project', 'namespace'):
+            # Wait for annotations to be applied
+            time.sleep(1)
+
         while tries <= half:
             obj = self.get_object(name, namespace)
             if action == 'delete':
@@ -476,8 +475,7 @@ class KubernetesObjectHelper(object):
             stream = w.stream(list_method, _request_timeout=self.timeout)
         return w, stream
 
-    def __read_stream(self, watcher, stream, name):
-        #TODO https://cobe.io/blog/posts/kubernetes-watch-python/    <--- might help?
+    def __read_stream(self, watcher, stream, name, action):
 
         return_obj = None
 
