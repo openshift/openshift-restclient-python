@@ -1,6 +1,11 @@
-# v1_persistent_volume.yml
+# v1_persistent_volume_claim.yml
 ---
 
 - create:
     name: mypvc
+    namespace: demo_project
+    access_modes:
+      - ReadWriteOnce
+    resource_requests:
+      storage: 1Gi
   name: Create persitent volume claim
