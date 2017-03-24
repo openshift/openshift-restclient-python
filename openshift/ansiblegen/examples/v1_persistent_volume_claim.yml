@@ -6,6 +6,6 @@
     namespace: demo_project
     access_modes:
       - ReadWriteOnce
-    resource_requests:
+    resources_requests:
       storage: 1Gi
   name: Create persitent volume claim
