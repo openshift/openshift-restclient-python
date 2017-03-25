@@ -3,4 +3,10 @@
 
 - create:
     name: mypv
+    capacity:
+      storage: '1Gi'
+    access_modes:
+      - ReadWriteOnce
+    persistent_volume_reclaim_policy: Recycle
+    host_path_path: /tmp/test_volume
   name: Create persitent volume
