@@ -16,4 +16,7 @@ import openshift.client
 import kubernetes.config
 import kubernetes.watch
 
+# Do not edit these constants. They will be updated automatically
+# by scripts/update-client.sh.
 __version__ = "1.0.0-snapshot"
+__k8s_client_version__ = "1.0.0"

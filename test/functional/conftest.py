@@ -16,7 +16,8 @@ import requests
 import json
 
 from openshift.client import models
-from openshift.helper.ansible import AnsibleModuleHelper
+from kubernetes.client import V1Namespace, V1ObjectMeta
+from openshift.helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper
 
 if os.path.exists(os.path.join(os.getcwd(), 'KubeObjHelper.log')):
     os.remove(os.path.join(os.getcwd(), 'KubeObjHelper.log'))
@@ -94,8 +95,8 @@ def admin_kubeconfig(openshift_container, tmpdir_factory):
 
 
 @pytest.fixture(scope='module')
-def ansible_helper(request, kubeconfig):
-    _, api_version, resource = request.module.__name__.split('_', 2)
+def k8s_ansible_helper(request, kubeconfig):
+    _, _, api_version, resource = request.module.__name__.split('_', 3)
     auth = {}
     if kubeconfig is not None:
         auth = {
@@ -103,15 +104,31 @@ def ansible_helper(request, kubeconfig):
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-    helper = AnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
+    helper = KubernetesAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
     helper.api_client.config.debug = True
 
     return helper
 
 
 @pytest.fixture(scope='module')
-def admin_ansible_helper(request, admin_kubeconfig):
-    _, api_version, resource = request.module.__name__.split('_', 2)
+def openshift_ansible_helper(request, kubeconfig):
+    _, _, api_version, resource = request.module.__name__.split('_', 3)
+    auth = {}
+    if kubeconfig is not None:
+        auth = {
+            'kubeconfig': str(kubeconfig),
+            'host': 'https://localhost:8443',
+            'verify_ssl': False
+        }
+    helper = OpenShiftAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
+    helper.api_client.config.debug = True
+
+    return helper
+
+
+@pytest.fixture(scope='module')
+def admin_k8s_ansible_helper(request, admin_kubeconfig):
+    _, _, api_version, resource = request.module.__name__.split('_', 3)
     auth = {}
     if admin_kubeconfig is not None:
         auth = {
@@ -119,7 +136,24 @@ def admin_ansible_helper(request, admin_kubeconfig):
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-    helper = AnsibleModuleHelper(api_version, resource, **auth)
+    helper = KubernetesAnsibleModuleHelper(api_version, resource, **auth)
+    helper.enable_debug(to_file=False)
+    helper.api_client.config.debug = True
+
+    return helper
+
+
+@pytest.fixture(scope='module')
+def admin_openshift_ansible_helper(request, admin_kubeconfig):
+    _, _, api_version, resource = request.module.__name__.split('_', 3)
+    auth = {}
+    if admin_kubeconfig is not None:
+        auth = {
+            'kubeconfig': str(admin_kubeconfig),
+            'host': 'https://localhost:8443',
+            'verify_ssl': False
+        }
+    helper = OpenShiftAnsibleModuleHelper(api_version, resource, **auth)
     helper.enable_debug(to_file=False)
     helper.api_client.config.debug = True
 
@@ -167,9 +201,9 @@ def namespace(kubeconfig):
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-    helper = AnsibleModuleHelper('v1', 'namespace', debug=True, reset_logfile=False, **auth)
+    helper = KubernetesAnsibleModuleHelper('v1', 'namespace', debug=True, reset_logfile=False, **auth)
 
-    k8s_obj = helper.create_object(models.V1Namespace(metadata=models.V1ObjectMeta(name=name)))
+    k8s_obj = helper.create_object(V1Namespace(metadata=V1ObjectMeta(name=name)))
     assert k8s_obj is not None
 
     yield name
@@ -195,9 +229,9 @@ def project(kubeconfig):
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-    helper = AnsibleModuleHelper('v1', 'project', debug=True, reset_logfile=False, **auth)
+    helper = OpenShiftAnsibleModuleHelper('v1', 'project', debug=True, reset_logfile=False, **auth)
 
-    k8s_obj = helper.create_project(metadata=models.V1ObjectMeta(name=name))
+    k8s_obj = helper.create_project(metadata=V1ObjectMeta(name=name))
     assert k8s_obj is not None
 
     yield name

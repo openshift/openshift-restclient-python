@@ -4,21 +4,20 @@ from __future__ import absolute_import
 import copy
 import json
 import logging
+
 import string_utils
 
-from openshift.client import models
-
-from . import KubernetesObjectHelper
-from .exceptions import OpenShiftException
+from . import PRIMITIVES
+from .kubernetes import KubernetesObjectHelper
+from .openshift import OpenShiftObjectHelper
 
 # Attributes in argspec not needed by Ansible
 ARG_ATTRIBUTES_BLACKLIST = ('description', 'auth_option', 'property_path')
 
 logger = logging.getLogger(__name__)
 
-PRIMITIVES = ('str', 'int', 'bool', 'float', 'IntstrIntOrString')
 
-class AnsibleModuleHelper(KubernetesObjectHelper):
+class AnsibleMixin(object):
     _argspec_cache = None
 
     @property
@@ -130,7 +129,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     "with I(resource_definition)."
                 ]
             }
-
         }
 
         argument_spec.update(self.__transform_properties(self.properties))
@@ -157,23 +155,17 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         self.log_argspec()
         return self._argspec_cache
 
-    def has_method(self, method_action):
-        """
-        Determine if the object has a particular method.
-
-        :param method_action: string. one of 'create', 'update', 'delete', 'patch', 'list'
-        """
-        method = None
-        try:
-            method = self.lookup_method(method_action)
-        except:
-            pass
-        if not method:
-            try:
-                method = self.lookup_method(method_action, namespace='namespace')
-            except:
-                pass
-        return method is not None
+    def log_argspec(self):
+        """ Safely logs the argspec by not including any params with the no_log attribute. """
+        logger.debug("arg_spec:")
+        tmp_arg_spec = copy.deepcopy(self._argspec_cache)
+        pop_keys = []
+        for key, value in tmp_arg_spec.items():
+            if value.get('no_log'):
+                pop_keys.append(key)
+        for key in pop_keys:
+            tmp_arg_spec.pop(key)
+        logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True))
 
     def object_from_params(self, module_params, obj=None):
         """
@@ -227,10 +219,44 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             if module_params.get('description'):
                 request['metadata']['annotations']['openshift.io/description'] = module_params['description']
 
-
         logger.debug('request_body:')
         logger.debug(json.dumps(request, indent=4))
         return request
+
+    def find_arg_spec(self, module_param_name):
+        """For testing, allow the param_name value to be an alias"""
+        if self.argspec.get(module_param_name):
+            return self.argspec[module_param_name]
+        result = None
+        for key, value in self.argspec.items():
+            if value.get('aliases'):
+                for alias in value['aliases']:
+                    if alias == module_param_name:
+                        result = self.argspec[key]
+                        break
+                if result:
+                    break
+        if not result:
+            raise self.get_exception()(
+                "Error: received unrecognized module parameter {}".format(module_param_name)
+            )
+        return result
+
+    @staticmethod
+    def log(msg):
+        """ Allow Ansible module to add debug messages to the log """
+        logger.debug(msg)
+
+    @staticmethod
+    def __convert_params_to_choices(properties):
+        def snake_case(name):
+            result = string_utils.snake_case_to_camel(name.replace('_params', ''), upper_case_first=True)
+            return result[:1].upper() + result[1:]
+        choices = {}
+        for x in list(properties.keys()):
+            if x.endswith('params'):
+                choices[x] = snake_case(x)
+        return choices
 
     def __add_path_to_dict(self, request_dict, param_name, param_value, path):
         local_path = copy.copy(path)
@@ -281,25 +307,6 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             result = param_list
         return result
 
-    def find_arg_spec(self, module_param_name):
-        """For testing, allow the param_name value to be an alias"""
-        if self.argspec.get(module_param_name):
-            return self.argspec[module_param_name]
-        result = None
-        for key, value in self.argspec.items():
-            if value.get('aliases'):
-                for alias in value['aliases']:
-                    if alias == module_param_name:
-                        result = self.argspec[key]
-                        break
-                if result:
-                    break
-        if not result:
-            raise OpenShiftException(
-                "Error: received unrecognized module parameter {}".format(module_param_name)
-            )
-        return result
-
     def __set_obj_attribute(self, obj, property_path, param_value, param_name):
         """
         Recursively set object properties
@@ -320,11 +327,12 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 try:
                     setattr(obj, prop_name, param_value)
                 except ValueError as exc:
-                    if param_value is None and 'None' in exc.message:
+                    msg = str(exc)
+                    if param_value is None and 'None' in msg:
                         pass
                     else:
-                        raise OpenShiftException(
-                            "Error setting {0} to {1}: {2}".format(prop_name, param_value, exc.message)
+                        raise self.get_exception()(
+                            "Error setting {0} to {1}: {2}".format(prop_name, param_value, msg)
                         )
             elif prop_kind.startswith('dict('):
                 if not getattr(obj, prop_name):
@@ -343,17 +351,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 # prop_kind is an object class
                 sub_obj = getattr(obj, prop_name)
                 if not sub_obj:
-                    sub_obj = getattr(models, prop_kind)()
+                    sub_obj = self.model_class_from_name(prop_kind)()
                 setattr(obj, prop_name, self.__set_obj_attribute(sub_obj, property_path, param_value, param_name))
         return obj
 
-    @staticmethod
-    def log(msg):
-        """ Allow Ansible module to add debug messages to the log """
-        logger.debug(msg)
-
-    @staticmethod
-    def __compare_list(src_values, request_values, param_name):
+    def __compare_list(self, src_values, request_values, param_name):
         """
         Compare src_values list with request_values list, and ppend any missing
         request_values to src_values.
@@ -399,7 +401,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                     missing.append(request_list)
             src_values += missing
         else:
-            raise OpenShiftException(
+            raise self.get_exception()(
                 "Evaluating {0}: encountered unimplemented type {1} in "
                 "__compare_list()".format(param_name, type(src_values[0]).__name__)
             )
@@ -419,7 +421,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             elif type(value).__name__ == 'dict':
                 self.__compare_dict(src_value[item], value, param_name)
             else:
-                raise OpenShiftException(
+                raise self.get_exception()(
                     "Evaluating {0}: encountered unimplemented type {1} in "
                     "__compare_dict()".format(param_name, type(value).__name__)
                 )
@@ -433,7 +435,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
         if not request_value:
             return
 
-        sample_obj = getattr(models, obj_class)()
+        sample_obj = self.model_class_from_name(obj_class)()
 
         # Try to determine the unique key for the array
         key_names = [
@@ -452,7 +454,7 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 if not item.get(key_name):
                     # Prevent user from creating something that will be impossible to patch or update later
                     logger.debug("FAILED on: {}".format(item))
-                    raise OpenShiftException(
+                    raise self.get_exception()(
                         "Evaluating {0} - expecting parameter {1} to contain a `{2}` attribute "
                         "in __compare_obj_list().".format(param_name,
                                                           self.get_base_model_name_snake(obj_class),
@@ -482,11 +484,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                                 # object
                                 param_obj = getattr(obj, key)
                                 if not param_obj:
-                                    setattr(obj, key, getattr(models, item_kind)())
+                                    setattr(obj, key, self.model_class_from_name(item_kind)())
                                     param_obj = getattr(obj, key)
                                 self.__update_object_properties(param_obj, value)
                             else:
-                                raise OpenShiftException(
+                                raise self.get_exception()(
                                     "Evaluating {0}: encountered unimplemented type {1} in "
                                     "__compare_obj_list() for model {2}".format(
                                         param_name,
@@ -494,10 +496,9 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                                         self.get_base_model_name_snake(obj_class))
                                 )
                 if not found:
-                    # Requested item not found. Adding.
-                    src_value.append(
-                        self.__update_object_properties(getattr(models, obj_class)(), item)
-                    )
+                    # Requested item not found. Adding
+                    obj = self.__update_object_properties(self.model_class_from_name(obj_class)(), item)
+                    src_value.append(obj)
         else:
             # There isn't a key, or we don't know what it is, so check for all properties to match
             for item in request_value:
@@ -513,9 +514,8 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                         found = True
                         break
                 if not found:
-                    src_value.append(
-                        self.__update_object_properties(getattr(models, obj_class)(), item)
-                    )
+                    obj = self.__update_object_properties(self.model_class_from_name(obj_class)(), item)
+                    src_value.append(obj)
 
     def __update_object_properties(self, obj, item):
         """ Recursively update an object's properties. Returns a pointer to the object. """
@@ -524,10 +524,10 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             snake_key = self.attribute_to_snake(key)
             try:
                 kind = obj.swagger_types[snake_key]
-            except:
+            except (AttributeError,KeyError):
                 possible_matches = ', '.join(list(obj.swagger_types.keys()))
                 class_snake_name = self.get_base_model_name_snake(type(obj).__name__)
-                raise OpenShiftException(
+                raise self.get_exception()(
                     "Unable to find '{0}' in {1}. Valid property names include: {2}".format(snake_key,
                                                                                             class_snake_name,
                                                                                             possible_matches)
@@ -537,33 +537,10 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
             else:
                 # kind is an object, hopefully
                 if not getattr(obj, key):
-                    setattr(obj, key, getattr(models, kind)())
+                    setattr(obj, key, self.model_class_from_name(kind)())
                 self.__update_object_properties(getattr(obj, key), value)
 
         return obj
-
-    def log_argspec(self):
-        """ Safely logs the argspec by not including any params with the no_log attribute. """
-        logger.debug("arg_spec:")
-        tmp_arg_spec = copy.deepcopy(self._argspec_cache)
-        pop_keys = []
-        for key, value in tmp_arg_spec.items():
-            if value.get('no_log'):
-                pop_keys.append(key)
-        for key in pop_keys:
-            tmp_arg_spec.pop(key)
-        logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True))
-
-    @staticmethod
-    def __convert_params_to_choices(properties):
-        def snake_case(name):
-            result = string_utils.snake_case_to_camel(name.replace('_params', ''), upper_case_first=True)
-            return result[:1].upper() + result[1:]
-        choices = {}
-        for x in list(properties.keys()):
-            if x.endswith('params'):
-                choices[x] = snake_case(x)
-        return choices
 
     def __transform_properties(self, properties, prefix='', path=None, alternate_prefix=''):
         """
@@ -691,3 +668,11 @@ class AnsibleModuleHelper(KubernetesObjectHelper):
                 if prop == 'type':
                     args[arg_prefix + prop]['choices'] = self.__convert_params_to_choices(properties)
         return args
+
+
+class KubernetesAnsibleModuleHelper(AnsibleMixin, KubernetesObjectHelper):
+    pass
+
+
+class OpenShiftAnsibleModuleHelper(AnsibleMixin, OpenShiftObjectHelper):
+    pass

@@ -28,17 +28,29 @@ fi
 
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE}")
 PACKAGE_NAME=$(python "${SCRIPT_ROOT}/constants.py" PACKAGE_NAME)
-CLIENT_ROOT="${SCRIPT_ROOT}/../${PACKAGE_NAME}"
+SOURCE_ROOT="${SCRIPT_ROOT}/../"
+CLIENT_ROOT="${SOURCE_ROOT}/${PACKAGE_NAME}"
 CLIENT_VERSION=$(python "${SCRIPT_ROOT}/constants.py" CLIENT_VERSION)
+KUBERNETES_CLIENT_VERSION=$(python "${SCRIPT_ROOT}/constants.py" KUBERNETES_CLIENT_VERSION)
 DEVELOPMENT_STATUS=$(python "${SCRIPT_ROOT}/constants.py" DEVELOPMENT_STATUS)
 
 pushd "${SCRIPT_ROOT}" > /dev/null
 SCRIPT_ROOT=`pwd`
 popd > /dev/null
 
+pushd "${SOURCE_ROOT}" > /dev/null
+SOURCE_ROOT=`pwd`
+popd > /dev/null
+
 pushd "${CLIENT_ROOT}" > /dev/null
 CLIENT_ROOT=`pwd`
 popd > /dev/null
+
+set +o nounset
+if [ -d "${SOURCE_ROOT}" ]; then
+  source "${SOURCE_ROOT}/venv/bin/activate"
+fi
+set -o nounset
 
 echo "--- Downloading and processing OpenAPI spec"
 python "${SCRIPT_ROOT}/preprocess_spec.py"
@@ -58,14 +70,16 @@ find "${CLIENT_ROOT}/" -type f -name \*.md -exec sed -i "s/\bclient/${PACKAGE_NA
 find "${CLIENT_ROOT}/" -type f -name \*.md -exec sed -i "s/${PACKAGE_NAME}.client-python/client-python/g" {} +
 # rm "${CLIENT_ROOT}/LICENSE"
 echo "--- updating version information..."
-#sed -i'' "s/^CLIENT_VERSION = .*/CLIENT_VERSION = \\\"${CLIENT_VERSION}\\\"/" "${SCRIPT_ROOT}/../setup.py"
+sed -i'' "s/^CLIENT_VERSION = .*/CLIENT_VERSION = \\\"${CLIENT_VERSION}\\\"/" "${SCRIPT_ROOT}/../setup.py"
 sed -i'' "s/^__version__ = .*/__version__ = \\\"${CLIENT_VERSION}\\\"/" "${CLIENT_ROOT}/__init__.py"
+sed -i'' "s/^__k8s_client_version__ = .*/__k8s_client_version__ = \\\"${KUBERNETES_CLIENT_VERSION}\\\"/" "${CLIENT_ROOT}/__init__.py"
 sed -i'' "s/^PACKAGE_NAME = .*/PACKAGE_NAME = \\\"${PACKAGE_NAME}\\\"/" "${SCRIPT_ROOT}/../setup.py"
+sed -i'' "s/^kubernetes ~= .*/kubernetes ~= \\\"${KUBERNETES_CLIENT_VERSION}\\\"/" "${SCRIPT_ROOT}/../requirements.txt"
 sed -i'' "s,^DEVELOPMENT_STATUS = .*,DEVELOPMENT_STATUS = \\\"${DEVELOPMENT_STATUS}\\\"," "${SCRIPT_ROOT}/../setup.py"
-sed -i'' "/^configuration = Configuration()$/d" "${CLIENT_ROOT}/client/__init__.py"
-sed -i'' "/^from .configuration import Configuration$/d" "${CLIENT_ROOT}/client/__init__.py"
-sed -i '${/^$/d;}' "${CLIENT_ROOT}/client/__init__.py"
-echo "from kubernetes.client.configuration import Configuration, ConfigurationObject, configuration" >> "${CLIENT_ROOT}/client/__init__.py"
+sed -i'' "/^configuration = Configuration()$/d" "${CLIENT_ROOT}/client/ansible.py"
+sed -i'' "/^from .configuration import Configuration$/d" "${CLIENT_ROOT}/client/ansible.py"
+sed -i '${/^$/d;}' "${CLIENT_ROOT}/client/ansible.py"
+echo "from kubernetes.client.configuration import Configuration, ConfigurationObject, configuration" >> "${CLIENT_ROOT}/client/ansible.py"
 
 
 echo "--- Patching to use k8s client-python where possible"
@@ -77,6 +91,9 @@ find "${CLIENT_ROOT}/" -type f -name \*.md -exec sed -i "s/^from ${PACKAGE_NAME}
 
 echo "--- Patching auth_settings"
 find "${CLIENT_ROOT}/client/apis" -type f -name \*.py -exec sed -i "s/auth_settings = \[\]/auth_settings = \['BearerToken'\]/g" {} +
+
+echo "--- Post processing of generated packages"
+python "${SCRIPT_ROOT}/update_generated.py"
 
 
 echo "---Done."

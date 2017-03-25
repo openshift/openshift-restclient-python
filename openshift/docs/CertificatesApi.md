@@ -4,11 +4,11 @@ All URIs are relative to *https://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_api_group**](CertificatesApi.md#get_api_group) | **GET** /apis/certificates.k8s.io/ | 
+[**get_certificates_api_group**](CertificatesApi.md#get_certificates_api_group) | **GET** /apis/certificates.k8s.io/ | 
 
 
-# **get_api_group**
-> UnversionedAPIGroup get_api_group()
+# **get_certificates_api_group**
+> UnversionedAPIGroup get_certificates_api_group()
 
 
 
@@ -26,10 +26,10 @@ from pprint import pprint
 api_instance = openshift.client.CertificatesApi()
 
 try: 
-    api_response = api_instance.get_api_group()
+    api_response = api_instance.get_certificates_api_group()
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling CertificatesApi->get_api_group: %s\n" % e)
+    print("Exception when calling CertificatesApi->get_certificates_api_group: %s\n" % e)
 ```
 
 ### Parameters

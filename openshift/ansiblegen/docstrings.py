@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import absolute_import
 from __future__ import print_function
 
@@ -13,26 +12,49 @@ import shlex
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
-from openshift import __version__ as openshift_version
-from openshift.client import models
-from openshift.helper import OpenShiftException
-from openshift.helper.ansible import AnsibleModuleHelper
+from kubernetes.client import models as k8s_models
+
+from .. import __version__ as openshift_client_version
+from .. import __k8s_client_version__ as k8s_client_version
+from ..client import models as openshift_models
+from ..helper.exceptions import KubernetesException
+from ..helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper
 
 logger = logging.getLogger(__name__)
 
-
 # Once the modules land in Ansible core, this should not change
+# TODO: compute this by inspecting the Ansible repo
 ANSIBLE_VERSION_ADDED = "2.3.0"
 
 
 class DocStrings(object):
 
-    def __init__(self, model, api_version):
+    def __init__(self, model, api_version, is_openshift):
         self.model = model
         self.api_version = api_version
+
+        if is_openshift:
+            helper_class = OpenShiftAnsibleModuleHelper
+            self.library_required = 'openshift'
+            self.library_version_required = openshift_client_version
+            self.module_prefix = 'openshift'
+            self.project_name = 'OpenShift'
+            self.models_package = openshift_models
+        else:
+            helper_class = KubernetesAnsibleModuleHelper
+            self.library_required = 'kubernetes'
+            self.library_version_required = k8s_client_version
+            self.module_prefix = 'k8s'
+            self.project_name = 'Kubernetes'
+            self.models_package = k8s_models
+
+        self.module_name = '{}_{}_{}'.format(self.module_prefix, self.api_version.lower(),
+                                             string_utils.camel_case_to_snake(self.model))
+        self.module_file = self.module_name + '.yml'
+
         try:
-            self.helper = AnsibleModuleHelper(self.api_version, self.model, debug=True)
-        except OpenShiftException:
+            self.helper = helper_class(self.api_version, self.model, debug=True)
+        except KubernetesException:
             raise
 
     @property
@@ -43,9 +65,9 @@ class DocStrings(object):
         :return: string containing formatted YAML
         """
         doc_string = CommentedMap()   # Gives us an OrderedDict that ruamel.yaml supports
-        doc_string['module'] = "k8s_{0}_{1}".format(self.api_version.lower(),
-                                                    string_utils.camel_case_to_snake(self.model))
-        doc_string['short_description'] = "Kubernetes {}".format(self.helper.base_model_name)
+        doc_string['module'] = self.module_name
+        doc_string['short_description'] = "{} {}".format(self.project_name,
+                                                         self.helper.base_model_name)
 
         if not self.helper.base_model_name_snake.endswith('_list'):
             # module allows CRUD operations on the object
@@ -66,7 +88,7 @@ class DocStrings(object):
         doc_string['version_added'] = ANSIBLE_VERSION_ADDED
         doc_string['author'] = "OpenShift (@openshift)"
         doc_string['options'] = CommentedMap()
-        doc_string['requirements'] = ["openshift == {}".format(openshift_version)]
+        doc_string['requirements'] = ["{} == {}".format(self.library_required, self.library_version_required)]
 
         def add_option(pname, pdict, descr=None):
             """
@@ -112,7 +134,7 @@ class DocStrings(object):
                         string_list = self.__doc_clean_up(docs.split('\n'))
                         add_option(param_name, param_dict, descr=string_list)
                     else:
-                        obj = getattr(models, kind)()
+                        obj = getattr(self.models_package, kind)()
             elif param_dict.get('description'):
                 # parameters is hard-coded in openshift.helper
                 add_option(param_name, param_dict)
@@ -196,8 +218,8 @@ class DocStrings(object):
                     doc_key[attribute]['type'] = 'list'
                     sub_obj = None
                     try:
-                        sub_obj = getattr(models, class_name)()
-                    except:
+                        sub_obj = getattr(self.models_package, class_name)()
+                    except (AttributeError, KubernetesException):
                         pass
                     if sub_obj:
                         doc_key[attribute]['contains'] = CommentedMap()
@@ -211,8 +233,8 @@ class DocStrings(object):
                     doc_key[attribute]['type'] = 'complex'
                     sub_obj = None
                     try:
-                        sub_obj = getattr(models, class_name)()
-                    except:
+                        sub_obj = getattr(self.models_package, class_name)()
+                    except (AttributeError, KubernetesException):
                         pass
                     if sub_obj:
                         doc_key[attribute]['contains'] = CommentedMap()
@@ -224,7 +246,7 @@ class DocStrings(object):
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = 'complex'
                     doc_key[attribute]['contains'] = CommentedMap()
-                    sub_obj = getattr(models, kind)()
+                    sub_obj = getattr(self.models_package, kind)()
                     self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
 
     @property
@@ -234,8 +256,7 @@ class DocStrings(object):
         result = []
         result_str = ''
         # check if an example file exists
-        file_name = "{0}_{1}.yml".format(self.api_version.lower(),
-                                         self.helper.base_model_name_snake)
+        file_name = self.module_file
         example_path = os.path.join(os.path.dirname(__file__), 'examples', file_name)
         if os.path.exists(example_path):
             logger.debug('parsing {}'.format(example_path))
@@ -250,8 +271,7 @@ class DocStrings(object):
                 for key, value in ex.items():
                     if key != 'name':
                         # Add the module name as the second key
-                        module_name = 'k8s_{0}_{1}'.format(self.api_version.lower(),
-                                                           self.helper.base_model_name_snake)
+                        module_name = self.module_file
                         new_example[module_name] = value
                         if 'state' in self.helper.argspec:
                             # Add a state parameter to the example, placing it after the namespace parameter, or name,
@@ -330,5 +350,3 @@ class DocStrings(object):
             line = _remove_link(line)
             result.append(line)
         return result
-
-
