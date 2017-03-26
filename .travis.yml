@@ -19,6 +19,7 @@ env:
   - OPENSHIFT_VERSION=1.5
   - OPENSHIFT_VERSION=1.4
   - OPENSHIFT_VERSION=1.3
+  - OPENSHIFT_VERSION=none
 
 install:
   - pip install tox-travis coveralls
