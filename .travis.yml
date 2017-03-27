@@ -14,12 +14,12 @@ python:
   - "3.5"
 
 env:
-  - OPENSHIFT_VERSION=latest
-  - OPENSHIFT_VERSION=3.6
-  - OPENSHIFT_VERSION=1.5
-  - OPENSHIFT_VERSION=1.4
-  - OPENSHIFT_VERSION=1.3
-  - OPENSHIFT_VERSION=none
+  - TEST_SUITE=lint
+  - TEST_SUITE=functional OPENSHIFT_VERSION=latest
+  - TEST_SUITE=functional OPENSHIFT_VERSION=3.6
+  - TEST_SUITE=functional OPENSHIFT_VERSION=1.5
+  - TEST_SUITE=functional OPENSHIFT_VERSION=1.4
+  - TEST_SUITE=functional OPENSHIFT_VERSION=1.3
 
 install:
   - pip install tox-travis coveralls
