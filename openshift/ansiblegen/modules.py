@@ -12,11 +12,11 @@ import tempfile
 from jinja2 import Environment, FileSystemLoader
 from kubernetes.client import models as k8s_models
 
-from openshift.client import models as openshift_models
-from openshift.helper import VERSION_RX
-from openshift.helper.exceptions import OpenShiftException
+from ..client import models as openshift_models
+from ..helper import VERSION_RX
+from ..helper.exceptions import OpenShiftException
 
-from .docstrings import DocStrings
+from .docstrings import KubernetesDocStrings, OpenShiftDocStrings
 
 logger = logging.getLogger(__name__)
 
@@ -107,8 +107,10 @@ class Modules(object):
                                                model['model_api'].lower(),
                                                model['model_name_snake'])
             logger.debug("Generating module: {}".format(module_name))
-            is_openshift = prefix == 'openshift'
-            docs = DocStrings(model['model_name_snake'], model['model_api'], is_openshift)
+            if prefix == 'openshift':
+                docs = OpenShiftDocStrings(model['model_name_snake'], model['model_api'])
+            else:
+                docs = KubernetesDocStrings(model['model_name_snake'], model['model_api'])
             context = {
                 'documentation_string': docs.documentation,
                 'return_string': docs.return_block,

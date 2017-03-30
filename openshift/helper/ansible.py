@@ -666,7 +666,9 @@ class AnsibleMixin(object):
                     args[arg_prefix + prop]['aliases'] = [prop]
 
                 if prop == 'type':
-                    args[arg_prefix + prop]['choices'] = self.__convert_params_to_choices(properties)
+                    choices = self.__convert_params_to_choices(properties)
+                    if len(choices) > 0:
+                        args[arg_prefix + prop]['choices'] = choices
         return args
 
 

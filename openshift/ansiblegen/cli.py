@@ -8,10 +8,10 @@ import sys
 
 from logging import config
 
-from openshift import __version__
-from openshift.helper.exceptions import KubernetesException, OpenShiftException
+from .. import __version__
+from ..helper.exceptions import KubernetesException
 
-from .docstrings import DocStrings
+from .docstrings import KubernetesDocStrings, OpenShiftDocStrings
 from .modules import Modules
 
 logger = logging.getLogger(__name__)
@@ -104,11 +104,11 @@ def run_docstrings_cmd(**kwargs):
 
     for model in models:
         try:
-            strings = DocStrings(model=model, api_version=api_version, is_openshift=False)
+            strings = KubernetesDocStrings(model=model, api_version=api_version)
         except KubernetesException:
             try:
-                strings = DocStrings(model=model, api_version=api_version, is_openshift=True)
-            except OpenShiftException:
+                strings = OpenShiftDocStrings(model=model, api_version=api_version)
+            except KubernetesException:
                 raise
         print("DOCUMENTATION = '''")
         print(strings.documentation)
@@ -150,19 +150,20 @@ def commandline():
     if args.debug:
         # enable debug output
         LOGGING['loggers']['openshift.ansiblegen']['level'] = 'DEBUG'
-    elif args.suppress_stdout:
-        # disable output
-        LOGGING['loggers']['openshift.ansiblegen']['level'] = 'CRITICAL'
 
     config.dictConfig(LOGGING)
 
     if args.subcommand == 'help':
         parser.print_help()
         sys.exit(0)
-
-    if args.subcommand == 'version':
+    elif args.subcommand == 'version':
         logger.info("{0} version is {1}".format(__name__, __version__))
         sys.exit(0)
+    elif args.subcommand == 'modules':
+        if args.suppress_stdout:
+            # disable output
+            LOGGING['loggers']['openshift.ansiblegen']['level'] = 'CRITICAL'
+
     try:
         globals()['run_{}_cmd'.format(args.subcommand)](**vars(args))
     except Exception:

@@ -9,15 +9,19 @@ import re
 import string_utils
 import shlex
 
+from abc import ABCMeta, abstractmethod, abstractproperty
+
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
+from six import add_metaclass
+
 from kubernetes.client import models as k8s_models
 
-from .. import __version__ as openshift_client_version
-from .. import __k8s_client_version__ as k8s_client_version
+from .. import __version__
+from .. import __k8s_client_version__
 from ..client import models as openshift_models
-from ..helper.exceptions import KubernetesException
+from ..helper.exceptions import KubernetesException, OpenShiftException
 from ..helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper
 
 logger = logging.getLogger(__name__)
@@ -27,35 +31,41 @@ logger = logging.getLogger(__name__)
 ANSIBLE_VERSION_ADDED = "2.3.0"
 
 
-class DocStrings(object):
-
-    def __init__(self, model, api_version, is_openshift):
+@add_metaclass(ABCMeta)
+class DocStringsBase(object):
+    def __init__(self, model, api_version):
         self.model = model
         self.api_version = api_version
-
-        if is_openshift:
-            helper_class = OpenShiftAnsibleModuleHelper
-            self.library_required = 'openshift'
-            self.library_version_required = openshift_client_version
-            self.module_prefix = 'openshift'
-            self.project_name = 'OpenShift'
-            self.models_package = openshift_models
-        else:
-            helper_class = KubernetesAnsibleModuleHelper
-            self.library_required = 'kubernetes'
-            self.library_version_required = k8s_client_version
-            self.module_prefix = 'k8s'
-            self.project_name = 'Kubernetes'
-            self.models_package = k8s_models
 
         self.module_name = '{}_{}_{}'.format(self.module_prefix, self.api_version.lower(),
                                              string_utils.camel_case_to_snake(self.model))
         self.module_file = self.module_name + '.yml'
 
         try:
+            helper_class = self.helper_class
             self.helper = helper_class(self.api_version, self.model, debug=True)
         except KubernetesException:
             raise
+
+    @abstractmethod
+    def get_model(self, name):
+        pass
+
+    @abstractproperty
+    def project_name(self):
+        pass
+
+    @abstractproperty
+    def module_prefix(self):
+        pass
+
+    @abstractproperty
+    def helper_class(self):
+        pass
+
+    @abstractproperty
+    def required_library(self):
+        pass
 
     @property
     def documentation(self):
@@ -88,7 +98,8 @@ class DocStrings(object):
         doc_string['version_added'] = ANSIBLE_VERSION_ADDED
         doc_string['author'] = "OpenShift (@openshift)"
         doc_string['options'] = CommentedMap()
-        doc_string['requirements'] = ["{} == {}".format(self.library_required, self.library_version_required)]
+        doc_string['requirements'] = ["{} == {}".format(self.required_library['name'],
+                                                        self.required_library['version'])]
 
         def add_option(pname, pdict, descr=None):
             """
@@ -134,7 +145,7 @@ class DocStrings(object):
                         string_list = self.__doc_clean_up(docs.split('\n'))
                         add_option(param_name, param_dict, descr=string_list)
                     else:
-                        obj = getattr(self.models_package, kind)()
+                        obj = self.get_model(kind)
             elif param_dict.get('description'):
                 # parameters is hard-coded in openshift.helper
                 add_option(param_name, param_dict)
@@ -218,7 +229,7 @@ class DocStrings(object):
                     doc_key[attribute]['type'] = 'list'
                     sub_obj = None
                     try:
-                        sub_obj = getattr(self.models_package, class_name)()
+                        sub_obj = self.get_model(class_name)
                     except (AttributeError, KubernetesException):
                         pass
                     if sub_obj:
@@ -233,7 +244,7 @@ class DocStrings(object):
                     doc_key[attribute]['type'] = 'complex'
                     sub_obj = None
                     try:
-                        sub_obj = getattr(self.models_package, class_name)()
+                        sub_obj = self.get_model(class_name)
                     except (AttributeError, KubernetesException):
                         pass
                     if sub_obj:
@@ -246,7 +257,7 @@ class DocStrings(object):
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = 'complex'
                     doc_key[attribute]['contains'] = CommentedMap()
-                    sub_obj = getattr(self.models_package, kind)()
+                    sub_obj = self.get_model(kind)
                     self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
 
     @property
@@ -350,3 +361,49 @@ class DocStrings(object):
             line = _remove_link(line)
             result.append(line)
         return result
+
+
+class OpenShiftDocStrings(DocStringsBase):
+    def get_model(self, name):
+        try:
+            model = getattr(openshift_models, name)()
+        except AttributeError:
+            model = getattr(k8s_models, name)()
+        return model
+
+    @property
+    def project_name(self):
+        return 'OpenShift'
+
+    @property
+    def required_library(self):
+        return {'name': self.project_name.lower(), 'version': __version__}
+
+    @property
+    def module_prefix(self):
+        return self.project_name.lower()
+
+    @property
+    def helper_class(self):
+        return OpenShiftAnsibleModuleHelper
+
+
+class KubernetesDocStrings(DocStringsBase):
+    def get_model(self, name):
+        return getattr(k8s_models, name)()
+
+    @property
+    def project_name(self):
+        return 'Kubernetes'
+
+    @property
+    def required_library(self):
+        return {'name': self.project_name.lower(), 'version': __k8s_client_version__}
+
+    @property
+    def module_prefix(self):
+        return 'k8s'
+
+    @property
+    def helper_class(self):
+        return KubernetesAnsibleModuleHelper
