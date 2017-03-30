@@ -21,7 +21,7 @@ from kubernetes.client import models as k8s_models
 from .. import __version__
 from .. import __k8s_client_version__
 from ..client import models as openshift_models
-from ..helper.exceptions import KubernetesException, OpenShiftException
+from ..helper.exceptions import KubernetesException
 from ..helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper
 
 logger = logging.getLogger(__name__)
