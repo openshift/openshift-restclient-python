@@ -4,11 +4,11 @@ All URIs are relative to *https://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_version**](OsapiApi.md#get_version) | **GET** /osapi/ | 
+[**get_osapi_version**](OsapiApi.md#get_osapi_version) | **GET** /osapi/ | 
 
 
-# **get_version**
-> get_version()
+# **get_osapi_version**
+> get_osapi_version()
 
 
 
@@ -26,9 +26,9 @@ from pprint import pprint
 api_instance = openshift.client.OsapiApi()
 
 try: 
-    api_instance.get_version()
+    api_instance.get_osapi_version()
 except ApiException as e:
-    print("Exception when calling OsapiApi->get_version: %s\n" % e)
+    print("Exception when calling OsapiApi->get_osapi_version: %s\n" % e)
 ```
 
 ### Parameters

@@ -21,11 +21,10 @@ http://pypi.python.org/pypi/setuptools
 """
 
 from setuptools import find_packages, setup
-from openshift import __version__
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-client.sh.
-CLIENT_VERSION = __version__
+CLIENT_VERSION = "1.0.0-snapshot"
 PACKAGE_NAME = "openshift"
 DEVELOPMENT_STATUS = "3 - Alpha"
 
@@ -35,7 +34,7 @@ def extract_requirements(filename):
     Extracts requirements from a pip formatted requirements file.
     """
     with open(filename, 'r') as requirements_file:
-        return [x.split()[0] for x in requirements_file.readlines()]
+        return requirements_file.read().splitlines()
 
 
 setup(

@@ -4,11 +4,11 @@ All URIs are relative to *https://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_code**](VersionApi.md#get_code) | **GET** /version/ | 
+[**get_code_version**](VersionApi.md#get_code_version) | **GET** /version/ | 
 
 
-# **get_code**
-> VersionInfo get_code()
+# **get_code_version**
+> VersionInfo get_code_version()
 
 
 
@@ -26,10 +26,10 @@ from pprint import pprint
 api_instance = openshift.client.VersionApi()
 
 try: 
-    api_response = api_instance.get_code()
+    api_response = api_instance.get_code_version()
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling VersionApi->get_code: %s\n" % e)
+    print("Exception when calling VersionApi->get_code_version: %s\n" % e)
 ```
 
 ### Parameters

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import absolute_import
 from __future__ import print_function
 
@@ -8,21 +7,23 @@ import inspect
 import os
 import shutil
 import string_utils
-import sys
 import tempfile
 
 from jinja2 import Environment, FileSystemLoader
+from kubernetes.client import models as k8s_models
 
-from openshift.client import models as openshift_models
-from openshift.helper import VERSION_RX
-from openshift.helper.exceptions import OpenShiftException
+from ..client import models as openshift_models
+from ..helper import VERSION_RX
+from ..helper.exceptions import OpenShiftException
 
-from .docstrings import DocStrings
+from .docstrings import KubernetesDocStrings, OpenShiftDocStrings
 
 logger = logging.getLogger(__name__)
 
 # Once the modules land in Ansible core, this should not change
 ANSIBLE_VERSION_ADDED = "2.3.0"
+
+JINJA2_TEMPLATE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), 'templates'))
 
 
 class Modules(object):
@@ -30,16 +31,20 @@ class Modules(object):
     def __init__(self, **kwargs):
         self.api_version = kwargs.pop('api_version')
         self.output_path = os.path.normpath(kwargs.pop('output_path'))
-        self.suppress_stdout = kwargs.pop('suppress_stdout')
-        self.template_path = os.path.normpath(os.path.join(os.path.dirname(__file__), 'templates'))
         self.debug = kwargs.get('debug', False)
 
         logger.debug("output_path: {}".format(self.output_path))
 
         # Evaluate openshift.models.*, and determine which models should be a module
-        self.models = []
         requested_models = kwargs.pop('models')
-        for model, model_class in inspect.getmembers(openshift_models):
+        self._k8s_models = self.__get_models_for_package(k8s_models, self.api_version, requested_models)
+        self._openshift_models = self.__get_models_for_package(openshift_models, self.api_version, requested_models)
+
+    @staticmethod
+    def __get_models_for_package(model_package, api_version, requested_models):
+        models = []
+
+        for model, model_class in inspect.getmembers(model_package):
             if model == 'V1ProjectRequest':
                 continue
             if 'kind' in dir(model_class) and ('metadata' in dir(model_class) or
@@ -56,22 +61,24 @@ class Modules(object):
                    base_model_name not in requested_models and \
                    model_name_snake not in requested_models:
                     continue
-                if self.api_version:
+                if api_version:
                     # only include models for the requested API version
-                    if model_api == self.api_version.capitalize():
-                        self.models.append({
+                    if model_api == api_version.capitalize():
+                        models.append({
                             'model': model,
                             'model_api': model_api,
                             'base_model_name': base_model_name,
                             'model_name_snake': model_name_snake
                         })
                 else:
-                    self.models.append({
+                    models.append({
                         'model': model,
                         'model_api': model_api,
                         'base_model_name': base_model_name,
                         'model_name_snake': model_name_snake
                     })
+
+        return models
 
     def generate_modules(self):
         """
@@ -79,14 +86,31 @@ class Modules(object):
 
         :return: None
         """
-        self.__create_output_path()
+        self.__generate_modules_impl(self._k8s_models, 'k8s', self.output_path)
+        logger.info("Generated {} modules".format(len(self._k8s_models)))
+
+        self.__generate_modules_impl(self._openshift_models, 'openshift', self.output_path)
+        logger.info("Generated {} modules".format(len(self._openshift_models)))
+
+    @classmethod
+    def __generate_modules_impl(cls, models, prefix, output_path):
+        """
+        Create requested Ansible modules, writing them to output_path.
+
+        :return: None
+        """
+        module_path = os.path.join(output_path, prefix)
+        cls.__create_output_path(module_path)
         temp_dir = os.path.realpath(tempfile.mkdtemp())  # jinja temp dir
-        for model in self.models:
-            module_name = "k8s_{0}_{1}.py".format(model['model_api'].lower(),
-                                                  model['model_name_snake'])
-            if not self.suppress_stdout:
-                print(module_name)
-            docs = DocStrings(model['model_name_snake'], model['model_api'])
+        for model in models:
+            module_name = "{}_{}_{}.py".format(prefix,
+                                               model['model_api'].lower(),
+                                               model['model_name_snake'])
+            logger.debug("Generating module: {}".format(module_name))
+            if prefix == 'openshift':
+                docs = OpenShiftDocStrings(model['model_name_snake'], model['model_api'])
+            else:
+                docs = KubernetesDocStrings(model['model_name_snake'], model['model_api'])
             context = {
                 'documentation_string': docs.documentation,
                 'return_string': docs.return_block,
@@ -94,15 +118,15 @@ class Modules(object):
                 'kind': model['model_name_snake'],
                 'api_version': model['model_api']
             }
-            self.__jinja_render_to_temp('k8s_module.j2', module_name, temp_dir, **context)
-            if not self.suppress_stdout and not self.debug:
-                sys.stdout.write("\033[F")  # cursor up 1 line
-                sys.stdout.write("\033[K")  # clear to EOL
+            template_file = prefix + '_module.j2'
+            cls.__jinja_render_to_file(JINJA2_TEMPLATE_PATH, template_file,
+                                       module_name, temp_dir, module_path,
+                                       **context)
         shutil.rmtree(temp_dir)
-        if not self.suppress_stdout:
-            print("Generated {} modules".format(len(self.models)))
 
-    def __jinja_render_to_temp(self, template_file, module_name, temp_dir, **context):
+    @classmethod
+    def __jinja_render_to_file(cls, template_path, template_file, module_name,
+                               temp_dir, module_path, **context):
         """
         Create the module from a jinja template.
 
@@ -112,24 +136,25 @@ class Modules(object):
         :param context: dict of substitution variables
         :return: None
         """
-        j2_tmpl_path = self.template_path
+        j2_tmpl_path = template_path
         j2_env = Environment(loader=FileSystemLoader(j2_tmpl_path), keep_trailing_newline=True)
         j2_tmpl = j2_env.get_template(template_file)
         rendered = j2_tmpl.render(dict(temp_dir=temp_dir, **context))
-        with open(os.path.normpath(os.path.join(self.output_path, module_name)), 'wb') as f:
+        with open(os.path.normpath(os.path.join(module_path, module_name)), 'wb') as f:
             f.write(rendered.encode('utf8'))
 
-    def __create_output_path(self):
+    @classmethod
+    def __create_output_path(cls, output_path):
         """
         Attempt to create the output path, if it does not already exist
 
         :return: None
         """
-        if os.path.exists(self.output_path):
-            if not os.path.isdir(self.output_path):
-                raise OpenShiftException("ERROR: expected {} to be a directory.".format(self.output_path))
+        if os.path.exists(output_path):
+            if not os.path.isdir(output_path):
+                raise OpenShiftException("ERROR: expected {} to be a directory.".format(output_path))
         else:
             try:
-                os.makedirs(self.output_path, 0o775)
+                os.makedirs(output_path, 0o775)
             except os.error as exc:
-                raise OpenShiftException("ERROR: could not create {0} - {1}".format(self.output_path, str(exc)))
+                raise OpenShiftException("ERROR: could not create {0} - {1}".format(output_path, str(exc)))

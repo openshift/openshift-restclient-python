@@ -4,11 +4,11 @@ All URIs are relative to *https://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_api_group**](StorageApi.md#get_api_group) | **GET** /apis/storage.k8s.io/ | 
+[**get_storage_api_group**](StorageApi.md#get_storage_api_group) | **GET** /apis/storage.k8s.io/ | 
 
 
-# **get_api_group**
-> UnversionedAPIGroup get_api_group()
+# **get_storage_api_group**
+> UnversionedAPIGroup get_storage_api_group()
 
 
 
@@ -26,10 +26,10 @@ from pprint import pprint
 api_instance = openshift.client.StorageApi()
 
 try: 
-    api_response = api_instance.get_api_group()
+    api_response = api_instance.get_storage_api_group()
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling StorageApi->get_api_group: %s\n" % e)
+    print("Exception when calling StorageApi->get_storage_api_group: %s\n" % e)
 ```
 
 ### Parameters

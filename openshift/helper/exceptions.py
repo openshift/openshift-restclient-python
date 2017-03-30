@@ -2,8 +2,7 @@
 
 import json
 
-
-class OpenShiftException(Exception):
+class KubernetesException(Exception):
     """
     Raised when there is an error inside of an Ansible module.
     """
@@ -25,3 +24,7 @@ class OpenShiftException(Exception):
         String representation of the instance.
         """
         return json.dumps(self.value)
+
+
+class OpenShiftException(KubernetesException):
+    pass
