@@ -515,7 +515,7 @@ class BaseObjectHelper(object):
                 stream = w.stream(list_method, _request_timeout=self.timeout)
         except exception_class:
             pass
-        except:
+        except Exception:
             raise
 
         return w, stream
