@@ -21,8 +21,8 @@ LOGGING = {
     'disable_existing_loggers': True,
     'handlers': {
         'console': {
-            'level': 'INFO',
             'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
         },
     },
     'loggers': {

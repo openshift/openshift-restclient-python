@@ -31,8 +31,6 @@ class Modules(object):
     def __init__(self, **kwargs):
         self.api_version = kwargs.pop('api_version')
         self.output_path = os.path.normpath(kwargs.pop('output_path'))
-        self.debug = kwargs.get('debug', False)
-
         logger.debug("output_path: {}".format(self.output_path))
 
         # Evaluate openshift.models.*, and determine which models should be a module
@@ -43,7 +41,6 @@ class Modules(object):
     @staticmethod
     def __get_models_for_package(model_package, api_version, requested_models):
         models = []
-
         for model, model_class in inspect.getmembers(model_package):
             if model == 'V1ProjectRequest':
                 continue
@@ -77,7 +74,6 @@ class Modules(object):
                         'base_model_name': base_model_name,
                         'model_name_snake': model_name_snake
                     })
-
         return models
 
     def generate_modules(self):
@@ -87,10 +83,12 @@ class Modules(object):
         :return: None
         """
         self.__generate_modules_impl(self._k8s_models, 'k8s', self.output_path)
-        logger.info("Generated {} modules".format(len(self._k8s_models)))
+        if len(self._k8s_models):
+            print("Generated {} k8s_ modules".format(len(self._k8s_models)))
 
         self.__generate_modules_impl(self._openshift_models, 'openshift', self.output_path)
-        logger.info("Generated {} modules".format(len(self._openshift_models)))
+        if len(self._openshift_models):
+            print("Generated {} openshift modules".format(len(self._openshift_models)))
 
     @classmethod
     def __generate_modules_impl(cls, models, prefix, output_path):
@@ -99,14 +97,13 @@ class Modules(object):
 
         :return: None
         """
-        module_path = os.path.join(output_path, prefix)
+        module_path = output_path
         cls.__create_output_path(module_path)
         temp_dir = os.path.realpath(tempfile.mkdtemp())  # jinja temp dir
         for model in models:
             module_name = "{}_{}_{}.py".format(prefix,
                                                model['model_api'].lower(),
                                                model['model_name_snake'])
-            logger.debug("Generating module: {}".format(module_name))
             if prefix == 'openshift':
                 docs = OpenShiftDocStrings(model['model_name_snake'], model['model_api'])
             else:
