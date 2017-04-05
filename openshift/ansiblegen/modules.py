@@ -97,7 +97,7 @@ class Modules(object):
 
         :return: None
         """
-        module_path = os.path.join(output_path, prefix)
+        module_path = output_path
         cls.__create_output_path(module_path)
         temp_dir = os.path.realpath(tempfile.mkdtemp())  # jinja temp dir
         for model in models:
