@@ -26,18 +26,21 @@ from .exceptions import KubernetesException
 
 @add_metaclass(ABCMeta)
 class BaseObjectHelper(object):
+    model = None
+    properties = None
+    base_model_name = None
+    base_model_name_snake = None
 
     logger = logging.getLogger(__name__)
 
-    def __init__(self, api_version, kind, debug=False, reset_logfile=True, timeout=20, **auth):
+    def __init__(self, api_version=None, kind=None, debug=False, reset_logfile=True, timeout=20, **auth):
         self.version_rx = re.compile("V\d((alpha|beta)\d)?")
         self.api_version = api_version
         self.kind = kind
-        self.model = self.get_model(api_version, kind)
-        self.properties = self.properties_from_model_obj(self.model())
-        self.base_model_name = self.get_base_model_name(self.model.__name__)
-        self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
         self.timeout = timeout  # number of seconds to wait for an API request
+
+        if api_version and kind:
+            self.set_model(api_version, kind)
 
         if debug:
             self.enable_debug(reset_logfile)
@@ -69,6 +72,15 @@ class BaseObjectHelper(object):
     @abstractmethod
     def get_exception_class():
         pass
+
+    def set_model(self, api_version, kind):
+        """ Switch the client's model """
+        self.api_version = api_version
+        self.kind = kind
+        self.model = self.get_model(api_version, kind)
+        self.properties = self.properties_from_model_obj(self.model())
+        self.base_model_name = self.get_base_model_name(self.model.__name__)
+        self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
 
     def set_client_config(self, **auth):
         """ Convenience method for updating the configuration object, and instantiating a new client """
@@ -169,6 +181,7 @@ class BaseObjectHelper(object):
         k8s_obj.metadata.resource_version = None
         self.__remove_creation_timestamps(k8s_obj)
         w, stream = self._create_stream(namespace)
+        return_obj = None
         self.logger.debug("Patching object: {}".format(json.dumps(k8s_obj.to_dict())))
         try:
             patch_method = self.lookup_method('patch', namespace)
@@ -180,14 +193,15 @@ class BaseObjectHelper(object):
             msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
             raise self.get_exception_class()(msg, status=exc.status)
 
-        return_obj = self._read_stream(w, stream, name)
+        if stream is not None:
+            return_obj = self._read_stream(w, stream, name)
 
         if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self._wait_for_response(name, namespace, 'patch')
 
         return return_obj
 
-    def create_object(self, namespace, k8s_obj=None, body=None):
+    def create_object(self, namespace=None, k8s_obj=None, body=None):
         """
         Send a POST request to the API. Pass either k8s_obj or body.
         :param namespace: namespace value or None
@@ -197,6 +211,7 @@ class BaseObjectHelper(object):
         """
         self.logger.debug('Starting create object')
         w, stream = self._create_stream(namespace)
+        return_obj = None
         name = None
         if k8s_obj:
             name = k8s_obj.metadata.name
@@ -220,7 +235,8 @@ class BaseObjectHelper(object):
         except MaxRetryError as ex:
             raise self.get_exception_class()(str(ex.reason))
 
-        return_obj = self._read_stream(w, stream, name)
+        if stream is not None:
+            return_obj = self._read_stream(w, stream, name)
 
         if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self._wait_for_response(name, namespace, 'create')
@@ -269,18 +285,23 @@ class BaseObjectHelper(object):
             update the request.
         """
         self.logger.debug('Starting replace object')
+
         existing_obj = self.get_object(name, namespace)
         if not existing_obj:
             msg = "Error: Replacing object. Unable to find {}".format(name)
             msg += " in namespace {}".format(namespace) if namespace else ""
             raise self.get_exception_class()(msg)
+
         if k8s_obj:
             k8s_obj.status = self.properties['status']['class']()
             self.__remove_creation_timestamps(k8s_obj)
             k8s_obj.metadata.resource_version = existing_obj.metadata.resource_version
         elif body:
             body['metadata']['resourceVersion'] = existing_obj.metadata.resource_version
+
         w, stream = self._create_stream(namespace)
+        return_obj = None
+
         try:
             replace_method = self.lookup_method('replace', namespace)
             if k8s_obj:
@@ -299,7 +320,8 @@ class BaseObjectHelper(object):
         except MaxRetryError as ex:
             raise self.get_exception_class()(str(ex.reason))
 
-        return_obj = self._read_stream(w, stream, name)
+        if stream is not None:
+            return_obj = self._read_stream(w, stream, name)
 
         if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self._wait_for_response(name, namespace, 'replace')
@@ -364,7 +386,7 @@ class BaseObjectHelper(object):
             }
         return result
 
-    def lookup_method(self, operation, namespace=None):
+    def lookup_method(self, operation=None, namespace=None, method_name=None):
         """
         Get the requested method (e.g. create, delete, patch, update) for
         the model object.
@@ -372,10 +394,10 @@ class BaseObjectHelper(object):
         :param namespace: optional name of the namespace.
         :return: pointer to the method
         """
-
-        method_name = operation
-        method_name += '_namespaced_' if namespace else '_'
-        method_name += self.kind.replace('_list', '') if self.kind.endswith('_list') else self.kind
+        if not method_name:
+            method_name = operation
+            method_name += '_namespaced_' if namespace else '_'
+            method_name += self.kind.replace('_list', '') if self.kind.endswith('_list') else self.kind
 
         method = None
         for api in self.available_apis():
@@ -479,13 +501,23 @@ class BaseObjectHelper(object):
 
     def _create_stream(self, namespace):
         """ Create a stream that gets events for the our model """
-        w = watch.Watch()
-        w._api_client = self.api_client  # monkey patch for access to OpenShift models
-        list_method = self.lookup_method('list', namespace)
-        if namespace:
-            stream = w.stream(list_method, namespace, _request_timeout=self.timeout)
-        else:
-            stream = w.stream(list_method, _request_timeout=self.timeout)
+        w = None
+        stream = None
+        exception_class = self.get_exception_class()
+
+        try:
+            list_method = self.lookup_method('list', namespace)
+            w = watch.Watch()
+            w._api_client = self.api_client  # monkey patch for access to OpenShift models
+            if namespace:
+                stream = w.stream(list_method, namespace, _request_timeout=self.timeout)
+            else:
+                stream = w.stream(list_method, _request_timeout=self.timeout)
+        except exception_class:
+            pass
+        except:
+            raise
+
         return w, stream
 
     def _read_stream(self, watcher, stream, name):
