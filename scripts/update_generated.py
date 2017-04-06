@@ -2,7 +2,7 @@ import io
 import os
 import sys
 
-from .constants import PACKAGE_NAME
+from constants import PACKAGE_NAME
 
 SCRIPT_DIR = os.path.dirname(__file__)
 LIB_DIR = os.path.join(SCRIPT_DIR, '..', PACKAGE_NAME)
@@ -52,7 +52,7 @@ def process_client_package():
         elif line.startswith('from .apis') and not api_exists(module_name_from_import(line, 2)):
             return True
         return False
-    process_package(os.path.join(LIB_DIR, 'client', 'ansible.py'), skip_method)
+    process_package(os.path.join(LIB_DIR, 'client', '__init__.py'), skip_method)
 
 
 def process_models_package():
@@ -60,7 +60,7 @@ def process_models_package():
         if line.startswith('from .') and not model_exists(module_name_from_import(line, 1)):
             return True
         return False
-    process_package(os.path.join(LIB_DIR, 'client', 'models', 'ansible.py'), skip_method)
+    process_package(os.path.join(LIB_DIR, 'client', 'models', '__init__.py'), skip_method)
 
 
 def process_apis_package():
@@ -68,7 +68,7 @@ def process_apis_package():
         if line.startswith('from .') and not api_exists(module_name_from_import(line, 1)):
             return True
         return False
-    process_package(os.path.join(LIB_DIR, 'client', 'apis', 'ansible.py'), skip_method)
+    process_package(os.path.join(LIB_DIR, 'client', 'apis', '__init__.py'), skip_method)
 
 
 def main():
