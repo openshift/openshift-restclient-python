@@ -47,7 +47,7 @@ CLIENT_ROOT=`pwd`
 popd > /dev/null
 
 set +o nounset
-if [ -d "${SOURCE_ROOT}" ]; then
+if [ -d "${SOURCE_ROOT}/venv" ]; then
   source "${SOURCE_ROOT}/venv/bin/activate"
 fi
 set -o nounset
@@ -74,12 +74,12 @@ sed -i'' "s/^CLIENT_VERSION = .*/CLIENT_VERSION = \\\"${CLIENT_VERSION}\\\"/" "$
 sed -i'' "s/^__version__ = .*/__version__ = \\\"${CLIENT_VERSION}\\\"/" "${CLIENT_ROOT}/__init__.py"
 sed -i'' "s/^__k8s_client_version__ = .*/__k8s_client_version__ = \\\"${KUBERNETES_CLIENT_VERSION}\\\"/" "${CLIENT_ROOT}/__init__.py"
 sed -i'' "s/^PACKAGE_NAME = .*/PACKAGE_NAME = \\\"${PACKAGE_NAME}\\\"/" "${SCRIPT_ROOT}/../setup.py"
-sed -i'' "s/^kubernetes ~= .*/kubernetes ~= \\\"${KUBERNETES_CLIENT_VERSION}\\\"/" "${SCRIPT_ROOT}/../requirements.txt"
+sed -i'' "s/^kubernetes ~= .*/kubernetes ~= ${KUBERNETES_CLIENT_VERSION}/" "${SCRIPT_ROOT}/../requirements.txt"
 sed -i'' "s,^DEVELOPMENT_STATUS = .*,DEVELOPMENT_STATUS = \\\"${DEVELOPMENT_STATUS}\\\"," "${SCRIPT_ROOT}/../setup.py"
-sed -i'' "/^configuration = Configuration()$/d" "${CLIENT_ROOT}/client/ansible.py"
-sed -i'' "/^from .configuration import Configuration$/d" "${CLIENT_ROOT}/client/ansible.py"
-sed -i '${/^$/d;}' "${CLIENT_ROOT}/client/ansible.py"
-echo "from kubernetes.client.configuration import Configuration, ConfigurationObject, configuration" >> "${CLIENT_ROOT}/client/ansible.py"
+sed -i'' "/^configuration = Configuration()$/d" "${CLIENT_ROOT}/client/__init__.py"
+sed -i'' "/^from .configuration import Configuration$/d" "${CLIENT_ROOT}/client/__init__.py"
+sed -i '${/^$/d;}' "${CLIENT_ROOT}/client/__init__.py"
+echo "from kubernetes.client.configuration import Configuration, ConfigurationObject, configuration" >> "${CLIENT_ROOT}/client/__init__.py"
 
 
 echo "--- Patching to use k8s client-python where possible"
