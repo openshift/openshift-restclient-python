@@ -479,18 +479,18 @@ class AnsibleMixin(object):
                         found = True
                         for key, value in item.items():
                             item_kind = sample_obj.swagger_types.get(key)
-                            if item_kind in PRIMITIVES or type(value).__name__ in PRIMITIVES:
+                            if item_kind and item_kind in PRIMITIVES or type(value).__name__ in PRIMITIVES:
                                 setattr(obj, key, value)
-                            elif item_kind.startswith('list['):
+                            elif item_kind and item_kind.startswith('list['):
                                 obj_type = item_kind.replace('list[', '').replace(']', '')
                                 if obj_type not in ('str', 'int', 'bool'):
                                     self.__compare_obj_list(getattr(obj, key), value, obj_type, param_name)
                                 else:
                                     # Straight list comparison
                                     self.__compare_list(getattr(obj, key), value, param_name)
-                            elif item_kind.startswith('dict('):
+                            elif item_kind and item_kind.startswith('dict('):
                                 self.__compare_dict(getattr(obj, key), value, param_name)
-                            elif type(value).__name__ == 'dict':
+                            elif item_kind and type(value).__name__ == 'dict':
                                 # object
                                 param_obj = getattr(obj, key)
                                 if not param_obj:
@@ -498,13 +498,23 @@ class AnsibleMixin(object):
                                     param_obj = getattr(obj, key)
                                 self.__update_object_properties(param_obj, value)
                             else:
-                                raise self.get_exception()(
-                                    "Evaluating {0}: encountered unimplemented type {1} in "
-                                    "__compare_obj_list() for model {2}".format(
-                                        param_name,
-                                        item_kind,
-                                        self.get_base_model_name_snake(obj_class))
-                                )
+                                if item_kind:
+                                    raise self.get_exception()(
+                                        "Evaluating {0}: encountered unimplemented type {1} in "
+                                        "__compare_obj_list() for model {2}".format(
+                                            param_name,
+                                            item_kind,
+                                            self.get_base_model_name_snake(obj_class))
+                                    )
+                                else:
+                                    raise self.get_exception()(
+                                        "Evaluating {}: unable to get swagger_type for {} in "
+                                        "__compare_obj_list() for item {} in model {}".format(
+                                            param_name,
+                                            key,
+                                            str(item),
+                                            self.get_base_model_name_snake(obj_class)) 
+                                    )
                 if not found:
                     # Requested item not found. Adding
                     obj = self.__update_object_properties(self.model_class_from_name(obj_class)(), item)
