@@ -247,7 +247,7 @@ class AnsibleMixin(object):
                 if result:
                     break
         if not result:
-            raise self.get_exception()(
+            raise self.get_exception_class()(
                 "Error: received unrecognized module parameter {}".format(module_param_name)
             )
         return result
@@ -341,7 +341,7 @@ class AnsibleMixin(object):
                     if param_value is None and 'None' in msg:
                         pass
                     else:
-                        raise self.get_exception()(
+                        raise self.get_exception_class()(
                             "Error setting {0} to {1}: {2}".format(prop_name, param_value, msg)
                         )
             elif prop_kind.startswith('dict('):
@@ -411,7 +411,7 @@ class AnsibleMixin(object):
                     missing.append(request_list)
             src_values += missing
         else:
-            raise self.get_exception()(
+            raise self.get_exception_class()(
                 "Evaluating {0}: encountered unimplemented type {1} in "
                 "__compare_list()".format(param_name, type(src_values[0]).__name__)
             )
@@ -431,7 +431,7 @@ class AnsibleMixin(object):
             elif type(value).__name__ == 'dict':
                 self.__compare_dict(src_value[item], value, param_name)
             else:
-                raise self.get_exception()(
+                raise self.get_exception_class()(
                     "Evaluating {0}: encountered unimplemented type {1} in "
                     "__compare_dict()".format(param_name, type(value).__name__)
                 )
@@ -464,7 +464,7 @@ class AnsibleMixin(object):
                 if not item.get(key_name):
                     # Prevent user from creating something that will be impossible to patch or update later
                     logger.debug("FAILED on: {}".format(item))
-                    raise self.get_exception()(
+                    raise self.get_exception_class()(
                         "Evaluating {0} - expecting parameter {1} to contain a `{2}` attribute "
                         "in __compare_obj_list().".format(param_name,
                                                           self.get_base_model_name_snake(obj_class),
@@ -499,7 +499,7 @@ class AnsibleMixin(object):
                                 self.__update_object_properties(param_obj, value)
                             else:
                                 if item_kind:
-                                    raise self.get_exception()(
+                                    raise self.get_exception_class()(
                                         "Evaluating {0}: encountered unimplemented type {1} in "
                                         "__compare_obj_list() for model {2}".format(
                                             param_name,
@@ -507,13 +507,13 @@ class AnsibleMixin(object):
                                             self.get_base_model_name_snake(obj_class))
                                     )
                                 else:
-                                    raise self.get_exception()(
+                                    raise self.get_exception_class()(
                                         "Evaluating {}: unable to get swagger_type for {} in "
                                         "__compare_obj_list() for item {} in model {}".format(
                                             param_name,
                                             key,
                                             str(item),
-                                            self.get_base_model_name_snake(obj_class)) 
+                                            self.get_base_model_name_snake(obj_class))
                                     )
                 if not found:
                     # Requested item not found. Adding
@@ -547,7 +547,7 @@ class AnsibleMixin(object):
             except (AttributeError,KeyError):
                 possible_matches = ', '.join(list(obj.swagger_types.keys()))
                 class_snake_name = self.get_base_model_name_snake(type(obj).__name__)
-                raise self.get_exception()(
+                raise self.get_exception_class()(
                     "Unable to find '{0}' in {1}. Valid property names include: {2}".format(snake_key,
                                                                                             class_snake_name,
                                                                                             possible_matches)
