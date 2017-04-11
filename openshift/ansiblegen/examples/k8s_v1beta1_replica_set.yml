@@ -1,0 +1,17 @@
+# v1beta1_replica_set.yml
+---
+
+- create:
+    name: myreplicaset
+    namespace: test
+    replicas: 3
+    # spec_selector_match_labels:
+    #   name: myreplicaset
+    # spec_selector_match_expressions:
+    #   - {key: name, operator: In, values: [myreplicaset]}
+    spec_template_metadata_labels:
+      name: myreplicaset
+    containers:
+    - name: myreplicaset
+      image: openshift/origin-ruby-sample:v1.0
+  name: Create replica set
