@@ -478,53 +478,54 @@ class AnsibleMixin(object):
                                                           key_name)
                     )
                 found = False
-                for obj in src_value:
-                    if not obj:
-                        continue
-                    if getattr(obj, key_name) == item[key_name]:
-                        # Assuming both the src_value and the request value include a name property
-                        found = True
-                        for key, value in item.items():
-                            snake_key = self.attribute_to_snake(key)
-                            item_kind = sample_obj.swagger_types.get(snake_key)
-                            if item_kind and item_kind in PRIMITIVES or type(value).__name__ in PRIMITIVES:
-                                setattr(obj, snake_key, value)
-                            elif item_kind and item_kind.startswith('list['):
-                                obj_type = item_kind.replace('list[', '').replace(']', '')
-                                if obj_type not in ('str', 'int', 'bool'):
-                                    self.__compare_obj_list(getattr(obj, snake_key), value, obj_type, param_name)
-                                else:
-                                    # Straight list comparison
-                                    self.__compare_list(getattr(obj, snake_key), value, param_name)
-                            elif item_kind and item_kind.startswith('dict('):
-                                self.__compare_dict(getattr(obj, snake_key), value, param_name)
-                            elif item_kind and type(value).__name__ == 'dict':
-                                # object
-                                param_obj = getattr(obj, snake_key)
-                                if not param_obj:
-                                    setattr(obj, snake_key, self.model_class_from_name(item_kind)())
+                if src_value:
+                    for obj in src_value:
+                        if not obj:
+                            continue
+                        if getattr(obj, key_name) == item[key_name]:
+                            # Assuming both the src_value and the request value include a name property
+                            found = True
+                            for key, value in item.items():
+                                snake_key = self.attribute_to_snake(key)
+                                item_kind = sample_obj.swagger_types.get(snake_key)
+                                if item_kind and item_kind in PRIMITIVES or type(value).__name__ in PRIMITIVES:
+                                    setattr(obj, snake_key, value)
+                                elif item_kind and item_kind.startswith('list['):
+                                    obj_type = item_kind.replace('list[', '').replace(']', '')
+                                    if obj_type not in ('str', 'int', 'bool'):
+                                        self.__compare_obj_list(getattr(obj, snake_key), value, obj_type, param_name)
+                                    else:
+                                        # Straight list comparison
+                                        self.__compare_list(getattr(obj, snake_key), value, param_name)
+                                elif item_kind and item_kind.startswith('dict('):
+                                    self.__compare_dict(getattr(obj, snake_key), value, param_name)
+                                elif item_kind and type(value).__name__ == 'dict':
+                                    # object
                                     param_obj = getattr(obj, snake_key)
-                                self.__update_object_properties(param_obj, value)
-                            else:
-                                if item_kind:
-                                    raise self.get_exception_class()(
-                                        "Evaluating {0}: encountered unimplemented type {1} in "
-                                        "__compare_obj_list() for model {2}".format(
-                                            param_name,
-                                            item_kind,
-                                            self.get_base_model_name_snake(obj_class))
-                                    )
+                                    if not param_obj:
+                                        setattr(obj, snake_key, self.model_class_from_name(item_kind)())
+                                        param_obj = getattr(obj, snake_key)
+                                    self.__update_object_properties(param_obj, value)
                                 else:
-                                    raise self.get_exception_class()(
-                                        "Evaluating {}: unable to get swagger_type for {} in "
-                                        "__compare_obj_list() for item {} in model {}".format(
-                                            param_name,
-                                            snake_key,
-                                            str(item),
-                                            self.get_base_model_name_snake(obj_class))
-                                    )
+                                    if item_kind:
+                                        raise self.get_exception_class()(
+                                            "Evaluating {0}: encountered unimplemented type {1} in "
+                                            "__compare_obj_list() for model {2}".format(
+                                                param_name,
+                                                item_kind,
+                                                self.get_base_model_name_snake(obj_class))
+                                        )
+                                    else:
+                                        raise self.get_exception_class()(
+                                            "Evaluating {}: unable to get swagger_type for {} in "
+                                            "__compare_obj_list() for item {} in model {}".format(
+                                                param_name,
+                                                snake_key,
+                                                str(item),
+                                                self.get_base_model_name_snake(obj_class))
+                                        )
                 if not found:
-                    # Requested item not found. Adding
+                    # Requested item not found. Adding.
                     obj = self.__update_object_properties(self.model_class_from_name(obj_class)(), item)
                     src_value.append(obj)
         else:
