@@ -535,7 +535,8 @@ class AnsibleMixin(object):
                     match = True
                     for item_key, item_value in item.items():
                         # TODO: this should probably take the property type into account
-                        if getattr(obj, item_key) != item_value:
+                        snake_key = self.attribute_to_snake(item_key)
+                        if getattr(obj, snake_key) != item_value:
                             match = False
                             break
                     if match:
