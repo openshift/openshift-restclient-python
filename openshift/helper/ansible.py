@@ -459,6 +459,13 @@ class AnsibleMixin(object):
                 break
 
         if key_name:
+            # If the key doesn't exist in the request values, then ignore it, rather than throwing an error
+            for item in request_value:
+                if not item.get(key_name):
+                    key_name = None
+                    break
+
+        if key_name:
             # compare by key field
             for item in request_value:
                 if not item.get(key_name):
