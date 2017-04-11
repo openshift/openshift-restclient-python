@@ -567,9 +567,9 @@ class AnsibleMixin(object):
                 self.__set_obj_attribute(obj, [snake_key], value, snake_key)
             else:
                 # kind is an object, hopefully
-                if not getattr(obj, key):
-                    setattr(obj, key, self.model_class_from_name(kind)())
-                self.__update_object_properties(getattr(obj, key), value)
+                if not getattr(obj, snake_key):
+                    setattr(obj, snake_key, self.model_class_from_name(kind)())
+                self.__update_object_properties(getattr(obj, snake_key), value)
 
         return obj
 
