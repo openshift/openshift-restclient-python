@@ -478,24 +478,25 @@ class AnsibleMixin(object):
                         # Assuming both the src_value and the request value include a name property
                         found = True
                         for key, value in item.items():
-                            item_kind = sample_obj.swagger_types.get(key)
+                            snake_key = self.attribute_to_snake(key)
+                            item_kind = sample_obj.swagger_types.get(snake_key)
                             if item_kind and item_kind in PRIMITIVES or type(value).__name__ in PRIMITIVES:
-                                setattr(obj, key, value)
+                                setattr(obj, snake_key, value)
                             elif item_kind and item_kind.startswith('list['):
                                 obj_type = item_kind.replace('list[', '').replace(']', '')
                                 if obj_type not in ('str', 'int', 'bool'):
-                                    self.__compare_obj_list(getattr(obj, key), value, obj_type, param_name)
+                                    self.__compare_obj_list(getattr(obj, snake_key), value, obj_type, param_name)
                                 else:
                                     # Straight list comparison
-                                    self.__compare_list(getattr(obj, key), value, param_name)
+                                    self.__compare_list(getattr(obj, snake_key), value, param_name)
                             elif item_kind and item_kind.startswith('dict('):
-                                self.__compare_dict(getattr(obj, key), value, param_name)
+                                self.__compare_dict(getattr(obj, snake_key), value, param_name)
                             elif item_kind and type(value).__name__ == 'dict':
                                 # object
-                                param_obj = getattr(obj, key)
+                                param_obj = getattr(obj, snake_key)
                                 if not param_obj:
-                                    setattr(obj, key, self.model_class_from_name(item_kind)())
-                                    param_obj = getattr(obj, key)
+                                    setattr(obj, snake_key, self.model_class_from_name(item_kind)())
+                                    param_obj = getattr(obj, snake_key)
                                 self.__update_object_properties(param_obj, value)
                             else:
                                 if item_kind:
@@ -511,7 +512,7 @@ class AnsibleMixin(object):
                                         "Evaluating {}: unable to get swagger_type for {} in "
                                         "__compare_obj_list() for item {} in model {}".format(
                                             param_name,
-                                            key,
+                                            snake_key,
                                             str(item),
                                             self.get_base_model_name_snake(obj_class))
                                     )
