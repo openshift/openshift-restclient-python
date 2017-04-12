@@ -2,8 +2,6 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-import copy
-
 import pytest
 
 from openshift.helper.exceptions import KubernetesException
@@ -34,10 +32,12 @@ def stateful_set(k8s_ansible_helper, create_params):
             raise
 
 
+@pytest.mark.version_limit(lowest_version='1.5')
 def test_create_stateful_set(k8s_ansible_helper, create_params, stateful_set, obj_compare):
     obj_compare(k8s_ansible_helper, stateful_set, create_params)
 
 
+@pytest.mark.version_limit(lowest_version='1.5')
 def test_get_stateful_set(k8s_ansible_helper, stateful_set):
     name = stateful_set.metadata.name
     namespace = stateful_set.metadata.namespace
@@ -45,6 +45,7 @@ def test_get_stateful_set(k8s_ansible_helper, stateful_set):
     assert k8s_obj is not None
 
 
+@pytest.mark.version_limit(lowest_version='1.5')
 def test_remove_stateful_set(k8s_ansible_helper, stateful_set):
     name = stateful_set.metadata.name
     namespace = stateful_set.metadata.namespace
