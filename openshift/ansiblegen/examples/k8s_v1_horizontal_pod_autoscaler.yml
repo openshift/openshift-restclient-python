@@ -1,4 +1,4 @@
-# v1beta1_replica_set.yml
+# v1_horizontal_pod_autoscaler.yml
 ---
 
 - create:
