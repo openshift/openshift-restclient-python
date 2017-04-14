@@ -211,7 +211,6 @@ class AnsibleMixin(object):
     def request_body_from_params(self, module_params):
         request = {
             'kind': self.base_model_name,
-            'apiVersion': self.api_version.lower()
         }
         for param_name, param_value in module_params.items():
             spec = self.find_arg_spec(param_name)

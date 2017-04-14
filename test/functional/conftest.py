@@ -15,6 +15,8 @@ import pytest
 import requests
 import json
 
+from pkg_resources import parse_version
+
 from openshift.client import models
 from kubernetes.client import V1Namespace, V1ObjectMeta
 from openshift.helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper
@@ -237,6 +239,29 @@ def project(kubeconfig):
     yield name
 
     helper.delete_object(name, None)
+
+
+@pytest.fixture
+def openshift_version():
+    return pytest.config.getoption('--openshift-version')
+
+
+@pytest.fixture(autouse=True)
+def skip_by_version(request, openshift_version):
+    if request.node.get_marker('version_limit') and openshift_version:
+
+        lowest_version = request.node.get_marker('version_limit').kwargs.get('lowest_version')
+        highest_version = request.node.get_marker('version_limit').kwargs.get('highest_version')
+        skip_latest = request.node.get_marker('version_limit').kwargs.get('skip_latest')
+
+        if openshift_version == 'latest' and skip_latest:
+            pytest.skip('This API is not supported in the latest openshift version')
+
+        too_low = lowest_version and parse_version(lowest_version) > parse_version(openshift_version)
+        too_high = highest_version and parse_version(highest_version) < parse_version(openshift_version)
+
+        if too_low or too_high:
+            pytest.skip('This API is not supported in openshift versions < {}'.format(openshift_version))
 
 
 def _get_id(argvalue):
