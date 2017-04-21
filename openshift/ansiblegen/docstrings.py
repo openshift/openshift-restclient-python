@@ -272,7 +272,7 @@ class DocStringsBase(object):
         if os.path.exists(example_path):
             logger.debug('parsing {}'.format(example_path))
             yaml_examples = ruamel.yaml.load(open(example_path, 'r'), Loader=ruamel.yaml.RoundTripLoader)
-            for ex in yaml_examples:
+            for ex in yaml_examples['tasks']:
                 new_example = CommentedMap()
                 for key, value in ex.items():
                     if key == 'name':

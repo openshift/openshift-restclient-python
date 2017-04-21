@@ -16,6 +16,7 @@ python:
 env:
   - TEST_SUITE=lint
   - TEST_SUITE=functional OPENSHIFT_VERSION=latest
+  - TEST_SUITE=functional OPENSHIFT_VERSION=3.7
   - TEST_SUITE=functional OPENSHIFT_VERSION=3.6
   - TEST_SUITE=functional OPENSHIFT_VERSION=1.5
   - TEST_SUITE=functional OPENSHIFT_VERSION=1.4

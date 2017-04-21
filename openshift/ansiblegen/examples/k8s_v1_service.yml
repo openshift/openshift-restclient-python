@@ -1,6 +1,7 @@
 # v1_service.yml
 ---
 
+tasks:
 - create:
     name: myservice
     namespace: k8s-project
@@ -26,7 +27,7 @@
       - port: 8788
         target_port: 8080
         name: socket-port
-    type: NodePort
+    type: ClusterIP
   name: Patch service
 
 - create:
@@ -67,5 +68,5 @@
      - port: 8080
        target_port: 8080
        name: http
-    type: ClusterIP
+    type: NodePort
   name: Repace service

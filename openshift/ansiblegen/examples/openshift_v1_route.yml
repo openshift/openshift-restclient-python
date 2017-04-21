@@ -1,6 +1,7 @@
 # v1_route.yml
 ---
 
+tasks:
 - create:
     name: myroute
     namespace: k8s-project

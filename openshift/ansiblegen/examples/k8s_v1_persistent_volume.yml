@@ -1,6 +1,8 @@
 # v1_persistent_volume.yml
 ---
 
+admin: yes
+tasks:
 - create:
     name: mypv
     capacity:

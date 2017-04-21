@@ -1,6 +1,7 @@
 # v1_horizontal_pod_autoscaler.yml
 ---
 
+tasks:
 - create:
     name: test-scaler
     namespace: test

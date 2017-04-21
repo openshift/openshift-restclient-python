@@ -1,6 +1,7 @@
 # v1_persistent_volume_claim.yml
 ---
 
+tasks:
 - create:
     name: mypvc
     namespace: demo_project
