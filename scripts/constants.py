@@ -15,22 +15,22 @@
 import sys
 
 # Kubernetes branch to get the OpenAPI spec from.
-KUBERNETES_BRANCH = "master"
+KUBERNETES_BRANCH = "release-1.5"
 
 # Spec version will be set in downloaded spec and all
 # generated code will refer to it.
-SPEC_VERSION = "v3.6.0-alpha.0"
+SPEC_VERSION = "v1.5.0"
 
 # client version for packaging and releasing. It can
 # be different than SPEC_VERSION.
-CLIENT_VERSION = "1.0.0-snapshot"
-KUBERNETES_CLIENT_VERSION = "1.0.0"
+CLIENT_VERSION = "0.0.1"
+KUBERNETES_CLIENT_VERSION = "1.0.1"
 
 # Name of the release package
 PACKAGE_NAME = "openshift"
 
 # Stage of development, mainly used in setup.py's classifiers.
-DEVELOPMENT_STATUS = "3 - Alpha"
+DEVELOPMENT_STATUS = "2 - Beta"
 
 
 # If called directly, return the constant value given

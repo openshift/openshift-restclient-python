@@ -1,6 +1,6 @@
 dictdiffer
 jinja2
-kubernetes ~= 1.0.0
+kubernetes ~= 1.0.1
 python-string-utils
 ruamel.yaml
 six

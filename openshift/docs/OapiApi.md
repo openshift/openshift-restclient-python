@@ -69,7 +69,7 @@ Method | HTTP request | Description
 [**create_pod_security_policy_subject_review_for_all_namespaces**](OapiApi.md#create_pod_security_policy_subject_review_for_all_namespaces) | **POST** /oapi/v1/podsecuritypolicysubjectreviews | 
 [**create_policy_binding_for_all_namespaces**](OapiApi.md#create_policy_binding_for_all_namespaces) | **POST** /oapi/v1/policybindings | 
 [**create_policy_for_all_namespaces**](OapiApi.md#create_policy_for_all_namespaces) | **POST** /oapi/v1/policies | 
-[**create_processed_template_for_all_namespaces_v1**](OapiApi.md#create_processed_template_for_all_namespaces_v1) | **POST** /oapi/v1/processedtemplates | 
+[**create_processed_template_for_all_namespaces**](OapiApi.md#create_processed_template_for_all_namespaces) | **POST** /oapi/v1/processedtemplates | 
 [**create_project**](OapiApi.md#create_project) | **POST** /oapi/v1/projects | 
 [**create_project_request**](OapiApi.md#create_project_request) | **POST** /oapi/v1/projectrequests | 
 [**create_resource_access_review_for_all_namespaces**](OapiApi.md#create_resource_access_review_for_all_namespaces) | **POST** /oapi/v1/resourceaccessreviews | 
@@ -202,10 +202,8 @@ Method | HTTP request | Description
 [**patch_namespaced_build**](OapiApi.md#patch_namespaced_build) | **PATCH** /oapi/v1/namespaces/{namespace}/builds/{name} | 
 [**patch_namespaced_build_config**](OapiApi.md#patch_namespaced_build_config) | **PATCH** /oapi/v1/namespaces/{namespace}/buildconfigs/{name} | 
 [**patch_namespaced_deployment_config**](OapiApi.md#patch_namespaced_deployment_config) | **PATCH** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
-[**patch_namespaced_deployment_config_status**](OapiApi.md#patch_namespaced_deployment_config_status) | **PATCH** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
 [**patch_namespaced_egress_network_policy**](OapiApi.md#patch_namespaced_egress_network_policy) | **PATCH** /oapi/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
 [**patch_namespaced_image_stream**](OapiApi.md#patch_namespaced_image_stream) | **PATCH** /oapi/v1/namespaces/{namespace}/imagestreams/{name} | 
-[**patch_namespaced_image_stream_status**](OapiApi.md#patch_namespaced_image_stream_status) | **PATCH** /oapi/v1/namespaces/{namespace}/imagestreams/{name}/status | 
 [**patch_namespaced_image_stream_tag**](OapiApi.md#patch_namespaced_image_stream_tag) | **PATCH** /oapi/v1/namespaces/{namespace}/imagestreamtags/{name} | 
 [**patch_namespaced_policy**](OapiApi.md#patch_namespaced_policy) | **PATCH** /oapi/v1/namespaces/{namespace}/policies/{name} | 
 [**patch_namespaced_policy_binding**](OapiApi.md#patch_namespaced_policy_binding) | **PATCH** /oapi/v1/namespaces/{namespace}/policybindings/{name} | 
@@ -213,7 +211,6 @@ Method | HTTP request | Description
 [**patch_namespaced_role_binding**](OapiApi.md#patch_namespaced_role_binding) | **PATCH** /oapi/v1/namespaces/{namespace}/rolebindings/{name} | 
 [**patch_namespaced_role_binding_restriction**](OapiApi.md#patch_namespaced_role_binding_restriction) | **PATCH** /oapi/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
 [**patch_namespaced_route**](OapiApi.md#patch_namespaced_route) | **PATCH** /oapi/v1/namespaces/{namespace}/routes/{name} | 
-[**patch_namespaced_route_status**](OapiApi.md#patch_namespaced_route_status) | **PATCH** /oapi/v1/namespaces/{namespace}/routes/{name}/status | 
 [**patch_namespaced_scale_scale**](OapiApi.md#patch_namespaced_scale_scale) | **PATCH** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
 [**patch_namespaced_template**](OapiApi.md#patch_namespaced_template) | **PATCH** /oapi/v1/namespaces/{namespace}/templates/{name} | 
 [**patch_net_namespace**](OapiApi.md#patch_net_namespace) | **PATCH** /oapi/v1/netnamespaces/{name} | 
@@ -240,12 +237,10 @@ Method | HTTP request | Description
 [**read_namespaced_build_config**](OapiApi.md#read_namespaced_build_config) | **GET** /oapi/v1/namespaces/{namespace}/buildconfigs/{name} | 
 [**read_namespaced_build_log_log**](OapiApi.md#read_namespaced_build_log_log) | **GET** /oapi/v1/namespaces/{namespace}/builds/{name}/log | 
 [**read_namespaced_deployment_config**](OapiApi.md#read_namespaced_deployment_config) | **GET** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
-[**read_namespaced_deployment_config_status**](OapiApi.md#read_namespaced_deployment_config_status) | **GET** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
 [**read_namespaced_deployment_log_log**](OapiApi.md#read_namespaced_deployment_log_log) | **GET** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/log | 
 [**read_namespaced_egress_network_policy**](OapiApi.md#read_namespaced_egress_network_policy) | **GET** /oapi/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
 [**read_namespaced_image_stream**](OapiApi.md#read_namespaced_image_stream) | **GET** /oapi/v1/namespaces/{namespace}/imagestreams/{name} | 
 [**read_namespaced_image_stream_image**](OapiApi.md#read_namespaced_image_stream_image) | **GET** /oapi/v1/namespaces/{namespace}/imagestreamimages/{name} | 
-[**read_namespaced_image_stream_status**](OapiApi.md#read_namespaced_image_stream_status) | **GET** /oapi/v1/namespaces/{namespace}/imagestreams/{name}/status | 
 [**read_namespaced_image_stream_tag**](OapiApi.md#read_namespaced_image_stream_tag) | **GET** /oapi/v1/namespaces/{namespace}/imagestreamtags/{name} | 
 [**read_namespaced_policy**](OapiApi.md#read_namespaced_policy) | **GET** /oapi/v1/namespaces/{namespace}/policies/{name} | 
 [**read_namespaced_policy_binding**](OapiApi.md#read_namespaced_policy_binding) | **GET** /oapi/v1/namespaces/{namespace}/policybindings/{name} | 
@@ -253,7 +248,6 @@ Method | HTTP request | Description
 [**read_namespaced_role_binding**](OapiApi.md#read_namespaced_role_binding) | **GET** /oapi/v1/namespaces/{namespace}/rolebindings/{name} | 
 [**read_namespaced_role_binding_restriction**](OapiApi.md#read_namespaced_role_binding_restriction) | **GET** /oapi/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
 [**read_namespaced_route**](OapiApi.md#read_namespaced_route) | **GET** /oapi/v1/namespaces/{namespace}/routes/{name} | 
-[**read_namespaced_route_status**](OapiApi.md#read_namespaced_route_status) | **GET** /oapi/v1/namespaces/{namespace}/routes/{name}/status | 
 [**read_namespaced_scale_scale**](OapiApi.md#read_namespaced_scale_scale) | **GET** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
 [**read_namespaced_secret_list_secrets**](OapiApi.md#read_namespaced_secret_list_secrets) | **GET** /oapi/v1/namespaces/{namespace}/imagestreams/{name}/secrets | 
 [**read_namespaced_template**](OapiApi.md#read_namespaced_template) | **GET** /oapi/v1/namespaces/{namespace}/templates/{name} | 
@@ -3577,8 +3571,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create_processed_template_for_all_namespaces_v1**
-> V1Template create_processed_template_for_all_namespaces_v1(body, pretty=pretty)
+# **create_processed_template_for_all_namespaces**
+> V1Template create_processed_template_for_all_namespaces(body, pretty=pretty)
 
 
 
@@ -3598,10 +3592,10 @@ body = openshift.client.V1Template() # V1Template |
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.create_processed_template_for_all_namespaces_v1(body, pretty=pretty)
+    api_response = api_instance.create_processed_template_for_all_namespaces(body, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling OapiApi->create_processed_template_for_all_namespaces_v1: %s\n" % e)
+    print("Exception when calling OapiApi->create_processed_template_for_all_namespaces: %s\n" % e)
 ```
 
 ### Parameters
@@ -10919,59 +10913,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **patch_namespaced_deployment_config_status**
-> V1DeploymentConfig patch_namespaced_deployment_config_status(name, namespace, body, pretty=pretty)
-
-
-
-partially update status of the specified DeploymentConfig
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = openshift.client.OapiApi()
-name = 'name_example' # str | name of the DeploymentConfig
-namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-
-try: 
-    api_response = api_instance.patch_namespaced_deployment_config_status(name, namespace, body, pretty=pretty)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling OapiApi->patch_namespaced_deployment_config_status: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **name** | **str**| name of the DeploymentConfig | 
- **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
-
-### Return type
-
-[**V1DeploymentConfig**](V1DeploymentConfig.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json-patch+json, application/merge-patch+json, application/strategic-merge-patch+json
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **patch_namespaced_egress_network_policy**
 > V1EgressNetworkPolicy patch_namespaced_egress_network_policy(name, namespace, body, pretty=pretty)
 
@@ -11052,59 +10993,6 @@ try:
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling OapiApi->patch_namespaced_image_stream: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **name** | **str**| name of the ImageStream | 
- **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
-
-### Return type
-
-[**V1ImageStream**](V1ImageStream.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json-patch+json, application/merge-patch+json, application/strategic-merge-patch+json
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **patch_namespaced_image_stream_status**
-> V1ImageStream patch_namespaced_image_stream_status(name, namespace, body, pretty=pretty)
-
-
-
-partially update status of the specified ImageStream
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = openshift.client.OapiApi()
-name = 'name_example' # str | name of the ImageStream
-namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-
-try: 
-    api_response = api_instance.patch_namespaced_image_stream_status(name, namespace, body, pretty=pretty)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling OapiApi->patch_namespaced_image_stream_status: %s\n" % e)
 ```
 
 ### Parameters
@@ -11476,59 +11364,6 @@ try:
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling OapiApi->patch_namespaced_route: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **name** | **str**| name of the Route | 
- **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
-
-### Return type
-
-[**V1Route**](V1Route.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json-patch+json, application/merge-patch+json, application/strategic-merge-patch+json
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **patch_namespaced_route_status**
-> V1Route patch_namespaced_route_status(name, namespace, body, pretty=pretty)
-
-
-
-partially update status of the specified Route
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = openshift.client.OapiApi()
-name = 'name_example' # str | name of the Route
-namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-
-try: 
-    api_response = api_instance.patch_namespaced_route_status(name, namespace, body, pretty=pretty)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling OapiApi->patch_namespaced_route_status: %s\n" % e)
 ```
 
 ### Parameters
@@ -12927,57 +12762,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **read_namespaced_deployment_config_status**
-> V1DeploymentConfig read_namespaced_deployment_config_status(name, namespace, pretty=pretty)
-
-
-
-read status of the specified DeploymentConfig
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = openshift.client.OapiApi()
-name = 'name_example' # str | name of the DeploymentConfig
-namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-
-try: 
-    api_response = api_instance.read_namespaced_deployment_config_status(name, namespace, pretty=pretty)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling OapiApi->read_namespaced_deployment_config_status: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **name** | **str**| name of the DeploymentConfig | 
- **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
-
-### Return type
-
-[**V1DeploymentConfig**](V1DeploymentConfig.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: */*
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **read_namespaced_deployment_log_log**
 > V1DeploymentLog read_namespaced_deployment_log_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, nowait=nowait, pretty=pretty, previous=previous, since_seconds=since_seconds, since_time=since_time, tail_lines=tail_lines, timestamps=timestamps, version=version)
 
@@ -13198,57 +12982,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**V1ImageStreamImage**](V1ImageStreamImage.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: */*
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **read_namespaced_image_stream_status**
-> V1ImageStream read_namespaced_image_stream_status(name, namespace, pretty=pretty)
-
-
-
-read status of the specified ImageStream
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = openshift.client.OapiApi()
-name = 'name_example' # str | name of the ImageStream
-namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-
-try: 
-    api_response = api_instance.read_namespaced_image_stream_status(name, namespace, pretty=pretty)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling OapiApi->read_namespaced_image_stream_status: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **name** | **str**| name of the ImageStream | 
- **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
-
-### Return type
-
-[**V1ImageStream**](V1ImageStream.md)
 
 ### Authorization
 
@@ -13618,57 +13351,6 @@ Name | Type | Description  | Notes
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
-
-### Return type
-
-[**V1Route**](V1Route.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: */*
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **read_namespaced_route_status**
-> V1Route read_namespaced_route_status(name, namespace, pretty=pretty)
-
-
-
-read status of the specified Route
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = openshift.client.OapiApi()
-name = 'name_example' # str | name of the Route
-namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-
-try: 
-    api_response = api_instance.read_namespaced_route_status(name, namespace, pretty=pretty)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling OapiApi->read_namespaced_route_status: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **name** | **str**| name of the Route | 
- **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
 
@@ -15042,7 +14724,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **replace_namespaced_deployment_config_status**
-> V1DeploymentConfig replace_namespaced_deployment_config_status(name, namespace, body, pretty=pretty)
+> V1DeploymentConfig replace_namespaced_deployment_config_status(body, name, namespace, pretty=pretty)
 
 
 
@@ -15058,13 +14740,13 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = openshift.client.OapiApi()
+body = openshift.client.V1DeploymentConfig() # V1DeploymentConfig | 
 name = 'name_example' # str | name of the DeploymentConfig
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeploymentConfig() # V1DeploymentConfig | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.replace_namespaced_deployment_config_status(name, namespace, body, pretty=pretty)
+    api_response = api_instance.replace_namespaced_deployment_config_status(body, name, namespace, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling OapiApi->replace_namespaced_deployment_config_status: %s\n" % e)
@@ -15074,9 +14756,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **body** | [**V1DeploymentConfig**](V1DeploymentConfig.md)|  | 
  **name** | **str**| name of the DeploymentConfig | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**V1DeploymentConfig**](V1DeploymentConfig.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -15201,7 +14883,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **replace_namespaced_image_stream_status**
-> V1ImageStream replace_namespaced_image_stream_status(name, namespace, body, pretty=pretty)
+> V1ImageStream replace_namespaced_image_stream_status(body, name, namespace, pretty=pretty)
 
 
 
@@ -15217,13 +14899,13 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = openshift.client.OapiApi()
+body = openshift.client.V1ImageStream() # V1ImageStream | 
 name = 'name_example' # str | name of the ImageStream
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ImageStream() # V1ImageStream | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.replace_namespaced_image_stream_status(name, namespace, body, pretty=pretty)
+    api_response = api_instance.replace_namespaced_image_stream_status(body, name, namespace, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling OapiApi->replace_namespaced_image_stream_status: %s\n" % e)
@@ -15233,9 +14915,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **body** | [**V1ImageStream**](V1ImageStream.md)|  | 
  **name** | **str**| name of the ImageStream | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**V1ImageStream**](V1ImageStream.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -15625,7 +15307,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **replace_namespaced_route_status**
-> V1Route replace_namespaced_route_status(name, namespace, body, pretty=pretty)
+> V1Route replace_namespaced_route_status(body, name, namespace, pretty=pretty)
 
 
 
@@ -15641,13 +15323,13 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = openshift.client.OapiApi()
+body = openshift.client.V1Route() # V1Route | 
 name = 'name_example' # str | name of the Route
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Route() # V1Route | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.replace_namespaced_route_status(name, namespace, body, pretty=pretty)
+    api_response = api_instance.replace_namespaced_route_status(body, name, namespace, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling OapiApi->replace_namespaced_route_status: %s\n" % e)
@@ -15657,9 +15339,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **body** | [**V1Route**](V1Route.md)|  | 
  **name** | **str**| name of the Route | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**V1Route**](V1Route.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
