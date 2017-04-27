@@ -30,7 +30,7 @@ KUBERNETES_CLIENT_VERSION = "1.0.1"
 PACKAGE_NAME = "openshift"
 
 # Stage of development, mainly used in setup.py's classifiers.
-DEVELOPMENT_STATUS = "2 - Beta"
+DEVELOPMENT_STATUS = "4 - Beta"
 
 
 # If called directly, return the constant value given
