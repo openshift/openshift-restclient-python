@@ -15,19 +15,90 @@ cd openshift-restclient-python
 python setup.py install
 ```
 
-From [PyPi](https://pypi.python.org/pypi/openshift/) directly (coming soon):
+From [PyPi](https://pypi.python.org/pypi/openshift/) directly:
 
 ```
 pip install openshift
 ```
 
-## Example
+## Usage and examples
 
-TODO
+The OpenShift client depends on the [Kubernetes Python client](https://github.com/kubernetes-incubator/client-python.git), and as part of the installation process, the Kubernetes (K8s) client is automatically installed.
+
+To work with a K8s object, use the K8s client, and to work with an OpenShift specific object, use the OpenShift client. For example, the following uses the K8s client to create a new Service object:
+
+```python
+import yaml
+from kubernetes import client, config
+
+config.load_kube_config()
+api = client.CoreV1Api()
+
+service = """
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 9376
+"""
+
+service_data = yaml.load(service)
+resp = api.create_namespaced_service(body=service_data, namespace='default')
+
+# resp is a V1Service object
+print resp.metadata.self_link
+```
+
+Now in the following example, we use the OpenShift client to create a Route object, and associate it with the new Service:
+
+```python
+import yaml
+from openshift import client, config
+
+config.load_kube_config()
+api = client.OapiApi()
+
+route = """
+apiVersion: v1
+kind: Route
+metadata:
+  name: frontend
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: my-service
+"""
+
+route_data = yaml.load(route)
+resp = api.create_namespaced_route(body=route_data, namespace='default')
+
+# resp is a V1Route object
+print resp.metadata.self_link
+```
+
+And finally, the following uses the OpenShift client to list Projects the user can access:
+
+```python
+from openshift import client, config
+
+config.load_kube_config()
+oapi = client.OapiApi()
+
+project_list = oapi.list_project()
+for project in project_list.items:
+    print project.metadata.name
+```
 
 ## Documentation
 
-All APIs and Models' documentation can be found at the [Generated client's README file](openshift/README.md)
+All OpenShift API and Model documentation can be found in the [Generated client's README file](openshift/README.md)
 
 ## Community, Support, Discussion
 
@@ -39,12 +110,15 @@ Participation in the Kubernetes community is governed by the [CNCF Code of Condu
 
 ## Update generated client
 Updating the generated client requires the following tools:
+
 - tox
 - maven3
 
-1) Incorporate new changes to update scripts
-  - scripts/constants.py, scripts/pom.xml, scripts/preprocess_spec.py, update-client.sh are the most important
-1) Run tox -e update_client
+To apply the updates:
+
+1) Incorporate new changes to update scripts 
+    - [scripts/constants.py](./scripts/constants.py), [scripts/pom.xml](./scripts/pom.xml), [scripts/preprocess_spec.py](./scripts/preprocess_spec.py), and [update-client.sh](./update-client.sh) are the most important
+2) Run tox -e update_client
 
 ## Ansible Modules
 
