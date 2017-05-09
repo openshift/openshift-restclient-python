@@ -271,7 +271,7 @@ class AnsibleMixin(object):
         local_path = copy.copy(path)
         spec = self.find_arg_spec(param_name)
         while len(local_path):
-            p = self.__property_name_to_camel(param_name, local_path.pop(0))
+            p = string_utils.snake_case_to_camel(local_path.pop(0), upper_case_first=False)
             if len(local_path):
                 if request_dict.get(p, None) is None:
                     request_dict[p] = {}
