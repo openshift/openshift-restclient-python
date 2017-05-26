@@ -5,6 +5,7 @@ import inspect
 import json
 import logging
 import math
+import os
 import re
 import time
 
@@ -26,6 +27,7 @@ from .exceptions import KubernetesException
 
 @add_metaclass(ABCMeta)
 class BaseObjectHelper(object):
+    api_client = None
     model = None
     properties = None
     base_model_name = None
@@ -84,6 +86,15 @@ class BaseObjectHelper(object):
 
     def set_client_config(self, **auth):
         """ Convenience method for updating the configuration object, and instantiating a new client """
+        auth_keys = ['api_key', 'ssl_ca_cert', 'cert_file', 'key_file', 'verify_ssl']
+
+        for key in auth_keys + ['kubeconfig', 'context', 'host']:
+            # If a key is not defined in auth, check the environment for a K8S_AUTH_ variable.
+            if auth.get(key) is None:
+                env_value = os.getenv('K8S_AUTH_{}'.format(key.upper()), None)
+                if env_value is not None:
+                    auth[key] = env_value
+
         config_file = auth.get('kubeconfig')
         context = auth.get('context')
 
@@ -91,8 +102,6 @@ class BaseObjectHelper(object):
 
         if auth.get('host') is not None:
             self.api_client.host = auth['host']
-
-        auth_keys = ['api_key', 'ssl_ca_cert', 'cert_file', 'key_file', 'verify_ssl']
 
         for key in auth_keys:
             if auth.get(key, None) is not None:
