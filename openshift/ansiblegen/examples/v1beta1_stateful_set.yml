@@ -1,0 +1,30 @@
+---
+
+- create:
+    name: statefulset-test
+    namespace: test
+    spec_template_metadata_labels:
+      name: statefulset-test
+    service_name: myservice
+    replicas: 3
+    termination_grace_period_seconds: 10
+    containers:
+      - name: helloworld
+        image: openshift/origin-ruby-sample
+
+- patch:
+    name: statefulset-test
+    namespace: test
+    replicas: 5
+
+- replace:
+    name: statefulset-test
+    namespace: test
+    spec_template_metadata_labels:
+      name: statefulset-test
+    service_name: myservice
+    replicas: 5
+    termination_grace_period_seconds: 10
+    containers:
+      - name: helloworld
+        image: openshift/origin-ruby-sample
