@@ -51,6 +51,11 @@ def test_create_project(openshift_ansible_helper, create_params, openshift_proje
     obj_compare(openshift_ansible_helper, openshift_project, create_params)
 
 
+def test_create_duplicate_project(openshift_ansible_helper, create_params, openshift_project, obj_compare):
+    with pytest.raises(OpenShiftException):
+        obj_compare(openshift_ansible_helper, openshift_project, create_params)
+
+
 def test_get_project(openshift_ansible_helper, openshift_project):
     name = openshift_project.metadata.name
     k8s_obj = openshift_ansible_helper.get_object(name, None)
