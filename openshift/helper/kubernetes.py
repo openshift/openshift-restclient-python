@@ -14,6 +14,7 @@ from .exceptions import KubernetesException
 class KubernetesObjectHelper(BaseObjectHelper):
     @staticmethod
     def client_from_config(config_file, context):
+        # TODO(fabianvf): probably want to break this branch out or refactor method names
         if not config_file:
             return ApiClient(config=ConfigurationObject())
         return config.new_client_from_config(config_file, context)
