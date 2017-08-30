@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
+import base64
 import copy
 import json
 import logging
@@ -203,6 +204,18 @@ class AnsibleMixin(object):
                 obj.metadata.annotations['openshift.io/display-name'] = module_params['display_name']
             if module_params.get('description'):
                 obj.metadata.annotations['openshift.io/description'] = module_params['description']
+        elif (self.kind.lower() == 'secret' and getattr(obj, 'string_data', None)
+                and hasattr(obj, 'data')):
+            if obj.data is None:
+                obj.data = {}
+
+            # Do a base64 conversion of `string_data` and place it in
+            # `data` so that later comparisons to existing objects
+            # (if any) do not result in requiring an unnecessary change.
+            for key, value in obj.string_data.items():
+                obj.data[key] = base64.b64encode(value)
+
+            obj.string_data = None
 
         logger.debug("Object from params:")
         logger.debug(json.dumps(obj.to_dict(), indent=4))
