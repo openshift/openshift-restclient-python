@@ -186,7 +186,7 @@ class BaseObjectHelper(object):
     def patch_object(self, name, namespace, k8s_obj):
         self.logger.debug('Starting patch object')
 
-        if 'status' in self.properties['status']:
+        if 'status' in self.properties:
             empty_status = self.properties['status']['class']()
         else:
             empty_status = {}
