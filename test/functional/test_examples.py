@@ -13,6 +13,7 @@ from openshift.helper.exceptions import KubernetesException
 
 
 def get_tasks():
+    """ Goes to the examples for the ansible docs and parses out tasks, resources and api versions """
     tasks = []
     example_dir = os.path.normpath(os.path.join(
         os.path.dirname(__file__), '../../openshift/ansiblegen/examples/')
@@ -31,6 +32,7 @@ def get_tasks():
 
 
 class Example(object):
+    """ Contains the logic for testing create/get/patch/replace/remove on an openshift/k8s resource """
 
     def test_create(self, ansible_helper, create_params, project, object_name, resources, obj_compare):
         for params, resource in zip(create_params, resources):
@@ -138,6 +140,12 @@ class Example(object):
             if exceptions:
                 raise exceptions[0]
 
+
+# BEWARE: Here be disgusting meta-programming hacks
+# Basically, for each resource we have examples for, generate a subclass of the Example class
+# The type of this subclass will be the resource name
+# Then inject that class into globals(), where pytest will be able to pick them up and run them
+# If you find a better way to do this, please, please let me know
 
 def ClassFactory(name):
     return type(name, (Example,), {})
