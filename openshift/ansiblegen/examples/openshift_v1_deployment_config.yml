@@ -1,6 +1,7 @@
 # v1_deployment_config.yml
 ---
 
+tasks:
 - create:
     name: frontend
     namespace: k8s-project

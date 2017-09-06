@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
+import re
 import copy
 import io
 import os
@@ -96,67 +97,30 @@ def admin_kubeconfig(openshift_container, tmpdir_factory):
         return kubeconfig_file
 
 
-@pytest.fixture(scope='module')
-def k8s_ansible_helper(request, kubeconfig):
-    _, _, api_version, resource = request.module.__name__.split('_', 3)
+def parse_test_name(name):
+    pieces = re.findall('[A-Z][a-z0-9]*', name)
+    api_version = pieces[1].lower()
+    resource = '_'.join(map(str.lower, pieces[2:]))
+    return api_version, resource
+
+
+@pytest.fixture(scope='class')
+def ansible_helper(request, kubeconfig, admin_kubeconfig):
+    api_version, resource = parse_test_name(request.node.name)
+    needs_admin = request.node.cls.tasks.get('admin')
+    config = admin_kubeconfig if needs_admin else kubeconfig
     auth = {}
     if kubeconfig is not None:
         auth = {
-            'kubeconfig': str(kubeconfig),
+            'kubeconfig': str(config),
             'host': 'https://localhost:8443',
             'verify_ssl': False
         }
-    helper = KubernetesAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
-    helper.api_client.config.debug = True
+    try:
+        helper = KubernetesAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
+    except Exception:
+        helper = OpenShiftAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
 
-    return helper
-
-
-@pytest.fixture(scope='module')
-def openshift_ansible_helper(request, kubeconfig):
-    _, _, api_version, resource = request.module.__name__.split('_', 3)
-    auth = {}
-    if kubeconfig is not None:
-        auth = {
-            'kubeconfig': str(kubeconfig),
-            'host': 'https://localhost:8443',
-            'verify_ssl': False
-        }
-    helper = OpenShiftAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
-    helper.api_client.config.debug = True
-
-    return helper
-
-
-@pytest.fixture(scope='module')
-def admin_k8s_ansible_helper(request, admin_kubeconfig):
-    _, _, api_version, resource = request.module.__name__.split('_', 3)
-    auth = {}
-    if admin_kubeconfig is not None:
-        auth = {
-            'kubeconfig': str(admin_kubeconfig),
-            'host': 'https://localhost:8443',
-            'verify_ssl': False
-        }
-    helper = KubernetesAnsibleModuleHelper(api_version, resource, **auth)
-    helper.enable_debug(to_file=False)
-    helper.api_client.config.debug = True
-
-    return helper
-
-
-@pytest.fixture(scope='module')
-def admin_openshift_ansible_helper(request, admin_kubeconfig):
-    _, _, api_version, resource = request.module.__name__.split('_', 3)
-    auth = {}
-    if admin_kubeconfig is not None:
-        auth = {
-            'kubeconfig': str(admin_kubeconfig),
-            'host': 'https://localhost:8443',
-            'verify_ssl': False
-        }
-    helper = OpenShiftAnsibleModuleHelper(api_version, resource, **auth)
-    helper.enable_debug(to_file=False)
     helper.api_client.config.debug = True
 
     return helper
@@ -192,7 +156,7 @@ def obj_compare():
     return compare_func
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='class')
 def namespace(kubeconfig):
     name = "test-{}".format(uuid.uuid4())
 
@@ -214,14 +178,12 @@ def namespace(kubeconfig):
 
 
 @pytest.fixture()
-def object_name():
-    # v1.3 services cannot be longer than 24 characters long
-    # truncate at 23 to avoid a trailing '-'
-    name = 'test-{}'.format(uuid.uuid4())[:23]
-    return name
+def object_name(request):
+    action = request.function.__name__.split('_')[1]
+    return '{}-{}'.format(action, uuid.uuid4())[:22].strip('-')
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='class')
 def project(kubeconfig):
     name = "test-{}".format(uuid.uuid4())
     auth = {}
@@ -247,21 +209,31 @@ def openshift_version():
 
 
 @pytest.fixture(autouse=True)
+def skip_empty(request):
+    api_version, resource = parse_test_name(request.node.cls._type)
+    action = request.function.__name__.split('_')[1]
+    tasks = list(filter(lambda x: x.get(action), request.node.cls.tasks['tasks']))
+    if not tasks and action not in ['get', 'remove']:
+        pytest.skip('No example provided to {} {}'.format(action, resource))
+
+
+@pytest.fixture(autouse=True)
 def skip_by_version(request, openshift_version):
-    if request.node.get_marker('version_limit') and openshift_version:
-
-        lowest_version = request.node.get_marker('version_limit').kwargs.get('lowest_version')
-        highest_version = request.node.get_marker('version_limit').kwargs.get('highest_version')
-        skip_latest = request.node.get_marker('version_limit').kwargs.get('skip_latest')
-
-        if openshift_version == 'latest' and skip_latest:
-            pytest.skip('This API is not supported in the latest openshift version')
+    if request.node.cls.tasks.get('version_limits') and openshift_version:
+        lowest_version = request.node.cls.tasks['version_limits'].get('min')
+        highest_version = request.node.cls.tasks['version_limits'].get('max')
+        skip_latest = request.node.cls.tasks['version_limits'].get('latest')
 
         too_low = lowest_version and parse_version(lowest_version) > parse_version(openshift_version)
         too_high = highest_version and parse_version(highest_version) < parse_version(openshift_version)
 
-        if too_low or too_high:
-            pytest.skip('This API is not supported in openshift versions < {}'.format(openshift_version))
+        if openshift_version == 'latest':
+            if skip_latest:
+                pytest.skip('This API is not supported in the latest openshift version')
+        elif too_low:
+            pytest.skip('This API is not supported in openshift versions > {}. You are using version {}'.format(lowest_version, openshift_version))
+        elif too_high:
+            pytest.skip('This API is not supported in openshift versions < {}. You are using version {}'.format(highest_version, openshift_version))
 
 
 def _get_id(argvalue):
@@ -275,37 +247,3 @@ def _get_id(argvalue):
     elif argvalue.get('replace'):
         op_type = 'replace'
     return op_type + '_' + argvalue[op_type]['name'] + '_' + "{:0>3}".format(argvalue['seq'])
-
-
-def pytest_generate_tests(metafunc):
-    _, api_version, resource = metafunc.module.__name__.split('_', 2)
-    yaml_name = api_version + '_' + resource + '.yml'
-    yaml_path = os.path.normpath(os.path.join(os.path.dirname(__file__),
-                                              '../../openshift/ansiblegen/examples', yaml_name))
-    if not os.path.exists(yaml_path):
-        raise Exception("ansible_data: Unable to locate {}".format(yaml_path))
-    with open(yaml_path, 'r') as f:
-        data = yaml.load(f)
-    seq = 0
-    for task in data:
-        seq += 1
-        task['seq'] = seq
-
-    if 'create_tasks' in metafunc.fixturenames:
-        tasks = [x for x in data if x.get('create')]
-        metafunc.parametrize("create_tasks", tasks, False, _get_id)
-    if 'patch_tasks' in metafunc.fixturenames:
-        tasks = [x for x in data if x.get('patch')]
-        metafunc.parametrize("patch_tasks", tasks, False, _get_id)
-    if 'remove_tasks' in metafunc.fixturenames:
-        tasks = [x for x in data if x.get('remove')]
-        metafunc.parametrize("remove_tasks", tasks, False, _get_id)
-    if 'replace_tasks' in metafunc.fixturenames:
-        tasks = [x for x in data if x.get('replace')]
-        metafunc.parametrize("replace_tasks", tasks, False, _get_id)
-    if 'namespaces' in metafunc.fixturenames:
-        tasks = [x for x in data if x.get('create') and x['create'].get('namespace')]
-        unique_namespaces = dict()
-        for task in tasks:
-            unique_namespaces[task['create']['namespace']] = None
-        metafunc.parametrize("namespaces", list(unique_namespaces.keys()))

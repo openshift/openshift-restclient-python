@@ -1,6 +1,8 @@
 # v1_project.yml
 ---
 
+admin: yes
+tasks:
 - create:
     name: example
   name: Create project
@@ -15,4 +17,3 @@
 - remove:
     name: example
   name: Remove project
-

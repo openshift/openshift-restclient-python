@@ -1,6 +1,7 @@
 # v1beta1_replica_set.yml
 ---
 
+tasks:
 - create:
     name: myreplicaset
     namespace: test

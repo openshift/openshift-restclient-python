@@ -1,6 +1,10 @@
 # v1beta1_stateful_set.yml
 ---
 
+version_limits:
+  min: '1.5'
+
+tasks:
 - create:
     name: test
     labels:

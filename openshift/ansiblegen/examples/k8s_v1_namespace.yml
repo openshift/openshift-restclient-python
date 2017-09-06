@@ -1,10 +1,12 @@
 # v1_namespace.yml
 ---
+admin: yes
 
+tasks:
 - create:
     name: k8s-namespace
   name: Create a namespace
-
+  
 - patch:
     name: k8s-namespace
     labels:
@@ -13,7 +15,7 @@
     annotations:
       domain: namespace.com.acmecorp
   name: Add labels and annotations
-
+  
 - patch:
     name: k8s-namespace
     labels:
@@ -24,11 +26,11 @@
       domain: namespace.app.com.acmecorp
       monitoring_group: '1'
   name: Update labels and annotations
-
+  
 - remove:
     name: k8s-namespace
   task_name: Delete a namespace
-
+  
 - create:
     name: search-namespace
     labels:
@@ -37,14 +39,14 @@
     annotations:
        company: acme.com
   name: Create a namespace
-
+  
 - patch:
     name: search-namespace
     labels:
       app: search
       type: web
   task_name: Update labels
-
+  
 - replace:
     name: search-namespace
     labels:
@@ -53,7 +55,8 @@
     annotations:
        company: acme.com
   name: Replace namespace
-
+  
 - remove:
     name: search-namespace
   name: Remove namespace
+  
