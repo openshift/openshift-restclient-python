@@ -50,6 +50,14 @@ class PreprocessingException(Exception):
     pass
 
 
+def fix_spec_definitions(spec):
+    for k, v in list(spec['definitions'].items()):
+        new_name = format_name(k)
+        spec['definitions'][new_name] = update_refs(v)
+        if k != new_name:
+            del spec['definitions'][k]
+
+
 def apply_func_to_spec_operations(spec, func, **kwargs):
     """Apply func to each operation in the spec.
 
@@ -158,7 +166,36 @@ def update_codegen_ignore(spec):
         f.write('\n'.join(sorted(ignore_lines)))
 
 
+def format_name(name):
+    return '.'.join(name.split('.')[-2:])
+
+
+def update_refs(operation, *args, **kwargs):
+    def fix_ref(ref):
+        return '#/definitions/' + format_name(ref.split('/')[-1])
+
+    if not isinstance(operation, dict):
+        return operation
+
+    for k, v in operation.items():
+        if isinstance(v, (list, tuple)):
+            operation[k] = map(update_refs, v)
+            pass
+        elif isinstance(v, dict):
+            operation[k] = update_refs(v)
+        elif isinstance(v, (unicode, str)):
+            if k == '$ref':
+                operation[k] = fix_ref(v)
+        else:
+            pass
+    return operation
+
+
 def process_swagger(spec):
+    version = list(map(int, SPEC_VERSION[1:].split('.')))
+    if (version[0] == 3 and version[1] >= 6):
+        apply_func_to_spec_operations(spec, update_refs)
+        fix_spec_definitions(spec)
     apply_func_to_spec_operations(spec, strip_tags_from_operation_id)
 
     operation_ids = {}

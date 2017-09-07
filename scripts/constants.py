@@ -15,11 +15,11 @@
 import sys
 
 # Kubernetes branch to get the OpenAPI spec from.
-KUBERNETES_BRANCH = "master"
+KUBERNETES_BRANCH = "release-3.6"
 
 # Spec version will be set in downloaded spec and all
 # generated code will refer to it.
-SPEC_VERSION = "v3.6.0-alpha.0"
+SPEC_VERSION = "v3.6.0"
 
 # client version for packaging and releasing. It can
 # be different than SPEC_VERSION.
