@@ -24,7 +24,7 @@ Name | Type | Description | Notes
 **seccomp_profiles** | **list[str]** | SeccompProfiles lists the allowed profiles that may be set for the pod or container&#39;s seccomp annotations.  An unset (nil) or empty value means that no profiles may be specifid by the pod or container. The wildcard &#39;*&#39; may be used to allow all profiles.  When used to generate a value for a pod the first non-wildcard profile will be used as the default. | [optional] 
 **supplemental_groups** | [**V1SupplementalGroupsStrategyOptions**](V1SupplementalGroupsStrategyOptions.md) | SupplementalGroups is the strategy that will dictate what supplemental groups are used by the SecurityContext. | [optional] 
 **users** | **list[str]** | The users who have permissions to use this security context constraints | [optional] 
-**volumes** | **list[str]** | Volumes is a white list of allowed volume plugins.  FSType corresponds directly with the field names of a VolumeSource (azureFile, configMap, emptyDir).  To allow all volumes you may use &#39;*&#39;. | 
+**volumes** | **list[str]** | Volumes is a white list of allowed volume plugins.  FSType corresponds directly with the field names of a VolumeSource (azureFile, configMap, emptyDir).  To allow all volumes you may use \&quot;*\&quot;. To allow no volumes, set to [\&quot;none\&quot;]. | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
