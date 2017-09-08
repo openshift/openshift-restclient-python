@@ -160,12 +160,14 @@ class BaseObjectHelper(object):
                 return False
         return method is not None
 
-    def get_object(self, name, namespace=None):
+    def get_object(self, name=None, namespace=None):
         k8s_obj = None
         method_name = 'list' if self.kind.endswith('list') else 'read'
         try:
             get_method = self.lookup_method(method_name, namespace)
-            if name and namespace is None:
+            if name is None and namespace is None:
+                k8s_obj = get_method()
+            elif name and namespace is None:
                 k8s_obj = get_method(name)
             elif namespace and not name:
                 k8s_obj = get_method(namespace)
