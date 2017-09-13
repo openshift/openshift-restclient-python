@@ -1,6 +1,11 @@
 # v1_route.yml
 ---
 
+# TODO(fabianvf): remove this limit when 3.6+ builds are working.
+version_limits:
+  max: '1.5'
+  skip_latest: yes
+
 tasks:
 - create:
     name: myroute
