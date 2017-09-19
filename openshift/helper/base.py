@@ -446,15 +446,23 @@ class BaseObjectHelper(object):
         :return: string
         """
         result = self.get_base_model_name(model_name)
-        return string_utils.camel_case_to_snake(result)
+        return self.attribute_to_snake(result)
 
     @staticmethod
     def attribute_to_snake(name):
-        """ Convert an object property name from camel to snake """
-        result = string_utils.camel_case_to_snake(name)
-        if result.endswith('_i_p'):
-            result = re.sub(r'_i_p$', '_ip', result)
-        return result
+        """
+        Convert an object property name from camel to snake
+        :param name: string to convert
+        :return: string
+        """
+        def replace(m):
+            m = m.group(0)
+            return m[0] + '_' + m[1:]
+
+        p = r'[a-z][A-Z]|' \
+            r'[A-Z]{2}[a-z]'
+        result = re.sub(p, replace, name)
+        return result.lower()
 
     def get_model(self, api_version, kind):
         """
