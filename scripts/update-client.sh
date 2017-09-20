@@ -17,6 +17,7 @@
 # Script to fetch latest swagger spec.
 # Puts the updated spec at api/swagger-spec/
 
+set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -52,23 +53,26 @@ if [ -d "${SOURCE_ROOT}/venv" ]; then
 fi
 set -o nounset
 
-echo "--- Downloading and processing OpenAPI spec"
-python "${SCRIPT_ROOT}/preprocess_spec.py"
+TEMP_FOLDER=$(mktemp -d)
+# trap "rm -rf ${TEMP_FOLDER}" EXIT SIGINT
 
-echo "--- Cleaning up previously generated folders"
-rm -rf "${CLIENT_ROOT}/client/apis"
-rm -rf "${CLIENT_ROOT}/client/models"
-rm -rf "${CLIENT_ROOT}/docs"
-rm -rf "${CLIENT_ROOT}/test"
+SETTING_FILE="${TEMP_FOLDER}/settings"
+echo "export KUBERNETES_BRANCH=\"$(python ${SCRIPT_ROOT}/constants.py KUBERNETES_BRANCH)\"" > $SETTING_FILE
+echo "export CLIENT_VERSION=\"$(python ${SCRIPT_ROOT}/constants.py CLIENT_VERSION)\"" >> $SETTING_FILE
+echo "export PACKAGE_NAME=\"client\"" >> $SETTING_FILE
 
-echo "--- Generating client ..."
-mvn -f "${SCRIPT_ROOT}/pom.xml" clean generate-sources -Dgenerator.spec.path="${SCRIPT_ROOT}/swagger.json" -Dgenerator.output.path="${CLIENT_ROOT}" -Dgenerator.package.name=client -D=generator.client.version=${CLIENT_VERSION}
+
+echo ">>> Running python generator from the gen repo"
+"${SCRIPT_ROOT}/from_gen/python.sh" "${CLIENT_ROOT}" "${SETTING_FILE}"
+
+mv "${CLIENT_ROOT}/swagger.json" "${SCRIPT_ROOT}/swagger.json"
+
 
 echo "--- Patching generated code..."
 find "${CLIENT_ROOT}/test" -type f -name \*.py -exec sed -i "s/\bclient/${PACKAGE_NAME}.client/g" {} +
 find "${CLIENT_ROOT}/" -type f -name \*.md -exec sed -i "s/\bclient/${PACKAGE_NAME}.client/g" {} +
 find "${CLIENT_ROOT}/" -type f -name \*.md -exec sed -i "s/${PACKAGE_NAME}.client-python/client-python/g" {} +
-# rm "${CLIENT_ROOT}/LICENSE"
+
 echo "--- updating version information..."
 sed -i'' "s/^CLIENT_VERSION = .*/CLIENT_VERSION = \\\"${CLIENT_VERSION}\\\"/" "${SCRIPT_ROOT}/../setup.py"
 sed -i'' "s/^__version__ = .*/__version__ = \\\"${CLIENT_VERSION}\\\"/" "${CLIENT_ROOT}/__init__.py"

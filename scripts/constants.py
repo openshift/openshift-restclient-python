@@ -23,8 +23,8 @@ SPEC_VERSION = "v3.6.0-alpha.0"
 
 # client version for packaging and releasing. It can
 # be different than SPEC_VERSION.
-CLIENT_VERSION = "1.0.0-snapshot"
-KUBERNETES_CLIENT_VERSION = "1.0.0"
+CLIENT_VERSION = "3.0.0"
+KUBERNETES_CLIENT_VERSION = "3.0.0"
 
 # Name of the release package
 PACKAGE_NAME = "openshift"
