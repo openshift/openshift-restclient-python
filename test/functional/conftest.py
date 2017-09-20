@@ -37,7 +37,8 @@ def port():
 
 
 @pytest.fixture(scope='session')
-def openshift_container(request, port):
+def openshift_container(request, port, pytestconfig):
+    capmanager = pytestconfig.pluginmanager.getplugin('capturemanager')
     client = docker.from_env()
     openshift_version = request.config.getoption('--openshift-version')
     if openshift_version is None:
@@ -45,7 +46,7 @@ def openshift_container(request, port):
     else:
         container = client.containers.run(
             'openshift/origin:{}'.format(openshift_version),
-            'start master --listen=0.0.0.0:{}'.format(port), 
+            'start master --listen=0.0.0.0:{}'.format(port),
             detach=True,
             ports={port: port}
         )
@@ -54,7 +55,10 @@ def openshift_container(request, port):
             # Wait for the container to no longer be in the created state before
             # continuing
             while container.status == u'created':
-                time.sleep(0.2)
+                capmanager.suspendcapture()
+                print("\nWaiting for container...")
+                capmanager.resumecapture()
+                time.sleep(5)
                 container = client.containers.get(container.id)
 
             # Wait for the api server to be ready before continuing
@@ -150,11 +154,11 @@ def obj_compare():
         ansible_helper.log('\n\n')
 
         ansible_helper.log('k8s_obj:')
-        ansible_helper.log(json.dumps(k8s_obj.to_dict(), indent=4))
+        ansible_helper.log(k8s_obj.to_str())
         ansible_helper.log('\n\n')
 
         ansible_helper.log('from params:')
-        ansible_helper.log(json.dumps(requested.to_dict(), indent=4))
+        ansible_helper.log(requested.to_str())
         ansible_helper.log('\n\n')
 
         match, diff = ansible_helper.objects_match(k8s_obj, requested)

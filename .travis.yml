@@ -8,18 +8,21 @@ python:
 - '2.7'
 - '3.5'
 env:
-- TEST_SUITE=functional OPENSHIFT_VERSION=latest
-- TEST_SUITE=functional OPENSHIFT_VERSION=3.7
-- TEST_SUITE=functional OPENSHIFT_VERSION=3.6
-- TEST_SUITE=functional OPENSHIFT_VERSION=1.5
-- TEST_SUITE=functional OPENSHIFT_VERSION=1.4
-- TEST_SUITE=functional OPENSHIFT_VERSION=1.3
+- TEST_SUITE=test OPENSHIFT_VERSION=latest
+- TEST_SUITE=test OPENSHIFT_VERSION=3.7
+- TEST_SUITE=test OPENSHIFT_VERSION=3.6
+- TEST_SUITE=test OPENSHIFT_VERSION=1.5
+- TEST_SUITE=test OPENSHIFT_VERSION=1.4
+- TEST_SUITE=test OPENSHIFT_VERSION=1.3
+- TEST_SUITE=generate
 script: tox
 install:
 - pip install tox-travis coveralls
 after_success:
 - coveralls
 jobs:
+  allow_failures:
+    - env: TEST_SUITE=generate
   include:
   - stage: lint
     python: '2.7'

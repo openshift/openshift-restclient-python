@@ -1,5 +1,5 @@
 def pytest_addoption(parser):
-    parser.addoption("--openshift-version", action="store", default=None,
+    parser.addoption("--openshift-version", action="store", default='latest',
                      help="Version of OpenShift to test against for functional tests")
 
 

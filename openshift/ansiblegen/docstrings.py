@@ -24,6 +24,7 @@ from ..client import models as openshift_models
 from ..helper.exceptions import KubernetesException
 from ..helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper
 
+
 logger = logging.getLogger(__name__)
 
 # Once the modules land in Ansible core, this should not change
@@ -138,7 +139,7 @@ class DocStringsBase(object):
                 obj = self.helper.model()
                 for path in param_dict['property_path']:
                     kind = obj.swagger_types[path]
-                    if kind in ('str', 'bool', 'int', 'IntstrIntOrString') or \
+                    if kind in ('str', 'bool', 'int', 'IntstrIntOrString', 'datetime') or \
                        kind.startswith('dict(') or \
                        kind.startswith('list['):
                         docs = inspect.getdoc(getattr(type(obj), path))
@@ -252,6 +253,11 @@ class DocStringsBase(object):
                         self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
                     else:
                         doc_key[attribute]['contains'] = class_name
+                elif kind == 'datetime':
+                    doc_key[attribute] = CommentedMap()
+                    doc_key[attribute]['description'] = string_list
+                    doc_key[attribute]['type'] = 'complex'
+                    doc_key[attribute]['contains'] = CommentedMap()
                 else:
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
