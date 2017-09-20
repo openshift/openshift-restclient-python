@@ -385,6 +385,8 @@ class BaseObjectHelper(object):
         result = {}
         for prop in properties:
             prop_kind = model_obj.swagger_types[prop['name']]
+            if prop_kind == 'datetime':
+                prop_kind = 'str'
             if prop_kind in ('str', 'int', 'bool'):
                 prop_class = eval(prop_kind)
             elif prop_kind.startswith('list['):
@@ -475,6 +477,7 @@ class BaseObjectHelper(object):
         camel_kind = string_utils.snake_case_to_camel(kind)
         # capitalize the first letter of the string without lower-casing the remainder
         name = camel_kind[:1].capitalize() + camel_kind[1:]
+        name = name.replace("Api", "API")
         model_name = api_version.capitalize() + name
         try:
             model = self.model_class_from_name(model_name)
