@@ -4,4 +4,4 @@ def pytest_addoption(parser):
 
 
 def pytest_report_header(config):
-    return "OpenShift verison: {}".format(config.getoption('--openshift-version'))
+    return "OpenShift version: {}".format(config.getoption('--openshift-version'))

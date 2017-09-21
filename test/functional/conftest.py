@@ -3,18 +3,20 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import re
-import copy
 import io
 import os
-import tarfile
+import copy
 import time
 import uuid
 import yaml
+import socket
+import tarfile
+from contextlib import closing
 
+import json
 import docker
 import pytest
 import requests
-import json
 
 from pkg_resources import parse_version
 
@@ -26,17 +28,27 @@ if os.path.exists(os.path.join(os.getcwd(), 'KubeObjHelper.log')):
     os.remove(os.path.join(os.getcwd(), 'KubeObjHelper.log'))
 
 
+
 @pytest.fixture(scope='session')
-def openshift_container(request):
+def port():
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+        s.bind(('', 0))
+        return s.getsockname()[1]
+
+
+@pytest.fixture(scope='session')
+def openshift_container(request, port):
     client = docker.from_env()
-    # TODO: bind to a random host port
     openshift_version = request.config.getoption('--openshift-version')
     if openshift_version is None:
         yield None
     else:
-        image_name = 'openshift/origin:{}'.format(openshift_version)
-        container = client.containers.run(image_name, 'start master', detach=True,
-                                          ports={'8443/tcp': 8443})
+        container = client.containers.run(
+            'openshift/origin:{}'.format(openshift_version),
+            'start master --listen=0.0.0.0:{}'.format(port), 
+            detach=True,
+            ports={port: port}
+        )
 
         try:
             # Wait for the container to no longer be in the created state before
@@ -48,7 +60,7 @@ def openshift_container(request):
             # Wait for the api server to be ready before continuing
             for _ in range(10):
                 try:
-                    requests.head("https://127.0.0.1:8443/healthz/ready", verify=False)
+                    requests.head("https://127.0.0.1:{}/healthz/ready".format(port), verify=False)
                 except requests.RequestException:
                     pass
                 time.sleep(1)
@@ -105,7 +117,7 @@ def parse_test_name(name):
 
 
 @pytest.fixture(scope='class')
-def ansible_helper(request, kubeconfig, admin_kubeconfig):
+def ansible_helper(request, kubeconfig, admin_kubeconfig, port):
     api_version, resource = parse_test_name(request.node.name)
     needs_admin = request.node.cls.tasks.get('admin')
     config = admin_kubeconfig if needs_admin else kubeconfig
@@ -113,7 +125,7 @@ def ansible_helper(request, kubeconfig, admin_kubeconfig):
     if kubeconfig is not None:
         auth = {
             'kubeconfig': str(config),
-            'host': 'https://localhost:8443',
+            'host': 'https://localhost:{}'.format(port),
             'verify_ssl': False
         }
     try:
@@ -157,14 +169,14 @@ def obj_compare():
 
 
 @pytest.fixture(scope='class')
-def namespace(kubeconfig):
+def namespace(kubeconfig, port):
     name = "test-{}".format(uuid.uuid4())
 
     auth = {}
     if kubeconfig is not None:
         auth = {
             'kubeconfig': str(kubeconfig),
-            'host': 'https://localhost:8443',
+            'host': 'https://localhost:{}'.format(port),
             'verify_ssl': False
         }
     helper = KubernetesAnsibleModuleHelper('v1', 'namespace', debug=True, reset_logfile=False, **auth)
@@ -184,13 +196,13 @@ def object_name(request):
 
 
 @pytest.fixture(scope='class')
-def project(kubeconfig):
+def project(kubeconfig, port):
     name = "test-{}".format(uuid.uuid4())
     auth = {}
     if kubeconfig is not None:
         auth = {
             'kubeconfig': str(kubeconfig),
-            'host': 'https://localhost:8443',
+            'host': 'https://localhost:{}'.format(port),
             'verify_ssl': False
         }
     helper = OpenShiftAnsibleModuleHelper('v1', 'project', debug=True, reset_logfile=False, **auth)
@@ -222,7 +234,7 @@ def skip_by_version(request, openshift_version):
     if request.node.cls.tasks.get('version_limits') and openshift_version:
         lowest_version = request.node.cls.tasks['version_limits'].get('min')
         highest_version = request.node.cls.tasks['version_limits'].get('max')
-        skip_latest = request.node.cls.tasks['version_limits'].get('latest')
+        skip_latest = request.node.cls.tasks['version_limits'].get('skip_latest')
 
         too_low = lowest_version and parse_version(lowest_version) > parse_version(openshift_version)
         too_high = highest_version and parse_version(highest_version) < parse_version(openshift_version)
