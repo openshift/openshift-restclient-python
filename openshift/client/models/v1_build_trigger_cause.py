@@ -3,9 +3,9 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
-    OpenAPI spec version: v3.6.0-alpha.0
+    OpenAPI spec version: v3.6.0
     
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
@@ -21,7 +21,7 @@ class V1BuildTriggerCause(object):
     NOTE: This class is auto generated by the swagger code generator program.
     Do not edit the class manually.
     """
-    def __init__(self, generic_web_hook=None, github_web_hook=None, image_change_build=None, message=None):
+    def __init__(self, bitbucket_web_hook=None, generic_web_hook=None, github_web_hook=None, gitlab_web_hook=None, image_change_build=None, message=None):
         """
         V1BuildTriggerCause - a model defined in Swagger
 
@@ -31,23 +31,52 @@ class V1BuildTriggerCause(object):
                                   and the value is json key in definition.
         """
         self.swagger_types = {
+            'bitbucket_web_hook': 'V1BitbucketWebHookCause',
             'generic_web_hook': 'V1GenericWebHookCause',
             'github_web_hook': 'V1GitHubWebHookCause',
+            'gitlab_web_hook': 'V1GitLabWebHookCause',
             'image_change_build': 'V1ImageChangeCause',
             'message': 'str'
         }
 
         self.attribute_map = {
+            'bitbucket_web_hook': 'bitbucketWebHook',
             'generic_web_hook': 'genericWebHook',
             'github_web_hook': 'githubWebHook',
+            'gitlab_web_hook': 'gitlabWebHook',
             'image_change_build': 'imageChangeBuild',
             'message': 'message'
         }
 
+        self._bitbucket_web_hook = bitbucket_web_hook
         self._generic_web_hook = generic_web_hook
         self._github_web_hook = github_web_hook
+        self._gitlab_web_hook = gitlab_web_hook
         self._image_change_build = image_change_build
         self._message = message
+
+    @property
+    def bitbucket_web_hook(self):
+        """
+        Gets the bitbucket_web_hook of this V1BuildTriggerCause.
+        BitbucketWebHook represents data for a Bitbucket webhook that fired a specific build.
+
+        :return: The bitbucket_web_hook of this V1BuildTriggerCause.
+        :rtype: V1BitbucketWebHookCause
+        """
+        return self._bitbucket_web_hook
+
+    @bitbucket_web_hook.setter
+    def bitbucket_web_hook(self, bitbucket_web_hook):
+        """
+        Sets the bitbucket_web_hook of this V1BuildTriggerCause.
+        BitbucketWebHook represents data for a Bitbucket webhook that fired a specific build.
+
+        :param bitbucket_web_hook: The bitbucket_web_hook of this V1BuildTriggerCause.
+        :type: V1BitbucketWebHookCause
+        """
+
+        self._bitbucket_web_hook = bitbucket_web_hook
 
     @property
     def generic_web_hook(self):
@@ -94,6 +123,29 @@ class V1BuildTriggerCause(object):
         """
 
         self._github_web_hook = github_web_hook
+
+    @property
+    def gitlab_web_hook(self):
+        """
+        Gets the gitlab_web_hook of this V1BuildTriggerCause.
+        GitLabWebHook represents data for a GitLab webhook that fired a specific build.
+
+        :return: The gitlab_web_hook of this V1BuildTriggerCause.
+        :rtype: V1GitLabWebHookCause
+        """
+        return self._gitlab_web_hook
+
+    @gitlab_web_hook.setter
+    def gitlab_web_hook(self, gitlab_web_hook):
+        """
+        Sets the gitlab_web_hook of this V1BuildTriggerCause.
+        GitLabWebHook represents data for a GitLab webhook that fired a specific build.
+
+        :param gitlab_web_hook: The gitlab_web_hook of this V1BuildTriggerCause.
+        :type: V1GitLabWebHookCause
+        """
+
+        self._gitlab_web_hook = gitlab_web_hook
 
     @property
     def image_change_build(self):
