@@ -20,6 +20,8 @@ install:
 after_success:
 - coveralls
 jobs:
+  allow_failures:
+    - env: TEST_SUITE=generate
   include:
   - stage: lint
     python: '2.7'
@@ -34,6 +36,10 @@ jobs:
     script: tox -e py35-lint
     env:
     - TEST_SUITE=lint OPENSHIFT_VERSION=latest
+  - stage: generate
+    python: '2.7'
+    env: TEST_SUITE=generate
+    script: tox -e test_client_update
   - stage: deploy
     script: skip
     deploy:
@@ -47,4 +53,5 @@ jobs:
 stages:
 - lint
 - test
+- generate
 - deploy
