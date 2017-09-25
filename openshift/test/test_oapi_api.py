@@ -3,9 +3,9 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use openshift.client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a openshift.client. By listing and beginning a watch from the returned resourceVersion, openshift.clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so openshift.clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but openshift.clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use openshift.openshift.client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a openshift.openshift.client. By listing and beginning a watch from the returned resourceVersion, openshift.openshift.clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so openshift.openshift.clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but openshift.openshift.clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
-    OpenAPI spec version: v3.6.0-alpha.0
+    OpenAPI spec version: latest
     
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
@@ -17,16 +17,16 @@ import os
 import sys
 import unittest
 
-import openshift.client
-from kubernetes.client.rest import ApiException
-from openshift.client.apis.oapi_api import OapiApi
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from openshift.openshift.client.apis.oapi_api import OapiApi
 
 
 class TestOapiApi(unittest.TestCase):
     """ OapiApi unit test stubs """
 
     def setUp(self):
-        self.api = openshift.client.apis.oapi_api.OapiApi()
+        self.api = openshift.openshift.client.apis.oapi_api.OapiApi()
 
     def tearDown(self):
         pass
@@ -39,17 +39,17 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_connect_post_namespaced_status_webhooks(self):
+    def test_connect_post_namespaced_build_webhooks(self):
         """
-        Test case for connect_post_namespaced_status_webhooks
+        Test case for connect_post_namespaced_build_webhooks
 
         
         """
         pass
 
-    def test_connect_post_namespaced_status_webhooks_with_path(self):
+    def test_connect_post_namespaced_build_webhooks_with_path(self):
         """
-        Test case for connect_post_namespaced_status_webhooks_with_path
+        Test case for connect_post_namespaced_build_webhooks_with_path
 
         
         """
@@ -74,22 +74,6 @@ class TestOapiApi(unittest.TestCase):
     def test_create_cluster_network(self):
         """
         Test case for create_cluster_network
-
-        
-        """
-        pass
-
-    def test_create_cluster_policy(self):
-        """
-        Test case for create_cluster_policy
-
-        
-        """
-        pass
-
-    def test_create_cluster_policy_binding(self):
-        """
-        Test case for create_cluster_policy_binding
 
         
         """
@@ -375,22 +359,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_create_namespaced_policy(self):
-        """
-        Test case for create_namespaced_policy
-
-        
-        """
-        pass
-
-    def test_create_namespaced_policy_binding(self):
-        """
-        Test case for create_namespaced_policy_binding
-
-        
-        """
-        pass
-
     def test_create_namespaced_processed_template(self):
         """
         Test case for create_namespaced_processed_template
@@ -535,22 +503,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_create_policy_binding_for_all_namespaces(self):
-        """
-        Test case for create_policy_binding_for_all_namespaces
-
-        
-        """
-        pass
-
-    def test_create_policy_for_all_namespaces(self):
-        """
-        Test case for create_policy_for_all_namespaces
-
-        
-        """
-        pass
-
     def test_create_processed_template_for_all_namespaces_v1(self):
         """
         Test case for create_processed_template_for_all_namespaces_v1
@@ -671,22 +623,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_delete_cluster_policy(self):
-        """
-        Test case for delete_cluster_policy
-
-        
-        """
-        pass
-
-    def test_delete_cluster_policy_binding(self):
-        """
-        Test case for delete_cluster_policy_binding
-
-        
-        """
-        pass
-
     def test_delete_cluster_resource_quota(self):
         """
         Test case for delete_cluster_resource_quota
@@ -714,22 +650,6 @@ class TestOapiApi(unittest.TestCase):
     def test_delete_collection_cluster_network(self):
         """
         Test case for delete_collection_cluster_network
-
-        
-        """
-        pass
-
-    def test_delete_collection_cluster_policy(self):
-        """
-        Test case for delete_collection_cluster_policy
-
-        
-        """
-        pass
-
-    def test_delete_collection_cluster_policy_binding(self):
-        """
-        Test case for delete_collection_cluster_policy_binding
 
         
         """
@@ -810,22 +730,6 @@ class TestOapiApi(unittest.TestCase):
     def test_delete_collection_namespaced_image_stream(self):
         """
         Test case for delete_collection_namespaced_image_stream
-
-        
-        """
-        pass
-
-    def test_delete_collection_namespaced_policy(self):
-        """
-        Test case for delete_collection_namespaced_policy
-
-        
-        """
-        pass
-
-    def test_delete_collection_namespaced_policy_binding(self):
-        """
-        Test case for delete_collection_namespaced_policy_binding
 
         
         """
@@ -991,22 +895,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_delete_namespaced_policy(self):
-        """
-        Test case for delete_namespaced_policy
-
-        
-        """
-        pass
-
-    def test_delete_namespaced_policy_binding(self):
-        """
-        Test case for delete_namespaced_policy_binding
-
-        
-        """
-        pass
-
     def test_delete_namespaced_role(self):
         """
         Test case for delete_namespaced_role
@@ -1111,14 +999,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_generate_namespaced_deployment_config(self):
-        """
-        Test case for generate_namespaced_deployment_config
-
-        
-        """
-        pass
-
     def test_get_api_resources(self):
         """
         Test case for get_api_resources
@@ -1127,9 +1007,9 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_get_oapi_version(self):
+    def test_get_legacy_api_versions(self):
         """
-        Test case for get_oapi_version
+        Test case for get_legacy_api_versions
 
         
         """
@@ -1162,22 +1042,6 @@ class TestOapiApi(unittest.TestCase):
     def test_list_cluster_network(self):
         """
         Test case for list_cluster_network
-
-        
-        """
-        pass
-
-    def test_list_cluster_policy(self):
-        """
-        Test case for list_cluster_policy
-
-        
-        """
-        pass
-
-    def test_list_cluster_policy_binding(self):
-        """
-        Test case for list_cluster_policy_binding
 
         
         """
@@ -1327,22 +1191,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_list_namespaced_policy(self):
-        """
-        Test case for list_namespaced_policy
-
-        
-        """
-        pass
-
-    def test_list_namespaced_policy_binding(self):
-        """
-        Test case for list_namespaced_policy_binding
-
-        
-        """
-        pass
-
     def test_list_namespaced_role(self):
         """
         Test case for list_namespaced_role
@@ -1423,22 +1271,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_list_policy_binding_for_all_namespaces(self):
-        """
-        Test case for list_policy_binding_for_all_namespaces
-
-        
-        """
-        pass
-
-    def test_list_policy_for_all_namespaces(self):
-        """
-        Test case for list_policy_for_all_namespaces
-
-        
-        """
-        pass
-
     def test_list_project(self):
         """
         Test case for list_project
@@ -1506,22 +1338,6 @@ class TestOapiApi(unittest.TestCase):
     def test_patch_cluster_network(self):
         """
         Test case for patch_cluster_network
-
-        
-        """
-        pass
-
-    def test_patch_cluster_policy(self):
-        """
-        Test case for patch_cluster_policy
-
-        
-        """
-        pass
-
-    def test_patch_cluster_policy_binding(self):
-        """
-        Test case for patch_cluster_policy_binding
 
         
         """
@@ -1655,22 +1471,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_patch_namespaced_policy(self):
-        """
-        Test case for patch_namespaced_policy
-
-        
-        """
-        pass
-
-    def test_patch_namespaced_policy_binding(self):
-        """
-        Test case for patch_namespaced_policy_binding
-
-        
-        """
-        pass
-
     def test_patch_namespaced_role(self):
         """
         Test case for patch_namespaced_role
@@ -1794,22 +1594,6 @@ class TestOapiApi(unittest.TestCase):
     def test_read_cluster_network(self):
         """
         Test case for read_cluster_network
-
-        
-        """
-        pass
-
-    def test_read_cluster_policy(self):
-        """
-        Test case for read_cluster_policy
-
-        
-        """
-        pass
-
-    def test_read_cluster_policy_binding(self):
-        """
-        Test case for read_cluster_policy_binding
 
         
         """
@@ -1975,22 +1759,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_read_namespaced_policy(self):
-        """
-        Test case for read_namespaced_policy
-
-        
-        """
-        pass
-
-    def test_read_namespaced_policy_binding(self):
-        """
-        Test case for read_namespaced_policy_binding
-
-        
-        """
-        pass
-
     def test_read_namespaced_role(self):
         """
         Test case for read_namespaced_role
@@ -2127,22 +1895,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_replace_cluster_policy(self):
-        """
-        Test case for replace_cluster_policy
-
-        
-        """
-        pass
-
-    def test_replace_cluster_policy_binding(self):
-        """
-        Test case for replace_cluster_policy_binding
-
-        
-        """
-        pass
-
     def test_replace_cluster_resource_quota(self):
         """
         Test case for replace_cluster_resource_quota
@@ -2274,22 +2026,6 @@ class TestOapiApi(unittest.TestCase):
     def test_replace_namespaced_image_stream_tag(self):
         """
         Test case for replace_namespaced_image_stream_tag
-
-        
-        """
-        pass
-
-    def test_replace_namespaced_policy(self):
-        """
-        Test case for replace_namespaced_policy
-
-        
-        """
-        pass
-
-    def test_replace_namespaced_policy_binding(self):
-        """
-        Test case for replace_namespaced_policy_binding
 
         
         """

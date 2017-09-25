@@ -7,6 +7,7 @@ from .authorization_openshift_io_api import AuthorizationOpenshiftIoApi
 from .authorization_openshift_io_v1_api import AuthorizationOpenshiftIoV1Api
 from .build_openshift_io_api import BuildOpenshiftIoApi
 from .build_openshift_io_v1_api import BuildOpenshiftIoV1Api
+from .custom_objects_api import CustomObjectsApi
 from .image_openshift_io_api import ImageOpenshiftIoApi
 from .image_openshift_io_v1_api import ImageOpenshiftIoV1Api
 from .network_openshift_io_api import NetworkOpenshiftIoApi
@@ -14,7 +15,6 @@ from .network_openshift_io_v1_api import NetworkOpenshiftIoV1Api
 from .oapi_api import OapiApi
 from .oauth_openshift_io_api import OauthOpenshiftIoApi
 from .oauth_openshift_io_v1_api import OauthOpenshiftIoV1Api
-from .osapi_api import OsapiApi
 from .project_openshift_io_api import ProjectOpenshiftIoApi
 from .project_openshift_io_v1_api import ProjectOpenshiftIoV1Api
 from .quota_openshift_io_api import QuotaOpenshiftIoApi

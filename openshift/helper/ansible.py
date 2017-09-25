@@ -5,6 +5,7 @@ import base64
 import copy
 import json
 import logging
+from datetime import datetime as dt
 
 import string_utils
 
@@ -16,6 +17,13 @@ from .openshift import OpenShiftObjectHelper
 ARG_ATTRIBUTES_BLACKLIST = ('description', 'auth_option', 'property_path')
 
 logger = logging.getLogger(__name__)
+
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, dt):
+            return o.isoformat()
+        return json.JSONEncoder.default(self, o)
 
 
 class AnsibleMixin(object):
@@ -176,7 +184,7 @@ class AnsibleMixin(object):
                 pop_keys.append(key)
         for key in pop_keys:
             tmp_arg_spec.pop(key)
-        logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True))
+        logger.debug(json.dumps(tmp_arg_spec, indent=4, sort_keys=True, cls=DateTimeEncoder))
 
     def object_from_params(self, module_params, obj=None):
         """
@@ -218,7 +226,7 @@ class AnsibleMixin(object):
             obj.string_data = None
 
         logger.debug("Object from params:")
-        logger.debug(json.dumps(obj.to_dict(), indent=4))
+        logger.debug(json.dumps(obj.to_dict(), indent=4, cls=DateTimeEncoder))
         return obj
 
     def request_body_from_params(self, module_params):
@@ -242,7 +250,7 @@ class AnsibleMixin(object):
                 request['metadata']['annotations']['openshift.io/description'] = module_params['description']
 
         logger.debug('request_body:')
-        logger.debug(json.dumps(request, indent=4))
+        logger.debug(json.dumps(request, indent=4, cls=DateTimeEncoder))
         return request
 
     def find_arg_spec(self, module_param_name):

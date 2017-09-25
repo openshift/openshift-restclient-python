@@ -1,14 +1,14 @@
-# openshift.client.ProjectOpenshiftIoApi
+# openshift.openshift.client.ProjectOpenshiftIoApi
 
 All URIs are relative to *https://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_project_openshift_io_api_group**](ProjectOpenshiftIoApi.md#get_project_openshift_io_api_group) | **GET** /apis/project.openshift.io/ | 
+[**get_api_group**](ProjectOpenshiftIoApi.md#get_api_group) | **GET** /apis/project.openshift.io/ | 
 
 
-# **get_project_openshift_io_api_group**
-> UnversionedAPIGroup get_project_openshift_io_api_group()
+# **get_api_group**
+> V1APIGroup get_api_group()
 
 
 
@@ -18,18 +18,27 @@ get information of a group
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.ProjectOpenshiftIoApi()
+api_instance = openshift.openshift.client.ProjectOpenshiftIoApi()
 
 try: 
-    api_response = api_instance.get_project_openshift_io_api_group()
+    api_response = api_instance.get_api_group()
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling ProjectOpenshiftIoApi->get_project_openshift_io_api_group: %s\n" % e)
+    print("Exception when calling ProjectOpenshiftIoApi->get_api_group: %s\n" % e)
 ```
 
 ### Parameters
@@ -37,11 +46,11 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**UnversionedAPIGroup**](UnversionedAPIGroup.md)
+[**V1APIGroup**](V1APIGroup.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 

@@ -1,4 +1,4 @@
-# openshift.client.AuthorizationV1beta1Api
+# openshift.openshift.client.AuthorizationV1beta1Api
 
 All URIs are relative to *https://localhost*
 
@@ -22,13 +22,22 @@ create a LocalSubjectAccessReview
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.AuthorizationV1beta1Api()
-body = openshift.client.V1beta1LocalSubjectAccessReview() # V1beta1LocalSubjectAccessReview | 
+api_instance = openshift.openshift.client.AuthorizationV1beta1Api()
+body = openshift.openshift.client.V1beta1LocalSubjectAccessReview() # V1beta1LocalSubjectAccessReview | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -51,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -61,7 +70,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_namespaced_local_subject_access_review**
-> V1beta1LocalSubjectAccessReview create_namespaced_local_subject_access_review(body, namespace, pretty=pretty)
+> V1beta1LocalSubjectAccessReview create_namespaced_local_subject_access_review(namespace, body, pretty=pretty)
 
 
 
@@ -71,18 +80,27 @@ create a LocalSubjectAccessReview
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.AuthorizationV1beta1Api()
-body = openshift.client.V1beta1LocalSubjectAccessReview() # V1beta1LocalSubjectAccessReview | 
+api_instance = openshift.openshift.client.AuthorizationV1beta1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+body = openshift.openshift.client.V1beta1LocalSubjectAccessReview() # V1beta1LocalSubjectAccessReview | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.create_namespaced_local_subject_access_review(body, namespace, pretty=pretty)
+    api_response = api_instance.create_namespaced_local_subject_access_review(namespace, body, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AuthorizationV1beta1Api->create_namespaced_local_subject_access_review: %s\n" % e)
@@ -92,8 +110,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**V1beta1LocalSubjectAccessReview**](V1beta1LocalSubjectAccessReview.md)|  | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **body** | [**V1beta1LocalSubjectAccessReview**](V1beta1LocalSubjectAccessReview.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -102,7 +120,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -122,13 +140,22 @@ create a SelfSubjectAccessReview
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.AuthorizationV1beta1Api()
-body = openshift.client.V1beta1SelfSubjectAccessReview() # V1beta1SelfSubjectAccessReview | 
+api_instance = openshift.openshift.client.AuthorizationV1beta1Api()
+body = openshift.openshift.client.V1beta1SelfSubjectAccessReview() # V1beta1SelfSubjectAccessReview | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -151,7 +178,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -171,13 +198,22 @@ create a SubjectAccessReview
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.AuthorizationV1beta1Api()
-body = openshift.client.V1beta1SubjectAccessReview() # V1beta1SubjectAccessReview | 
+api_instance = openshift.openshift.client.AuthorizationV1beta1Api()
+body = openshift.openshift.client.V1beta1SubjectAccessReview() # V1beta1SubjectAccessReview | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -200,7 +236,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -210,7 +246,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_resources**
-> UnversionedAPIResourceList get_api_resources()
+> V1APIResourceList get_api_resources()
 
 
 
@@ -220,12 +256,21 @@ get available resources
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.AuthorizationV1beta1Api()
+api_instance = openshift.openshift.client.AuthorizationV1beta1Api()
 
 try: 
     api_response = api_instance.get_api_resources()
@@ -239,11 +284,11 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**UnversionedAPIResourceList**](UnversionedAPIResourceList.md)
+[**V1APIResourceList**](V1APIResourceList.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 

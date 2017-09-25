@@ -198,7 +198,7 @@ class BaseObjectHelper(object):
         self.__remove_creation_timestamps(k8s_obj)
         w, stream = self._create_stream(namespace)
         return_obj = None
-        self.logger.debug("Patching object: {}".format(json.dumps(k8s_obj.to_dict())))
+        self.logger.debug("Patching object: {}".format(k8s_obj.to_str()))
         try:
             patch_method = self.lookup_method('patch', namespace)
             if namespace:
@@ -215,7 +215,7 @@ class BaseObjectHelper(object):
         if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self._wait_for_response(name, namespace, 'patch')
 
-        return return_obj
+        return self.fix_serialization(return_obj)
 
     def create_object(self, namespace=None, k8s_obj=None, body=None):
         """
@@ -257,7 +257,23 @@ class BaseObjectHelper(object):
         if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self._wait_for_response(name, namespace, 'create')
 
-        return return_obj
+        return self.fix_serialization(return_obj)
+
+    # TODO(fabianvf): better way to fix this?
+    def fix_serialization(self, k8s_obj):
+        """
+        Fixes a few issues with the types in the kubernetes API
+        """
+        # Target_port can either be a string or int, but is automatically serialized to string
+        # If you try to specify a port number as a string, create/patch/replace will fail
+        if k8s_obj.kind == 'Service':
+            for port in k8s_obj.spec.ports:
+                try:
+                    port.target_port = int(port.target_port)
+                except ValueError:
+                    pass
+        return k8s_obj
+
 
     def delete_object(self, name, namespace):
         self.logger.debug('Starting delete object {0} {1} {2}'.format(self.kind, name, namespace))
@@ -342,7 +358,7 @@ class BaseObjectHelper(object):
         if not return_obj or self.kind in ('project', 'namespace'):
             return_obj = self._wait_for_response(name, namespace, 'replace')
 
-        return return_obj
+        return self.fix_serialization(return_obj)
 
     @staticmethod
     def objects_match(obj_a, obj_b):
@@ -557,9 +573,8 @@ class BaseObjectHelper(object):
             for event in stream:
                 obj = None
                 if event.get('object'):
-                    obj_json = json.dumps(event['object'].to_dict())
                     self.logger.debug(
-                        "EVENT type: {0} object: {1}".format(event['type'], obj_json)
+                        "EVENT type: {0} object: {1}".format(event['type'], event['object'].to_str())
                     )
                     obj = event['object']
                 else:

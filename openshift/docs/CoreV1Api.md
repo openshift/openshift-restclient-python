@@ -1,4 +1,4 @@
-# openshift.client.CoreV1Api
+# openshift.openshift.client.CoreV1Api
 
 All URIs are relative to *https://localhost*
 
@@ -31,6 +31,12 @@ Method | HTTP request | Description
 [**connect_options_namespaced_service_proxy_with_path**](CoreV1Api.md#connect_options_namespaced_service_proxy_with_path) | **OPTIONS** /api/v1/namespaces/{namespace}/services/{name}/proxy/{path} | 
 [**connect_options_node_proxy**](CoreV1Api.md#connect_options_node_proxy) | **OPTIONS** /api/v1/nodes/{name}/proxy | 
 [**connect_options_node_proxy_with_path**](CoreV1Api.md#connect_options_node_proxy_with_path) | **OPTIONS** /api/v1/nodes/{name}/proxy/{path} | 
+[**connect_patch_namespaced_pod_proxy**](CoreV1Api.md#connect_patch_namespaced_pod_proxy) | **PATCH** /api/v1/namespaces/{namespace}/pods/{name}/proxy | 
+[**connect_patch_namespaced_pod_proxy_with_path**](CoreV1Api.md#connect_patch_namespaced_pod_proxy_with_path) | **PATCH** /api/v1/namespaces/{namespace}/pods/{name}/proxy/{path} | 
+[**connect_patch_namespaced_service_proxy**](CoreV1Api.md#connect_patch_namespaced_service_proxy) | **PATCH** /api/v1/namespaces/{namespace}/services/{name}/proxy | 
+[**connect_patch_namespaced_service_proxy_with_path**](CoreV1Api.md#connect_patch_namespaced_service_proxy_with_path) | **PATCH** /api/v1/namespaces/{namespace}/services/{name}/proxy/{path} | 
+[**connect_patch_node_proxy**](CoreV1Api.md#connect_patch_node_proxy) | **PATCH** /api/v1/nodes/{name}/proxy | 
+[**connect_patch_node_proxy_with_path**](CoreV1Api.md#connect_patch_node_proxy_with_path) | **PATCH** /api/v1/nodes/{name}/proxy/{path} | 
 [**connect_post_namespaced_pod_attach**](CoreV1Api.md#connect_post_namespaced_pod_attach) | **POST** /api/v1/namespaces/{namespace}/pods/{name}/attach | 
 [**connect_post_namespaced_pod_exec**](CoreV1Api.md#connect_post_namespaced_pod_exec) | **POST** /api/v1/namespaces/{namespace}/pods/{name}/exec | 
 [**connect_post_namespaced_pod_portforward**](CoreV1Api.md#connect_post_namespaced_pod_portforward) | **POST** /api/v1/namespaces/{namespace}/pods/{name}/portforward | 
@@ -78,7 +84,6 @@ Method | HTTP request | Description
 [**create_security_context_constraints**](CoreV1Api.md#create_security_context_constraints) | **POST** /api/v1/securitycontextconstraints | 
 [**create_service_account_for_all_namespaces**](CoreV1Api.md#create_service_account_for_all_namespaces) | **POST** /api/v1/serviceaccounts | 
 [**create_service_for_all_namespaces**](CoreV1Api.md#create_service_for_all_namespaces) | **POST** /api/v1/services | 
-[**delete_collection_namespace**](CoreV1Api.md#delete_collection_namespace) | **DELETE** /api/v1/namespaces | 
 [**delete_collection_namespaced_config_map**](CoreV1Api.md#delete_collection_namespaced_config_map) | **DELETE** /api/v1/namespaces/{namespace}/configmaps | 
 [**delete_collection_namespaced_endpoints**](CoreV1Api.md#delete_collection_namespaced_endpoints) | **DELETE** /api/v1/namespaces/{namespace}/endpoints | 
 [**delete_collection_namespaced_event**](CoreV1Api.md#delete_collection_namespaced_event) | **DELETE** /api/v1/namespaces/{namespace}/events | 
@@ -188,6 +193,12 @@ Method | HTTP request | Description
 [**proxy_options_namespaced_service_with_path**](CoreV1Api.md#proxy_options_namespaced_service_with_path) | **OPTIONS** /api/v1/proxy/namespaces/{namespace}/services/{name}/{path} | 
 [**proxy_options_node**](CoreV1Api.md#proxy_options_node) | **OPTIONS** /api/v1/proxy/nodes/{name} | 
 [**proxy_options_node_with_path**](CoreV1Api.md#proxy_options_node_with_path) | **OPTIONS** /api/v1/proxy/nodes/{name}/{path} | 
+[**proxy_patch_namespaced_pod**](CoreV1Api.md#proxy_patch_namespaced_pod) | **PATCH** /api/v1/proxy/namespaces/{namespace}/pods/{name} | 
+[**proxy_patch_namespaced_pod_with_path**](CoreV1Api.md#proxy_patch_namespaced_pod_with_path) | **PATCH** /api/v1/proxy/namespaces/{namespace}/pods/{name}/{path} | 
+[**proxy_patch_namespaced_service**](CoreV1Api.md#proxy_patch_namespaced_service) | **PATCH** /api/v1/proxy/namespaces/{namespace}/services/{name} | 
+[**proxy_patch_namespaced_service_with_path**](CoreV1Api.md#proxy_patch_namespaced_service_with_path) | **PATCH** /api/v1/proxy/namespaces/{namespace}/services/{name}/{path} | 
+[**proxy_patch_node**](CoreV1Api.md#proxy_patch_node) | **PATCH** /api/v1/proxy/nodes/{name} | 
+[**proxy_patch_node_with_path**](CoreV1Api.md#proxy_patch_node_with_path) | **PATCH** /api/v1/proxy/nodes/{name}/{path} | 
 [**proxy_post_namespaced_pod**](CoreV1Api.md#proxy_post_namespaced_pod) | **POST** /api/v1/proxy/namespaces/{namespace}/pods/{name} | 
 [**proxy_post_namespaced_pod_with_path**](CoreV1Api.md#proxy_post_namespaced_pod_with_path) | **POST** /api/v1/proxy/namespaces/{namespace}/pods/{name}/{path} | 
 [**proxy_post_namespaced_service**](CoreV1Api.md#proxy_post_namespaced_service) | **POST** /api/v1/proxy/namespaces/{namespace}/services/{name} | 
@@ -266,12 +277,21 @@ connect DELETE requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
@@ -297,7 +317,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -317,12 +337,21 @@ connect DELETE requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -350,7 +379,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -370,12 +399,21 @@ connect DELETE requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy. (optional)
@@ -401,7 +439,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -421,12 +459,21 @@ connect DELETE requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -454,7 +501,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -474,12 +521,21 @@ connect DELETE requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
 
@@ -503,7 +559,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -523,12 +579,21 @@ connect DELETE requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
@@ -554,7 +619,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -574,12 +639,21 @@ connect GET requests to attach of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 container = 'container_example' # str | The container in which to execute the command. Defaults to only container if there is only one container in the pod. (optional)
@@ -613,7 +687,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -633,12 +707,21 @@ connect GET requests to exec of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 command = 'command_example' # str | Command is the remote command to execute. argv array. Not executed within a shell. (optional)
@@ -674,7 +757,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -684,7 +767,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **connect_get_namespaced_pod_portforward**
-> str connect_get_namespaced_pod_portforward(name, namespace)
+> str connect_get_namespaced_pod_portforward(name, namespace, ports=ports)
 
 
 
@@ -694,17 +777,27 @@ connect GET requests to portforward of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+ports = 56 # int | List of ports to forward Required when using WebSockets (optional)
 
 try: 
-    api_response = api_instance.connect_get_namespaced_pod_portforward(name, namespace)
+    api_response = api_instance.connect_get_namespaced_pod_portforward(name, namespace, ports=ports)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->connect_get_namespaced_pod_portforward: %s\n" % e)
@@ -716,6 +809,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Pod | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **ports** | **int**| List of ports to forward Required when using WebSockets | [optional] 
 
 ### Return type
 
@@ -723,7 +817,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -743,12 +837,21 @@ connect GET requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
@@ -774,7 +877,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -794,12 +897,21 @@ connect GET requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -827,7 +939,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -847,12 +959,21 @@ connect GET requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy. (optional)
@@ -878,7 +999,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -898,12 +1019,21 @@ connect GET requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -931,7 +1061,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -951,12 +1081,21 @@ connect GET requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
 
@@ -980,7 +1119,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1000,12 +1139,21 @@ connect GET requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
@@ -1031,7 +1179,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1051,12 +1199,21 @@ connect HEAD requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
@@ -1082,7 +1239,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1102,12 +1259,21 @@ connect HEAD requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -1135,7 +1301,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1155,12 +1321,21 @@ connect HEAD requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy. (optional)
@@ -1186,7 +1361,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1206,12 +1381,21 @@ connect HEAD requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -1239,7 +1423,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1259,12 +1443,21 @@ connect HEAD requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
 
@@ -1288,7 +1481,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1308,12 +1501,21 @@ connect HEAD requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
@@ -1339,7 +1541,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1359,12 +1561,21 @@ connect OPTIONS requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
@@ -1390,7 +1601,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1410,12 +1621,21 @@ connect OPTIONS requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -1443,7 +1663,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1463,12 +1683,21 @@ connect OPTIONS requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy. (optional)
@@ -1494,7 +1723,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1514,12 +1743,21 @@ connect OPTIONS requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -1547,7 +1785,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1567,12 +1805,21 @@ connect OPTIONS requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
 
@@ -1596,7 +1843,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1616,12 +1863,21 @@ connect OPTIONS requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
@@ -1647,7 +1903,369 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **connect_patch_namespaced_pod_proxy**
+> str connect_patch_namespaced_pod_proxy(name, namespace, path=path)
+
+
+
+connect PATCH requests to proxy of Pod
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Pod
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+path = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
+
+try: 
+    api_response = api_instance.connect_patch_namespaced_pod_proxy(name, namespace, path=path)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->connect_patch_namespaced_pod_proxy: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Pod | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **path** | **str**| Path is the URL path to use for the current proxy request to pod. | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **connect_patch_namespaced_pod_proxy_with_path**
+> str connect_patch_namespaced_pod_proxy_with_path(name, namespace, path, path2=path2)
+
+
+
+connect PATCH requests to proxy of Pod
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Pod
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+path = 'path_example' # str | path to the resource
+path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
+
+try: 
+    api_response = api_instance.connect_patch_namespaced_pod_proxy_with_path(name, namespace, path, path2=path2)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->connect_patch_namespaced_pod_proxy_with_path: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Pod | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **path** | **str**| path to the resource | 
+ **path2** | **str**| Path is the URL path to use for the current proxy request to pod. | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **connect_patch_namespaced_service_proxy**
+> str connect_patch_namespaced_service_proxy(name, namespace, path=path)
+
+
+
+connect PATCH requests to proxy of Service
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Service
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+path = 'path_example' # str | Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy. (optional)
+
+try: 
+    api_response = api_instance.connect_patch_namespaced_service_proxy(name, namespace, path=path)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->connect_patch_namespaced_service_proxy: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Service | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **path** | **str**| Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q&#x3D;user:kimchy. Path is _search?q&#x3D;user:kimchy. | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **connect_patch_namespaced_service_proxy_with_path**
+> str connect_patch_namespaced_service_proxy_with_path(name, namespace, path, path2=path2)
+
+
+
+connect PATCH requests to proxy of Service
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Service
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+path = 'path_example' # str | path to the resource
+path2 = 'path_example' # str | Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy. (optional)
+
+try: 
+    api_response = api_instance.connect_patch_namespaced_service_proxy_with_path(name, namespace, path, path2=path2)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->connect_patch_namespaced_service_proxy_with_path: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Service | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **path** | **str**| path to the resource | 
+ **path2** | **str**| Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q&#x3D;user:kimchy. Path is _search?q&#x3D;user:kimchy. | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **connect_patch_node_proxy**
+> str connect_patch_node_proxy(name, path=path)
+
+
+
+connect PATCH requests to proxy of Node
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Node
+path = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
+
+try: 
+    api_response = api_instance.connect_patch_node_proxy(name, path=path)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->connect_patch_node_proxy: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Node | 
+ **path** | **str**| Path is the URL path to use for the current proxy request to node. | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **connect_patch_node_proxy_with_path**
+> str connect_patch_node_proxy_with_path(name, path, path2=path2)
+
+
+
+connect PATCH requests to proxy of Node
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Node
+path = 'path_example' # str | path to the resource
+path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
+
+try: 
+    api_response = api_instance.connect_patch_node_proxy_with_path(name, path, path2=path2)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->connect_patch_node_proxy_with_path: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Node | 
+ **path** | **str**| path to the resource | 
+ **path2** | **str**| Path is the URL path to use for the current proxy request to node. | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1667,12 +2285,21 @@ connect POST requests to attach of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 container = 'container_example' # str | The container in which to execute the command. Defaults to only container if there is only one container in the pod. (optional)
@@ -1706,7 +2333,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1726,12 +2353,21 @@ connect POST requests to exec of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 command = 'command_example' # str | Command is the remote command to execute. argv array. Not executed within a shell. (optional)
@@ -1767,7 +2403,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1777,7 +2413,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **connect_post_namespaced_pod_portforward**
-> str connect_post_namespaced_pod_portforward(name, namespace)
+> str connect_post_namespaced_pod_portforward(name, namespace, ports=ports)
 
 
 
@@ -1787,17 +2423,27 @@ connect POST requests to portforward of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+ports = 56 # int | List of ports to forward Required when using WebSockets (optional)
 
 try: 
-    api_response = api_instance.connect_post_namespaced_pod_portforward(name, namespace)
+    api_response = api_instance.connect_post_namespaced_pod_portforward(name, namespace, ports=ports)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->connect_post_namespaced_pod_portforward: %s\n" % e)
@@ -1809,6 +2455,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Pod | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **ports** | **int**| List of ports to forward Required when using WebSockets | [optional] 
 
 ### Return type
 
@@ -1816,7 +2463,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1836,12 +2483,21 @@ connect POST requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
@@ -1867,7 +2523,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1887,12 +2543,21 @@ connect POST requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -1920,7 +2585,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1940,12 +2605,21 @@ connect POST requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy. (optional)
@@ -1971,7 +2645,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -1991,12 +2665,21 @@ connect POST requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -2024,7 +2707,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2044,12 +2727,21 @@ connect POST requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
 
@@ -2073,7 +2765,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2093,12 +2785,21 @@ connect POST requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
@@ -2124,7 +2825,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2144,12 +2845,21 @@ connect PUT requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
@@ -2175,7 +2885,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2195,12 +2905,21 @@ connect PUT requests to proxy of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -2228,7 +2947,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2248,12 +2967,21 @@ connect PUT requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | Path is the part of URLs that include service endpoints, suffixes, and parameters to use for the current proxy request to service. For example, the whole request URL is http://localhost/api/v1/namespaces/kube-system/services/elasticsearch-logging/_search?q=user:kimchy. Path is _search?q=user:kimchy. (optional)
@@ -2279,7 +3007,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2299,12 +3027,21 @@ connect PUT requests to proxy of Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -2332,7 +3069,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2352,12 +3089,21 @@ connect PUT requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
 
@@ -2381,7 +3127,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2401,12 +3147,21 @@ connect PUT requests to proxy of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to node. (optional)
@@ -2432,7 +3187,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2452,13 +3207,22 @@ create a Binding
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Binding() # V1Binding | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1Binding() # V1Binding | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2481,7 +3245,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2501,13 +3265,22 @@ create a ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1ConfigMap() # V1ConfigMap | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1ConfigMap() # V1ConfigMap | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2530,7 +3303,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2550,13 +3323,22 @@ create Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Endpoints() # V1Endpoints | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1Endpoints() # V1Endpoints | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2579,7 +3361,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2599,13 +3381,22 @@ create an Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Event() # V1Event | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1Event() # V1Event | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2628,7 +3419,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2648,13 +3439,22 @@ create a LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1LimitRange() # V1LimitRange | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1LimitRange() # V1LimitRange | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2677,7 +3477,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2697,13 +3497,22 @@ create a Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Namespace() # V1Namespace | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1Namespace() # V1Namespace | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2726,7 +3535,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2736,7 +3545,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_namespaced_binding**
-> V1Binding create_namespaced_binding(body, namespace, pretty=pretty)
+> V1Binding create_namespaced_binding(namespace, body, pretty=pretty)
 
 
 
@@ -2746,18 +3555,27 @@ create a Binding
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Binding() # V1Binding | 
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+body = openshift.openshift.client.V1Binding() # V1Binding | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.create_namespaced_binding(body, namespace, pretty=pretty)
+    api_response = api_instance.create_namespaced_binding(namespace, body, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->create_namespaced_binding: %s\n" % e)
@@ -2767,8 +3585,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**V1Binding**](V1Binding.md)|  | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **body** | [**V1Binding**](V1Binding.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -2777,7 +3595,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2787,7 +3605,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_namespaced_binding_binding**
-> V1Binding create_namespaced_binding_binding(body, name, namespace, pretty=pretty)
+> V1Binding create_namespaced_binding_binding(name, namespace, body, pretty=pretty)
 
 
 
@@ -2797,19 +3615,28 @@ create binding of a Binding
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Binding() # V1Binding | 
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Binding
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+body = openshift.openshift.client.V1Binding() # V1Binding | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.create_namespaced_binding_binding(body, name, namespace, pretty=pretty)
+    api_response = api_instance.create_namespaced_binding_binding(name, namespace, body, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->create_namespaced_binding_binding: %s\n" % e)
@@ -2819,9 +3646,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**V1Binding**](V1Binding.md)|  | 
  **name** | **str**| name of the Binding | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **body** | [**V1Binding**](V1Binding.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -2830,7 +3657,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2850,14 +3677,23 @@ create a ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ConfigMap() # V1ConfigMap | 
+body = openshift.openshift.client.V1ConfigMap() # V1ConfigMap | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2881,7 +3717,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2901,14 +3737,23 @@ create Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Endpoints() # V1Endpoints | 
+body = openshift.openshift.client.V1Endpoints() # V1Endpoints | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2932,7 +3777,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2952,14 +3797,23 @@ create an Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Event() # V1Event | 
+body = openshift.openshift.client.V1Event() # V1Event | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -2983,7 +3837,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -2993,7 +3847,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_namespaced_eviction_eviction**
-> V1beta1Eviction create_namespaced_eviction_eviction(body, name, namespace, pretty=pretty)
+> V1beta1Eviction create_namespaced_eviction_eviction(name, namespace, body, pretty=pretty)
 
 
 
@@ -3003,19 +3857,28 @@ create eviction of an Eviction
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1beta1Eviction() # V1beta1Eviction | 
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Eviction
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+body = openshift.openshift.client.V1beta1Eviction() # V1beta1Eviction | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.create_namespaced_eviction_eviction(body, name, namespace, pretty=pretty)
+    api_response = api_instance.create_namespaced_eviction_eviction(name, namespace, body, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->create_namespaced_eviction_eviction: %s\n" % e)
@@ -3025,9 +3888,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**V1beta1Eviction**](V1beta1Eviction.md)|  | 
  **name** | **str**| name of the Eviction | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **body** | [**V1beta1Eviction**](V1beta1Eviction.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -3036,7 +3899,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3056,14 +3919,23 @@ create a LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1LimitRange() # V1LimitRange | 
+body = openshift.openshift.client.V1LimitRange() # V1LimitRange | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3087,7 +3959,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3107,14 +3979,23 @@ create a PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1PersistentVolumeClaim() # V1PersistentVolumeClaim | 
+body = openshift.openshift.client.V1PersistentVolumeClaim() # V1PersistentVolumeClaim | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3138,7 +4019,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3158,14 +4039,23 @@ create a Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Pod() # V1Pod | 
+body = openshift.openshift.client.V1Pod() # V1Pod | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3189,7 +4079,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3209,14 +4099,23 @@ create a PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1PodTemplate() # V1PodTemplate | 
+body = openshift.openshift.client.V1PodTemplate() # V1PodTemplate | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3240,7 +4139,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3260,14 +4159,23 @@ create a ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ReplicationController() # V1ReplicationController | 
+body = openshift.openshift.client.V1ReplicationController() # V1ReplicationController | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3291,7 +4199,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3311,14 +4219,23 @@ create a ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ResourceQuota() # V1ResourceQuota | 
+body = openshift.openshift.client.V1ResourceQuota() # V1ResourceQuota | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3342,7 +4259,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3362,14 +4279,23 @@ create a Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Secret() # V1Secret | 
+body = openshift.openshift.client.V1Secret() # V1Secret | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3393,7 +4319,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3413,14 +4339,23 @@ create a Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Service() # V1Service | 
+body = openshift.openshift.client.V1Service() # V1Service | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3444,7 +4379,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3464,14 +4399,23 @@ create a ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ServiceAccount() # V1ServiceAccount | 
+body = openshift.openshift.client.V1ServiceAccount() # V1ServiceAccount | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3495,7 +4439,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3515,13 +4459,22 @@ create a Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Node() # V1Node | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1Node() # V1Node | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3544,7 +4497,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3564,13 +4517,22 @@ create a PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1PersistentVolume() # V1PersistentVolume | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1PersistentVolume() # V1PersistentVolume | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3593,7 +4555,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3613,13 +4575,22 @@ create a PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1PersistentVolumeClaim() # V1PersistentVolumeClaim | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1PersistentVolumeClaim() # V1PersistentVolumeClaim | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3642,7 +4613,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3662,13 +4633,22 @@ create a Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Pod() # V1Pod | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1Pod() # V1Pod | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3691,7 +4671,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3711,13 +4691,22 @@ create a PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1PodTemplate() # V1PodTemplate | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1PodTemplate() # V1PodTemplate | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3740,7 +4729,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3760,13 +4749,22 @@ create a ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1ReplicationController() # V1ReplicationController | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1ReplicationController() # V1ReplicationController | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3789,7 +4787,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3809,13 +4807,22 @@ create a ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1ResourceQuota() # V1ResourceQuota | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1ResourceQuota() # V1ResourceQuota | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3838,7 +4845,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3858,13 +4865,22 @@ create a Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Secret() # V1Secret | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1Secret() # V1Secret | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3887,7 +4903,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3907,13 +4923,22 @@ create SecurityContextConstraints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1SecurityContextConstraints() # V1SecurityContextConstraints | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1SecurityContextConstraints() # V1SecurityContextConstraints | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3936,7 +4961,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -3956,13 +4981,22 @@ create a ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1ServiceAccount() # V1ServiceAccount | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1ServiceAccount() # V1ServiceAccount | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -3985,7 +5019,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4005,13 +5039,22 @@ create a Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Service() # V1Service | 
+api_instance = openshift.openshift.client.CoreV1Api()
+body = openshift.openshift.client.V1Service() # V1Service | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -4034,64 +5077,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: */*
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **delete_collection_namespace**
-> UnversionedStatus delete_collection_namespace(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
-
-
-
-delete collection of Namespace
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
-label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
-timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
-watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
-
-try: 
-    api_response = api_instance.delete_collection_namespace(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling CoreV1Api->delete_collection_namespace: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
- **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
- **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
- **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
-
-### Return type
-
-[**UnversionedStatus**](UnversionedStatus.md)
-
-### Authorization
-
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4101,7 +5087,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_config_map**
-> UnversionedStatus delete_collection_namespaced_config_map(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_config_map(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4111,22 +5097,32 @@ delete collection of ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_config_map(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_config_map(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_config_map: %s\n" % e)
@@ -4139,18 +5135,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4160,7 +5157,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_endpoints**
-> UnversionedStatus delete_collection_namespaced_endpoints(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_endpoints(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4170,22 +5167,32 @@ delete collection of Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_endpoints(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_endpoints(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_endpoints: %s\n" % e)
@@ -4198,18 +5205,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4219,7 +5227,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_event**
-> UnversionedStatus delete_collection_namespaced_event(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_event(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4229,22 +5237,32 @@ delete collection of Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_event(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_event(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_event: %s\n" % e)
@@ -4257,18 +5275,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4278,7 +5297,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_limit_range**
-> UnversionedStatus delete_collection_namespaced_limit_range(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_limit_range(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4288,22 +5307,32 @@ delete collection of LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_limit_range(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_limit_range(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_limit_range: %s\n" % e)
@@ -4316,18 +5345,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4337,7 +5367,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_persistent_volume_claim**
-> UnversionedStatus delete_collection_namespaced_persistent_volume_claim(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_persistent_volume_claim(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4347,22 +5377,32 @@ delete collection of PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_persistent_volume_claim(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_persistent_volume_claim(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_persistent_volume_claim: %s\n" % e)
@@ -4375,18 +5415,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4396,7 +5437,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_pod**
-> UnversionedStatus delete_collection_namespaced_pod(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_pod(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4406,22 +5447,32 @@ delete collection of Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_pod(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_pod(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_pod: %s\n" % e)
@@ -4434,18 +5485,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4455,7 +5507,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_pod_template**
-> UnversionedStatus delete_collection_namespaced_pod_template(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_pod_template(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4465,22 +5517,32 @@ delete collection of PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_pod_template(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_pod_template(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_pod_template: %s\n" % e)
@@ -4493,18 +5555,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4514,7 +5577,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_replication_controller**
-> UnversionedStatus delete_collection_namespaced_replication_controller(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_replication_controller(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4524,22 +5587,32 @@ delete collection of ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_replication_controller(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_replication_controller(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_replication_controller: %s\n" % e)
@@ -4552,18 +5625,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4573,7 +5647,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_resource_quota**
-> UnversionedStatus delete_collection_namespaced_resource_quota(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_resource_quota(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4583,22 +5657,32 @@ delete collection of ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_resource_quota(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_resource_quota(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_resource_quota: %s\n" % e)
@@ -4611,18 +5695,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4632,7 +5717,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_secret**
-> UnversionedStatus delete_collection_namespaced_secret(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_secret(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4642,22 +5727,32 @@ delete collection of Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_secret(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_secret(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_secret: %s\n" % e)
@@ -4670,18 +5765,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4691,7 +5787,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_namespaced_service_account**
-> UnversionedStatus delete_collection_namespaced_service_account(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_namespaced_service_account(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4701,22 +5797,32 @@ delete collection of ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_namespaced_service_account(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_namespaced_service_account(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_namespaced_service_account: %s\n" % e)
@@ -4729,18 +5835,19 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4750,7 +5857,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_node**
-> UnversionedStatus delete_collection_node(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_node(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4760,21 +5867,31 @@ delete collection of Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_node(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_node(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_node: %s\n" % e)
@@ -4786,18 +5903,19 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4807,7 +5925,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_persistent_volume**
-> UnversionedStatus delete_collection_persistent_volume(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_persistent_volume(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4817,21 +5935,31 @@ delete collection of PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_persistent_volume(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_persistent_volume(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_persistent_volume: %s\n" % e)
@@ -4843,18 +5971,19 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4864,7 +5993,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_collection_security_context_constraints**
-> UnversionedStatus delete_collection_security_context_constraints(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1Status delete_collection_security_context_constraints(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -4874,21 +6003,31 @@ delete collection of SecurityContextConstraints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.delete_collection_security_context_constraints(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.delete_collection_security_context_constraints(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_collection_security_context_constraints: %s\n" % e)
@@ -4900,18 +6039,19 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4921,7 +6061,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespace**
-> UnversionedStatus delete_namespace(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespace(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -4931,20 +6071,30 @@ delete a Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Namespace
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespace(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespace(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespace: %s\n" % e)
@@ -4958,15 +6108,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -4976,7 +6127,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_config_map**
-> UnversionedStatus delete_namespaced_config_map(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_config_map(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -4986,21 +6137,31 @@ delete a ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ConfigMap
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_config_map(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_config_map(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_config_map: %s\n" % e)
@@ -5015,15 +6176,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5033,7 +6195,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_endpoints**
-> UnversionedStatus delete_namespaced_endpoints(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_endpoints(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5043,21 +6205,31 @@ delete Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Endpoints
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_endpoints(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_endpoints(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_endpoints: %s\n" % e)
@@ -5072,15 +6244,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5090,7 +6263,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_event**
-> UnversionedStatus delete_namespaced_event(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_event(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5100,21 +6273,31 @@ delete an Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Event
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_event(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_event(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_event: %s\n" % e)
@@ -5129,15 +6312,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5147,7 +6331,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_limit_range**
-> UnversionedStatus delete_namespaced_limit_range(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_limit_range(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5157,21 +6341,31 @@ delete a LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the LimitRange
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_limit_range(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_limit_range(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_limit_range: %s\n" % e)
@@ -5186,15 +6380,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5204,7 +6399,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_persistent_volume_claim**
-> UnversionedStatus delete_namespaced_persistent_volume_claim(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_persistent_volume_claim(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5214,21 +6409,31 @@ delete a PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolumeClaim
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_persistent_volume_claim(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_persistent_volume_claim(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_persistent_volume_claim: %s\n" % e)
@@ -5243,15 +6448,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5261,7 +6467,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_pod**
-> UnversionedStatus delete_namespaced_pod(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_pod(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5271,21 +6477,31 @@ delete a Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_pod(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_pod(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_pod: %s\n" % e)
@@ -5300,15 +6516,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5318,7 +6535,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_pod_template**
-> UnversionedStatus delete_namespaced_pod_template(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_pod_template(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5328,21 +6545,31 @@ delete a PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PodTemplate
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_pod_template(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_pod_template(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_pod_template: %s\n" % e)
@@ -5357,15 +6584,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5375,7 +6603,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_replication_controller**
-> UnversionedStatus delete_namespaced_replication_controller(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_replication_controller(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5385,21 +6613,31 @@ delete a ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ReplicationController
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_replication_controller(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_replication_controller(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_replication_controller: %s\n" % e)
@@ -5414,15 +6652,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5432,7 +6671,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_resource_quota**
-> UnversionedStatus delete_namespaced_resource_quota(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_resource_quota(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5442,21 +6681,31 @@ delete a ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ResourceQuota
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_resource_quota(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_resource_quota(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_resource_quota: %s\n" % e)
@@ -5471,15 +6720,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5489,7 +6739,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_secret**
-> UnversionedStatus delete_namespaced_secret(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_secret(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5499,21 +6749,31 @@ delete a Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Secret
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_secret(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_secret(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_secret: %s\n" % e)
@@ -5528,15 +6788,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5546,7 +6807,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_service**
-> UnversionedStatus delete_namespaced_service(name, namespace, pretty=pretty)
+> V1Status delete_namespaced_service(name, namespace, pretty=pretty)
 
 
 
@@ -5556,12 +6817,21 @@ delete a Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -5583,11 +6853,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5597,7 +6867,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_namespaced_service_account**
-> UnversionedStatus delete_namespaced_service_account(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_namespaced_service_account(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5607,21 +6877,31 @@ delete a ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ServiceAccount
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_namespaced_service_account(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_namespaced_service_account(name, namespace, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_namespaced_service_account: %s\n" % e)
@@ -5636,15 +6916,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5654,7 +6935,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_node**
-> UnversionedStatus delete_node(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_node(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5664,20 +6945,30 @@ delete a Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_node(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_node(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_node: %s\n" % e)
@@ -5691,15 +6982,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5709,7 +7001,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_persistent_volume**
-> UnversionedStatus delete_persistent_volume(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_persistent_volume(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5719,20 +7011,30 @@ delete a PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolume
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_persistent_volume(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_persistent_volume(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_persistent_volume: %s\n" % e)
@@ -5746,15 +7048,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5764,7 +7067,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_security_context_constraints**
-> UnversionedStatus delete_security_context_constraints(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+> V1Status delete_security_context_constraints(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
 
 
 
@@ -5774,20 +7077,30 @@ delete SecurityContextConstraints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the SecurityContextConstraints
-body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
+body = openshift.openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 grace_period_seconds = 56 # int | The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)
-orphan_dependents = true # bool | Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. (optional)
+orphan_dependents = true # bool | Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)
+propagation_policy = 'propagation_policy_example' # str | Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. (optional)
 
 try: 
-    api_response = api_instance.delete_security_context_constraints(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents)
+    api_response = api_instance.delete_security_context_constraints(name, body, pretty=pretty, grace_period_seconds=grace_period_seconds, orphan_dependents=orphan_dependents, propagation_policy=propagation_policy)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->delete_security_context_constraints: %s\n" % e)
@@ -5801,15 +7114,16 @@ Name | Type | Description  | Notes
  **body** | [**V1DeleteOptions**](V1DeleteOptions.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **grace_period_seconds** | **int**| The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. | [optional] 
- **orphan_dependents** | **bool**| Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. | [optional] 
+ **orphan_dependents** | **bool**| Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. | [optional] 
+ **propagation_policy** | **str**| Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. | [optional] 
 
 ### Return type
 
-[**UnversionedStatus**](UnversionedStatus.md)
+[**V1Status**](V1Status.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5819,7 +7133,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_resources**
-> UnversionedAPIResourceList get_api_resources()
+> V1APIResourceList get_api_resources()
 
 
 
@@ -5829,12 +7143,21 @@ get available resources
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 
 try: 
     api_response = api_instance.get_api_resources()
@@ -5848,11 +7171,11 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**UnversionedAPIResourceList**](UnversionedAPIResourceList.md)
+[**V1APIResourceList**](V1APIResourceList.md)
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5862,7 +7185,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_component_status**
-> V1ComponentStatusList list_component_status(field_selector=field_selector, label_selector=label_selector, pretty=pretty, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ComponentStatusList list_component_status(field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, pretty=pretty, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -5872,21 +7195,31 @@ list objects of kind ComponentStatus
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_component_status(field_selector=field_selector, label_selector=label_selector, pretty=pretty, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_component_status(field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, pretty=pretty, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_component_status: %s\n" % e)
@@ -5897,9 +7230,10 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -5909,7 +7243,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5919,7 +7253,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_config_map_for_all_namespaces**
-> V1ConfigMapList list_config_map_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ConfigMapList list_config_map_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -5929,21 +7263,31 @@ list or watch objects of kind ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_config_map_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_config_map_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_config_map_for_all_namespaces: %s\n" % e)
@@ -5955,8 +7299,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -5966,7 +7311,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -5976,7 +7321,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_endpoints_for_all_namespaces**
-> V1EndpointsList list_endpoints_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1EndpointsList list_endpoints_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -5986,21 +7331,31 @@ list or watch objects of kind Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_endpoints_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_endpoints_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_endpoints_for_all_namespaces: %s\n" % e)
@@ -6012,8 +7367,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6023,7 +7379,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6033,7 +7389,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_event_for_all_namespaces**
-> V1EventList list_event_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1EventList list_event_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6043,21 +7399,31 @@ list or watch objects of kind Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_event_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_event_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_event_for_all_namespaces: %s\n" % e)
@@ -6069,8 +7435,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6080,7 +7447,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6090,7 +7457,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_limit_range_for_all_namespaces**
-> V1LimitRangeList list_limit_range_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1LimitRangeList list_limit_range_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6100,21 +7467,31 @@ list or watch objects of kind LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_limit_range_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_limit_range_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_limit_range_for_all_namespaces: %s\n" % e)
@@ -6126,8 +7503,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6137,7 +7515,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6147,7 +7525,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespace**
-> V1NamespaceList list_namespace(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1NamespaceList list_namespace(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6157,21 +7535,31 @@ list or watch objects of kind Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespace(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespace(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespace: %s\n" % e)
@@ -6183,8 +7571,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6194,7 +7583,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6204,7 +7593,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_config_map**
-> V1ConfigMapList list_namespaced_config_map(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ConfigMapList list_namespaced_config_map(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6214,22 +7603,32 @@ list or watch objects of kind ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_config_map(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_config_map(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_config_map: %s\n" % e)
@@ -6242,8 +7641,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6253,7 +7653,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6263,7 +7663,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_endpoints**
-> V1EndpointsList list_namespaced_endpoints(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1EndpointsList list_namespaced_endpoints(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6273,22 +7673,32 @@ list or watch objects of kind Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_endpoints(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_endpoints(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_endpoints: %s\n" % e)
@@ -6301,8 +7711,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6312,7 +7723,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6322,7 +7733,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_event**
-> V1EventList list_namespaced_event(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1EventList list_namespaced_event(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6332,22 +7743,32 @@ list or watch objects of kind Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_event(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_event(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_event: %s\n" % e)
@@ -6360,8 +7781,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6371,7 +7793,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6381,7 +7803,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_limit_range**
-> V1LimitRangeList list_namespaced_limit_range(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1LimitRangeList list_namespaced_limit_range(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6391,22 +7813,32 @@ list or watch objects of kind LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_limit_range(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_limit_range(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_limit_range: %s\n" % e)
@@ -6419,8 +7851,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6430,7 +7863,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6440,7 +7873,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_persistent_volume_claim**
-> V1PersistentVolumeClaimList list_namespaced_persistent_volume_claim(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1PersistentVolumeClaimList list_namespaced_persistent_volume_claim(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6450,22 +7883,32 @@ list or watch objects of kind PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_persistent_volume_claim(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_persistent_volume_claim(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_persistent_volume_claim: %s\n" % e)
@@ -6478,8 +7921,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6489,7 +7933,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6499,7 +7943,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_pod**
-> V1PodList list_namespaced_pod(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1PodList list_namespaced_pod(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6509,22 +7953,32 @@ list or watch objects of kind Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_pod(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_pod(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_pod: %s\n" % e)
@@ -6537,8 +7991,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6548,7 +8003,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6558,7 +8013,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_pod_template**
-> V1PodTemplateList list_namespaced_pod_template(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1PodTemplateList list_namespaced_pod_template(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6568,22 +8023,32 @@ list or watch objects of kind PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_pod_template(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_pod_template(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_pod_template: %s\n" % e)
@@ -6596,8 +8061,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6607,7 +8073,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6617,7 +8083,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_replication_controller**
-> V1ReplicationControllerList list_namespaced_replication_controller(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ReplicationControllerList list_namespaced_replication_controller(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6627,22 +8093,32 @@ list or watch objects of kind ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_replication_controller(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_replication_controller(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_replication_controller: %s\n" % e)
@@ -6655,8 +8131,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6666,7 +8143,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6676,7 +8153,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_resource_quota**
-> V1ResourceQuotaList list_namespaced_resource_quota(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ResourceQuotaList list_namespaced_resource_quota(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6686,22 +8163,32 @@ list or watch objects of kind ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_resource_quota(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_resource_quota(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_resource_quota: %s\n" % e)
@@ -6714,8 +8201,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6725,7 +8213,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6735,7 +8223,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_secret**
-> V1SecretList list_namespaced_secret(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1SecretList list_namespaced_secret(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6745,22 +8233,32 @@ list or watch objects of kind Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_secret(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_secret(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_secret: %s\n" % e)
@@ -6773,8 +8271,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6784,7 +8283,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6794,7 +8293,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_service**
-> V1ServiceList list_namespaced_service(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ServiceList list_namespaced_service(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6804,22 +8303,32 @@ list or watch objects of kind Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_service(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_service(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_service: %s\n" % e)
@@ -6832,8 +8341,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6843,7 +8353,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6853,7 +8363,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_namespaced_service_account**
-> V1ServiceAccountList list_namespaced_service_account(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ServiceAccountList list_namespaced_service_account(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6863,22 +8373,32 @@ list or watch objects of kind ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_namespaced_service_account(namespace, pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_namespaced_service_account(namespace, pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_namespaced_service_account: %s\n" % e)
@@ -6891,8 +8411,9 @@ Name | Type | Description  | Notes
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6902,7 +8423,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6912,7 +8433,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_node**
-> V1NodeList list_node(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1NodeList list_node(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6922,21 +8443,31 @@ list or watch objects of kind Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_node(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_node(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_node: %s\n" % e)
@@ -6948,8 +8479,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -6959,7 +8491,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -6969,7 +8501,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_persistent_volume**
-> V1PersistentVolumeList list_persistent_volume(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1PersistentVolumeList list_persistent_volume(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -6979,21 +8511,31 @@ list or watch objects of kind PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_persistent_volume(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_persistent_volume(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_persistent_volume: %s\n" % e)
@@ -7005,8 +8547,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7016,7 +8559,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7026,7 +8569,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_persistent_volume_claim_for_all_namespaces**
-> V1PersistentVolumeClaimList list_persistent_volume_claim_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1PersistentVolumeClaimList list_persistent_volume_claim_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7036,21 +8579,31 @@ list or watch objects of kind PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_persistent_volume_claim_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_persistent_volume_claim_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_persistent_volume_claim_for_all_namespaces: %s\n" % e)
@@ -7062,8 +8615,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7073,7 +8627,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7083,7 +8637,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_pod_for_all_namespaces**
-> V1PodList list_pod_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1PodList list_pod_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7093,21 +8647,31 @@ list or watch objects of kind Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_pod_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_pod_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_pod_for_all_namespaces: %s\n" % e)
@@ -7119,8 +8683,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7130,7 +8695,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7140,7 +8705,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_pod_template_for_all_namespaces**
-> V1PodTemplateList list_pod_template_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1PodTemplateList list_pod_template_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7150,21 +8715,31 @@ list or watch objects of kind PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_pod_template_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_pod_template_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_pod_template_for_all_namespaces: %s\n" % e)
@@ -7176,8 +8751,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7187,7 +8763,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7197,7 +8773,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_replication_controller_for_all_namespaces**
-> V1ReplicationControllerList list_replication_controller_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ReplicationControllerList list_replication_controller_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7207,21 +8783,31 @@ list or watch objects of kind ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_replication_controller_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_replication_controller_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_replication_controller_for_all_namespaces: %s\n" % e)
@@ -7233,8 +8819,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7244,7 +8831,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7254,7 +8841,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_resource_quota_for_all_namespaces**
-> V1ResourceQuotaList list_resource_quota_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ResourceQuotaList list_resource_quota_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7264,21 +8851,31 @@ list or watch objects of kind ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_resource_quota_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_resource_quota_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_resource_quota_for_all_namespaces: %s\n" % e)
@@ -7290,8 +8887,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7301,7 +8899,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7311,7 +8909,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_secret_for_all_namespaces**
-> V1SecretList list_secret_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1SecretList list_secret_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7321,21 +8919,31 @@ list or watch objects of kind Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_secret_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_secret_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_secret_for_all_namespaces: %s\n" % e)
@@ -7347,8 +8955,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7358,7 +8967,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7368,7 +8977,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_security_context_constraints**
-> V1SecurityContextConstraintsList list_security_context_constraints(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1SecurityContextConstraintsList list_security_context_constraints(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7378,21 +8987,31 @@ list or watch objects of kind SecurityContextConstraints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_security_context_constraints(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_security_context_constraints(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_security_context_constraints: %s\n" % e)
@@ -7404,8 +9023,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7415,7 +9035,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7425,7 +9045,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_service_account_for_all_namespaces**
-> V1ServiceAccountList list_service_account_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ServiceAccountList list_service_account_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7435,21 +9055,31 @@ list or watch objects of kind ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_service_account_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_service_account_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_service_account_for_all_namespaces: %s\n" % e)
@@ -7461,8 +9091,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7472,7 +9103,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7482,7 +9113,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_service_for_all_namespaces**
-> V1ServiceList list_service_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+> V1ServiceList list_service_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
 
 
 
@@ -7492,21 +9123,31 @@ list or watch objects of kind Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
 label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
 timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
 watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
 
 try: 
-    api_response = api_instance.list_service_for_all_namespaces(pretty=pretty, field_selector=field_selector, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    api_response = api_instance.list_service_for_all_namespaces(pretty=pretty, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->list_service_for_all_namespaces: %s\n" % e)
@@ -7518,8 +9159,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
  **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
  **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
  **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
 
@@ -7529,7 +9171,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7549,14 +9191,23 @@ partially update the specified Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Namespace
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7571,7 +9222,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Namespace | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -7580,7 +9231,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7600,14 +9251,23 @@ partially update status of the specified Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Namespace
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7622,7 +9282,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Namespace | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -7631,7 +9291,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7651,15 +9311,24 @@ partially update the specified ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ConfigMap
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7675,7 +9344,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the ConfigMap | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -7684,7 +9353,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7704,15 +9373,24 @@ partially update the specified Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Endpoints
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7728,7 +9406,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Endpoints | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -7737,7 +9415,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7757,15 +9435,24 @@ partially update the specified Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Event
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7781,7 +9468,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Event | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -7790,7 +9477,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7810,15 +9497,24 @@ partially update the specified LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the LimitRange
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7834,7 +9530,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the LimitRange | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -7843,7 +9539,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7863,15 +9559,24 @@ partially update the specified PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolumeClaim
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7887,7 +9592,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the PersistentVolumeClaim | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -7896,7 +9601,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7916,15 +9621,24 @@ partially update status of the specified PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolumeClaim
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7940,7 +9654,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the PersistentVolumeClaim | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -7949,7 +9663,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -7969,15 +9683,24 @@ partially update the specified Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -7993,7 +9716,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Pod | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8002,7 +9725,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8022,15 +9745,24 @@ partially update status of the specified Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8046,7 +9778,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Pod | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8055,7 +9787,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8075,15 +9807,24 @@ partially update the specified PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PodTemplate
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8099,7 +9840,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the PodTemplate | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8108,7 +9849,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8128,15 +9869,24 @@ partially update the specified ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ReplicationController
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8152,7 +9902,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the ReplicationController | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8161,7 +9911,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8181,15 +9931,24 @@ partially update status of the specified ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ReplicationController
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8205,7 +9964,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the ReplicationController | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8214,7 +9973,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8234,15 +9993,24 @@ partially update the specified ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ResourceQuota
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8258,7 +10026,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the ResourceQuota | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8267,7 +10035,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8287,15 +10055,24 @@ partially update status of the specified ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ResourceQuota
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8311,7 +10088,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the ResourceQuota | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8320,7 +10097,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8340,15 +10117,24 @@ partially update scale of the specified Scale
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Scale
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8364,7 +10150,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Scale | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8373,7 +10159,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8393,15 +10179,24 @@ partially update the specified Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Secret
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8417,7 +10212,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Secret | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8426,7 +10221,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8446,15 +10241,24 @@ partially update the specified Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8470,7 +10274,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Service | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8479,7 +10283,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8499,15 +10303,24 @@ partially update the specified ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ServiceAccount
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8523,7 +10336,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the ServiceAccount | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8532,7 +10345,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8552,15 +10365,24 @@ partially update status of the specified Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8576,7 +10398,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Service | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8585,7 +10407,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8605,14 +10427,23 @@ partially update the specified Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8627,7 +10458,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Node | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8636,7 +10467,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8656,14 +10487,23 @@ partially update status of the specified Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8678,7 +10518,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Node | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8687,7 +10527,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8707,14 +10547,23 @@ partially update the specified PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolume
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8729,7 +10578,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the PersistentVolume | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8738,7 +10587,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8758,14 +10607,23 @@ partially update status of the specified PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolume
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8780,7 +10638,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the PersistentVolume | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8789,7 +10647,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8809,14 +10667,23 @@ partially update the specified SecurityContextConstraints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the SecurityContextConstraints
-body = openshift.client.UnversionedPatch() # UnversionedPatch | 
+body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -8831,7 +10698,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the SecurityContextConstraints | 
- **body** | [**UnversionedPatch**](UnversionedPatch.md)|  | 
+ **body** | **object**|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -8840,7 +10707,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8860,12 +10727,21 @@ proxy DELETE requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -8889,7 +10765,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8909,12 +10785,21 @@ proxy DELETE requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -8940,7 +10825,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -8960,12 +10845,21 @@ proxy DELETE requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -8989,7 +10883,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9009,12 +10903,21 @@ proxy DELETE requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -9040,7 +10943,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9060,12 +10963,21 @@ proxy DELETE requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 
 try: 
@@ -9087,7 +10999,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9107,12 +11019,21 @@ proxy DELETE requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 
@@ -9136,7 +11057,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9156,12 +11077,21 @@ proxy GET requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -9185,7 +11115,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9205,12 +11135,21 @@ proxy GET requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -9236,7 +11175,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9256,12 +11195,21 @@ proxy GET requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -9285,7 +11233,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9305,12 +11253,21 @@ proxy GET requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -9336,7 +11293,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9356,12 +11313,21 @@ proxy GET requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 
 try: 
@@ -9383,7 +11349,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9403,12 +11369,21 @@ proxy GET requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 
@@ -9432,7 +11407,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9452,12 +11427,21 @@ proxy HEAD requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -9481,7 +11465,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9501,12 +11485,21 @@ proxy HEAD requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -9532,7 +11525,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9552,12 +11545,21 @@ proxy HEAD requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -9581,7 +11583,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9601,12 +11603,21 @@ proxy HEAD requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -9632,7 +11643,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9652,12 +11663,21 @@ proxy HEAD requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 
 try: 
@@ -9679,7 +11699,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9699,12 +11719,21 @@ proxy HEAD requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 
@@ -9728,7 +11757,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9748,12 +11777,21 @@ proxy OPTIONS requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -9777,7 +11815,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9797,12 +11835,21 @@ proxy OPTIONS requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -9828,7 +11875,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9848,12 +11895,21 @@ proxy OPTIONS requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -9877,7 +11933,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9897,12 +11953,21 @@ proxy OPTIONS requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -9928,7 +11993,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9948,12 +12013,21 @@ proxy OPTIONS requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 
 try: 
@@ -9975,7 +12049,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -9995,12 +12069,21 @@ proxy OPTIONS requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 
@@ -10024,7 +12107,357 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **proxy_patch_namespaced_pod**
+> str proxy_patch_namespaced_pod(name, namespace)
+
+
+
+proxy PATCH requests to Pod
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Pod
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+
+try: 
+    api_response = api_instance.proxy_patch_namespaced_pod(name, namespace)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->proxy_patch_namespaced_pod: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Pod | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **proxy_patch_namespaced_pod_with_path**
+> str proxy_patch_namespaced_pod_with_path(name, namespace, path)
+
+
+
+proxy PATCH requests to Pod
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Pod
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+path = 'path_example' # str | path to the resource
+
+try: 
+    api_response = api_instance.proxy_patch_namespaced_pod_with_path(name, namespace, path)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->proxy_patch_namespaced_pod_with_path: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Pod | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **path** | **str**| path to the resource | 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **proxy_patch_namespaced_service**
+> str proxy_patch_namespaced_service(name, namespace)
+
+
+
+proxy PATCH requests to Service
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Service
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+
+try: 
+    api_response = api_instance.proxy_patch_namespaced_service(name, namespace)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->proxy_patch_namespaced_service: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Service | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **proxy_patch_namespaced_service_with_path**
+> str proxy_patch_namespaced_service_with_path(name, namespace, path)
+
+
+
+proxy PATCH requests to Service
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Service
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+path = 'path_example' # str | path to the resource
+
+try: 
+    api_response = api_instance.proxy_patch_namespaced_service_with_path(name, namespace, path)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->proxy_patch_namespaced_service_with_path: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Service | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **path** | **str**| path to the resource | 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **proxy_patch_node**
+> str proxy_patch_node(name)
+
+
+
+proxy PATCH requests to Node
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Node
+
+try: 
+    api_response = api_instance.proxy_patch_node(name)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->proxy_patch_node: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Node | 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **proxy_patch_node_with_path**
+> str proxy_patch_node_with_path(name, path)
+
+
+
+proxy PATCH requests to Node
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.openshift.client.CoreV1Api()
+name = 'name_example' # str | name of the Node
+path = 'path_example' # str | path to the resource
+
+try: 
+    api_response = api_instance.proxy_patch_node_with_path(name, path)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->proxy_patch_node_with_path: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the Node | 
+ **path** | **str**| path to the resource | 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10044,12 +12477,21 @@ proxy POST requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -10073,7 +12515,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10093,12 +12535,21 @@ proxy POST requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -10124,7 +12575,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10144,12 +12595,21 @@ proxy POST requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -10173,7 +12633,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10193,12 +12653,21 @@ proxy POST requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -10224,7 +12693,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10244,12 +12713,21 @@ proxy POST requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 
 try: 
@@ -10271,7 +12749,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10291,12 +12769,21 @@ proxy POST requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 
@@ -10320,7 +12807,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10340,12 +12827,21 @@ proxy PUT requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -10369,7 +12865,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10389,12 +12885,21 @@ proxy PUT requests to Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -10420,7 +12925,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10440,12 +12945,21 @@ proxy PUT requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 
@@ -10469,7 +12983,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10489,12 +13003,21 @@ proxy PUT requests to Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 path = 'path_example' # str | path to the resource
@@ -10520,7 +13043,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10540,12 +13063,21 @@ proxy PUT requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 
 try: 
@@ -10567,7 +13099,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10587,12 +13119,21 @@ proxy PUT requests to Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 path = 'path_example' # str | path to the resource
 
@@ -10616,7 +13157,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10636,12 +13177,21 @@ read the specified ComponentStatus
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ComponentStatus
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
@@ -10665,7 +13215,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10685,15 +13235,24 @@ read the specified Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Namespace
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -10709,7 +13268,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Namespace | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -10718,7 +13277,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10738,12 +13297,21 @@ read status of the specified Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Namespace
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
@@ -10767,7 +13335,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10787,16 +13355,25 @@ read the specified ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ConfigMap
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -10813,7 +13390,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the ConfigMap | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -10822,7 +13399,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10842,16 +13419,25 @@ read the specified Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Endpoints
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -10868,7 +13454,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the Endpoints | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -10877,7 +13463,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10897,16 +13483,25 @@ read the specified Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Event
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -10923,7 +13518,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the Event | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -10932,7 +13527,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -10952,16 +13547,25 @@ read the specified LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the LimitRange
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -10978,7 +13582,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the LimitRange | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -10987,7 +13591,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11007,16 +13611,25 @@ read the specified PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolumeClaim
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11033,7 +13646,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the PersistentVolumeClaim | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11042,7 +13655,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11062,12 +13675,21 @@ read status of the specified PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolumeClaim
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -11093,7 +13715,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11113,16 +13735,25 @@ read the specified Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11139,7 +13770,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the Pod | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11148,7 +13779,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11158,7 +13789,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **read_namespaced_pod_log**
-> str read_namespaced_pod_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, pretty=pretty, previous=previous, since_seconds=since_seconds, since_time=since_time, tail_lines=tail_lines, timestamps=timestamps)
+> str read_namespaced_pod_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, pretty=pretty, previous=previous, since_seconds=since_seconds, tail_lines=tail_lines, timestamps=timestamps)
 
 
 
@@ -11168,12 +13799,21 @@ read log of the specified Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 container = 'container_example' # str | The container for which to stream logs. Defaults to only container if there is one container in the pod. (optional)
@@ -11182,12 +13822,11 @@ limit_bytes = 56 # int | If set, the number of bytes to read from the server bef
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 previous = true # bool | Return previous terminated container logs. Defaults to false. (optional)
 since_seconds = 56 # int | A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified. (optional)
-since_time = 'since_time_example' # str | An RFC3339 timestamp from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified. (optional)
 tail_lines = 56 # int | If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime (optional)
 timestamps = true # bool | If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false. (optional)
 
 try: 
-    api_response = api_instance.read_namespaced_pod_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, pretty=pretty, previous=previous, since_seconds=since_seconds, since_time=since_time, tail_lines=tail_lines, timestamps=timestamps)
+    api_response = api_instance.read_namespaced_pod_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, pretty=pretty, previous=previous, since_seconds=since_seconds, tail_lines=tail_lines, timestamps=timestamps)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->read_namespaced_pod_log: %s\n" % e)
@@ -11205,7 +13844,6 @@ Name | Type | Description  | Notes
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
  **previous** | **bool**| Return previous terminated container logs. Defaults to false. | [optional] 
  **since_seconds** | **int**| A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified. | [optional] 
- **since_time** | **str**| An RFC3339 timestamp from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified. | [optional] 
  **tail_lines** | **int**| If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime | [optional] 
  **timestamps** | **bool**| If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false. | [optional] 
 
@@ -11215,7 +13853,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11235,12 +13873,21 @@ read status of the specified Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -11266,7 +13913,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11286,16 +13933,25 @@ read the specified PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PodTemplate
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11312,7 +13968,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the PodTemplate | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11321,7 +13977,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11341,16 +13997,25 @@ read the specified ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ReplicationController
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11367,7 +14032,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the ReplicationController | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11376,7 +14041,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11396,12 +14061,21 @@ read status of the specified ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ReplicationController
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -11427,7 +14101,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11447,16 +14121,25 @@ read the specified ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ResourceQuota
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11473,7 +14156,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the ResourceQuota | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11482,7 +14165,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11502,12 +14185,21 @@ read status of the specified ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ResourceQuota
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -11533,7 +14225,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11553,12 +14245,21 @@ read scale of the specified Scale
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Scale
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -11584,7 +14285,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11604,16 +14305,25 @@ read the specified Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Secret
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11630,7 +14340,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the Secret | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11639,7 +14349,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11659,16 +14369,25 @@ read the specified Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11685,7 +14404,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the Service | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11694,7 +14413,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11714,16 +14433,25 @@ read the specified ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ServiceAccount
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11740,7 +14468,7 @@ Name | Type | Description  | Notes
  **name** | **str**| name of the ServiceAccount | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11749,7 +14477,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11769,12 +14497,21 @@ read status of the specified Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -11800,7 +14537,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11820,15 +14557,24 @@ read the specified Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11844,7 +14590,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the Node | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11853,7 +14599,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11873,12 +14619,21 @@ read status of the specified Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
@@ -11902,7 +14657,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11922,15 +14677,24 @@ read the specified PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolume
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -11946,7 +14710,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the PersistentVolume | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -11955,7 +14719,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -11975,12 +14739,21 @@ read status of the specified PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolume
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
@@ -12004,7 +14777,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12024,15 +14797,24 @@ read the specified SecurityContextConstraints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the SecurityContextConstraints
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace' (optional)
+exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
 export = true # bool | Should this value be exported.  Export strips fields that a user can not specify. (optional)
 
 try: 
@@ -12048,7 +14830,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| name of the SecurityContextConstraints | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39; | [optional] 
+ **exact** | **bool**| Should the export be exact.  Exact export maintains cluster-specific fields like &#39;Namespace&#39;. | [optional] 
  **export** | **bool**| Should this value be exported.  Export strips fields that a user can not specify. | [optional] 
 
 ### Return type
@@ -12057,7 +14839,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12077,14 +14859,23 @@ replace the specified Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Namespace
-body = openshift.client.V1Namespace() # V1Namespace | 
+body = openshift.openshift.client.V1Namespace() # V1Namespace | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12108,7 +14899,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12118,7 +14909,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **replace_namespace_finalize**
-> V1Namespace replace_namespace_finalize(body, name, pretty=pretty)
+> V1Namespace replace_namespace_finalize(name, body, pretty=pretty)
 
 
 
@@ -12128,18 +14919,27 @@ replace finalize of the specified Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
-body = openshift.client.V1Namespace() # V1Namespace | 
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Namespace
+body = openshift.openshift.client.V1Namespace() # V1Namespace | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.replace_namespace_finalize(body, name, pretty=pretty)
+    api_response = api_instance.replace_namespace_finalize(name, body, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling CoreV1Api->replace_namespace_finalize: %s\n" % e)
@@ -12149,8 +14949,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**V1Namespace**](V1Namespace.md)|  | 
  **name** | **str**| name of the Namespace | 
+ **body** | [**V1Namespace**](V1Namespace.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -12159,7 +14959,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12179,14 +14979,23 @@ replace status of the specified Namespace
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Namespace
-body = openshift.client.V1Namespace() # V1Namespace | 
+body = openshift.openshift.client.V1Namespace() # V1Namespace | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12210,7 +15019,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12230,15 +15039,24 @@ replace the specified ConfigMap
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ConfigMap
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ConfigMap() # V1ConfigMap | 
+body = openshift.openshift.client.V1ConfigMap() # V1ConfigMap | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12263,7 +15081,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12283,15 +15101,24 @@ replace the specified Endpoints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Endpoints
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Endpoints() # V1Endpoints | 
+body = openshift.openshift.client.V1Endpoints() # V1Endpoints | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12316,7 +15143,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12336,15 +15163,24 @@ replace the specified Event
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Event
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Event() # V1Event | 
+body = openshift.openshift.client.V1Event() # V1Event | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12369,7 +15205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12389,15 +15225,24 @@ replace the specified LimitRange
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the LimitRange
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1LimitRange() # V1LimitRange | 
+body = openshift.openshift.client.V1LimitRange() # V1LimitRange | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12422,7 +15267,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12442,15 +15287,24 @@ replace the specified PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolumeClaim
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1PersistentVolumeClaim() # V1PersistentVolumeClaim | 
+body = openshift.openshift.client.V1PersistentVolumeClaim() # V1PersistentVolumeClaim | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12475,7 +15329,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12495,15 +15349,24 @@ replace status of the specified PersistentVolumeClaim
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolumeClaim
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1PersistentVolumeClaim() # V1PersistentVolumeClaim | 
+body = openshift.openshift.client.V1PersistentVolumeClaim() # V1PersistentVolumeClaim | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12528,7 +15391,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12548,15 +15411,24 @@ replace the specified Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Pod() # V1Pod | 
+body = openshift.openshift.client.V1Pod() # V1Pod | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12581,7 +15453,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12601,15 +15473,24 @@ replace status of the specified Pod
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Pod
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Pod() # V1Pod | 
+body = openshift.openshift.client.V1Pod() # V1Pod | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12634,7 +15515,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12654,15 +15535,24 @@ replace the specified PodTemplate
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PodTemplate
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1PodTemplate() # V1PodTemplate | 
+body = openshift.openshift.client.V1PodTemplate() # V1PodTemplate | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12687,7 +15577,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12707,15 +15597,24 @@ replace the specified ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ReplicationController
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ReplicationController() # V1ReplicationController | 
+body = openshift.openshift.client.V1ReplicationController() # V1ReplicationController | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12740,7 +15639,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12760,15 +15659,24 @@ replace status of the specified ReplicationController
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ReplicationController
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ReplicationController() # V1ReplicationController | 
+body = openshift.openshift.client.V1ReplicationController() # V1ReplicationController | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12793,7 +15701,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12813,15 +15721,24 @@ replace the specified ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ResourceQuota
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ResourceQuota() # V1ResourceQuota | 
+body = openshift.openshift.client.V1ResourceQuota() # V1ResourceQuota | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12846,7 +15763,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12866,15 +15783,24 @@ replace status of the specified ResourceQuota
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ResourceQuota
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ResourceQuota() # V1ResourceQuota | 
+body = openshift.openshift.client.V1ResourceQuota() # V1ResourceQuota | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12899,7 +15825,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12919,15 +15845,24 @@ replace scale of the specified Scale
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Scale
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Scale() # V1Scale | 
+body = openshift.openshift.client.V1Scale() # V1Scale | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -12952,7 +15887,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -12972,15 +15907,24 @@ replace the specified Secret
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Secret
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Secret() # V1Secret | 
+body = openshift.openshift.client.V1Secret() # V1Secret | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13005,7 +15949,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -13025,15 +15969,24 @@ replace the specified Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Service() # V1Service | 
+body = openshift.openshift.client.V1Service() # V1Service | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13058,7 +16011,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -13078,15 +16031,24 @@ replace the specified ServiceAccount
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the ServiceAccount
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1ServiceAccount() # V1ServiceAccount | 
+body = openshift.openshift.client.V1ServiceAccount() # V1ServiceAccount | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13111,7 +16073,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -13131,15 +16093,24 @@ replace status of the specified Service
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Service
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1Service() # V1Service | 
+body = openshift.openshift.client.V1Service() # V1Service | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13164,7 +16135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -13184,14 +16155,23 @@ replace the specified Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
-body = openshift.client.V1Node() # V1Node | 
+body = openshift.openshift.client.V1Node() # V1Node | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13215,7 +16195,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -13235,14 +16215,23 @@ replace status of the specified Node
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the Node
-body = openshift.client.V1Node() # V1Node | 
+body = openshift.openshift.client.V1Node() # V1Node | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13266,7 +16255,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -13286,14 +16275,23 @@ replace the specified PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolume
-body = openshift.client.V1PersistentVolume() # V1PersistentVolume | 
+body = openshift.openshift.client.V1PersistentVolume() # V1PersistentVolume | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13317,7 +16315,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -13337,14 +16335,23 @@ replace status of the specified PersistentVolume
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the PersistentVolume
-body = openshift.client.V1PersistentVolume() # V1PersistentVolume | 
+body = openshift.openshift.client.V1PersistentVolume() # V1PersistentVolume | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13368,7 +16375,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -13388,14 +16395,23 @@ replace the specified SecurityContextConstraints
 ```python
 from __future__ import print_statement
 import time
-import openshift.client
-from kubernetes.client.rest import ApiException
+import openshift.openshift.client
+from openshift.openshift.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
-api_instance = openshift.client.CoreV1Api()
+api_instance = openshift.openshift.client.CoreV1Api()
 name = 'name_example' # str | name of the SecurityContextConstraints
-body = openshift.client.V1SecurityContextConstraints() # V1SecurityContextConstraints | 
+body = openshift.openshift.client.V1SecurityContextConstraints() # V1SecurityContextConstraints | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
@@ -13419,7 +16435,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 

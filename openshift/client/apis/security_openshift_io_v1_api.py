@@ -3,9 +3,9 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
-    OpenAPI spec version: v3.6.0-alpha.0
+    OpenAPI spec version: latest
     
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
@@ -40,7 +40,7 @@ class SecurityOpenshiftIoV1Api(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
-    def create_security_openshift_io_v1_namespaced_pod_security_policy_review(self, body, namespace, **kwargs):
+    def create_namespaced_pod_security_policy_review(self, namespace, body, **kwargs):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
@@ -49,12 +49,12 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_namespaced_pod_security_policy_review(body, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_pod_security_policy_review(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1PodSecurityPolicyReview body: (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicyReview
                  If the method is called asynchronously,
@@ -62,12 +62,12 @@ class SecurityOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_security_openshift_io_v1_namespaced_pod_security_policy_review_with_http_info(body, namespace, **kwargs)
+            return self.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, **kwargs)
         else:
-            (data) = self.create_security_openshift_io_v1_namespaced_pod_security_policy_review_with_http_info(body, namespace, **kwargs)
+            (data) = self.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, **kwargs)
             return data
 
-    def create_security_openshift_io_v1_namespaced_pod_security_policy_review_with_http_info(self, body, namespace, **kwargs):
+    def create_namespaced_pod_security_policy_review_with_http_info(self, namespace, body, **kwargs):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
@@ -76,19 +76,19 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_namespaced_pod_security_policy_review_with_http_info(body, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1PodSecurityPolicyReview body: (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicyReview
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body', 'namespace', 'pretty']
+        all_params = ['namespace', 'body', 'pretty']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -99,16 +99,16 @@ class SecurityOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_security_openshift_io_v1_namespaced_pod_security_policy_review" % key
+                    " to method create_namespaced_pod_security_policy_review" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_security_openshift_io_v1_namespaced_pod_security_policy_review`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_security_openshift_io_v1_namespaced_pod_security_policy_review`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_pod_security_policy_review`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_pod_security_policy_review`")
 
 
         collection_formats = {}
@@ -139,7 +139,7 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -156,7 +156,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review(self, body, namespace, **kwargs):
+    def create_namespaced_pod_security_policy_self_subject_review(self, namespace, body, **kwargs):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
@@ -165,12 +165,12 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review(body, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySelfSubjectReview
                  If the method is called asynchronously,
@@ -178,12 +178,12 @@ class SecurityOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review_with_http_info(body, namespace, **kwargs)
+            return self.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, **kwargs)
         else:
-            (data) = self.create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review_with_http_info(body, namespace, **kwargs)
+            (data) = self.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, **kwargs)
             return data
 
-    def create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review_with_http_info(self, body, namespace, **kwargs):
+    def create_namespaced_pod_security_policy_self_subject_review_with_http_info(self, namespace, body, **kwargs):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
@@ -192,19 +192,19 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review_with_http_info(body, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySelfSubjectReview
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body', 'namespace', 'pretty']
+        all_params = ['namespace', 'body', 'pretty']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -215,16 +215,16 @@ class SecurityOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review" % key
+                    " to method create_namespaced_pod_security_policy_self_subject_review" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_pod_security_policy_self_subject_review`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_pod_security_policy_self_subject_review`")
 
 
         collection_formats = {}
@@ -255,7 +255,7 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -272,7 +272,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review(self, body, namespace, **kwargs):
+    def create_namespaced_pod_security_policy_subject_review(self, namespace, body, **kwargs):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
@@ -281,12 +281,12 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review(body, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_pod_security_policy_subject_review(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1PodSecurityPolicySubjectReview body: (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySubjectReview
                  If the method is called asynchronously,
@@ -294,12 +294,12 @@ class SecurityOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review_with_http_info(body, namespace, **kwargs)
+            return self.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, **kwargs)
         else:
-            (data) = self.create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review_with_http_info(body, namespace, **kwargs)
+            (data) = self.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, **kwargs)
             return data
 
-    def create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review_with_http_info(self, body, namespace, **kwargs):
+    def create_namespaced_pod_security_policy_subject_review_with_http_info(self, namespace, body, **kwargs):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
@@ -308,19 +308,19 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review_with_http_info(body, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1PodSecurityPolicySubjectReview body: (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySubjectReview
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body', 'namespace', 'pretty']
+        all_params = ['namespace', 'body', 'pretty']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -331,16 +331,16 @@ class SecurityOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review" % key
+                    " to method create_namespaced_pod_security_policy_subject_review" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_pod_security_policy_subject_review`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_pod_security_policy_subject_review`")
 
 
         collection_formats = {}
@@ -371,7 +371,7 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -388,7 +388,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces(self, body, **kwargs):
+    def create_pod_security_policy_review_for_all_namespaces(self, body, **kwargs):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
@@ -397,7 +397,7 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces(body, callback=callback_function)
+        >>> thread = api.create_pod_security_policy_review_for_all_namespaces(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -409,12 +409,12 @@ class SecurityOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces_with_http_info(body, **kwargs)
+            return self.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces_with_http_info(body, **kwargs)
+            (data) = self.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, **kwargs)
             return data
 
-    def create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces_with_http_info(self, body, **kwargs):
+    def create_pod_security_policy_review_for_all_namespaces_with_http_info(self, body, **kwargs):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
@@ -423,7 +423,7 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -445,13 +445,13 @@ class SecurityOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces" % key
+                    " to method create_pod_security_policy_review_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces`")
+            raise ValueError("Missing the required parameter `body` when calling `create_pod_security_policy_review_for_all_namespaces`")
 
 
         collection_formats = {}
@@ -480,7 +480,7 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -497,7 +497,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces(self, body, **kwargs):
+    def create_pod_security_policy_self_subject_review_for_all_namespaces(self, body, **kwargs):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
@@ -506,7 +506,7 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces(body, callback=callback_function)
+        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -518,12 +518,12 @@ class SecurityOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
+            return self.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
+            (data) = self.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
             return data
 
-    def create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(self, body, **kwargs):
+    def create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(self, body, **kwargs):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
@@ -532,7 +532,7 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -554,13 +554,13 @@ class SecurityOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces" % key
+                    " to method create_pod_security_policy_self_subject_review_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces`")
+            raise ValueError("Missing the required parameter `body` when calling `create_pod_security_policy_self_subject_review_for_all_namespaces`")
 
 
         collection_formats = {}
@@ -589,7 +589,7 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -606,7 +606,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces(self, body, **kwargs):
+    def create_pod_security_policy_subject_review_for_all_namespaces(self, body, **kwargs):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
@@ -615,7 +615,7 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces(body, callback=callback_function)
+        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -627,12 +627,12 @@ class SecurityOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
+            return self.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
+            (data) = self.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
             return data
 
-    def create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces_with_http_info(self, body, **kwargs):
+    def create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(self, body, **kwargs):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
@@ -641,7 +641,7 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -663,13 +663,13 @@ class SecurityOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces" % key
+                    " to method create_pod_security_policy_subject_review_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces`")
+            raise ValueError("Missing the required parameter `body` when calling `create_pod_security_policy_subject_review_for_all_namespaces`")
 
 
         collection_formats = {}
@@ -698,7 +698,7 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -715,31 +715,370 @@ class SecurityOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def get_security_openshift_io_v1_api_resources(self, **kwargs):
+    def create_security_context_constraints(self, body, **kwargs):
         """
-        get available resources
+        create SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_security_openshift_io_v1_api_resources(callback=callback_function)
+        >>> thread = api.create_security_context_constraints(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: UnversionedAPIResourceList
+        :param V1SecurityContextConstraints body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1SecurityContextConstraints
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.get_security_openshift_io_v1_api_resources_with_http_info(**kwargs)
+            return self.create_security_context_constraints_with_http_info(body, **kwargs)
         else:
-            (data) = self.get_security_openshift_io_v1_api_resources_with_http_info(**kwargs)
+            (data) = self.create_security_context_constraints_with_http_info(body, **kwargs)
             return data
 
-    def get_security_openshift_io_v1_api_resources_with_http_info(self, **kwargs):
+    def create_security_context_constraints_with_http_info(self, body, **kwargs):
+        """
+        create SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.create_security_context_constraints_with_http_info(body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param V1SecurityContextConstraints body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1SecurityContextConstraints
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['body', 'pretty']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method create_security_context_constraints" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_security_context_constraints`")
+
+
+        collection_formats = {}
+
+        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'POST',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1SecurityContextConstraints',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def delete_collection_security_context_constraints(self, **kwargs):
+        """
+        delete collection of SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_collection_security_context_constraints(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
+        :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
+        :param int timeout_seconds: Timeout for the list/watch call.
+        :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        :return: V1Status
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.delete_collection_security_context_constraints_with_http_info(**kwargs)
+        else:
+            (data) = self.delete_collection_security_context_constraints_with_http_info(**kwargs)
+            return data
+
+    def delete_collection_security_context_constraints_with_http_info(self, **kwargs):
+        """
+        delete collection of SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_collection_security_context_constraints_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
+        :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
+        :param int timeout_seconds: Timeout for the list/watch call.
+        :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        :return: V1Status
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_collection_security_context_constraints" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        collection_formats = {}
+
+        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+        if 'field_selector' in params:
+            query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
+        if 'label_selector' in params:
+            query_params['labelSelector'] = params['label_selector']
+        if 'resource_version' in params:
+            query_params['resourceVersion'] = params['resource_version']
+        if 'timeout_seconds' in params:
+            query_params['timeoutSeconds'] = params['timeout_seconds']
+        if 'watch' in params:
+            query_params['watch'] = params['watch']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'DELETE',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1Status',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def delete_security_context_constraints(self, name, body, **kwargs):
+        """
+        delete SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_security_context_constraints(name, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecurityContextConstraints (required)
+        :param V1DeleteOptions body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.delete_security_context_constraints_with_http_info(name, body, **kwargs)
+        else:
+            (data) = self.delete_security_context_constraints_with_http_info(name, body, **kwargs)
+            return data
+
+    def delete_security_context_constraints_with_http_info(self, name, body, **kwargs):
+        """
+        delete SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_security_context_constraints_with_http_info(name, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecurityContextConstraints (required)
+        :param V1DeleteOptions body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_security_context_constraints" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `delete_security_context_constraints`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `delete_security_context_constraints`")
+
+
+        collection_formats = {}
+
+        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints/{name}'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+        if 'grace_period_seconds' in params:
+            query_params['gracePeriodSeconds'] = params['grace_period_seconds']
+        if 'orphan_dependents' in params:
+            query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'DELETE',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1Status',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def get_api_resources(self, **kwargs):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
@@ -748,11 +1087,35 @@ class SecurityOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_security_openshift_io_v1_api_resources_with_http_info(callback=callback_function)
+        >>> thread = api.get_api_resources(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: UnversionedAPIResourceList
+        :return: V1APIResourceList
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_api_resources_with_http_info(**kwargs)
+        else:
+            (data) = self.get_api_resources_with_http_info(**kwargs)
+            return data
+
+    def get_api_resources_with_http_info(self, **kwargs):
+        """
+        get available resources
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_api_resources_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -768,7 +1131,7 @@ class SecurityOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_security_openshift_io_v1_api_resources" % key
+                    " to method get_api_resources" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -795,7 +1158,7 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -804,7 +1167,482 @@ class SecurityOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedAPIResourceList',
+                                        response_type='V1APIResourceList',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def list_security_context_constraints(self, **kwargs):
+        """
+        list or watch objects of kind SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.list_security_context_constraints(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
+        :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
+        :param int timeout_seconds: Timeout for the list/watch call.
+        :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        :return: V1SecurityContextConstraintsList
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.list_security_context_constraints_with_http_info(**kwargs)
+        else:
+            (data) = self.list_security_context_constraints_with_http_info(**kwargs)
+            return data
+
+    def list_security_context_constraints_with_http_info(self, **kwargs):
+        """
+        list or watch objects of kind SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.list_security_context_constraints_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
+        :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
+        :param int timeout_seconds: Timeout for the list/watch call.
+        :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        :return: V1SecurityContextConstraintsList
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method list_security_context_constraints" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        collection_formats = {}
+
+        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+        if 'field_selector' in params:
+            query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
+        if 'label_selector' in params:
+            query_params['labelSelector'] = params['label_selector']
+        if 'resource_version' in params:
+            query_params['resourceVersion'] = params['resource_version']
+        if 'timeout_seconds' in params:
+            query_params['timeoutSeconds'] = params['timeout_seconds']
+        if 'watch' in params:
+            query_params['watch'] = params['watch']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf', 'application/json;stream=watch', 'application/vnd.kubernetes.protobuf;stream=watch'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1SecurityContextConstraintsList',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def patch_security_context_constraints(self, name, body, **kwargs):
+        """
+        partially update the specified SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.patch_security_context_constraints(name, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecurityContextConstraints (required)
+        :param object body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1SecurityContextConstraints
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.patch_security_context_constraints_with_http_info(name, body, **kwargs)
+        else:
+            (data) = self.patch_security_context_constraints_with_http_info(name, body, **kwargs)
+            return data
+
+    def patch_security_context_constraints_with_http_info(self, name, body, **kwargs):
+        """
+        partially update the specified SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.patch_security_context_constraints_with_http_info(name, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecurityContextConstraints (required)
+        :param object body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1SecurityContextConstraints
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'body', 'pretty']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method patch_security_context_constraints" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `patch_security_context_constraints`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `patch_security_context_constraints`")
+
+
+        collection_formats = {}
+
+        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints/{name}'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'PATCH',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1SecurityContextConstraints',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def read_security_context_constraints(self, name, **kwargs):
+        """
+        read the specified SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.read_security_context_constraints(name, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecurityContextConstraints (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
+        :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
+        :return: V1SecurityContextConstraints
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.read_security_context_constraints_with_http_info(name, **kwargs)
+        else:
+            (data) = self.read_security_context_constraints_with_http_info(name, **kwargs)
+            return data
+
+    def read_security_context_constraints_with_http_info(self, name, **kwargs):
+        """
+        read the specified SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.read_security_context_constraints_with_http_info(name, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecurityContextConstraints (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
+        :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
+        :return: V1SecurityContextConstraints
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'pretty', 'exact', 'export']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method read_security_context_constraints" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `read_security_context_constraints`")
+
+
+        collection_formats = {}
+
+        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints/{name}'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+        if 'exact' in params:
+            query_params['exact'] = params['exact']
+        if 'export' in params:
+            query_params['export'] = params['export']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1SecurityContextConstraints',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def replace_security_context_constraints(self, name, body, **kwargs):
+        """
+        replace the specified SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.replace_security_context_constraints(name, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecurityContextConstraints (required)
+        :param V1SecurityContextConstraints body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1SecurityContextConstraints
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.replace_security_context_constraints_with_http_info(name, body, **kwargs)
+        else:
+            (data) = self.replace_security_context_constraints_with_http_info(name, body, **kwargs)
+            return data
+
+    def replace_security_context_constraints_with_http_info(self, name, body, **kwargs):
+        """
+        replace the specified SecurityContextConstraints
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.replace_security_context_constraints_with_http_info(name, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecurityContextConstraints (required)
+        :param V1SecurityContextConstraints body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1SecurityContextConstraints
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'body', 'pretty']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method replace_security_context_constraints" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `replace_security_context_constraints`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `replace_security_context_constraints`")
+
+
+        collection_formats = {}
+
+        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints/{name}'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'PUT',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1SecurityContextConstraints',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
