@@ -1,6 +1,9 @@
 # v1_route.yml
 ---
 
+version_limits:
+  min: '3.6'
+
 tasks:
 - create:
     name: myroute
