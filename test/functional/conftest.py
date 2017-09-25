@@ -37,7 +37,8 @@ def port():
 
 
 @pytest.fixture(scope='session')
-def openshift_container(request, port):
+def openshift_container(request, port, pytestconfig):
+    capmanager = pytestconfig.pluginmanager.getplugin('capturemanager')
     client = docker.from_env()
     openshift_version = request.config.getoption('--openshift-version')
     if openshift_version is None:
@@ -45,7 +46,7 @@ def openshift_container(request, port):
     else:
         container = client.containers.run(
             'openshift/origin:{}'.format(openshift_version),
-            'start master --listen=0.0.0.0:{}'.format(port), 
+            'start master --listen=0.0.0.0:{}'.format(port),
             detach=True,
             ports={port: port}
         )
@@ -54,10 +55,11 @@ def openshift_container(request, port):
             # Wait for the container to no longer be in the created state before
             # continuing
             while container.status == u'created':
-                print("waiting for container")
+                capmanager.suspendcapture()
+                print("\nWaiting for container...")
+                capmanager.resumecapture()
                 time.sleep(5)
                 container = client.containers.get(container.id)
-                print(container.__dict__)
 
             # Wait for the api server to be ready before continuing
             for _ in range(10):
