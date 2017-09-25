@@ -54,8 +54,10 @@ def openshift_container(request, port):
             # Wait for the container to no longer be in the created state before
             # continuing
             while container.status == u'created':
-                time.sleep(0.2)
+                print("waiting for container")
+                time.sleep(5)
                 container = client.containers.get(container.id)
+                print(container.__dict__)
 
             # Wait for the api server to be ready before continuing
             for _ in range(10):
