@@ -23,19 +23,19 @@ jobs:
   allow_failures:
     - env: TEST_SUITE=generate
   include:
-  - stage: lint
-    python: '2.7'
-    install:
-    - pip install tox-travis
-    script: tox -e py27-lint
-    env:
-    - TEST_SUITE=lint OPENSHIFT_VERSION=latest
-  - python: '3.5'
-    install:
-    - pip install tox-travis
-    script: tox -e py35-lint
-    env:
-    - TEST_SUITE=lint OPENSHIFT_VERSION=latest
+  # - stage: lint
+  #   python: '2.7'
+  #   install:
+  #   - pip install tox-travis
+  #   script: tox -e py27-lint
+  #   env:
+  #   - TEST_SUITE=lint OPENSHIFT_VERSION=latest
+  # - python: '3.5'
+  #   install:
+  #   - pip install tox-travis
+  #   script: tox -e py35-lint
+  #   env:
+  #   - TEST_SUITE=lint OPENSHIFT_VERSION=latest
   - stage: generate
     python: '2.7'
     env: TEST_SUITE=generate
@@ -51,7 +51,7 @@ jobs:
       tags: true
       repo: openshift/openshift-restclient-python
 stages:
-- lint
+# - lint
 - test
 - generate
 - deploy
