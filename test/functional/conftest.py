@@ -150,11 +150,11 @@ def obj_compare():
         ansible_helper.log('\n\n')
 
         ansible_helper.log('k8s_obj:')
-        ansible_helper.log(json.dumps(k8s_obj.to_dict(), indent=4))
+        ansible_helper.log(k8s_obj.to_str())
         ansible_helper.log('\n\n')
 
         ansible_helper.log('from params:')
-        ansible_helper.log(json.dumps(requested.to_dict(), indent=4))
+        ansible_helper.log(requested.to_str())
         ansible_helper.log('\n\n')
 
         match, diff = ansible_helper.objects_match(k8s_obj, requested)

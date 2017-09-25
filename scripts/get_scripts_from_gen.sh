@@ -29,7 +29,7 @@ mv ${GEN_ROOT}/openapi/preprocess_spec_tmp.py ${GEN_ROOT}/openapi/preprocess_spe
 sed -i'' "s/def remove_model_prefixes(spec):/def remove_model_prefixes(spec, pattern):/" ${GEN_ROOT}/openapi/preprocess_spec.py
 sed -i'' "s/remove_model_prefixes(spec)/remove_model_prefixes(spec, 'io.k8s')/" ${GEN_ROOT}/openapi/preprocess_spec.py
 sed -i'' "s/\"io\.k8s\"/pattern/" ${GEN_ROOT}/openapi/preprocess_spec.py
-cat ${SCRIPT_ROOT}/preprocess_spec.py >> ${GEN_ROOT}/openapi/preprocess_spec.py
+cat ${SCRIPT_ROOT}/preprocess_spec.py.stub >> ${GEN_ROOT}/openapi/preprocess_spec.py
 
 sed -i'' "s/io.kubernetes/com.openshift/g" ${GEN_ROOT}/openapi/python.xml
 sed -i'' "s/client-python/openshift-restclient-python/g" ${GEN_ROOT}/openapi/python.xml

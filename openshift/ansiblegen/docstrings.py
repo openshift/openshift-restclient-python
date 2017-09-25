@@ -24,12 +24,6 @@ from ..client import models as openshift_models
 from ..helper.exceptions import KubernetesException
 from ..helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper
 
-def debug(func):
-    import ipdb
-    def inner(*args, **kwargs):
-        with ipdb.launch_ipdb_on_exception():
-            return func(*args, **kwargs)
-    return inner
 
 logger = logging.getLogger(__name__)
 
@@ -195,7 +189,7 @@ class DocStringsBase(object):
         obj = self.helper.model()
         self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper, width=80)
-    @debug
+
     def __get_attributes(self, obj, doc_key=None):
         """
         Recursively inspect the attributes of a given obj
