@@ -218,7 +218,7 @@ class AnsibleMixin(object):
             obj.string_data = None
 
         logger.debug("Object from params:")
-        logger.debug(json.dumps(obj.to_dict(), indent=4))
+        logger.debug(obj.to_str())
         return obj
 
     def request_body_from_params(self, module_params):
