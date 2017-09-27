@@ -3,9 +3,9 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
-    OpenAPI spec version: v3.6.0-alpha.0
+    OpenAPI spec version: latest
     
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
@@ -40,7 +40,7 @@ class NetworkOpenshiftIoV1Api(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
-    def create_network_openshift_io_v1_cluster_network(self, body, **kwargs):
+    def create_cluster_network(self, body, **kwargs):
         """
         create a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -49,7 +49,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_cluster_network(body, callback=callback_function)
+        >>> thread = api.create_cluster_network(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -61,12 +61,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_network_openshift_io_v1_cluster_network_with_http_info(body, **kwargs)
+            return self.create_cluster_network_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_network_openshift_io_v1_cluster_network_with_http_info(body, **kwargs)
+            (data) = self.create_cluster_network_with_http_info(body, **kwargs)
             return data
 
-    def create_network_openshift_io_v1_cluster_network_with_http_info(self, body, **kwargs):
+    def create_cluster_network_with_http_info(self, body, **kwargs):
         """
         create a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -75,7 +75,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_cluster_network_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_cluster_network_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -97,13 +97,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_network_openshift_io_v1_cluster_network" % key
+                    " to method create_cluster_network" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_network_openshift_io_v1_cluster_network`")
+            raise ValueError("Missing the required parameter `body` when calling `create_cluster_network`")
 
 
         collection_formats = {}
@@ -132,7 +132,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -149,7 +149,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_network_openshift_io_v1_egress_network_policy_for_all_namespaces(self, body, **kwargs):
+    def create_egress_network_policy_for_all_namespaces(self, body, **kwargs):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -158,7 +158,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_egress_network_policy_for_all_namespaces(body, callback=callback_function)
+        >>> thread = api.create_egress_network_policy_for_all_namespaces(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -170,12 +170,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_network_openshift_io_v1_egress_network_policy_for_all_namespaces_with_http_info(body, **kwargs)
+            return self.create_egress_network_policy_for_all_namespaces_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_network_openshift_io_v1_egress_network_policy_for_all_namespaces_with_http_info(body, **kwargs)
+            (data) = self.create_egress_network_policy_for_all_namespaces_with_http_info(body, **kwargs)
             return data
 
-    def create_network_openshift_io_v1_egress_network_policy_for_all_namespaces_with_http_info(self, body, **kwargs):
+    def create_egress_network_policy_for_all_namespaces_with_http_info(self, body, **kwargs):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -184,7 +184,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_egress_network_policy_for_all_namespaces_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_egress_network_policy_for_all_namespaces_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -206,13 +206,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_network_openshift_io_v1_egress_network_policy_for_all_namespaces" % key
+                    " to method create_egress_network_policy_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_network_openshift_io_v1_egress_network_policy_for_all_namespaces`")
+            raise ValueError("Missing the required parameter `body` when calling `create_egress_network_policy_for_all_namespaces`")
 
 
         collection_formats = {}
@@ -241,7 +241,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -258,7 +258,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_network_openshift_io_v1_host_subnet(self, body, **kwargs):
+    def create_host_subnet(self, body, **kwargs):
         """
         create a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -267,7 +267,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_host_subnet(body, callback=callback_function)
+        >>> thread = api.create_host_subnet(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -279,12 +279,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_network_openshift_io_v1_host_subnet_with_http_info(body, **kwargs)
+            return self.create_host_subnet_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_network_openshift_io_v1_host_subnet_with_http_info(body, **kwargs)
+            (data) = self.create_host_subnet_with_http_info(body, **kwargs)
             return data
 
-    def create_network_openshift_io_v1_host_subnet_with_http_info(self, body, **kwargs):
+    def create_host_subnet_with_http_info(self, body, **kwargs):
         """
         create a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -293,7 +293,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_host_subnet_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_host_subnet_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -315,13 +315,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_network_openshift_io_v1_host_subnet" % key
+                    " to method create_host_subnet" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_network_openshift_io_v1_host_subnet`")
+            raise ValueError("Missing the required parameter `body` when calling `create_host_subnet`")
 
 
         collection_formats = {}
@@ -350,7 +350,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -367,7 +367,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_network_openshift_io_v1_namespaced_egress_network_policy(self, namespace, body, **kwargs):
+    def create_namespaced_egress_network_policy(self, namespace, body, **kwargs):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -376,7 +376,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_namespaced_egress_network_policy(namespace, body, callback=callback_function)
+        >>> thread = api.create_namespaced_egress_network_policy(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -389,12 +389,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(namespace, body, **kwargs)
+            return self.create_namespaced_egress_network_policy_with_http_info(namespace, body, **kwargs)
         else:
-            (data) = self.create_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(namespace, body, **kwargs)
+            (data) = self.create_namespaced_egress_network_policy_with_http_info(namespace, body, **kwargs)
             return data
 
-    def create_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(self, namespace, body, **kwargs):
+    def create_namespaced_egress_network_policy_with_http_info(self, namespace, body, **kwargs):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -403,7 +403,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(namespace, body, callback=callback_function)
+        >>> thread = api.create_namespaced_egress_network_policy_with_http_info(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -426,16 +426,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_network_openshift_io_v1_namespaced_egress_network_policy" % key
+                    " to method create_namespaced_egress_network_policy" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_egress_network_policy`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_egress_network_policy`")
 
 
         collection_formats = {}
@@ -466,7 +466,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -483,7 +483,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_network_openshift_io_v1_net_namespace(self, body, **kwargs):
+    def create_net_namespace(self, body, **kwargs):
         """
         create a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -492,7 +492,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_net_namespace(body, callback=callback_function)
+        >>> thread = api.create_net_namespace(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -504,12 +504,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_network_openshift_io_v1_net_namespace_with_http_info(body, **kwargs)
+            return self.create_net_namespace_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_network_openshift_io_v1_net_namespace_with_http_info(body, **kwargs)
+            (data) = self.create_net_namespace_with_http_info(body, **kwargs)
             return data
 
-    def create_network_openshift_io_v1_net_namespace_with_http_info(self, body, **kwargs):
+    def create_net_namespace_with_http_info(self, body, **kwargs):
         """
         create a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -518,7 +518,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_network_openshift_io_v1_net_namespace_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_net_namespace_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -540,13 +540,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_network_openshift_io_v1_net_namespace" % key
+                    " to method create_net_namespace" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_network_openshift_io_v1_net_namespace`")
+            raise ValueError("Missing the required parameter `body` when calling `create_net_namespace`")
 
 
         collection_formats = {}
@@ -575,7 +575,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -592,7 +592,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_network_openshift_io_v1_cluster_network(self, name, body, **kwargs):
+    def delete_cluster_network(self, name, body, **kwargs):
         """
         delete a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -601,7 +601,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_cluster_network(name, body, callback=callback_function)
+        >>> thread = api.delete_cluster_network(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -609,19 +609,20 @@ class NetworkOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_network_openshift_io_v1_cluster_network_with_http_info(name, body, **kwargs)
+            return self.delete_cluster_network_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.delete_network_openshift_io_v1_cluster_network_with_http_info(name, body, **kwargs)
+            (data) = self.delete_cluster_network_with_http_info(name, body, **kwargs)
             return data
 
-    def delete_network_openshift_io_v1_cluster_network_with_http_info(self, name, body, **kwargs):
+    def delete_cluster_network_with_http_info(self, name, body, **kwargs):
         """
         delete a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -630,7 +631,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_cluster_network_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.delete_cluster_network_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -638,13 +639,14 @@ class NetworkOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -655,16 +657,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_network_openshift_io_v1_cluster_network" % key
+                    " to method delete_cluster_network" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_network_openshift_io_v1_cluster_network`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_cluster_network`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_network_openshift_io_v1_cluster_network`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_cluster_network`")
 
 
         collection_formats = {}
@@ -681,6 +683,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -699,7 +703,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -708,7 +712,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -716,7 +720,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_network_openshift_io_v1_collection_cluster_network(self, **kwargs):
+    def delete_collection_cluster_network(self, **kwargs):
         """
         delete collection of ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -725,28 +729,29 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_collection_cluster_network(callback=callback_function)
+        >>> thread = api.delete_collection_cluster_network(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_network_openshift_io_v1_collection_cluster_network_with_http_info(**kwargs)
+            return self.delete_collection_cluster_network_with_http_info(**kwargs)
         else:
-            (data) = self.delete_network_openshift_io_v1_collection_cluster_network_with_http_info(**kwargs)
+            (data) = self.delete_collection_cluster_network_with_http_info(**kwargs)
             return data
 
-    def delete_network_openshift_io_v1_collection_cluster_network_with_http_info(self, **kwargs):
+    def delete_collection_cluster_network_with_http_info(self, **kwargs):
         """
         delete collection of ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -755,22 +760,23 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_collection_cluster_network_with_http_info(callback=callback_function)
+        >>> thread = api.delete_collection_cluster_network_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -781,7 +787,7 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_network_openshift_io_v1_collection_cluster_network" % key
+                    " to method delete_collection_cluster_network" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -797,6 +803,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -821,7 +829,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -830,7 +838,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -838,7 +846,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_network_openshift_io_v1_collection_host_subnet(self, **kwargs):
+    def delete_collection_host_subnet(self, **kwargs):
         """
         delete collection of HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -847,28 +855,29 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_collection_host_subnet(callback=callback_function)
+        >>> thread = api.delete_collection_host_subnet(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_network_openshift_io_v1_collection_host_subnet_with_http_info(**kwargs)
+            return self.delete_collection_host_subnet_with_http_info(**kwargs)
         else:
-            (data) = self.delete_network_openshift_io_v1_collection_host_subnet_with_http_info(**kwargs)
+            (data) = self.delete_collection_host_subnet_with_http_info(**kwargs)
             return data
 
-    def delete_network_openshift_io_v1_collection_host_subnet_with_http_info(self, **kwargs):
+    def delete_collection_host_subnet_with_http_info(self, **kwargs):
         """
         delete collection of HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -877,22 +886,23 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_collection_host_subnet_with_http_info(callback=callback_function)
+        >>> thread = api.delete_collection_host_subnet_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -903,7 +913,7 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_network_openshift_io_v1_collection_host_subnet" % key
+                    " to method delete_collection_host_subnet" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -919,6 +929,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -943,7 +955,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -952,7 +964,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -960,7 +972,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_network_openshift_io_v1_collection_namespaced_egress_network_policy(self, namespace, **kwargs):
+    def delete_collection_namespaced_egress_network_policy(self, namespace, **kwargs):
         """
         delete collection of EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -969,29 +981,30 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_collection_namespaced_egress_network_policy(namespace, callback=callback_function)
+        >>> thread = api.delete_collection_namespaced_egress_network_policy(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_network_openshift_io_v1_collection_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
+            return self.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
         else:
-            (data) = self.delete_network_openshift_io_v1_collection_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
+            (data) = self.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
             return data
 
-    def delete_network_openshift_io_v1_collection_namespaced_egress_network_policy_with_http_info(self, namespace, **kwargs):
+    def delete_collection_namespaced_egress_network_policy_with_http_info(self, namespace, **kwargs):
         """
         delete collection of EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -1000,23 +1013,24 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_collection_namespaced_egress_network_policy_with_http_info(namespace, callback=callback_function)
+        >>> thread = api.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['namespace', 'pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1027,13 +1041,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_network_openshift_io_v1_collection_namespaced_egress_network_policy" % key
+                    " to method delete_collection_namespaced_egress_network_policy" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `delete_network_openshift_io_v1_collection_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `namespace` when calling `delete_collection_namespaced_egress_network_policy`")
 
 
         collection_formats = {}
@@ -1048,6 +1062,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1072,7 +1088,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1081,7 +1097,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1089,7 +1105,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_network_openshift_io_v1_collection_net_namespace(self, **kwargs):
+    def delete_collection_net_namespace(self, **kwargs):
         """
         delete collection of NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -1098,28 +1114,29 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_collection_net_namespace(callback=callback_function)
+        >>> thread = api.delete_collection_net_namespace(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_network_openshift_io_v1_collection_net_namespace_with_http_info(**kwargs)
+            return self.delete_collection_net_namespace_with_http_info(**kwargs)
         else:
-            (data) = self.delete_network_openshift_io_v1_collection_net_namespace_with_http_info(**kwargs)
+            (data) = self.delete_collection_net_namespace_with_http_info(**kwargs)
             return data
 
-    def delete_network_openshift_io_v1_collection_net_namespace_with_http_info(self, **kwargs):
+    def delete_collection_net_namespace_with_http_info(self, **kwargs):
         """
         delete collection of NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -1128,22 +1145,23 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_collection_net_namespace_with_http_info(callback=callback_function)
+        >>> thread = api.delete_collection_net_namespace_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1154,7 +1172,7 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_network_openshift_io_v1_collection_net_namespace" % key
+                    " to method delete_collection_net_namespace" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1170,6 +1188,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1194,7 +1214,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1203,7 +1223,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1211,7 +1231,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_network_openshift_io_v1_host_subnet(self, name, body, **kwargs):
+    def delete_host_subnet(self, name, body, **kwargs):
         """
         delete a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -1220,7 +1240,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_host_subnet(name, body, callback=callback_function)
+        >>> thread = api.delete_host_subnet(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1228,19 +1248,20 @@ class NetworkOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_network_openshift_io_v1_host_subnet_with_http_info(name, body, **kwargs)
+            return self.delete_host_subnet_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.delete_network_openshift_io_v1_host_subnet_with_http_info(name, body, **kwargs)
+            (data) = self.delete_host_subnet_with_http_info(name, body, **kwargs)
             return data
 
-    def delete_network_openshift_io_v1_host_subnet_with_http_info(self, name, body, **kwargs):
+    def delete_host_subnet_with_http_info(self, name, body, **kwargs):
         """
         delete a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -1249,7 +1270,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_host_subnet_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.delete_host_subnet_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1257,13 +1278,14 @@ class NetworkOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1274,16 +1296,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_network_openshift_io_v1_host_subnet" % key
+                    " to method delete_host_subnet" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_network_openshift_io_v1_host_subnet`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_host_subnet`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_network_openshift_io_v1_host_subnet`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_host_subnet`")
 
 
         collection_formats = {}
@@ -1300,6 +1322,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1318,7 +1342,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1327,7 +1351,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1335,7 +1359,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_network_openshift_io_v1_namespaced_egress_network_policy(self, name, namespace, body, **kwargs):
+    def delete_namespaced_egress_network_policy(self, name, namespace, body, **kwargs):
         """
         delete an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -1344,7 +1368,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_namespaced_egress_network_policy(name, namespace, body, callback=callback_function)
+        >>> thread = api.delete_namespaced_egress_network_policy(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1353,19 +1377,20 @@ class NetworkOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
+            return self.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.delete_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def delete_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(self, name, namespace, body, **kwargs):
+    def delete_namespaced_egress_network_policy_with_http_info(self, name, namespace, body, **kwargs):
         """
         delete an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -1374,7 +1399,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1383,13 +1408,14 @@ class NetworkOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1400,19 +1426,19 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_network_openshift_io_v1_namespaced_egress_network_policy" % key
+                    " to method delete_namespaced_egress_network_policy" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_namespaced_egress_network_policy`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `delete_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `namespace` when calling `delete_namespaced_egress_network_policy`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_namespaced_egress_network_policy`")
 
 
         collection_formats = {}
@@ -1431,6 +1457,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1449,7 +1477,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1458,7 +1486,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1466,7 +1494,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_network_openshift_io_v1_net_namespace(self, name, body, **kwargs):
+    def delete_net_namespace(self, name, body, **kwargs):
         """
         delete a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -1475,7 +1503,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_net_namespace(name, body, callback=callback_function)
+        >>> thread = api.delete_net_namespace(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1483,19 +1511,20 @@ class NetworkOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_network_openshift_io_v1_net_namespace_with_http_info(name, body, **kwargs)
+            return self.delete_net_namespace_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.delete_network_openshift_io_v1_net_namespace_with_http_info(name, body, **kwargs)
+            (data) = self.delete_net_namespace_with_http_info(name, body, **kwargs)
             return data
 
-    def delete_network_openshift_io_v1_net_namespace_with_http_info(self, name, body, **kwargs):
+    def delete_net_namespace_with_http_info(self, name, body, **kwargs):
         """
         delete a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -1504,7 +1533,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_network_openshift_io_v1_net_namespace_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.delete_net_namespace_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1512,13 +1541,14 @@ class NetworkOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1529,16 +1559,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_network_openshift_io_v1_net_namespace" % key
+                    " to method delete_net_namespace" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_network_openshift_io_v1_net_namespace`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_net_namespace`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_network_openshift_io_v1_net_namespace`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_net_namespace`")
 
 
         collection_formats = {}
@@ -1555,6 +1585,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1573,7 +1605,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1582,7 +1614,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1590,7 +1622,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def get_network_openshift_io_v1_api_resources(self, **kwargs):
+    def get_api_resources(self, **kwargs):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
@@ -1599,22 +1631,22 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_network_openshift_io_v1_api_resources(callback=callback_function)
+        >>> thread = api.get_api_resources(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: UnversionedAPIResourceList
+        :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.get_network_openshift_io_v1_api_resources_with_http_info(**kwargs)
+            return self.get_api_resources_with_http_info(**kwargs)
         else:
-            (data) = self.get_network_openshift_io_v1_api_resources_with_http_info(**kwargs)
+            (data) = self.get_api_resources_with_http_info(**kwargs)
             return data
 
-    def get_network_openshift_io_v1_api_resources_with_http_info(self, **kwargs):
+    def get_api_resources_with_http_info(self, **kwargs):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
@@ -1623,11 +1655,11 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_network_openshift_io_v1_api_resources_with_http_info(callback=callback_function)
+        >>> thread = api.get_api_resources_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: UnversionedAPIResourceList
+        :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1643,7 +1675,7 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_network_openshift_io_v1_api_resources" % key
+                    " to method get_api_resources" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1670,7 +1702,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1679,7 +1711,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedAPIResourceList',
+                                        response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1687,7 +1719,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_network_openshift_io_v1_cluster_network(self, **kwargs):
+    def list_cluster_network(self, **kwargs):
         """
         list or watch objects of kind ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -1696,14 +1728,15 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_cluster_network(callback=callback_function)
+        >>> thread = api.list_cluster_network(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1ClusterNetworkList
@@ -1712,12 +1745,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_network_openshift_io_v1_cluster_network_with_http_info(**kwargs)
+            return self.list_cluster_network_with_http_info(**kwargs)
         else:
-            (data) = self.list_network_openshift_io_v1_cluster_network_with_http_info(**kwargs)
+            (data) = self.list_cluster_network_with_http_info(**kwargs)
             return data
 
-    def list_network_openshift_io_v1_cluster_network_with_http_info(self, **kwargs):
+    def list_cluster_network_with_http_info(self, **kwargs):
         """
         list or watch objects of kind ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -1726,14 +1759,15 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_cluster_network_with_http_info(callback=callback_function)
+        >>> thread = api.list_cluster_network_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1ClusterNetworkList
@@ -1741,7 +1775,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1752,7 +1786,7 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_network_openshift_io_v1_cluster_network" % key
+                    " to method list_cluster_network" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1768,6 +1802,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1792,7 +1828,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1809,7 +1845,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_network_openshift_io_v1_egress_network_policy_for_all_namespaces(self, **kwargs):
+    def list_egress_network_policy_for_all_namespaces(self, **kwargs):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -1818,14 +1854,15 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_egress_network_policy_for_all_namespaces(callback=callback_function)
+        >>> thread = api.list_egress_network_policy_for_all_namespaces(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1EgressNetworkPolicyList
@@ -1834,12 +1871,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_network_openshift_io_v1_egress_network_policy_for_all_namespaces_with_http_info(**kwargs)
+            return self.list_egress_network_policy_for_all_namespaces_with_http_info(**kwargs)
         else:
-            (data) = self.list_network_openshift_io_v1_egress_network_policy_for_all_namespaces_with_http_info(**kwargs)
+            (data) = self.list_egress_network_policy_for_all_namespaces_with_http_info(**kwargs)
             return data
 
-    def list_network_openshift_io_v1_egress_network_policy_for_all_namespaces_with_http_info(self, **kwargs):
+    def list_egress_network_policy_for_all_namespaces_with_http_info(self, **kwargs):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -1848,14 +1885,15 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_egress_network_policy_for_all_namespaces_with_http_info(callback=callback_function)
+        >>> thread = api.list_egress_network_policy_for_all_namespaces_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1EgressNetworkPolicyList
@@ -1863,7 +1901,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1874,7 +1912,7 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_network_openshift_io_v1_egress_network_policy_for_all_namespaces" % key
+                    " to method list_egress_network_policy_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1890,6 +1928,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1914,7 +1954,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1931,7 +1971,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_network_openshift_io_v1_host_subnet(self, **kwargs):
+    def list_host_subnet(self, **kwargs):
         """
         list or watch objects of kind HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -1940,14 +1980,15 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_host_subnet(callback=callback_function)
+        >>> thread = api.list_host_subnet(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1HostSubnetList
@@ -1956,12 +1997,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_network_openshift_io_v1_host_subnet_with_http_info(**kwargs)
+            return self.list_host_subnet_with_http_info(**kwargs)
         else:
-            (data) = self.list_network_openshift_io_v1_host_subnet_with_http_info(**kwargs)
+            (data) = self.list_host_subnet_with_http_info(**kwargs)
             return data
 
-    def list_network_openshift_io_v1_host_subnet_with_http_info(self, **kwargs):
+    def list_host_subnet_with_http_info(self, **kwargs):
         """
         list or watch objects of kind HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -1970,14 +2011,15 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_host_subnet_with_http_info(callback=callback_function)
+        >>> thread = api.list_host_subnet_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1HostSubnetList
@@ -1985,7 +2027,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1996,7 +2038,7 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_network_openshift_io_v1_host_subnet" % key
+                    " to method list_host_subnet" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -2012,6 +2054,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -2036,7 +2080,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2053,7 +2097,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_network_openshift_io_v1_namespaced_egress_network_policy(self, namespace, **kwargs):
+    def list_namespaced_egress_network_policy(self, namespace, **kwargs):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -2062,15 +2106,16 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_namespaced_egress_network_policy(namespace, callback=callback_function)
+        >>> thread = api.list_namespaced_egress_network_policy(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1EgressNetworkPolicyList
@@ -2079,12 +2124,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
+            return self.list_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
         else:
-            (data) = self.list_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
+            (data) = self.list_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
             return data
 
-    def list_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(self, namespace, **kwargs):
+    def list_namespaced_egress_network_policy_with_http_info(self, namespace, **kwargs):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -2093,15 +2138,16 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(namespace, callback=callback_function)
+        >>> thread = api.list_namespaced_egress_network_policy_with_http_info(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1EgressNetworkPolicyList
@@ -2109,7 +2155,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['namespace', 'pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -2120,13 +2166,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_network_openshift_io_v1_namespaced_egress_network_policy" % key
+                    " to method list_namespaced_egress_network_policy" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `list_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `namespace` when calling `list_namespaced_egress_network_policy`")
 
 
         collection_formats = {}
@@ -2141,6 +2187,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -2165,7 +2213,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2182,7 +2230,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_network_openshift_io_v1_net_namespace(self, **kwargs):
+    def list_net_namespace(self, **kwargs):
         """
         list or watch objects of kind NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -2191,14 +2239,15 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_net_namespace(callback=callback_function)
+        >>> thread = api.list_net_namespace(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1NetNamespaceList
@@ -2207,12 +2256,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_network_openshift_io_v1_net_namespace_with_http_info(**kwargs)
+            return self.list_net_namespace_with_http_info(**kwargs)
         else:
-            (data) = self.list_network_openshift_io_v1_net_namespace_with_http_info(**kwargs)
+            (data) = self.list_net_namespace_with_http_info(**kwargs)
             return data
 
-    def list_network_openshift_io_v1_net_namespace_with_http_info(self, **kwargs):
+    def list_net_namespace_with_http_info(self, **kwargs):
         """
         list or watch objects of kind NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -2221,14 +2270,15 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_network_openshift_io_v1_net_namespace_with_http_info(callback=callback_function)
+        >>> thread = api.list_net_namespace_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1NetNamespaceList
@@ -2236,7 +2286,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -2247,7 +2297,7 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_network_openshift_io_v1_net_namespace" % key
+                    " to method list_net_namespace" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -2263,6 +2313,8 @@ class NetworkOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -2287,7 +2339,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2304,7 +2356,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_network_openshift_io_v1_cluster_network(self, name, body, **kwargs):
+    def patch_cluster_network(self, name, body, **kwargs):
         """
         partially update the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -2313,12 +2365,12 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_network_openshift_io_v1_cluster_network(name, body, callback=callback_function)
+        >>> thread = api.patch_cluster_network(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the ClusterNetwork (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterNetwork
                  If the method is called asynchronously,
@@ -2326,12 +2378,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_network_openshift_io_v1_cluster_network_with_http_info(name, body, **kwargs)
+            return self.patch_cluster_network_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.patch_network_openshift_io_v1_cluster_network_with_http_info(name, body, **kwargs)
+            (data) = self.patch_cluster_network_with_http_info(name, body, **kwargs)
             return data
 
-    def patch_network_openshift_io_v1_cluster_network_with_http_info(self, name, body, **kwargs):
+    def patch_cluster_network_with_http_info(self, name, body, **kwargs):
         """
         partially update the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -2340,12 +2392,12 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_network_openshift_io_v1_cluster_network_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.patch_cluster_network_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the ClusterNetwork (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterNetwork
                  If the method is called asynchronously,
@@ -2363,16 +2415,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_network_openshift_io_v1_cluster_network" % key
+                    " to method patch_cluster_network" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_network_openshift_io_v1_cluster_network`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_cluster_network`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_network_openshift_io_v1_cluster_network`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_cluster_network`")
 
 
         collection_formats = {}
@@ -2403,7 +2455,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2420,7 +2472,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_network_openshift_io_v1_host_subnet(self, name, body, **kwargs):
+    def patch_host_subnet(self, name, body, **kwargs):
         """
         partially update the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -2429,12 +2481,12 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_network_openshift_io_v1_host_subnet(name, body, callback=callback_function)
+        >>> thread = api.patch_host_subnet(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the HostSubnet (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1HostSubnet
                  If the method is called asynchronously,
@@ -2442,12 +2494,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_network_openshift_io_v1_host_subnet_with_http_info(name, body, **kwargs)
+            return self.patch_host_subnet_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.patch_network_openshift_io_v1_host_subnet_with_http_info(name, body, **kwargs)
+            (data) = self.patch_host_subnet_with_http_info(name, body, **kwargs)
             return data
 
-    def patch_network_openshift_io_v1_host_subnet_with_http_info(self, name, body, **kwargs):
+    def patch_host_subnet_with_http_info(self, name, body, **kwargs):
         """
         partially update the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -2456,12 +2508,12 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_network_openshift_io_v1_host_subnet_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.patch_host_subnet_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the HostSubnet (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1HostSubnet
                  If the method is called asynchronously,
@@ -2479,16 +2531,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_network_openshift_io_v1_host_subnet" % key
+                    " to method patch_host_subnet" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_network_openshift_io_v1_host_subnet`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_host_subnet`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_network_openshift_io_v1_host_subnet`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_host_subnet`")
 
 
         collection_formats = {}
@@ -2519,7 +2571,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2536,7 +2588,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_network_openshift_io_v1_namespaced_egress_network_policy(self, name, namespace, body, **kwargs):
+    def patch_namespaced_egress_network_policy(self, name, namespace, body, **kwargs):
         """
         partially update the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -2545,13 +2597,13 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_network_openshift_io_v1_namespaced_egress_network_policy(name, namespace, body, callback=callback_function)
+        >>> thread = api.patch_namespaced_egress_network_policy(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1EgressNetworkPolicy
                  If the method is called asynchronously,
@@ -2559,12 +2611,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
+            return self.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.patch_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def patch_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(self, name, namespace, body, **kwargs):
+    def patch_namespaced_egress_network_policy_with_http_info(self, name, namespace, body, **kwargs):
         """
         partially update the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -2573,13 +2625,13 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1EgressNetworkPolicy
                  If the method is called asynchronously,
@@ -2597,19 +2649,19 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_network_openshift_io_v1_namespaced_egress_network_policy" % key
+                    " to method patch_namespaced_egress_network_policy" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_namespaced_egress_network_policy`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `patch_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `namespace` when calling `patch_namespaced_egress_network_policy`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_namespaced_egress_network_policy`")
 
 
         collection_formats = {}
@@ -2642,7 +2694,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2659,7 +2711,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_network_openshift_io_v1_net_namespace(self, name, body, **kwargs):
+    def patch_net_namespace(self, name, body, **kwargs):
         """
         partially update the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -2668,12 +2720,12 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_network_openshift_io_v1_net_namespace(name, body, callback=callback_function)
+        >>> thread = api.patch_net_namespace(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the NetNamespace (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1NetNamespace
                  If the method is called asynchronously,
@@ -2681,12 +2733,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_network_openshift_io_v1_net_namespace_with_http_info(name, body, **kwargs)
+            return self.patch_net_namespace_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.patch_network_openshift_io_v1_net_namespace_with_http_info(name, body, **kwargs)
+            (data) = self.patch_net_namespace_with_http_info(name, body, **kwargs)
             return data
 
-    def patch_network_openshift_io_v1_net_namespace_with_http_info(self, name, body, **kwargs):
+    def patch_net_namespace_with_http_info(self, name, body, **kwargs):
         """
         partially update the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -2695,12 +2747,12 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_network_openshift_io_v1_net_namespace_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.patch_net_namespace_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the NetNamespace (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1NetNamespace
                  If the method is called asynchronously,
@@ -2718,16 +2770,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_network_openshift_io_v1_net_namespace" % key
+                    " to method patch_net_namespace" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_network_openshift_io_v1_net_namespace`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_net_namespace`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_network_openshift_io_v1_net_namespace`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_net_namespace`")
 
 
         collection_formats = {}
@@ -2758,7 +2810,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2775,7 +2827,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_network_openshift_io_v1_cluster_network(self, name, **kwargs):
+    def read_cluster_network(self, name, **kwargs):
         """
         read the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -2784,13 +2836,13 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_network_openshift_io_v1_cluster_network(name, callback=callback_function)
+        >>> thread = api.read_cluster_network(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the ClusterNetwork (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1ClusterNetwork
                  If the method is called asynchronously,
@@ -2798,12 +2850,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_network_openshift_io_v1_cluster_network_with_http_info(name, **kwargs)
+            return self.read_cluster_network_with_http_info(name, **kwargs)
         else:
-            (data) = self.read_network_openshift_io_v1_cluster_network_with_http_info(name, **kwargs)
+            (data) = self.read_cluster_network_with_http_info(name, **kwargs)
             return data
 
-    def read_network_openshift_io_v1_cluster_network_with_http_info(self, name, **kwargs):
+    def read_cluster_network_with_http_info(self, name, **kwargs):
         """
         read the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -2812,13 +2864,13 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_network_openshift_io_v1_cluster_network_with_http_info(name, callback=callback_function)
+        >>> thread = api.read_cluster_network_with_http_info(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the ClusterNetwork (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1ClusterNetwork
                  If the method is called asynchronously,
@@ -2836,13 +2888,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_network_openshift_io_v1_cluster_network" % key
+                    " to method read_cluster_network" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_network_openshift_io_v1_cluster_network`")
+            raise ValueError("Missing the required parameter `name` when calling `read_cluster_network`")
 
 
         collection_formats = {}
@@ -2875,7 +2927,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2892,7 +2944,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_network_openshift_io_v1_host_subnet(self, name, **kwargs):
+    def read_host_subnet(self, name, **kwargs):
         """
         read the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -2901,13 +2953,13 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_network_openshift_io_v1_host_subnet(name, callback=callback_function)
+        >>> thread = api.read_host_subnet(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the HostSubnet (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1HostSubnet
                  If the method is called asynchronously,
@@ -2915,12 +2967,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_network_openshift_io_v1_host_subnet_with_http_info(name, **kwargs)
+            return self.read_host_subnet_with_http_info(name, **kwargs)
         else:
-            (data) = self.read_network_openshift_io_v1_host_subnet_with_http_info(name, **kwargs)
+            (data) = self.read_host_subnet_with_http_info(name, **kwargs)
             return data
 
-    def read_network_openshift_io_v1_host_subnet_with_http_info(self, name, **kwargs):
+    def read_host_subnet_with_http_info(self, name, **kwargs):
         """
         read the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -2929,13 +2981,13 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_network_openshift_io_v1_host_subnet_with_http_info(name, callback=callback_function)
+        >>> thread = api.read_host_subnet_with_http_info(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the HostSubnet (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1HostSubnet
                  If the method is called asynchronously,
@@ -2953,13 +3005,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_network_openshift_io_v1_host_subnet" % key
+                    " to method read_host_subnet" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_network_openshift_io_v1_host_subnet`")
+            raise ValueError("Missing the required parameter `name` when calling `read_host_subnet`")
 
 
         collection_formats = {}
@@ -2992,7 +3044,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -3009,7 +3061,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_network_openshift_io_v1_namespaced_egress_network_policy(self, name, namespace, **kwargs):
+    def read_namespaced_egress_network_policy(self, name, namespace, **kwargs):
         """
         read the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -3018,14 +3070,14 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_network_openshift_io_v1_namespaced_egress_network_policy(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_egress_network_policy(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1EgressNetworkPolicy
                  If the method is called asynchronously,
@@ -3033,12 +3085,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, **kwargs)
+            return self.read_namespaced_egress_network_policy_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.read_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, **kwargs)
+            (data) = self.read_namespaced_egress_network_policy_with_http_info(name, namespace, **kwargs)
             return data
 
-    def read_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(self, name, namespace, **kwargs):
+    def read_namespaced_egress_network_policy_with_http_info(self, name, namespace, **kwargs):
         """
         read the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -3047,14 +3099,14 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_egress_network_policy_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1EgressNetworkPolicy
                  If the method is called asynchronously,
@@ -3072,16 +3124,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_network_openshift_io_v1_namespaced_egress_network_policy" % key
+                    " to method read_namespaced_egress_network_policy" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_egress_network_policy`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `read_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_egress_network_policy`")
 
 
         collection_formats = {}
@@ -3116,7 +3168,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -3133,7 +3185,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_network_openshift_io_v1_net_namespace(self, name, **kwargs):
+    def read_net_namespace(self, name, **kwargs):
         """
         read the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -3142,13 +3194,13 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_network_openshift_io_v1_net_namespace(name, callback=callback_function)
+        >>> thread = api.read_net_namespace(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the NetNamespace (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1NetNamespace
                  If the method is called asynchronously,
@@ -3156,12 +3208,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_network_openshift_io_v1_net_namespace_with_http_info(name, **kwargs)
+            return self.read_net_namespace_with_http_info(name, **kwargs)
         else:
-            (data) = self.read_network_openshift_io_v1_net_namespace_with_http_info(name, **kwargs)
+            (data) = self.read_net_namespace_with_http_info(name, **kwargs)
             return data
 
-    def read_network_openshift_io_v1_net_namespace_with_http_info(self, name, **kwargs):
+    def read_net_namespace_with_http_info(self, name, **kwargs):
         """
         read the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -3170,13 +3222,13 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_network_openshift_io_v1_net_namespace_with_http_info(name, callback=callback_function)
+        >>> thread = api.read_net_namespace_with_http_info(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the NetNamespace (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1NetNamespace
                  If the method is called asynchronously,
@@ -3194,13 +3246,13 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_network_openshift_io_v1_net_namespace" % key
+                    " to method read_net_namespace" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_network_openshift_io_v1_net_namespace`")
+            raise ValueError("Missing the required parameter `name` when calling `read_net_namespace`")
 
 
         collection_formats = {}
@@ -3233,7 +3285,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -3250,7 +3302,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_network_openshift_io_v1_cluster_network(self, name, body, **kwargs):
+    def replace_cluster_network(self, name, body, **kwargs):
         """
         replace the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -3259,7 +3311,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_network_openshift_io_v1_cluster_network(name, body, callback=callback_function)
+        >>> thread = api.replace_cluster_network(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3272,12 +3324,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_network_openshift_io_v1_cluster_network_with_http_info(name, body, **kwargs)
+            return self.replace_cluster_network_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.replace_network_openshift_io_v1_cluster_network_with_http_info(name, body, **kwargs)
+            (data) = self.replace_cluster_network_with_http_info(name, body, **kwargs)
             return data
 
-    def replace_network_openshift_io_v1_cluster_network_with_http_info(self, name, body, **kwargs):
+    def replace_cluster_network_with_http_info(self, name, body, **kwargs):
         """
         replace the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
@@ -3286,7 +3338,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_network_openshift_io_v1_cluster_network_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.replace_cluster_network_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3309,16 +3361,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_network_openshift_io_v1_cluster_network" % key
+                    " to method replace_cluster_network" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_network_openshift_io_v1_cluster_network`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_cluster_network`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_network_openshift_io_v1_cluster_network`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_cluster_network`")
 
 
         collection_formats = {}
@@ -3349,7 +3401,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,
@@ -3366,7 +3418,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_network_openshift_io_v1_host_subnet(self, name, body, **kwargs):
+    def replace_host_subnet(self, name, body, **kwargs):
         """
         replace the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -3375,7 +3427,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_network_openshift_io_v1_host_subnet(name, body, callback=callback_function)
+        >>> thread = api.replace_host_subnet(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3388,12 +3440,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_network_openshift_io_v1_host_subnet_with_http_info(name, body, **kwargs)
+            return self.replace_host_subnet_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.replace_network_openshift_io_v1_host_subnet_with_http_info(name, body, **kwargs)
+            (data) = self.replace_host_subnet_with_http_info(name, body, **kwargs)
             return data
 
-    def replace_network_openshift_io_v1_host_subnet_with_http_info(self, name, body, **kwargs):
+    def replace_host_subnet_with_http_info(self, name, body, **kwargs):
         """
         replace the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
@@ -3402,7 +3454,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_network_openshift_io_v1_host_subnet_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.replace_host_subnet_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3425,16 +3477,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_network_openshift_io_v1_host_subnet" % key
+                    " to method replace_host_subnet" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_network_openshift_io_v1_host_subnet`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_host_subnet`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_network_openshift_io_v1_host_subnet`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_host_subnet`")
 
 
         collection_formats = {}
@@ -3465,7 +3517,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,
@@ -3482,7 +3534,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_network_openshift_io_v1_namespaced_egress_network_policy(self, name, namespace, body, **kwargs):
+    def replace_namespaced_egress_network_policy(self, name, namespace, body, **kwargs):
         """
         replace the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -3491,7 +3543,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_network_openshift_io_v1_namespaced_egress_network_policy(name, namespace, body, callback=callback_function)
+        >>> thread = api.replace_namespaced_egress_network_policy(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3505,12 +3557,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
+            return self.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.replace_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def replace_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(self, name, namespace, body, **kwargs):
+    def replace_namespaced_egress_network_policy_with_http_info(self, name, namespace, body, **kwargs):
         """
         replace the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
@@ -3519,7 +3571,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_network_openshift_io_v1_namespaced_egress_network_policy_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3543,19 +3595,19 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_network_openshift_io_v1_namespaced_egress_network_policy" % key
+                    " to method replace_namespaced_egress_network_policy" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_namespaced_egress_network_policy`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `replace_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `namespace` when calling `replace_namespaced_egress_network_policy`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_network_openshift_io_v1_namespaced_egress_network_policy`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_namespaced_egress_network_policy`")
 
 
         collection_formats = {}
@@ -3588,7 +3640,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,
@@ -3605,7 +3657,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_network_openshift_io_v1_net_namespace(self, name, body, **kwargs):
+    def replace_net_namespace(self, name, body, **kwargs):
         """
         replace the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -3614,7 +3666,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_network_openshift_io_v1_net_namespace(name, body, callback=callback_function)
+        >>> thread = api.replace_net_namespace(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3627,12 +3679,12 @@ class NetworkOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_network_openshift_io_v1_net_namespace_with_http_info(name, body, **kwargs)
+            return self.replace_net_namespace_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.replace_network_openshift_io_v1_net_namespace_with_http_info(name, body, **kwargs)
+            (data) = self.replace_net_namespace_with_http_info(name, body, **kwargs)
             return data
 
-    def replace_network_openshift_io_v1_net_namespace_with_http_info(self, name, body, **kwargs):
+    def replace_net_namespace_with_http_info(self, name, body, **kwargs):
         """
         replace the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
@@ -3641,7 +3693,7 @@ class NetworkOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_network_openshift_io_v1_net_namespace_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.replace_net_namespace_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3664,16 +3716,16 @@ class NetworkOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_network_openshift_io_v1_net_namespace" % key
+                    " to method replace_net_namespace" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_network_openshift_io_v1_net_namespace`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_net_namespace`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_network_openshift_io_v1_net_namespace`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_net_namespace`")
 
 
         collection_formats = {}
@@ -3704,7 +3756,7 @@ class NetworkOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,

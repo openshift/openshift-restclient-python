@@ -1,10 +1,10 @@
 # openshift.client
-OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use openshift.client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a openshift.client. By listing and beginning a watch from the returned resourceVersion, openshift.clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so openshift.clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but openshift.clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use openshift.client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a openshift.client. By listing and beginning a watch from the returned resourceVersion, openshift.clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so openshift.clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but openshift.clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
 This Python package is automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) project:
 
-- API version: v3.6.0-alpha.0
-- Package version: 1.0.0-snapshot
+- API version: latest
+- Package version: 0.3.0
 - Build package: io.swagger.codegen.languages.PythonClientCodegen
 
 ## Requirements.
@@ -50,6 +50,15 @@ import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
 # create an instance of the API class
 api_instance = openshift.client.ApisApi()
 
@@ -68,133 +77,131 @@ All URIs are relative to *https://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ApisApi* | [**get_api_versions**](docs/ApisApi.md#get_api_versions) | **GET** /apis/ | 
-*AppsApi* | [**get_apps_api_group**](docs/AppsApi.md#get_apps_api_group) | **GET** /apis/apps/ | 
-*AppsOpenshiftIoApi* | [**get_apps_openshift_io_api_group**](docs/AppsOpenshiftIoApi.md#get_apps_openshift_io_api_group) | **GET** /apis/apps.openshift.io/ | 
-*AppsOpenshiftIoV1Api* | [**create_apps_openshift_io_v1_deployment_config_for_all_namespaces**](docs/AppsOpenshiftIoV1Api.md#create_apps_openshift_io_v1_deployment_config_for_all_namespaces) | **POST** /apis/apps.openshift.io/v1/deploymentconfigs | 
-*AppsOpenshiftIoV1Api* | [**create_apps_openshift_io_v1_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#create_apps_openshift_io_v1_namespaced_deployment_config) | **POST** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs | 
-*AppsOpenshiftIoV1Api* | [**create_apps_openshift_io_v1_namespaced_deployment_config_rollback_rollback**](docs/AppsOpenshiftIoV1Api.md#create_apps_openshift_io_v1_namespaced_deployment_config_rollback_rollback) | **POST** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/rollback | 
-*AppsOpenshiftIoV1Api* | [**create_apps_openshift_io_v1_namespaced_deployment_request_instantiate**](docs/AppsOpenshiftIoV1Api.md#create_apps_openshift_io_v1_namespaced_deployment_request_instantiate) | **POST** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/instantiate | 
-*AppsOpenshiftIoV1Api* | [**delete_apps_openshift_io_v1_collection_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#delete_apps_openshift_io_v1_collection_namespaced_deployment_config) | **DELETE** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs | 
-*AppsOpenshiftIoV1Api* | [**delete_apps_openshift_io_v1_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#delete_apps_openshift_io_v1_namespaced_deployment_config) | **DELETE** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
-*AppsOpenshiftIoV1Api* | [**get_apps_openshift_io_v1_api_resources**](docs/AppsOpenshiftIoV1Api.md#get_apps_openshift_io_v1_api_resources) | **GET** /apis/apps.openshift.io/v1/ | 
-*AppsOpenshiftIoV1Api* | [**list_apps_openshift_io_v1_deployment_config_for_all_namespaces**](docs/AppsOpenshiftIoV1Api.md#list_apps_openshift_io_v1_deployment_config_for_all_namespaces) | **GET** /apis/apps.openshift.io/v1/deploymentconfigs | 
-*AppsOpenshiftIoV1Api* | [**list_apps_openshift_io_v1_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#list_apps_openshift_io_v1_namespaced_deployment_config) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs | 
-*AppsOpenshiftIoV1Api* | [**patch_apps_openshift_io_v1_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#patch_apps_openshift_io_v1_namespaced_deployment_config) | **PATCH** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
-*AppsOpenshiftIoV1Api* | [**patch_apps_openshift_io_v1_namespaced_deployment_config_status**](docs/AppsOpenshiftIoV1Api.md#patch_apps_openshift_io_v1_namespaced_deployment_config_status) | **PATCH** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
-*AppsOpenshiftIoV1Api* | [**patch_apps_openshift_io_v1_namespaced_scale_scale**](docs/AppsOpenshiftIoV1Api.md#patch_apps_openshift_io_v1_namespaced_scale_scale) | **PATCH** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
-*AppsOpenshiftIoV1Api* | [**read_apps_openshift_io_v1_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#read_apps_openshift_io_v1_namespaced_deployment_config) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
-*AppsOpenshiftIoV1Api* | [**read_apps_openshift_io_v1_namespaced_deployment_config_status**](docs/AppsOpenshiftIoV1Api.md#read_apps_openshift_io_v1_namespaced_deployment_config_status) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
-*AppsOpenshiftIoV1Api* | [**read_apps_openshift_io_v1_namespaced_deployment_log_log**](docs/AppsOpenshiftIoV1Api.md#read_apps_openshift_io_v1_namespaced_deployment_log_log) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/log | 
-*AppsOpenshiftIoV1Api* | [**read_apps_openshift_io_v1_namespaced_scale_scale**](docs/AppsOpenshiftIoV1Api.md#read_apps_openshift_io_v1_namespaced_scale_scale) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
-*AppsOpenshiftIoV1Api* | [**replace_apps_openshift_io_v1_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#replace_apps_openshift_io_v1_namespaced_deployment_config) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
-*AppsOpenshiftIoV1Api* | [**replace_apps_openshift_io_v1_namespaced_deployment_config_status**](docs/AppsOpenshiftIoV1Api.md#replace_apps_openshift_io_v1_namespaced_deployment_config_status) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
-*AppsOpenshiftIoV1Api* | [**replace_apps_openshift_io_v1_namespaced_scale_scale**](docs/AppsOpenshiftIoV1Api.md#replace_apps_openshift_io_v1_namespaced_scale_scale) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
+*AppsApi* | [**get_api_group**](docs/AppsApi.md#get_api_group) | **GET** /apis/apps/ | 
+*AppsOpenshiftIoApi* | [**get_api_group**](docs/AppsOpenshiftIoApi.md#get_api_group) | **GET** /apis/apps.openshift.io/ | 
+*AppsOpenshiftIoV1Api* | [**create_deployment_config_for_all_namespaces**](docs/AppsOpenshiftIoV1Api.md#create_deployment_config_for_all_namespaces) | **POST** /apis/apps.openshift.io/v1/deploymentconfigs | 
+*AppsOpenshiftIoV1Api* | [**create_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#create_namespaced_deployment_config) | **POST** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs | 
+*AppsOpenshiftIoV1Api* | [**create_namespaced_deployment_config_rollback_rollback**](docs/AppsOpenshiftIoV1Api.md#create_namespaced_deployment_config_rollback_rollback) | **POST** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/rollback | 
+*AppsOpenshiftIoV1Api* | [**create_namespaced_deployment_request_instantiate**](docs/AppsOpenshiftIoV1Api.md#create_namespaced_deployment_request_instantiate) | **POST** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/instantiate | 
+*AppsOpenshiftIoV1Api* | [**delete_collection_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#delete_collection_namespaced_deployment_config) | **DELETE** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs | 
+*AppsOpenshiftIoV1Api* | [**delete_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#delete_namespaced_deployment_config) | **DELETE** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
+*AppsOpenshiftIoV1Api* | [**get_api_resources**](docs/AppsOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/apps.openshift.io/v1/ | 
+*AppsOpenshiftIoV1Api* | [**list_deployment_config_for_all_namespaces**](docs/AppsOpenshiftIoV1Api.md#list_deployment_config_for_all_namespaces) | **GET** /apis/apps.openshift.io/v1/deploymentconfigs | 
+*AppsOpenshiftIoV1Api* | [**list_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#list_namespaced_deployment_config) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs | 
+*AppsOpenshiftIoV1Api* | [**patch_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#patch_namespaced_deployment_config) | **PATCH** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
+*AppsOpenshiftIoV1Api* | [**patch_namespaced_deployment_config_status**](docs/AppsOpenshiftIoV1Api.md#patch_namespaced_deployment_config_status) | **PATCH** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
+*AppsOpenshiftIoV1Api* | [**patch_namespaced_scale_scale**](docs/AppsOpenshiftIoV1Api.md#patch_namespaced_scale_scale) | **PATCH** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
+*AppsOpenshiftIoV1Api* | [**read_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#read_namespaced_deployment_config) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
+*AppsOpenshiftIoV1Api* | [**read_namespaced_deployment_config_status**](docs/AppsOpenshiftIoV1Api.md#read_namespaced_deployment_config_status) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
+*AppsOpenshiftIoV1Api* | [**read_namespaced_deployment_log_log**](docs/AppsOpenshiftIoV1Api.md#read_namespaced_deployment_log_log) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/log | 
+*AppsOpenshiftIoV1Api* | [**read_namespaced_scale_scale**](docs/AppsOpenshiftIoV1Api.md#read_namespaced_scale_scale) | **GET** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
+*AppsOpenshiftIoV1Api* | [**replace_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#replace_namespaced_deployment_config) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
+*AppsOpenshiftIoV1Api* | [**replace_namespaced_deployment_config_status**](docs/AppsOpenshiftIoV1Api.md#replace_namespaced_deployment_config_status) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
+*AppsOpenshiftIoV1Api* | [**replace_namespaced_scale_scale**](docs/AppsOpenshiftIoV1Api.md#replace_namespaced_scale_scale) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
+*AppsV1beta1Api* | [**create_controller_revision_for_all_namespaces**](docs/AppsV1beta1Api.md#create_controller_revision_for_all_namespaces) | **POST** /apis/apps/v1beta1/controllerrevisions | 
+*AppsV1beta1Api* | [**create_deployment_for_all_namespaces**](docs/AppsV1beta1Api.md#create_deployment_for_all_namespaces) | **POST** /apis/apps/v1beta1/deployments | 
+*AppsV1beta1Api* | [**create_namespaced_controller_revision**](docs/AppsV1beta1Api.md#create_namespaced_controller_revision) | **POST** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions | 
+*AppsV1beta1Api* | [**create_namespaced_deployment**](docs/AppsV1beta1Api.md#create_namespaced_deployment) | **POST** /apis/apps/v1beta1/namespaces/{namespace}/deployments | 
+*AppsV1beta1Api* | [**create_namespaced_deployment_rollback_rollback**](docs/AppsV1beta1Api.md#create_namespaced_deployment_rollback_rollback) | **POST** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/rollback | 
 *AppsV1beta1Api* | [**create_namespaced_stateful_set**](docs/AppsV1beta1Api.md#create_namespaced_stateful_set) | **POST** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets | 
 *AppsV1beta1Api* | [**create_stateful_set_for_all_namespaces**](docs/AppsV1beta1Api.md#create_stateful_set_for_all_namespaces) | **POST** /apis/apps/v1beta1/statefulsets | 
+*AppsV1beta1Api* | [**delete_collection_namespaced_controller_revision**](docs/AppsV1beta1Api.md#delete_collection_namespaced_controller_revision) | **DELETE** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions | 
+*AppsV1beta1Api* | [**delete_collection_namespaced_deployment**](docs/AppsV1beta1Api.md#delete_collection_namespaced_deployment) | **DELETE** /apis/apps/v1beta1/namespaces/{namespace}/deployments | 
 *AppsV1beta1Api* | [**delete_collection_namespaced_stateful_set**](docs/AppsV1beta1Api.md#delete_collection_namespaced_stateful_set) | **DELETE** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets | 
+*AppsV1beta1Api* | [**delete_namespaced_controller_revision**](docs/AppsV1beta1Api.md#delete_namespaced_controller_revision) | **DELETE** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1beta1Api* | [**delete_namespaced_deployment**](docs/AppsV1beta1Api.md#delete_namespaced_deployment) | **DELETE** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name} | 
 *AppsV1beta1Api* | [**delete_namespaced_stateful_set**](docs/AppsV1beta1Api.md#delete_namespaced_stateful_set) | **DELETE** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name} | 
 *AppsV1beta1Api* | [**get_api_resources**](docs/AppsV1beta1Api.md#get_api_resources) | **GET** /apis/apps/v1beta1/ | 
+*AppsV1beta1Api* | [**list_controller_revision_for_all_namespaces**](docs/AppsV1beta1Api.md#list_controller_revision_for_all_namespaces) | **GET** /apis/apps/v1beta1/controllerrevisions | 
+*AppsV1beta1Api* | [**list_deployment_for_all_namespaces**](docs/AppsV1beta1Api.md#list_deployment_for_all_namespaces) | **GET** /apis/apps/v1beta1/deployments | 
+*AppsV1beta1Api* | [**list_namespaced_controller_revision**](docs/AppsV1beta1Api.md#list_namespaced_controller_revision) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions | 
+*AppsV1beta1Api* | [**list_namespaced_deployment**](docs/AppsV1beta1Api.md#list_namespaced_deployment) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/deployments | 
 *AppsV1beta1Api* | [**list_namespaced_stateful_set**](docs/AppsV1beta1Api.md#list_namespaced_stateful_set) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets | 
 *AppsV1beta1Api* | [**list_stateful_set_for_all_namespaces**](docs/AppsV1beta1Api.md#list_stateful_set_for_all_namespaces) | **GET** /apis/apps/v1beta1/statefulsets | 
+*AppsV1beta1Api* | [**patch_namespaced_controller_revision**](docs/AppsV1beta1Api.md#patch_namespaced_controller_revision) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1beta1Api* | [**patch_namespaced_deployment**](docs/AppsV1beta1Api.md#patch_namespaced_deployment) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name} | 
+*AppsV1beta1Api* | [**patch_namespaced_deployment_status**](docs/AppsV1beta1Api.md#patch_namespaced_deployment_status) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1beta1Api* | [**patch_namespaced_scale_scale**](docs/AppsV1beta1Api.md#patch_namespaced_scale_scale) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
 *AppsV1beta1Api* | [**patch_namespaced_stateful_set**](docs/AppsV1beta1Api.md#patch_namespaced_stateful_set) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name} | 
 *AppsV1beta1Api* | [**patch_namespaced_stateful_set_status**](docs/AppsV1beta1Api.md#patch_namespaced_stateful_set_status) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/status | 
+*AppsV1beta1Api* | [**read_namespaced_controller_revision**](docs/AppsV1beta1Api.md#read_namespaced_controller_revision) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1beta1Api* | [**read_namespaced_deployment**](docs/AppsV1beta1Api.md#read_namespaced_deployment) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name} | 
+*AppsV1beta1Api* | [**read_namespaced_deployment_status**](docs/AppsV1beta1Api.md#read_namespaced_deployment_status) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1beta1Api* | [**read_namespaced_scale_scale**](docs/AppsV1beta1Api.md#read_namespaced_scale_scale) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
 *AppsV1beta1Api* | [**read_namespaced_stateful_set**](docs/AppsV1beta1Api.md#read_namespaced_stateful_set) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name} | 
 *AppsV1beta1Api* | [**read_namespaced_stateful_set_status**](docs/AppsV1beta1Api.md#read_namespaced_stateful_set_status) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/status | 
+*AppsV1beta1Api* | [**replace_namespaced_controller_revision**](docs/AppsV1beta1Api.md#replace_namespaced_controller_revision) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1beta1Api* | [**replace_namespaced_deployment**](docs/AppsV1beta1Api.md#replace_namespaced_deployment) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name} | 
+*AppsV1beta1Api* | [**replace_namespaced_deployment_status**](docs/AppsV1beta1Api.md#replace_namespaced_deployment_status) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1beta1Api* | [**replace_namespaced_scale_scale**](docs/AppsV1beta1Api.md#replace_namespaced_scale_scale) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
 *AppsV1beta1Api* | [**replace_namespaced_stateful_set**](docs/AppsV1beta1Api.md#replace_namespaced_stateful_set) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name} | 
 *AppsV1beta1Api* | [**replace_namespaced_stateful_set_status**](docs/AppsV1beta1Api.md#replace_namespaced_stateful_set_status) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/status | 
-*AuthenticationApi* | [**get_authentication_api_group**](docs/AuthenticationApi.md#get_authentication_api_group) | **GET** /apis/authentication.k8s.io/ | 
+*AuthenticationApi* | [**get_api_group**](docs/AuthenticationApi.md#get_api_group) | **GET** /apis/authentication.k8s.io/ | 
+*AuthenticationV1Api* | [**create_token_review**](docs/AuthenticationV1Api.md#create_token_review) | **POST** /apis/authentication.k8s.io/v1/tokenreviews | 
+*AuthenticationV1Api* | [**get_api_resources**](docs/AuthenticationV1Api.md#get_api_resources) | **GET** /apis/authentication.k8s.io/v1/ | 
 *AuthenticationV1beta1Api* | [**create_token_review**](docs/AuthenticationV1beta1Api.md#create_token_review) | **POST** /apis/authentication.k8s.io/v1beta1/tokenreviews | 
 *AuthenticationV1beta1Api* | [**get_api_resources**](docs/AuthenticationV1beta1Api.md#get_api_resources) | **GET** /apis/authentication.k8s.io/v1beta1/ | 
-*AuthorizationApi* | [**get_authorization_api_group**](docs/AuthorizationApi.md#get_authorization_api_group) | **GET** /apis/authorization.k8s.io/ | 
-*AuthorizationOpenshiftIoApi* | [**get_authorization_openshift_io_api_group**](docs/AuthorizationOpenshiftIoApi.md#get_authorization_openshift_io_api_group) | **GET** /apis/authorization.openshift.io/ | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_cluster_policy**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_cluster_policy) | **POST** /apis/authorization.openshift.io/v1/clusterpolicies | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_cluster_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_cluster_policy_binding) | **POST** /apis/authorization.openshift.io/v1/clusterpolicybindings | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_cluster_role) | **POST** /apis/authorization.openshift.io/v1/clusterroles | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_cluster_role_binding) | **POST** /apis/authorization.openshift.io/v1/clusterrolebindings | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_local_resource_access_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_local_resource_access_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/localresourceaccessreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_local_subject_access_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_local_subject_access_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/localsubjectaccessreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_local_resource_access_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_local_resource_access_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/localresourceaccessreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_local_subject_access_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_local_subject_access_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/localsubjectaccessreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_policy**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_policy) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policies | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_policy_binding) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policybindings | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_resource_access_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_resource_access_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/resourceaccessreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_role) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_role_binding) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_role_binding_restriction) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_self_subject_rules_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_self_subject_rules_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/selfsubjectrulesreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_subject_access_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_subject_access_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/subjectaccessreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_namespaced_subject_rules_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_namespaced_subject_rules_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/subjectrulesreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_policy_binding_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_policy_binding_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/policybindings | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_policy_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_policy_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/policies | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_resource_access_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_resource_access_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/resourceaccessreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_role_binding_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_role_binding_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/rolebindings | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_role_binding_restriction_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_role_binding_restriction_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/rolebindingrestrictions | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_role_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_role_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/roles | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_self_subject_rules_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_self_subject_rules_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/selfsubjectrulesreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_subject_access_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_subject_access_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/subjectaccessreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**create_authorization_openshift_io_v1_subject_rules_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_authorization_openshift_io_v1_subject_rules_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/subjectrulesreviews | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_cluster_policy**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_cluster_policy) | **DELETE** /apis/authorization.openshift.io/v1/clusterpolicies/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_cluster_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_cluster_policy_binding) | **DELETE** /apis/authorization.openshift.io/v1/clusterpolicybindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_cluster_role) | **DELETE** /apis/authorization.openshift.io/v1/clusterroles/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_cluster_role_binding) | **DELETE** /apis/authorization.openshift.io/v1/clusterrolebindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_collection_cluster_policy**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_collection_cluster_policy) | **DELETE** /apis/authorization.openshift.io/v1/clusterpolicies | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_collection_cluster_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_collection_cluster_policy_binding) | **DELETE** /apis/authorization.openshift.io/v1/clusterpolicybindings | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_collection_namespaced_policy**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_collection_namespaced_policy) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policies | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_collection_namespaced_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_collection_namespaced_policy_binding) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policybindings | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_collection_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_collection_namespaced_role_binding_restriction) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_namespaced_policy**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_namespaced_policy) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policies/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_namespaced_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_namespaced_policy_binding) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policybindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_namespaced_role) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_namespaced_role_binding) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**delete_authorization_openshift_io_v1_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#delete_authorization_openshift_io_v1_namespaced_role_binding_restriction) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**get_authorization_openshift_io_v1_api_resources**](docs/AuthorizationOpenshiftIoV1Api.md#get_authorization_openshift_io_v1_api_resources) | **GET** /apis/authorization.openshift.io/v1/ | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_cluster_policy**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_cluster_policy) | **GET** /apis/authorization.openshift.io/v1/clusterpolicies | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_cluster_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_cluster_policy_binding) | **GET** /apis/authorization.openshift.io/v1/clusterpolicybindings | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_cluster_role) | **GET** /apis/authorization.openshift.io/v1/clusterroles | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_cluster_role_binding) | **GET** /apis/authorization.openshift.io/v1/clusterrolebindings | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_namespaced_policy**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_namespaced_policy) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policies | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_namespaced_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_namespaced_policy_binding) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policybindings | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_namespaced_role) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_namespaced_role_binding) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_namespaced_role_binding_restriction) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_policy_binding_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_policy_binding_for_all_namespaces) | **GET** /apis/authorization.openshift.io/v1/policybindings | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_policy_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_policy_for_all_namespaces) | **GET** /apis/authorization.openshift.io/v1/policies | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_role_binding_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_role_binding_for_all_namespaces) | **GET** /apis/authorization.openshift.io/v1/rolebindings | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_role_binding_restriction_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_role_binding_restriction_for_all_namespaces) | **GET** /apis/authorization.openshift.io/v1/rolebindingrestrictions | 
-*AuthorizationOpenshiftIoV1Api* | [**list_authorization_openshift_io_v1_role_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#list_authorization_openshift_io_v1_role_for_all_namespaces) | **GET** /apis/authorization.openshift.io/v1/roles | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_cluster_policy**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_cluster_policy) | **PATCH** /apis/authorization.openshift.io/v1/clusterpolicies/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_cluster_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_cluster_policy_binding) | **PATCH** /apis/authorization.openshift.io/v1/clusterpolicybindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_cluster_role) | **PATCH** /apis/authorization.openshift.io/v1/clusterroles/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_cluster_role_binding) | **PATCH** /apis/authorization.openshift.io/v1/clusterrolebindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_namespaced_policy**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_namespaced_policy) | **PATCH** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policies/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_namespaced_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_namespaced_policy_binding) | **PATCH** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policybindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_namespaced_role) | **PATCH** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_namespaced_role_binding) | **PATCH** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**patch_authorization_openshift_io_v1_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#patch_authorization_openshift_io_v1_namespaced_role_binding_restriction) | **PATCH** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_cluster_policy**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_cluster_policy) | **GET** /apis/authorization.openshift.io/v1/clusterpolicies/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_cluster_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_cluster_policy_binding) | **GET** /apis/authorization.openshift.io/v1/clusterpolicybindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_cluster_role) | **GET** /apis/authorization.openshift.io/v1/clusterroles/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_cluster_role_binding) | **GET** /apis/authorization.openshift.io/v1/clusterrolebindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_namespaced_policy**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_namespaced_policy) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policies/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_namespaced_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_namespaced_policy_binding) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policybindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_namespaced_role) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_namespaced_role_binding) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**read_authorization_openshift_io_v1_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#read_authorization_openshift_io_v1_namespaced_role_binding_restriction) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_cluster_policy**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_cluster_policy) | **PUT** /apis/authorization.openshift.io/v1/clusterpolicies/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_cluster_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_cluster_policy_binding) | **PUT** /apis/authorization.openshift.io/v1/clusterpolicybindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_cluster_role) | **PUT** /apis/authorization.openshift.io/v1/clusterroles/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_cluster_role_binding) | **PUT** /apis/authorization.openshift.io/v1/clusterrolebindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_namespaced_policy**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_namespaced_policy) | **PUT** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policies/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_namespaced_policy_binding**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_namespaced_policy_binding) | **PUT** /apis/authorization.openshift.io/v1/namespaces/{namespace}/policybindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_namespaced_role) | **PUT** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_namespaced_role_binding) | **PUT** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings/{name} | 
-*AuthorizationOpenshiftIoV1Api* | [**replace_authorization_openshift_io_v1_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#replace_authorization_openshift_io_v1_namespaced_role_binding_restriction) | **PUT** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
+*AuthorizationApi* | [**get_api_group**](docs/AuthorizationApi.md#get_api_group) | **GET** /apis/authorization.k8s.io/ | 
+*AuthorizationOpenshiftIoApi* | [**get_api_group**](docs/AuthorizationOpenshiftIoApi.md#get_api_group) | **GET** /apis/authorization.openshift.io/ | 
+*AuthorizationOpenshiftIoV1Api* | [**create_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#create_cluster_role) | **POST** /apis/authorization.openshift.io/v1/clusterroles | 
+*AuthorizationOpenshiftIoV1Api* | [**create_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#create_cluster_role_binding) | **POST** /apis/authorization.openshift.io/v1/clusterrolebindings | 
+*AuthorizationOpenshiftIoV1Api* | [**create_local_resource_access_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_local_resource_access_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/localresourceaccessreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_local_subject_access_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_local_subject_access_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/localsubjectaccessreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_namespaced_local_resource_access_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_namespaced_local_resource_access_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/localresourceaccessreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_namespaced_local_subject_access_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_namespaced_local_subject_access_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/localsubjectaccessreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#create_namespaced_role) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles | 
+*AuthorizationOpenshiftIoV1Api* | [**create_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#create_namespaced_role_binding) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings | 
+*AuthorizationOpenshiftIoV1Api* | [**create_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#create_namespaced_role_binding_restriction) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions | 
+*AuthorizationOpenshiftIoV1Api* | [**create_namespaced_self_subject_rules_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_namespaced_self_subject_rules_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/selfsubjectrulesreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_namespaced_subject_rules_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_namespaced_subject_rules_review) | **POST** /apis/authorization.openshift.io/v1/namespaces/{namespace}/subjectrulesreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_resource_access_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_resource_access_review) | **POST** /apis/authorization.openshift.io/v1/resourceaccessreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_role_binding_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_role_binding_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/rolebindings | 
+*AuthorizationOpenshiftIoV1Api* | [**create_role_binding_restriction_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_role_binding_restriction_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/rolebindingrestrictions | 
+*AuthorizationOpenshiftIoV1Api* | [**create_role_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_role_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/roles | 
+*AuthorizationOpenshiftIoV1Api* | [**create_self_subject_rules_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_self_subject_rules_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/selfsubjectrulesreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_subject_access_review**](docs/AuthorizationOpenshiftIoV1Api.md#create_subject_access_review) | **POST** /apis/authorization.openshift.io/v1/subjectaccessreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**create_subject_rules_review_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#create_subject_rules_review_for_all_namespaces) | **POST** /apis/authorization.openshift.io/v1/subjectrulesreviews | 
+*AuthorizationOpenshiftIoV1Api* | [**delete_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#delete_cluster_role) | **DELETE** /apis/authorization.openshift.io/v1/clusterroles/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**delete_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#delete_cluster_role_binding) | **DELETE** /apis/authorization.openshift.io/v1/clusterrolebindings/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**delete_collection_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#delete_collection_namespaced_role_binding_restriction) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions | 
+*AuthorizationOpenshiftIoV1Api* | [**delete_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#delete_namespaced_role) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**delete_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#delete_namespaced_role_binding) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**delete_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#delete_namespaced_role_binding_restriction) | **DELETE** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**get_api_resources**](docs/AuthorizationOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/authorization.openshift.io/v1/ | 
+*AuthorizationOpenshiftIoV1Api* | [**list_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#list_cluster_role) | **GET** /apis/authorization.openshift.io/v1/clusterroles | 
+*AuthorizationOpenshiftIoV1Api* | [**list_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#list_cluster_role_binding) | **GET** /apis/authorization.openshift.io/v1/clusterrolebindings | 
+*AuthorizationOpenshiftIoV1Api* | [**list_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#list_namespaced_role) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles | 
+*AuthorizationOpenshiftIoV1Api* | [**list_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#list_namespaced_role_binding) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings | 
+*AuthorizationOpenshiftIoV1Api* | [**list_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#list_namespaced_role_binding_restriction) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions | 
+*AuthorizationOpenshiftIoV1Api* | [**list_role_binding_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#list_role_binding_for_all_namespaces) | **GET** /apis/authorization.openshift.io/v1/rolebindings | 
+*AuthorizationOpenshiftIoV1Api* | [**list_role_binding_restriction_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#list_role_binding_restriction_for_all_namespaces) | **GET** /apis/authorization.openshift.io/v1/rolebindingrestrictions | 
+*AuthorizationOpenshiftIoV1Api* | [**list_role_for_all_namespaces**](docs/AuthorizationOpenshiftIoV1Api.md#list_role_for_all_namespaces) | **GET** /apis/authorization.openshift.io/v1/roles | 
+*AuthorizationOpenshiftIoV1Api* | [**patch_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#patch_cluster_role) | **PATCH** /apis/authorization.openshift.io/v1/clusterroles/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**patch_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#patch_cluster_role_binding) | **PATCH** /apis/authorization.openshift.io/v1/clusterrolebindings/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**patch_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#patch_namespaced_role) | **PATCH** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**patch_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#patch_namespaced_role_binding) | **PATCH** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**patch_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#patch_namespaced_role_binding_restriction) | **PATCH** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**read_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#read_cluster_role) | **GET** /apis/authorization.openshift.io/v1/clusterroles/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**read_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#read_cluster_role_binding) | **GET** /apis/authorization.openshift.io/v1/clusterrolebindings/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**read_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#read_namespaced_role) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**read_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#read_namespaced_role_binding) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**read_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#read_namespaced_role_binding_restriction) | **GET** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**replace_cluster_role**](docs/AuthorizationOpenshiftIoV1Api.md#replace_cluster_role) | **PUT** /apis/authorization.openshift.io/v1/clusterroles/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**replace_cluster_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#replace_cluster_role_binding) | **PUT** /apis/authorization.openshift.io/v1/clusterrolebindings/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**replace_namespaced_role**](docs/AuthorizationOpenshiftIoV1Api.md#replace_namespaced_role) | **PUT** /apis/authorization.openshift.io/v1/namespaces/{namespace}/roles/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**replace_namespaced_role_binding**](docs/AuthorizationOpenshiftIoV1Api.md#replace_namespaced_role_binding) | **PUT** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindings/{name} | 
+*AuthorizationOpenshiftIoV1Api* | [**replace_namespaced_role_binding_restriction**](docs/AuthorizationOpenshiftIoV1Api.md#replace_namespaced_role_binding_restriction) | **PUT** /apis/authorization.openshift.io/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
+*AuthorizationV1Api* | [**create_local_subject_access_review_for_all_namespaces**](docs/AuthorizationV1Api.md#create_local_subject_access_review_for_all_namespaces) | **POST** /apis/authorization.k8s.io/v1/localsubjectaccessreviews | 
+*AuthorizationV1Api* | [**create_namespaced_local_subject_access_review**](docs/AuthorizationV1Api.md#create_namespaced_local_subject_access_review) | **POST** /apis/authorization.k8s.io/v1/namespaces/{namespace}/localsubjectaccessreviews | 
+*AuthorizationV1Api* | [**create_self_subject_access_review**](docs/AuthorizationV1Api.md#create_self_subject_access_review) | **POST** /apis/authorization.k8s.io/v1/selfsubjectaccessreviews | 
+*AuthorizationV1Api* | [**create_subject_access_review**](docs/AuthorizationV1Api.md#create_subject_access_review) | **POST** /apis/authorization.k8s.io/v1/subjectaccessreviews | 
+*AuthorizationV1Api* | [**get_api_resources**](docs/AuthorizationV1Api.md#get_api_resources) | **GET** /apis/authorization.k8s.io/v1/ | 
 *AuthorizationV1beta1Api* | [**create_local_subject_access_review_for_all_namespaces**](docs/AuthorizationV1beta1Api.md#create_local_subject_access_review_for_all_namespaces) | **POST** /apis/authorization.k8s.io/v1beta1/localsubjectaccessreviews | 
 *AuthorizationV1beta1Api* | [**create_namespaced_local_subject_access_review**](docs/AuthorizationV1beta1Api.md#create_namespaced_local_subject_access_review) | **POST** /apis/authorization.k8s.io/v1beta1/namespaces/{namespace}/localsubjectaccessreviews | 
 *AuthorizationV1beta1Api* | [**create_self_subject_access_review**](docs/AuthorizationV1beta1Api.md#create_self_subject_access_review) | **POST** /apis/authorization.k8s.io/v1beta1/selfsubjectaccessreviews | 
 *AuthorizationV1beta1Api* | [**create_subject_access_review**](docs/AuthorizationV1beta1Api.md#create_subject_access_review) | **POST** /apis/authorization.k8s.io/v1beta1/subjectaccessreviews | 
 *AuthorizationV1beta1Api* | [**get_api_resources**](docs/AuthorizationV1beta1Api.md#get_api_resources) | **GET** /apis/authorization.k8s.io/v1beta1/ | 
-*AutoscalingApi* | [**get_autoscaling_api_group**](docs/AutoscalingApi.md#get_autoscaling_api_group) | **GET** /apis/autoscaling/ | 
+*AutoscalingApi* | [**get_api_group**](docs/AutoscalingApi.md#get_api_group) | **GET** /apis/autoscaling/ | 
 *AutoscalingV1Api* | [**create_horizontal_pod_autoscaler_for_all_namespaces**](docs/AutoscalingV1Api.md#create_horizontal_pod_autoscaler_for_all_namespaces) | **POST** /apis/autoscaling/v1/horizontalpodautoscalers | 
 *AutoscalingV1Api* | [**create_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV1Api.md#create_namespaced_horizontal_pod_autoscaler) | **POST** /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers | 
 *AutoscalingV1Api* | [**delete_collection_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV1Api.md#delete_collection_namespaced_horizontal_pod_autoscaler) | **DELETE** /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers | 
@@ -208,7 +215,7 @@ Class | Method | HTTP request | Description
 *AutoscalingV1Api* | [**read_namespaced_horizontal_pod_autoscaler_status**](docs/AutoscalingV1Api.md#read_namespaced_horizontal_pod_autoscaler_status) | **GET** /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
 *AutoscalingV1Api* | [**replace_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV1Api.md#replace_namespaced_horizontal_pod_autoscaler) | **PUT** /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
 *AutoscalingV1Api* | [**replace_namespaced_horizontal_pod_autoscaler_status**](docs/AutoscalingV1Api.md#replace_namespaced_horizontal_pod_autoscaler_status) | **PUT** /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
-*BatchApi* | [**get_batch_api_group**](docs/BatchApi.md#get_batch_api_group) | **GET** /apis/batch/ | 
+*BatchApi* | [**get_api_group**](docs/BatchApi.md#get_api_group) | **GET** /apis/batch/ | 
 *BatchV1Api* | [**create_job_for_all_namespaces**](docs/BatchV1Api.md#create_job_for_all_namespaces) | **POST** /apis/batch/v1/jobs | 
 *BatchV1Api* | [**create_namespaced_job**](docs/BatchV1Api.md#create_namespaced_job) | **POST** /apis/batch/v1/namespaces/{namespace}/jobs | 
 *BatchV1Api* | [**delete_collection_namespaced_job**](docs/BatchV1Api.md#delete_collection_namespaced_job) | **DELETE** /apis/batch/v1/namespaces/{namespace}/jobs | 
@@ -223,81 +230,69 @@ Class | Method | HTTP request | Description
 *BatchV1Api* | [**replace_namespaced_job**](docs/BatchV1Api.md#replace_namespaced_job) | **PUT** /apis/batch/v1/namespaces/{namespace}/jobs/{name} | 
 *BatchV1Api* | [**replace_namespaced_job_status**](docs/BatchV1Api.md#replace_namespaced_job_status) | **PUT** /apis/batch/v1/namespaces/{namespace}/jobs/{name}/status | 
 *BatchV2alpha1Api* | [**create_cron_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#create_cron_job_for_all_namespaces) | **POST** /apis/batch/v2alpha1/cronjobs | 
-*BatchV2alpha1Api* | [**create_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#create_job_for_all_namespaces) | **POST** /apis/batch/v2alpha1/jobs | 
 *BatchV2alpha1Api* | [**create_namespaced_cron_job**](docs/BatchV2alpha1Api.md#create_namespaced_cron_job) | **POST** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs | 
-*BatchV2alpha1Api* | [**create_namespaced_job**](docs/BatchV2alpha1Api.md#create_namespaced_job) | **POST** /apis/batch/v2alpha1/namespaces/{namespace}/jobs | 
 *BatchV2alpha1Api* | [**create_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#create_namespaced_scheduled_job) | **POST** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs | 
 *BatchV2alpha1Api* | [**create_scheduled_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#create_scheduled_job_for_all_namespaces) | **POST** /apis/batch/v2alpha1/scheduledjobs | 
 *BatchV2alpha1Api* | [**delete_collection_namespaced_cron_job**](docs/BatchV2alpha1Api.md#delete_collection_namespaced_cron_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs | 
-*BatchV2alpha1Api* | [**delete_collection_namespaced_job**](docs/BatchV2alpha1Api.md#delete_collection_namespaced_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/jobs | 
 *BatchV2alpha1Api* | [**delete_collection_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#delete_collection_namespaced_scheduled_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs | 
 *BatchV2alpha1Api* | [**delete_namespaced_cron_job**](docs/BatchV2alpha1Api.md#delete_namespaced_cron_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name} | 
-*BatchV2alpha1Api* | [**delete_namespaced_job**](docs/BatchV2alpha1Api.md#delete_namespaced_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/jobs/{name} | 
 *BatchV2alpha1Api* | [**delete_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#delete_namespaced_scheduled_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name} | 
 *BatchV2alpha1Api* | [**get_api_resources**](docs/BatchV2alpha1Api.md#get_api_resources) | **GET** /apis/batch/v2alpha1/ | 
 *BatchV2alpha1Api* | [**list_cron_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#list_cron_job_for_all_namespaces) | **GET** /apis/batch/v2alpha1/cronjobs | 
-*BatchV2alpha1Api* | [**list_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#list_job_for_all_namespaces) | **GET** /apis/batch/v2alpha1/jobs | 
 *BatchV2alpha1Api* | [**list_namespaced_cron_job**](docs/BatchV2alpha1Api.md#list_namespaced_cron_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs | 
-*BatchV2alpha1Api* | [**list_namespaced_job**](docs/BatchV2alpha1Api.md#list_namespaced_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/jobs | 
 *BatchV2alpha1Api* | [**list_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#list_namespaced_scheduled_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs | 
 *BatchV2alpha1Api* | [**list_scheduled_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#list_scheduled_job_for_all_namespaces) | **GET** /apis/batch/v2alpha1/scheduledjobs | 
 *BatchV2alpha1Api* | [**patch_namespaced_cron_job**](docs/BatchV2alpha1Api.md#patch_namespaced_cron_job) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name} | 
 *BatchV2alpha1Api* | [**patch_namespaced_cron_job_status**](docs/BatchV2alpha1Api.md#patch_namespaced_cron_job_status) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name}/status | 
-*BatchV2alpha1Api* | [**patch_namespaced_job**](docs/BatchV2alpha1Api.md#patch_namespaced_job) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/jobs/{name} | 
-*BatchV2alpha1Api* | [**patch_namespaced_job_status**](docs/BatchV2alpha1Api.md#patch_namespaced_job_status) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/jobs/{name}/status | 
 *BatchV2alpha1Api* | [**patch_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#patch_namespaced_scheduled_job) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name} | 
 *BatchV2alpha1Api* | [**patch_namespaced_scheduled_job_status**](docs/BatchV2alpha1Api.md#patch_namespaced_scheduled_job_status) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name}/status | 
 *BatchV2alpha1Api* | [**read_namespaced_cron_job**](docs/BatchV2alpha1Api.md#read_namespaced_cron_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name} | 
 *BatchV2alpha1Api* | [**read_namespaced_cron_job_status**](docs/BatchV2alpha1Api.md#read_namespaced_cron_job_status) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name}/status | 
-*BatchV2alpha1Api* | [**read_namespaced_job**](docs/BatchV2alpha1Api.md#read_namespaced_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/jobs/{name} | 
-*BatchV2alpha1Api* | [**read_namespaced_job_status**](docs/BatchV2alpha1Api.md#read_namespaced_job_status) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/jobs/{name}/status | 
 *BatchV2alpha1Api* | [**read_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#read_namespaced_scheduled_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name} | 
 *BatchV2alpha1Api* | [**read_namespaced_scheduled_job_status**](docs/BatchV2alpha1Api.md#read_namespaced_scheduled_job_status) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name}/status | 
 *BatchV2alpha1Api* | [**replace_namespaced_cron_job**](docs/BatchV2alpha1Api.md#replace_namespaced_cron_job) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name} | 
 *BatchV2alpha1Api* | [**replace_namespaced_cron_job_status**](docs/BatchV2alpha1Api.md#replace_namespaced_cron_job_status) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name}/status | 
-*BatchV2alpha1Api* | [**replace_namespaced_job**](docs/BatchV2alpha1Api.md#replace_namespaced_job) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/jobs/{name} | 
-*BatchV2alpha1Api* | [**replace_namespaced_job_status**](docs/BatchV2alpha1Api.md#replace_namespaced_job_status) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/jobs/{name}/status | 
 *BatchV2alpha1Api* | [**replace_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#replace_namespaced_scheduled_job) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name} | 
 *BatchV2alpha1Api* | [**replace_namespaced_scheduled_job_status**](docs/BatchV2alpha1Api.md#replace_namespaced_scheduled_job_status) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name}/status | 
-*BuildOpenshiftIoApi* | [**get_build_openshift_io_api_group**](docs/BuildOpenshiftIoApi.md#get_build_openshift_io_api_group) | **GET** /apis/build.openshift.io/ | 
-*BuildOpenshiftIoV1Api* | [**connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary**](docs/BuildOpenshiftIoV1Api.md#connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiatebinary | 
-*BuildOpenshiftIoV1Api* | [**connect_build_openshift_io_v1_post_namespaced_status_webhooks**](docs/BuildOpenshiftIoV1Api.md#connect_build_openshift_io_v1_post_namespaced_status_webhooks) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks | 
-*BuildOpenshiftIoV1Api* | [**connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path**](docs/BuildOpenshiftIoV1Api.md#connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks/{path} | 
-*BuildOpenshiftIoV1Api* | [**create_build_openshift_io_v1_build_config_for_all_namespaces**](docs/BuildOpenshiftIoV1Api.md#create_build_openshift_io_v1_build_config_for_all_namespaces) | **POST** /apis/build.openshift.io/v1/buildconfigs | 
-*BuildOpenshiftIoV1Api* | [**create_build_openshift_io_v1_build_for_all_namespaces**](docs/BuildOpenshiftIoV1Api.md#create_build_openshift_io_v1_build_for_all_namespaces) | **POST** /apis/build.openshift.io/v1/builds | 
-*BuildOpenshiftIoV1Api* | [**create_build_openshift_io_v1_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#create_build_openshift_io_v1_namespaced_build) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/builds | 
-*BuildOpenshiftIoV1Api* | [**create_build_openshift_io_v1_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#create_build_openshift_io_v1_namespaced_build_config) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs | 
-*BuildOpenshiftIoV1Api* | [**create_build_openshift_io_v1_namespaced_build_request_clone**](docs/BuildOpenshiftIoV1Api.md#create_build_openshift_io_v1_namespaced_build_request_clone) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/clone | 
-*BuildOpenshiftIoV1Api* | [**create_build_openshift_io_v1_namespaced_build_request_instantiate**](docs/BuildOpenshiftIoV1Api.md#create_build_openshift_io_v1_namespaced_build_request_instantiate) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiate | 
-*BuildOpenshiftIoV1Api* | [**delete_build_openshift_io_v1_collection_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#delete_build_openshift_io_v1_collection_namespaced_build) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/builds | 
-*BuildOpenshiftIoV1Api* | [**delete_build_openshift_io_v1_collection_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#delete_build_openshift_io_v1_collection_namespaced_build_config) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs | 
-*BuildOpenshiftIoV1Api* | [**delete_build_openshift_io_v1_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#delete_build_openshift_io_v1_namespaced_build) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
-*BuildOpenshiftIoV1Api* | [**delete_build_openshift_io_v1_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#delete_build_openshift_io_v1_namespaced_build_config) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
-*BuildOpenshiftIoV1Api* | [**get_build_openshift_io_v1_api_resources**](docs/BuildOpenshiftIoV1Api.md#get_build_openshift_io_v1_api_resources) | **GET** /apis/build.openshift.io/v1/ | 
-*BuildOpenshiftIoV1Api* | [**list_build_openshift_io_v1_build_config_for_all_namespaces**](docs/BuildOpenshiftIoV1Api.md#list_build_openshift_io_v1_build_config_for_all_namespaces) | **GET** /apis/build.openshift.io/v1/buildconfigs | 
-*BuildOpenshiftIoV1Api* | [**list_build_openshift_io_v1_build_for_all_namespaces**](docs/BuildOpenshiftIoV1Api.md#list_build_openshift_io_v1_build_for_all_namespaces) | **GET** /apis/build.openshift.io/v1/builds | 
-*BuildOpenshiftIoV1Api* | [**list_build_openshift_io_v1_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#list_build_openshift_io_v1_namespaced_build) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds | 
-*BuildOpenshiftIoV1Api* | [**list_build_openshift_io_v1_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#list_build_openshift_io_v1_namespaced_build_config) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs | 
-*BuildOpenshiftIoV1Api* | [**patch_build_openshift_io_v1_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#patch_build_openshift_io_v1_namespaced_build) | **PATCH** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
-*BuildOpenshiftIoV1Api* | [**patch_build_openshift_io_v1_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#patch_build_openshift_io_v1_namespaced_build_config) | **PATCH** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
-*BuildOpenshiftIoV1Api* | [**read_build_openshift_io_v1_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#read_build_openshift_io_v1_namespaced_build) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
-*BuildOpenshiftIoV1Api* | [**read_build_openshift_io_v1_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#read_build_openshift_io_v1_namespaced_build_config) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
-*BuildOpenshiftIoV1Api* | [**read_build_openshift_io_v1_namespaced_build_log_log**](docs/BuildOpenshiftIoV1Api.md#read_build_openshift_io_v1_namespaced_build_log_log) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/log | 
-*BuildOpenshiftIoV1Api* | [**replace_build_openshift_io_v1_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#replace_build_openshift_io_v1_namespaced_build) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
-*BuildOpenshiftIoV1Api* | [**replace_build_openshift_io_v1_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#replace_build_openshift_io_v1_namespaced_build_config) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
-*BuildOpenshiftIoV1Api* | [**replace_build_openshift_io_v1_namespaced_build_details**](docs/BuildOpenshiftIoV1Api.md#replace_build_openshift_io_v1_namespaced_build_details) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/details | 
-*CertificatesApi* | [**get_certificates_api_group**](docs/CertificatesApi.md#get_certificates_api_group) | **GET** /apis/certificates.k8s.io/ | 
-*CertificatesV1alpha1Api* | [**create_certificate_signing_request**](docs/CertificatesV1alpha1Api.md#create_certificate_signing_request) | **POST** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests | 
-*CertificatesV1alpha1Api* | [**delete_certificate_signing_request**](docs/CertificatesV1alpha1Api.md#delete_certificate_signing_request) | **DELETE** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests/{name} | 
-*CertificatesV1alpha1Api* | [**delete_collection_certificate_signing_request**](docs/CertificatesV1alpha1Api.md#delete_collection_certificate_signing_request) | **DELETE** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests | 
-*CertificatesV1alpha1Api* | [**get_api_resources**](docs/CertificatesV1alpha1Api.md#get_api_resources) | **GET** /apis/certificates.k8s.io/v1alpha1/ | 
-*CertificatesV1alpha1Api* | [**list_certificate_signing_request**](docs/CertificatesV1alpha1Api.md#list_certificate_signing_request) | **GET** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests | 
-*CertificatesV1alpha1Api* | [**patch_certificate_signing_request**](docs/CertificatesV1alpha1Api.md#patch_certificate_signing_request) | **PATCH** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests/{name} | 
-*CertificatesV1alpha1Api* | [**read_certificate_signing_request**](docs/CertificatesV1alpha1Api.md#read_certificate_signing_request) | **GET** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests/{name} | 
-*CertificatesV1alpha1Api* | [**replace_certificate_signing_request**](docs/CertificatesV1alpha1Api.md#replace_certificate_signing_request) | **PUT** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests/{name} | 
-*CertificatesV1alpha1Api* | [**replace_certificate_signing_request_approval**](docs/CertificatesV1alpha1Api.md#replace_certificate_signing_request_approval) | **PUT** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests/{name}/approval | 
-*CertificatesV1alpha1Api* | [**replace_certificate_signing_request_status**](docs/CertificatesV1alpha1Api.md#replace_certificate_signing_request_status) | **PUT** /apis/certificates.k8s.io/v1alpha1/certificatesigningrequests/{name}/status | 
-*CoreApi* | [**get_core_api_versions**](docs/CoreApi.md#get_core_api_versions) | **GET** /api/ | 
+*BuildOpenshiftIoApi* | [**get_api_group**](docs/BuildOpenshiftIoApi.md#get_api_group) | **GET** /apis/build.openshift.io/ | 
+*BuildOpenshiftIoV1Api* | [**connect_post_namespaced_binary_build_request_options_instantiatebinary**](docs/BuildOpenshiftIoV1Api.md#connect_post_namespaced_binary_build_request_options_instantiatebinary) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiatebinary | 
+*BuildOpenshiftIoV1Api* | [**connect_post_namespaced_build_webhooks**](docs/BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_webhooks) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks | 
+*BuildOpenshiftIoV1Api* | [**connect_post_namespaced_build_webhooks_with_path**](docs/BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_webhooks_with_path) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks/{path} | 
+*BuildOpenshiftIoV1Api* | [**create_build_config_for_all_namespaces**](docs/BuildOpenshiftIoV1Api.md#create_build_config_for_all_namespaces) | **POST** /apis/build.openshift.io/v1/buildconfigs | 
+*BuildOpenshiftIoV1Api* | [**create_build_for_all_namespaces**](docs/BuildOpenshiftIoV1Api.md#create_build_for_all_namespaces) | **POST** /apis/build.openshift.io/v1/builds | 
+*BuildOpenshiftIoV1Api* | [**create_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#create_namespaced_build) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/builds | 
+*BuildOpenshiftIoV1Api* | [**create_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#create_namespaced_build_config) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs | 
+*BuildOpenshiftIoV1Api* | [**create_namespaced_build_request_clone**](docs/BuildOpenshiftIoV1Api.md#create_namespaced_build_request_clone) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/clone | 
+*BuildOpenshiftIoV1Api* | [**create_namespaced_build_request_instantiate**](docs/BuildOpenshiftIoV1Api.md#create_namespaced_build_request_instantiate) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiate | 
+*BuildOpenshiftIoV1Api* | [**delete_collection_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#delete_collection_namespaced_build) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/builds | 
+*BuildOpenshiftIoV1Api* | [**delete_collection_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#delete_collection_namespaced_build_config) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs | 
+*BuildOpenshiftIoV1Api* | [**delete_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#delete_namespaced_build) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
+*BuildOpenshiftIoV1Api* | [**delete_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#delete_namespaced_build_config) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
+*BuildOpenshiftIoV1Api* | [**get_api_resources**](docs/BuildOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/build.openshift.io/v1/ | 
+*BuildOpenshiftIoV1Api* | [**list_build_config_for_all_namespaces**](docs/BuildOpenshiftIoV1Api.md#list_build_config_for_all_namespaces) | **GET** /apis/build.openshift.io/v1/buildconfigs | 
+*BuildOpenshiftIoV1Api* | [**list_build_for_all_namespaces**](docs/BuildOpenshiftIoV1Api.md#list_build_for_all_namespaces) | **GET** /apis/build.openshift.io/v1/builds | 
+*BuildOpenshiftIoV1Api* | [**list_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#list_namespaced_build) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds | 
+*BuildOpenshiftIoV1Api* | [**list_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#list_namespaced_build_config) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs | 
+*BuildOpenshiftIoV1Api* | [**patch_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#patch_namespaced_build) | **PATCH** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
+*BuildOpenshiftIoV1Api* | [**patch_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#patch_namespaced_build_config) | **PATCH** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
+*BuildOpenshiftIoV1Api* | [**read_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#read_namespaced_build) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
+*BuildOpenshiftIoV1Api* | [**read_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#read_namespaced_build_config) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
+*BuildOpenshiftIoV1Api* | [**read_namespaced_build_log_log**](docs/BuildOpenshiftIoV1Api.md#read_namespaced_build_log_log) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/log | 
+*BuildOpenshiftIoV1Api* | [**replace_namespaced_build**](docs/BuildOpenshiftIoV1Api.md#replace_namespaced_build) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
+*BuildOpenshiftIoV1Api* | [**replace_namespaced_build_config**](docs/BuildOpenshiftIoV1Api.md#replace_namespaced_build_config) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
+*BuildOpenshiftIoV1Api* | [**replace_namespaced_build_details**](docs/BuildOpenshiftIoV1Api.md#replace_namespaced_build_details) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/details | 
+*CertificatesApi* | [**get_api_group**](docs/CertificatesApi.md#get_api_group) | **GET** /apis/certificates.k8s.io/ | 
+*CertificatesV1beta1Api* | [**create_certificate_signing_request**](docs/CertificatesV1beta1Api.md#create_certificate_signing_request) | **POST** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests | 
+*CertificatesV1beta1Api* | [**delete_certificate_signing_request**](docs/CertificatesV1beta1Api.md#delete_certificate_signing_request) | **DELETE** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests/{name} | 
+*CertificatesV1beta1Api* | [**delete_collection_certificate_signing_request**](docs/CertificatesV1beta1Api.md#delete_collection_certificate_signing_request) | **DELETE** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests | 
+*CertificatesV1beta1Api* | [**get_api_resources**](docs/CertificatesV1beta1Api.md#get_api_resources) | **GET** /apis/certificates.k8s.io/v1beta1/ | 
+*CertificatesV1beta1Api* | [**list_certificate_signing_request**](docs/CertificatesV1beta1Api.md#list_certificate_signing_request) | **GET** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests | 
+*CertificatesV1beta1Api* | [**patch_certificate_signing_request**](docs/CertificatesV1beta1Api.md#patch_certificate_signing_request) | **PATCH** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests/{name} | 
+*CertificatesV1beta1Api* | [**read_certificate_signing_request**](docs/CertificatesV1beta1Api.md#read_certificate_signing_request) | **GET** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests/{name} | 
+*CertificatesV1beta1Api* | [**replace_certificate_signing_request**](docs/CertificatesV1beta1Api.md#replace_certificate_signing_request) | **PUT** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests/{name} | 
+*CertificatesV1beta1Api* | [**replace_certificate_signing_request_approval**](docs/CertificatesV1beta1Api.md#replace_certificate_signing_request_approval) | **PUT** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests/{name}/approval | 
+*CertificatesV1beta1Api* | [**replace_certificate_signing_request_status**](docs/CertificatesV1beta1Api.md#replace_certificate_signing_request_status) | **PUT** /apis/certificates.k8s.io/v1beta1/certificatesigningrequests/{name}/status | 
+*CoreApi* | [**get_legacy_api_versions**](docs/CoreApi.md#get_legacy_api_versions) | **GET** /api/ | 
 *CoreV1Api* | [**connect_delete_namespaced_pod_proxy**](docs/CoreV1Api.md#connect_delete_namespaced_pod_proxy) | **DELETE** /api/v1/namespaces/{namespace}/pods/{name}/proxy | 
 *CoreV1Api* | [**connect_delete_namespaced_pod_proxy_with_path**](docs/CoreV1Api.md#connect_delete_namespaced_pod_proxy_with_path) | **DELETE** /api/v1/namespaces/{namespace}/pods/{name}/proxy/{path} | 
 *CoreV1Api* | [**connect_delete_namespaced_service_proxy**](docs/CoreV1Api.md#connect_delete_namespaced_service_proxy) | **DELETE** /api/v1/namespaces/{namespace}/services/{name}/proxy | 
@@ -325,6 +320,12 @@ Class | Method | HTTP request | Description
 *CoreV1Api* | [**connect_options_namespaced_service_proxy_with_path**](docs/CoreV1Api.md#connect_options_namespaced_service_proxy_with_path) | **OPTIONS** /api/v1/namespaces/{namespace}/services/{name}/proxy/{path} | 
 *CoreV1Api* | [**connect_options_node_proxy**](docs/CoreV1Api.md#connect_options_node_proxy) | **OPTIONS** /api/v1/nodes/{name}/proxy | 
 *CoreV1Api* | [**connect_options_node_proxy_with_path**](docs/CoreV1Api.md#connect_options_node_proxy_with_path) | **OPTIONS** /api/v1/nodes/{name}/proxy/{path} | 
+*CoreV1Api* | [**connect_patch_namespaced_pod_proxy**](docs/CoreV1Api.md#connect_patch_namespaced_pod_proxy) | **PATCH** /api/v1/namespaces/{namespace}/pods/{name}/proxy | 
+*CoreV1Api* | [**connect_patch_namespaced_pod_proxy_with_path**](docs/CoreV1Api.md#connect_patch_namespaced_pod_proxy_with_path) | **PATCH** /api/v1/namespaces/{namespace}/pods/{name}/proxy/{path} | 
+*CoreV1Api* | [**connect_patch_namespaced_service_proxy**](docs/CoreV1Api.md#connect_patch_namespaced_service_proxy) | **PATCH** /api/v1/namespaces/{namespace}/services/{name}/proxy | 
+*CoreV1Api* | [**connect_patch_namespaced_service_proxy_with_path**](docs/CoreV1Api.md#connect_patch_namespaced_service_proxy_with_path) | **PATCH** /api/v1/namespaces/{namespace}/services/{name}/proxy/{path} | 
+*CoreV1Api* | [**connect_patch_node_proxy**](docs/CoreV1Api.md#connect_patch_node_proxy) | **PATCH** /api/v1/nodes/{name}/proxy | 
+*CoreV1Api* | [**connect_patch_node_proxy_with_path**](docs/CoreV1Api.md#connect_patch_node_proxy_with_path) | **PATCH** /api/v1/nodes/{name}/proxy/{path} | 
 *CoreV1Api* | [**connect_post_namespaced_pod_attach**](docs/CoreV1Api.md#connect_post_namespaced_pod_attach) | **POST** /api/v1/namespaces/{namespace}/pods/{name}/attach | 
 *CoreV1Api* | [**connect_post_namespaced_pod_exec**](docs/CoreV1Api.md#connect_post_namespaced_pod_exec) | **POST** /api/v1/namespaces/{namespace}/pods/{name}/exec | 
 *CoreV1Api* | [**connect_post_namespaced_pod_portforward**](docs/CoreV1Api.md#connect_post_namespaced_pod_portforward) | **POST** /api/v1/namespaces/{namespace}/pods/{name}/portforward | 
@@ -372,7 +373,6 @@ Class | Method | HTTP request | Description
 *CoreV1Api* | [**create_security_context_constraints**](docs/CoreV1Api.md#create_security_context_constraints) | **POST** /api/v1/securitycontextconstraints | 
 *CoreV1Api* | [**create_service_account_for_all_namespaces**](docs/CoreV1Api.md#create_service_account_for_all_namespaces) | **POST** /api/v1/serviceaccounts | 
 *CoreV1Api* | [**create_service_for_all_namespaces**](docs/CoreV1Api.md#create_service_for_all_namespaces) | **POST** /api/v1/services | 
-*CoreV1Api* | [**delete_collection_namespace**](docs/CoreV1Api.md#delete_collection_namespace) | **DELETE** /api/v1/namespaces | 
 *CoreV1Api* | [**delete_collection_namespaced_config_map**](docs/CoreV1Api.md#delete_collection_namespaced_config_map) | **DELETE** /api/v1/namespaces/{namespace}/configmaps | 
 *CoreV1Api* | [**delete_collection_namespaced_endpoints**](docs/CoreV1Api.md#delete_collection_namespaced_endpoints) | **DELETE** /api/v1/namespaces/{namespace}/endpoints | 
 *CoreV1Api* | [**delete_collection_namespaced_event**](docs/CoreV1Api.md#delete_collection_namespaced_event) | **DELETE** /api/v1/namespaces/{namespace}/events | 
@@ -482,6 +482,12 @@ Class | Method | HTTP request | Description
 *CoreV1Api* | [**proxy_options_namespaced_service_with_path**](docs/CoreV1Api.md#proxy_options_namespaced_service_with_path) | **OPTIONS** /api/v1/proxy/namespaces/{namespace}/services/{name}/{path} | 
 *CoreV1Api* | [**proxy_options_node**](docs/CoreV1Api.md#proxy_options_node) | **OPTIONS** /api/v1/proxy/nodes/{name} | 
 *CoreV1Api* | [**proxy_options_node_with_path**](docs/CoreV1Api.md#proxy_options_node_with_path) | **OPTIONS** /api/v1/proxy/nodes/{name}/{path} | 
+*CoreV1Api* | [**proxy_patch_namespaced_pod**](docs/CoreV1Api.md#proxy_patch_namespaced_pod) | **PATCH** /api/v1/proxy/namespaces/{namespace}/pods/{name} | 
+*CoreV1Api* | [**proxy_patch_namespaced_pod_with_path**](docs/CoreV1Api.md#proxy_patch_namespaced_pod_with_path) | **PATCH** /api/v1/proxy/namespaces/{namespace}/pods/{name}/{path} | 
+*CoreV1Api* | [**proxy_patch_namespaced_service**](docs/CoreV1Api.md#proxy_patch_namespaced_service) | **PATCH** /api/v1/proxy/namespaces/{namespace}/services/{name} | 
+*CoreV1Api* | [**proxy_patch_namespaced_service_with_path**](docs/CoreV1Api.md#proxy_patch_namespaced_service_with_path) | **PATCH** /api/v1/proxy/namespaces/{namespace}/services/{name}/{path} | 
+*CoreV1Api* | [**proxy_patch_node**](docs/CoreV1Api.md#proxy_patch_node) | **PATCH** /api/v1/proxy/nodes/{name} | 
+*CoreV1Api* | [**proxy_patch_node_with_path**](docs/CoreV1Api.md#proxy_patch_node_with_path) | **PATCH** /api/v1/proxy/nodes/{name}/{path} | 
 *CoreV1Api* | [**proxy_post_namespaced_pod**](docs/CoreV1Api.md#proxy_post_namespaced_pod) | **POST** /api/v1/proxy/namespaces/{namespace}/pods/{name} | 
 *CoreV1Api* | [**proxy_post_namespaced_pod_with_path**](docs/CoreV1Api.md#proxy_post_namespaced_pod_with_path) | **POST** /api/v1/proxy/namespaces/{namespace}/pods/{name}/{path} | 
 *CoreV1Api* | [**proxy_post_namespaced_service**](docs/CoreV1Api.md#proxy_post_namespaced_service) | **POST** /api/v1/proxy/namespaces/{namespace}/services/{name} | 
@@ -547,18 +553,24 @@ Class | Method | HTTP request | Description
 *CoreV1Api* | [**replace_persistent_volume**](docs/CoreV1Api.md#replace_persistent_volume) | **PUT** /api/v1/persistentvolumes/{name} | 
 *CoreV1Api* | [**replace_persistent_volume_status**](docs/CoreV1Api.md#replace_persistent_volume_status) | **PUT** /api/v1/persistentvolumes/{name}/status | 
 *CoreV1Api* | [**replace_security_context_constraints**](docs/CoreV1Api.md#replace_security_context_constraints) | **PUT** /api/v1/securitycontextconstraints/{name} | 
-*ExtensionsApi* | [**get_extensions_api_group**](docs/ExtensionsApi.md#get_extensions_api_group) | **GET** /apis/extensions/ | 
+*CustomObjectsApi* | [**create_cluster_custom_object**](docs/CustomObjectsApi.md#create_cluster_custom_object) | **POST** /apis/{group}/{version}/{plural} | 
+*CustomObjectsApi* | [**create_namespaced_custom_object**](docs/CustomObjectsApi.md#create_namespaced_custom_object) | **POST** /apis/{group}/{version}/namespaces/{namespace}/{plural} | 
+*CustomObjectsApi* | [**delete_cluster_custom_object**](docs/CustomObjectsApi.md#delete_cluster_custom_object) | **DELETE** /apis/{group}/{version}/{plural}/{name} | 
+*CustomObjectsApi* | [**delete_namespaced_custom_object**](docs/CustomObjectsApi.md#delete_namespaced_custom_object) | **DELETE** /apis/{group}/{version}/namespaces/{namespace}/{plural}/{name} | 
+*CustomObjectsApi* | [**get_cluster_custom_object**](docs/CustomObjectsApi.md#get_cluster_custom_object) | **GET** /apis/{group}/{version}/{plural}/{name} | 
+*CustomObjectsApi* | [**get_namespaced_custom_object**](docs/CustomObjectsApi.md#get_namespaced_custom_object) | **GET** /apis/{group}/{version}/namespaces/{namespace}/{plural}/{name} | 
+*CustomObjectsApi* | [**list_cluster_custom_object**](docs/CustomObjectsApi.md#list_cluster_custom_object) | **GET** /apis/{group}/{version}/{plural} | 
+*CustomObjectsApi* | [**list_namespaced_custom_object**](docs/CustomObjectsApi.md#list_namespaced_custom_object) | **GET** /apis/{group}/{version}/namespaces/{namespace}/{plural} | 
+*CustomObjectsApi* | [**replace_cluster_custom_object**](docs/CustomObjectsApi.md#replace_cluster_custom_object) | **PUT** /apis/{group}/{version}/{plural}/{name} | 
+*CustomObjectsApi* | [**replace_namespaced_custom_object**](docs/CustomObjectsApi.md#replace_namespaced_custom_object) | **PUT** /apis/{group}/{version}/namespaces/{namespace}/{plural}/{name} | 
+*ExtensionsApi* | [**get_api_group**](docs/ExtensionsApi.md#get_api_group) | **GET** /apis/extensions/ | 
 *ExtensionsV1beta1Api* | [**create_daemon_set_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_daemon_set_for_all_namespaces) | **POST** /apis/extensions/v1beta1/daemonsets | 
 *ExtensionsV1beta1Api* | [**create_deployment_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_deployment_for_all_namespaces) | **POST** /apis/extensions/v1beta1/deployments | 
-*ExtensionsV1beta1Api* | [**create_horizontal_pod_autoscaler_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_horizontal_pod_autoscaler_for_all_namespaces) | **POST** /apis/extensions/v1beta1/horizontalpodautoscalers | 
 *ExtensionsV1beta1Api* | [**create_ingress_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_ingress_for_all_namespaces) | **POST** /apis/extensions/v1beta1/ingresses | 
-*ExtensionsV1beta1Api* | [**create_job_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_job_for_all_namespaces) | **POST** /apis/extensions/v1beta1/jobs | 
 *ExtensionsV1beta1Api* | [**create_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#create_namespaced_daemon_set) | **POST** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets | 
 *ExtensionsV1beta1Api* | [**create_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#create_namespaced_deployment) | **POST** /apis/extensions/v1beta1/namespaces/{namespace}/deployments | 
 *ExtensionsV1beta1Api* | [**create_namespaced_deployment_rollback_rollback**](docs/ExtensionsV1beta1Api.md#create_namespaced_deployment_rollback_rollback) | **POST** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name}/rollback | 
-*ExtensionsV1beta1Api* | [**create_namespaced_horizontal_pod_autoscaler**](docs/ExtensionsV1beta1Api.md#create_namespaced_horizontal_pod_autoscaler) | **POST** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers | 
 *ExtensionsV1beta1Api* | [**create_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#create_namespaced_ingress) | **POST** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses | 
-*ExtensionsV1beta1Api* | [**create_namespaced_job**](docs/ExtensionsV1beta1Api.md#create_namespaced_job) | **POST** /apis/extensions/v1beta1/namespaces/{namespace}/jobs | 
 *ExtensionsV1beta1Api* | [**create_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#create_namespaced_network_policy) | **POST** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies | 
 *ExtensionsV1beta1Api* | [**create_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#create_namespaced_replica_set) | **POST** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets | 
 *ExtensionsV1beta1Api* | [**create_network_policy_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_network_policy_for_all_namespaces) | **POST** /apis/extensions/v1beta1/networkpolicies | 
@@ -567,18 +579,14 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**create_third_party_resource**](docs/ExtensionsV1beta1Api.md#create_third_party_resource) | **POST** /apis/extensions/v1beta1/thirdpartyresources | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_daemon_set) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_deployment) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/deployments | 
-*ExtensionsV1beta1Api* | [**delete_collection_namespaced_horizontal_pod_autoscaler**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_horizontal_pod_autoscaler) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_ingress) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses | 
-*ExtensionsV1beta1Api* | [**delete_collection_namespaced_job**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_job) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/jobs | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_network_policy) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_replica_set) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets | 
 *ExtensionsV1beta1Api* | [**delete_collection_pod_security_policy**](docs/ExtensionsV1beta1Api.md#delete_collection_pod_security_policy) | **DELETE** /apis/extensions/v1beta1/podsecuritypolicies | 
 *ExtensionsV1beta1Api* | [**delete_collection_third_party_resource**](docs/ExtensionsV1beta1Api.md#delete_collection_third_party_resource) | **DELETE** /apis/extensions/v1beta1/thirdpartyresources | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#delete_namespaced_daemon_set) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets/{name} | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#delete_namespaced_deployment) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name} | 
-*ExtensionsV1beta1Api* | [**delete_namespaced_horizontal_pod_autoscaler**](docs/ExtensionsV1beta1Api.md#delete_namespaced_horizontal_pod_autoscaler) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#delete_namespaced_ingress) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses/{name} | 
-*ExtensionsV1beta1Api* | [**delete_namespaced_job**](docs/ExtensionsV1beta1Api.md#delete_namespaced_job) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/jobs/{name} | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#delete_namespaced_network_policy) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies/{name} | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#delete_namespaced_replica_set) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name} | 
 *ExtensionsV1beta1Api* | [**delete_pod_security_policy**](docs/ExtensionsV1beta1Api.md#delete_pod_security_policy) | **DELETE** /apis/extensions/v1beta1/podsecuritypolicies/{name} | 
@@ -586,14 +594,10 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**get_api_resources**](docs/ExtensionsV1beta1Api.md#get_api_resources) | **GET** /apis/extensions/v1beta1/ | 
 *ExtensionsV1beta1Api* | [**list_daemon_set_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_daemon_set_for_all_namespaces) | **GET** /apis/extensions/v1beta1/daemonsets | 
 *ExtensionsV1beta1Api* | [**list_deployment_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_deployment_for_all_namespaces) | **GET** /apis/extensions/v1beta1/deployments | 
-*ExtensionsV1beta1Api* | [**list_horizontal_pod_autoscaler_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_horizontal_pod_autoscaler_for_all_namespaces) | **GET** /apis/extensions/v1beta1/horizontalpodautoscalers | 
 *ExtensionsV1beta1Api* | [**list_ingress_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_ingress_for_all_namespaces) | **GET** /apis/extensions/v1beta1/ingresses | 
-*ExtensionsV1beta1Api* | [**list_job_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_job_for_all_namespaces) | **GET** /apis/extensions/v1beta1/jobs | 
 *ExtensionsV1beta1Api* | [**list_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#list_namespaced_daemon_set) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets | 
 *ExtensionsV1beta1Api* | [**list_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#list_namespaced_deployment) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/deployments | 
-*ExtensionsV1beta1Api* | [**list_namespaced_horizontal_pod_autoscaler**](docs/ExtensionsV1beta1Api.md#list_namespaced_horizontal_pod_autoscaler) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers | 
 *ExtensionsV1beta1Api* | [**list_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#list_namespaced_ingress) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses | 
-*ExtensionsV1beta1Api* | [**list_namespaced_job**](docs/ExtensionsV1beta1Api.md#list_namespaced_job) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/jobs | 
 *ExtensionsV1beta1Api* | [**list_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#list_namespaced_network_policy) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies | 
 *ExtensionsV1beta1Api* | [**list_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#list_namespaced_replica_set) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets | 
 *ExtensionsV1beta1Api* | [**list_network_policy_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_network_policy_for_all_namespaces) | **GET** /apis/extensions/v1beta1/networkpolicies | 
@@ -605,12 +609,8 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**patch_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#patch_namespaced_deployment) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name} | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_deployment_status**](docs/ExtensionsV1beta1Api.md#patch_namespaced_deployment_status) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_deployments_scale**](docs/ExtensionsV1beta1Api.md#patch_namespaced_deployments_scale) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
-*ExtensionsV1beta1Api* | [**patch_namespaced_horizontal_pod_autoscaler**](docs/ExtensionsV1beta1Api.md#patch_namespaced_horizontal_pod_autoscaler) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
-*ExtensionsV1beta1Api* | [**patch_namespaced_horizontal_pod_autoscaler_status**](docs/ExtensionsV1beta1Api.md#patch_namespaced_horizontal_pod_autoscaler_status) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#patch_namespaced_ingress) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses/{name} | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_ingress_status**](docs/ExtensionsV1beta1Api.md#patch_namespaced_ingress_status) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses/{name}/status | 
-*ExtensionsV1beta1Api* | [**patch_namespaced_job**](docs/ExtensionsV1beta1Api.md#patch_namespaced_job) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/jobs/{name} | 
-*ExtensionsV1beta1Api* | [**patch_namespaced_job_status**](docs/ExtensionsV1beta1Api.md#patch_namespaced_job_status) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/jobs/{name}/status | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#patch_namespaced_network_policy) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies/{name} | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#patch_namespaced_replica_set) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name} | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_replica_set_status**](docs/ExtensionsV1beta1Api.md#patch_namespaced_replica_set_status) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name}/status | 
@@ -623,12 +623,8 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**read_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#read_namespaced_deployment) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name} | 
 *ExtensionsV1beta1Api* | [**read_namespaced_deployment_status**](docs/ExtensionsV1beta1Api.md#read_namespaced_deployment_status) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
 *ExtensionsV1beta1Api* | [**read_namespaced_deployments_scale**](docs/ExtensionsV1beta1Api.md#read_namespaced_deployments_scale) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
-*ExtensionsV1beta1Api* | [**read_namespaced_horizontal_pod_autoscaler**](docs/ExtensionsV1beta1Api.md#read_namespaced_horizontal_pod_autoscaler) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
-*ExtensionsV1beta1Api* | [**read_namespaced_horizontal_pod_autoscaler_status**](docs/ExtensionsV1beta1Api.md#read_namespaced_horizontal_pod_autoscaler_status) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
 *ExtensionsV1beta1Api* | [**read_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#read_namespaced_ingress) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses/{name} | 
 *ExtensionsV1beta1Api* | [**read_namespaced_ingress_status**](docs/ExtensionsV1beta1Api.md#read_namespaced_ingress_status) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses/{name}/status | 
-*ExtensionsV1beta1Api* | [**read_namespaced_job**](docs/ExtensionsV1beta1Api.md#read_namespaced_job) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/jobs/{name} | 
-*ExtensionsV1beta1Api* | [**read_namespaced_job_status**](docs/ExtensionsV1beta1Api.md#read_namespaced_job_status) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/jobs/{name}/status | 
 *ExtensionsV1beta1Api* | [**read_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#read_namespaced_network_policy) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies/{name} | 
 *ExtensionsV1beta1Api* | [**read_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#read_namespaced_replica_set) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name} | 
 *ExtensionsV1beta1Api* | [**read_namespaced_replica_set_status**](docs/ExtensionsV1beta1Api.md#read_namespaced_replica_set_status) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name}/status | 
@@ -641,12 +637,8 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**replace_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#replace_namespaced_deployment) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name} | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_deployment_status**](docs/ExtensionsV1beta1Api.md#replace_namespaced_deployment_status) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_deployments_scale**](docs/ExtensionsV1beta1Api.md#replace_namespaced_deployments_scale) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
-*ExtensionsV1beta1Api* | [**replace_namespaced_horizontal_pod_autoscaler**](docs/ExtensionsV1beta1Api.md#replace_namespaced_horizontal_pod_autoscaler) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
-*ExtensionsV1beta1Api* | [**replace_namespaced_horizontal_pod_autoscaler_status**](docs/ExtensionsV1beta1Api.md#replace_namespaced_horizontal_pod_autoscaler_status) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#replace_namespaced_ingress) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses/{name} | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_ingress_status**](docs/ExtensionsV1beta1Api.md#replace_namespaced_ingress_status) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses/{name}/status | 
-*ExtensionsV1beta1Api* | [**replace_namespaced_job**](docs/ExtensionsV1beta1Api.md#replace_namespaced_job) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/jobs/{name} | 
-*ExtensionsV1beta1Api* | [**replace_namespaced_job_status**](docs/ExtensionsV1beta1Api.md#replace_namespaced_job_status) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/jobs/{name}/status | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#replace_namespaced_network_policy) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies/{name} | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#replace_namespaced_replica_set) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name} | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_replica_set_status**](docs/ExtensionsV1beta1Api.md#replace_namespaced_replica_set_status) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name}/status | 
@@ -654,85 +646,92 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**replace_namespaced_replicationcontrollers_scale**](docs/ExtensionsV1beta1Api.md#replace_namespaced_replicationcontrollers_scale) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/replicationcontrollers/{name}/scale | 
 *ExtensionsV1beta1Api* | [**replace_pod_security_policy**](docs/ExtensionsV1beta1Api.md#replace_pod_security_policy) | **PUT** /apis/extensions/v1beta1/podsecuritypolicies/{name} | 
 *ExtensionsV1beta1Api* | [**replace_third_party_resource**](docs/ExtensionsV1beta1Api.md#replace_third_party_resource) | **PUT** /apis/extensions/v1beta1/thirdpartyresources/{name} | 
-*ImageOpenshiftIoApi* | [**get_image_openshift_io_api_group**](docs/ImageOpenshiftIoApi.md#get_image_openshift_io_api_group) | **GET** /apis/image.openshift.io/ | 
-*ImageOpenshiftIo0Api* | [**get_image_openshift_io0_api_resources**](docs/ImageOpenshiftIo0Api.md#get_image_openshift_io0_api_resources) | **GET** /apis/image.openshift.io/1.0/ | 
-*ImageOpenshiftIoPre012Api* | [**get_image_openshift_io_pre012_api_resources**](docs/ImageOpenshiftIoPre012Api.md#get_image_openshift_io_pre012_api_resources) | **GET** /apis/image.openshift.io/pre012/ | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_image**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_image) | **POST** /apis/image.openshift.io/v1/images | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_image_signature**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_image_signature) | **POST** /apis/image.openshift.io/v1/imagesignatures | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_image_stream_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_image_stream_for_all_namespaces) | **POST** /apis/image.openshift.io/v1/imagestreams | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_image_stream_import_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_image_stream_import_for_all_namespaces) | **POST** /apis/image.openshift.io/v1/imagestreamimports | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_image_stream_mapping_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_image_stream_mapping_for_all_namespaces) | **POST** /apis/image.openshift.io/v1/imagestreammappings | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_image_stream_tag_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_image_stream_tag_for_all_namespaces) | **POST** /apis/image.openshift.io/v1/imagestreamtags | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_namespaced_image_stream) | **POST** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_namespaced_image_stream_import**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_namespaced_image_stream_import) | **POST** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamimports | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_namespaced_image_stream_mapping**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_namespaced_image_stream_mapping) | **POST** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreammappings | 
-*ImageOpenshiftIoV1Api* | [**create_image_openshift_io_v1_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#create_image_openshift_io_v1_namespaced_image_stream_tag) | **POST** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags | 
-*ImageOpenshiftIoV1Api* | [**delete_image_openshift_io_v1_collection_image**](docs/ImageOpenshiftIoV1Api.md#delete_image_openshift_io_v1_collection_image) | **DELETE** /apis/image.openshift.io/v1/images | 
-*ImageOpenshiftIoV1Api* | [**delete_image_openshift_io_v1_collection_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#delete_image_openshift_io_v1_collection_namespaced_image_stream) | **DELETE** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams | 
-*ImageOpenshiftIoV1Api* | [**delete_image_openshift_io_v1_image**](docs/ImageOpenshiftIoV1Api.md#delete_image_openshift_io_v1_image) | **DELETE** /apis/image.openshift.io/v1/images/{name} | 
-*ImageOpenshiftIoV1Api* | [**delete_image_openshift_io_v1_image_signature**](docs/ImageOpenshiftIoV1Api.md#delete_image_openshift_io_v1_image_signature) | **DELETE** /apis/image.openshift.io/v1/imagesignatures/{name} | 
-*ImageOpenshiftIoV1Api* | [**delete_image_openshift_io_v1_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#delete_image_openshift_io_v1_namespaced_image_stream) | **DELETE** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
-*ImageOpenshiftIoV1Api* | [**delete_image_openshift_io_v1_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#delete_image_openshift_io_v1_namespaced_image_stream_tag) | **DELETE** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-*ImageOpenshiftIoV1Api* | [**get_image_openshift_io_v1_api_resources**](docs/ImageOpenshiftIoV1Api.md#get_image_openshift_io_v1_api_resources) | **GET** /apis/image.openshift.io/v1/ | 
-*ImageOpenshiftIoV1Api* | [**list_image_openshift_io_v1_image**](docs/ImageOpenshiftIoV1Api.md#list_image_openshift_io_v1_image) | **GET** /apis/image.openshift.io/v1/images | 
-*ImageOpenshiftIoV1Api* | [**list_image_openshift_io_v1_image_stream_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#list_image_openshift_io_v1_image_stream_for_all_namespaces) | **GET** /apis/image.openshift.io/v1/imagestreams | 
-*ImageOpenshiftIoV1Api* | [**list_image_openshift_io_v1_image_stream_tag_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#list_image_openshift_io_v1_image_stream_tag_for_all_namespaces) | **GET** /apis/image.openshift.io/v1/imagestreamtags | 
-*ImageOpenshiftIoV1Api* | [**list_image_openshift_io_v1_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#list_image_openshift_io_v1_namespaced_image_stream) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams | 
-*ImageOpenshiftIoV1Api* | [**list_image_openshift_io_v1_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#list_image_openshift_io_v1_namespaced_image_stream_tag) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags | 
-*ImageOpenshiftIoV1Api* | [**patch_image_openshift_io_v1_image**](docs/ImageOpenshiftIoV1Api.md#patch_image_openshift_io_v1_image) | **PATCH** /apis/image.openshift.io/v1/images/{name} | 
-*ImageOpenshiftIoV1Api* | [**patch_image_openshift_io_v1_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#patch_image_openshift_io_v1_namespaced_image_stream) | **PATCH** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
-*ImageOpenshiftIoV1Api* | [**patch_image_openshift_io_v1_namespaced_image_stream_status**](docs/ImageOpenshiftIoV1Api.md#patch_image_openshift_io_v1_namespaced_image_stream_status) | **PATCH** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/status | 
-*ImageOpenshiftIoV1Api* | [**patch_image_openshift_io_v1_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#patch_image_openshift_io_v1_namespaced_image_stream_tag) | **PATCH** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-*ImageOpenshiftIoV1Api* | [**read_image_openshift_io_v1_image**](docs/ImageOpenshiftIoV1Api.md#read_image_openshift_io_v1_image) | **GET** /apis/image.openshift.io/v1/images/{name} | 
-*ImageOpenshiftIoV1Api* | [**read_image_openshift_io_v1_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#read_image_openshift_io_v1_namespaced_image_stream) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
-*ImageOpenshiftIoV1Api* | [**read_image_openshift_io_v1_namespaced_image_stream_image**](docs/ImageOpenshiftIoV1Api.md#read_image_openshift_io_v1_namespaced_image_stream_image) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamimages/{name} | 
-*ImageOpenshiftIoV1Api* | [**read_image_openshift_io_v1_namespaced_image_stream_status**](docs/ImageOpenshiftIoV1Api.md#read_image_openshift_io_v1_namespaced_image_stream_status) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/status | 
-*ImageOpenshiftIoV1Api* | [**read_image_openshift_io_v1_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#read_image_openshift_io_v1_namespaced_image_stream_tag) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-*ImageOpenshiftIoV1Api* | [**read_image_openshift_io_v1_namespaced_secret_list_secrets**](docs/ImageOpenshiftIoV1Api.md#read_image_openshift_io_v1_namespaced_secret_list_secrets) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/secrets | 
-*ImageOpenshiftIoV1Api* | [**replace_image_openshift_io_v1_image**](docs/ImageOpenshiftIoV1Api.md#replace_image_openshift_io_v1_image) | **PUT** /apis/image.openshift.io/v1/images/{name} | 
-*ImageOpenshiftIoV1Api* | [**replace_image_openshift_io_v1_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#replace_image_openshift_io_v1_namespaced_image_stream) | **PUT** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
-*ImageOpenshiftIoV1Api* | [**replace_image_openshift_io_v1_namespaced_image_stream_status**](docs/ImageOpenshiftIoV1Api.md#replace_image_openshift_io_v1_namespaced_image_stream_status) | **PUT** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/status | 
-*ImageOpenshiftIoV1Api* | [**replace_image_openshift_io_v1_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#replace_image_openshift_io_v1_namespaced_image_stream_tag) | **PUT** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-*NetworkOpenshiftIoApi* | [**get_network_openshift_io_api_group**](docs/NetworkOpenshiftIoApi.md#get_network_openshift_io_api_group) | **GET** /apis/network.openshift.io/ | 
-*NetworkOpenshiftIoV1Api* | [**create_network_openshift_io_v1_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#create_network_openshift_io_v1_cluster_network) | **POST** /apis/network.openshift.io/v1/clusternetworks | 
-*NetworkOpenshiftIoV1Api* | [**create_network_openshift_io_v1_egress_network_policy_for_all_namespaces**](docs/NetworkOpenshiftIoV1Api.md#create_network_openshift_io_v1_egress_network_policy_for_all_namespaces) | **POST** /apis/network.openshift.io/v1/egressnetworkpolicies | 
-*NetworkOpenshiftIoV1Api* | [**create_network_openshift_io_v1_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#create_network_openshift_io_v1_host_subnet) | **POST** /apis/network.openshift.io/v1/hostsubnets | 
-*NetworkOpenshiftIoV1Api* | [**create_network_openshift_io_v1_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#create_network_openshift_io_v1_namespaced_egress_network_policy) | **POST** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies | 
-*NetworkOpenshiftIoV1Api* | [**create_network_openshift_io_v1_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#create_network_openshift_io_v1_net_namespace) | **POST** /apis/network.openshift.io/v1/netnamespaces | 
-*NetworkOpenshiftIoV1Api* | [**delete_network_openshift_io_v1_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#delete_network_openshift_io_v1_cluster_network) | **DELETE** /apis/network.openshift.io/v1/clusternetworks/{name} | 
-*NetworkOpenshiftIoV1Api* | [**delete_network_openshift_io_v1_collection_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#delete_network_openshift_io_v1_collection_cluster_network) | **DELETE** /apis/network.openshift.io/v1/clusternetworks | 
-*NetworkOpenshiftIoV1Api* | [**delete_network_openshift_io_v1_collection_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#delete_network_openshift_io_v1_collection_host_subnet) | **DELETE** /apis/network.openshift.io/v1/hostsubnets | 
-*NetworkOpenshiftIoV1Api* | [**delete_network_openshift_io_v1_collection_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#delete_network_openshift_io_v1_collection_namespaced_egress_network_policy) | **DELETE** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies | 
-*NetworkOpenshiftIoV1Api* | [**delete_network_openshift_io_v1_collection_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#delete_network_openshift_io_v1_collection_net_namespace) | **DELETE** /apis/network.openshift.io/v1/netnamespaces | 
-*NetworkOpenshiftIoV1Api* | [**delete_network_openshift_io_v1_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#delete_network_openshift_io_v1_host_subnet) | **DELETE** /apis/network.openshift.io/v1/hostsubnets/{name} | 
-*NetworkOpenshiftIoV1Api* | [**delete_network_openshift_io_v1_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#delete_network_openshift_io_v1_namespaced_egress_network_policy) | **DELETE** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
-*NetworkOpenshiftIoV1Api* | [**delete_network_openshift_io_v1_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#delete_network_openshift_io_v1_net_namespace) | **DELETE** /apis/network.openshift.io/v1/netnamespaces/{name} | 
-*NetworkOpenshiftIoV1Api* | [**get_network_openshift_io_v1_api_resources**](docs/NetworkOpenshiftIoV1Api.md#get_network_openshift_io_v1_api_resources) | **GET** /apis/network.openshift.io/v1/ | 
-*NetworkOpenshiftIoV1Api* | [**list_network_openshift_io_v1_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#list_network_openshift_io_v1_cluster_network) | **GET** /apis/network.openshift.io/v1/clusternetworks | 
-*NetworkOpenshiftIoV1Api* | [**list_network_openshift_io_v1_egress_network_policy_for_all_namespaces**](docs/NetworkOpenshiftIoV1Api.md#list_network_openshift_io_v1_egress_network_policy_for_all_namespaces) | **GET** /apis/network.openshift.io/v1/egressnetworkpolicies | 
-*NetworkOpenshiftIoV1Api* | [**list_network_openshift_io_v1_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#list_network_openshift_io_v1_host_subnet) | **GET** /apis/network.openshift.io/v1/hostsubnets | 
-*NetworkOpenshiftIoV1Api* | [**list_network_openshift_io_v1_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#list_network_openshift_io_v1_namespaced_egress_network_policy) | **GET** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies | 
-*NetworkOpenshiftIoV1Api* | [**list_network_openshift_io_v1_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#list_network_openshift_io_v1_net_namespace) | **GET** /apis/network.openshift.io/v1/netnamespaces | 
-*NetworkOpenshiftIoV1Api* | [**patch_network_openshift_io_v1_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#patch_network_openshift_io_v1_cluster_network) | **PATCH** /apis/network.openshift.io/v1/clusternetworks/{name} | 
-*NetworkOpenshiftIoV1Api* | [**patch_network_openshift_io_v1_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#patch_network_openshift_io_v1_host_subnet) | **PATCH** /apis/network.openshift.io/v1/hostsubnets/{name} | 
-*NetworkOpenshiftIoV1Api* | [**patch_network_openshift_io_v1_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#patch_network_openshift_io_v1_namespaced_egress_network_policy) | **PATCH** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
-*NetworkOpenshiftIoV1Api* | [**patch_network_openshift_io_v1_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#patch_network_openshift_io_v1_net_namespace) | **PATCH** /apis/network.openshift.io/v1/netnamespaces/{name} | 
-*NetworkOpenshiftIoV1Api* | [**read_network_openshift_io_v1_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#read_network_openshift_io_v1_cluster_network) | **GET** /apis/network.openshift.io/v1/clusternetworks/{name} | 
-*NetworkOpenshiftIoV1Api* | [**read_network_openshift_io_v1_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#read_network_openshift_io_v1_host_subnet) | **GET** /apis/network.openshift.io/v1/hostsubnets/{name} | 
-*NetworkOpenshiftIoV1Api* | [**read_network_openshift_io_v1_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#read_network_openshift_io_v1_namespaced_egress_network_policy) | **GET** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
-*NetworkOpenshiftIoV1Api* | [**read_network_openshift_io_v1_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#read_network_openshift_io_v1_net_namespace) | **GET** /apis/network.openshift.io/v1/netnamespaces/{name} | 
-*NetworkOpenshiftIoV1Api* | [**replace_network_openshift_io_v1_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#replace_network_openshift_io_v1_cluster_network) | **PUT** /apis/network.openshift.io/v1/clusternetworks/{name} | 
-*NetworkOpenshiftIoV1Api* | [**replace_network_openshift_io_v1_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#replace_network_openshift_io_v1_host_subnet) | **PUT** /apis/network.openshift.io/v1/hostsubnets/{name} | 
-*NetworkOpenshiftIoV1Api* | [**replace_network_openshift_io_v1_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#replace_network_openshift_io_v1_namespaced_egress_network_policy) | **PUT** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
-*NetworkOpenshiftIoV1Api* | [**replace_network_openshift_io_v1_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#replace_network_openshift_io_v1_net_namespace) | **PUT** /apis/network.openshift.io/v1/netnamespaces/{name} | 
+*ImageOpenshiftIoApi* | [**get_api_group**](docs/ImageOpenshiftIoApi.md#get_api_group) | **GET** /apis/image.openshift.io/ | 
+*ImageOpenshiftIoV1Api* | [**create_image**](docs/ImageOpenshiftIoV1Api.md#create_image) | **POST** /apis/image.openshift.io/v1/images | 
+*ImageOpenshiftIoV1Api* | [**create_image_signature**](docs/ImageOpenshiftIoV1Api.md#create_image_signature) | **POST** /apis/image.openshift.io/v1/imagesignatures | 
+*ImageOpenshiftIoV1Api* | [**create_image_stream_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#create_image_stream_for_all_namespaces) | **POST** /apis/image.openshift.io/v1/imagestreams | 
+*ImageOpenshiftIoV1Api* | [**create_image_stream_import_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#create_image_stream_import_for_all_namespaces) | **POST** /apis/image.openshift.io/v1/imagestreamimports | 
+*ImageOpenshiftIoV1Api* | [**create_image_stream_mapping_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#create_image_stream_mapping_for_all_namespaces) | **POST** /apis/image.openshift.io/v1/imagestreammappings | 
+*ImageOpenshiftIoV1Api* | [**create_image_stream_tag_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#create_image_stream_tag_for_all_namespaces) | **POST** /apis/image.openshift.io/v1/imagestreamtags | 
+*ImageOpenshiftIoV1Api* | [**create_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#create_namespaced_image_stream) | **POST** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams | 
+*ImageOpenshiftIoV1Api* | [**create_namespaced_image_stream_import**](docs/ImageOpenshiftIoV1Api.md#create_namespaced_image_stream_import) | **POST** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamimports | 
+*ImageOpenshiftIoV1Api* | [**create_namespaced_image_stream_mapping**](docs/ImageOpenshiftIoV1Api.md#create_namespaced_image_stream_mapping) | **POST** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreammappings | 
+*ImageOpenshiftIoV1Api* | [**create_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#create_namespaced_image_stream_tag) | **POST** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags | 
+*ImageOpenshiftIoV1Api* | [**delete_collection_image**](docs/ImageOpenshiftIoV1Api.md#delete_collection_image) | **DELETE** /apis/image.openshift.io/v1/images | 
+*ImageOpenshiftIoV1Api* | [**delete_collection_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#delete_collection_namespaced_image_stream) | **DELETE** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams | 
+*ImageOpenshiftIoV1Api* | [**delete_image**](docs/ImageOpenshiftIoV1Api.md#delete_image) | **DELETE** /apis/image.openshift.io/v1/images/{name} | 
+*ImageOpenshiftIoV1Api* | [**delete_image_signature**](docs/ImageOpenshiftIoV1Api.md#delete_image_signature) | **DELETE** /apis/image.openshift.io/v1/imagesignatures/{name} | 
+*ImageOpenshiftIoV1Api* | [**delete_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#delete_namespaced_image_stream) | **DELETE** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
+*ImageOpenshiftIoV1Api* | [**delete_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#delete_namespaced_image_stream_tag) | **DELETE** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
+*ImageOpenshiftIoV1Api* | [**get_api_resources**](docs/ImageOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/image.openshift.io/v1/ | 
+*ImageOpenshiftIoV1Api* | [**list_image**](docs/ImageOpenshiftIoV1Api.md#list_image) | **GET** /apis/image.openshift.io/v1/images | 
+*ImageOpenshiftIoV1Api* | [**list_image_stream_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#list_image_stream_for_all_namespaces) | **GET** /apis/image.openshift.io/v1/imagestreams | 
+*ImageOpenshiftIoV1Api* | [**list_image_stream_tag_for_all_namespaces**](docs/ImageOpenshiftIoV1Api.md#list_image_stream_tag_for_all_namespaces) | **GET** /apis/image.openshift.io/v1/imagestreamtags | 
+*ImageOpenshiftIoV1Api* | [**list_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#list_namespaced_image_stream) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams | 
+*ImageOpenshiftIoV1Api* | [**list_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#list_namespaced_image_stream_tag) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags | 
+*ImageOpenshiftIoV1Api* | [**patch_image**](docs/ImageOpenshiftIoV1Api.md#patch_image) | **PATCH** /apis/image.openshift.io/v1/images/{name} | 
+*ImageOpenshiftIoV1Api* | [**patch_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#patch_namespaced_image_stream) | **PATCH** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
+*ImageOpenshiftIoV1Api* | [**patch_namespaced_image_stream_status**](docs/ImageOpenshiftIoV1Api.md#patch_namespaced_image_stream_status) | **PATCH** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/status | 
+*ImageOpenshiftIoV1Api* | [**patch_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#patch_namespaced_image_stream_tag) | **PATCH** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
+*ImageOpenshiftIoV1Api* | [**read_image**](docs/ImageOpenshiftIoV1Api.md#read_image) | **GET** /apis/image.openshift.io/v1/images/{name} | 
+*ImageOpenshiftIoV1Api* | [**read_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#read_namespaced_image_stream) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
+*ImageOpenshiftIoV1Api* | [**read_namespaced_image_stream_image**](docs/ImageOpenshiftIoV1Api.md#read_namespaced_image_stream_image) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamimages/{name} | 
+*ImageOpenshiftIoV1Api* | [**read_namespaced_image_stream_status**](docs/ImageOpenshiftIoV1Api.md#read_namespaced_image_stream_status) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/status | 
+*ImageOpenshiftIoV1Api* | [**read_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#read_namespaced_image_stream_tag) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
+*ImageOpenshiftIoV1Api* | [**read_namespaced_secret_list_secrets**](docs/ImageOpenshiftIoV1Api.md#read_namespaced_secret_list_secrets) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/secrets | 
+*ImageOpenshiftIoV1Api* | [**replace_image**](docs/ImageOpenshiftIoV1Api.md#replace_image) | **PUT** /apis/image.openshift.io/v1/images/{name} | 
+*ImageOpenshiftIoV1Api* | [**replace_namespaced_image_stream**](docs/ImageOpenshiftIoV1Api.md#replace_namespaced_image_stream) | **PUT** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
+*ImageOpenshiftIoV1Api* | [**replace_namespaced_image_stream_status**](docs/ImageOpenshiftIoV1Api.md#replace_namespaced_image_stream_status) | **PUT** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/status | 
+*ImageOpenshiftIoV1Api* | [**replace_namespaced_image_stream_tag**](docs/ImageOpenshiftIoV1Api.md#replace_namespaced_image_stream_tag) | **PUT** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
+*NetworkOpenshiftIoApi* | [**get_api_group**](docs/NetworkOpenshiftIoApi.md#get_api_group) | **GET** /apis/network.openshift.io/ | 
+*NetworkOpenshiftIoV1Api* | [**create_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#create_cluster_network) | **POST** /apis/network.openshift.io/v1/clusternetworks | 
+*NetworkOpenshiftIoV1Api* | [**create_egress_network_policy_for_all_namespaces**](docs/NetworkOpenshiftIoV1Api.md#create_egress_network_policy_for_all_namespaces) | **POST** /apis/network.openshift.io/v1/egressnetworkpolicies | 
+*NetworkOpenshiftIoV1Api* | [**create_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#create_host_subnet) | **POST** /apis/network.openshift.io/v1/hostsubnets | 
+*NetworkOpenshiftIoV1Api* | [**create_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#create_namespaced_egress_network_policy) | **POST** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies | 
+*NetworkOpenshiftIoV1Api* | [**create_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#create_net_namespace) | **POST** /apis/network.openshift.io/v1/netnamespaces | 
+*NetworkOpenshiftIoV1Api* | [**delete_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#delete_cluster_network) | **DELETE** /apis/network.openshift.io/v1/clusternetworks/{name} | 
+*NetworkOpenshiftIoV1Api* | [**delete_collection_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#delete_collection_cluster_network) | **DELETE** /apis/network.openshift.io/v1/clusternetworks | 
+*NetworkOpenshiftIoV1Api* | [**delete_collection_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#delete_collection_host_subnet) | **DELETE** /apis/network.openshift.io/v1/hostsubnets | 
+*NetworkOpenshiftIoV1Api* | [**delete_collection_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#delete_collection_namespaced_egress_network_policy) | **DELETE** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies | 
+*NetworkOpenshiftIoV1Api* | [**delete_collection_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#delete_collection_net_namespace) | **DELETE** /apis/network.openshift.io/v1/netnamespaces | 
+*NetworkOpenshiftIoV1Api* | [**delete_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#delete_host_subnet) | **DELETE** /apis/network.openshift.io/v1/hostsubnets/{name} | 
+*NetworkOpenshiftIoV1Api* | [**delete_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#delete_namespaced_egress_network_policy) | **DELETE** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
+*NetworkOpenshiftIoV1Api* | [**delete_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#delete_net_namespace) | **DELETE** /apis/network.openshift.io/v1/netnamespaces/{name} | 
+*NetworkOpenshiftIoV1Api* | [**get_api_resources**](docs/NetworkOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/network.openshift.io/v1/ | 
+*NetworkOpenshiftIoV1Api* | [**list_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#list_cluster_network) | **GET** /apis/network.openshift.io/v1/clusternetworks | 
+*NetworkOpenshiftIoV1Api* | [**list_egress_network_policy_for_all_namespaces**](docs/NetworkOpenshiftIoV1Api.md#list_egress_network_policy_for_all_namespaces) | **GET** /apis/network.openshift.io/v1/egressnetworkpolicies | 
+*NetworkOpenshiftIoV1Api* | [**list_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#list_host_subnet) | **GET** /apis/network.openshift.io/v1/hostsubnets | 
+*NetworkOpenshiftIoV1Api* | [**list_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#list_namespaced_egress_network_policy) | **GET** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies | 
+*NetworkOpenshiftIoV1Api* | [**list_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#list_net_namespace) | **GET** /apis/network.openshift.io/v1/netnamespaces | 
+*NetworkOpenshiftIoV1Api* | [**patch_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#patch_cluster_network) | **PATCH** /apis/network.openshift.io/v1/clusternetworks/{name} | 
+*NetworkOpenshiftIoV1Api* | [**patch_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#patch_host_subnet) | **PATCH** /apis/network.openshift.io/v1/hostsubnets/{name} | 
+*NetworkOpenshiftIoV1Api* | [**patch_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#patch_namespaced_egress_network_policy) | **PATCH** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
+*NetworkOpenshiftIoV1Api* | [**patch_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#patch_net_namespace) | **PATCH** /apis/network.openshift.io/v1/netnamespaces/{name} | 
+*NetworkOpenshiftIoV1Api* | [**read_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#read_cluster_network) | **GET** /apis/network.openshift.io/v1/clusternetworks/{name} | 
+*NetworkOpenshiftIoV1Api* | [**read_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#read_host_subnet) | **GET** /apis/network.openshift.io/v1/hostsubnets/{name} | 
+*NetworkOpenshiftIoV1Api* | [**read_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#read_namespaced_egress_network_policy) | **GET** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
+*NetworkOpenshiftIoV1Api* | [**read_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#read_net_namespace) | **GET** /apis/network.openshift.io/v1/netnamespaces/{name} | 
+*NetworkOpenshiftIoV1Api* | [**replace_cluster_network**](docs/NetworkOpenshiftIoV1Api.md#replace_cluster_network) | **PUT** /apis/network.openshift.io/v1/clusternetworks/{name} | 
+*NetworkOpenshiftIoV1Api* | [**replace_host_subnet**](docs/NetworkOpenshiftIoV1Api.md#replace_host_subnet) | **PUT** /apis/network.openshift.io/v1/hostsubnets/{name} | 
+*NetworkOpenshiftIoV1Api* | [**replace_namespaced_egress_network_policy**](docs/NetworkOpenshiftIoV1Api.md#replace_namespaced_egress_network_policy) | **PUT** /apis/network.openshift.io/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
+*NetworkOpenshiftIoV1Api* | [**replace_net_namespace**](docs/NetworkOpenshiftIoV1Api.md#replace_net_namespace) | **PUT** /apis/network.openshift.io/v1/netnamespaces/{name} | 
+*NetworkingApi* | [**get_api_group**](docs/NetworkingApi.md#get_api_group) | **GET** /apis/networking.k8s.io/ | 
+*NetworkingV1Api* | [**create_namespaced_network_policy**](docs/NetworkingV1Api.md#create_namespaced_network_policy) | **POST** /apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies | 
+*NetworkingV1Api* | [**create_network_policy_for_all_namespaces**](docs/NetworkingV1Api.md#create_network_policy_for_all_namespaces) | **POST** /apis/networking.k8s.io/v1/networkpolicies | 
+*NetworkingV1Api* | [**delete_collection_namespaced_network_policy**](docs/NetworkingV1Api.md#delete_collection_namespaced_network_policy) | **DELETE** /apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies | 
+*NetworkingV1Api* | [**delete_namespaced_network_policy**](docs/NetworkingV1Api.md#delete_namespaced_network_policy) | **DELETE** /apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name} | 
+*NetworkingV1Api* | [**get_api_resources**](docs/NetworkingV1Api.md#get_api_resources) | **GET** /apis/networking.k8s.io/v1/ | 
+*NetworkingV1Api* | [**list_namespaced_network_policy**](docs/NetworkingV1Api.md#list_namespaced_network_policy) | **GET** /apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies | 
+*NetworkingV1Api* | [**list_network_policy_for_all_namespaces**](docs/NetworkingV1Api.md#list_network_policy_for_all_namespaces) | **GET** /apis/networking.k8s.io/v1/networkpolicies | 
+*NetworkingV1Api* | [**patch_namespaced_network_policy**](docs/NetworkingV1Api.md#patch_namespaced_network_policy) | **PATCH** /apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name} | 
+*NetworkingV1Api* | [**read_namespaced_network_policy**](docs/NetworkingV1Api.md#read_namespaced_network_policy) | **GET** /apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name} | 
+*NetworkingV1Api* | [**replace_namespaced_network_policy**](docs/NetworkingV1Api.md#replace_namespaced_network_policy) | **PUT** /apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name} | 
 *OapiApi* | [**connect_post_namespaced_binary_build_request_options_instantiatebinary**](docs/OapiApi.md#connect_post_namespaced_binary_build_request_options_instantiatebinary) | **POST** /oapi/v1/namespaces/{namespace}/buildconfigs/{name}/instantiatebinary | 
-*OapiApi* | [**connect_post_namespaced_status_webhooks**](docs/OapiApi.md#connect_post_namespaced_status_webhooks) | **POST** /oapi/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks | 
-*OapiApi* | [**connect_post_namespaced_status_webhooks_with_path**](docs/OapiApi.md#connect_post_namespaced_status_webhooks_with_path) | **POST** /oapi/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks/{path} | 
+*OapiApi* | [**connect_post_namespaced_build_webhooks**](docs/OapiApi.md#connect_post_namespaced_build_webhooks) | **POST** /oapi/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks | 
+*OapiApi* | [**connect_post_namespaced_build_webhooks_with_path**](docs/OapiApi.md#connect_post_namespaced_build_webhooks_with_path) | **POST** /oapi/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks/{path} | 
 *OapiApi* | [**create_build_config_for_all_namespaces**](docs/OapiApi.md#create_build_config_for_all_namespaces) | **POST** /oapi/v1/buildconfigs | 
 *OapiApi* | [**create_build_for_all_namespaces**](docs/OapiApi.md#create_build_for_all_namespaces) | **POST** /oapi/v1/builds | 
 *OapiApi* | [**create_cluster_network**](docs/OapiApi.md#create_cluster_network) | **POST** /oapi/v1/clusternetworks | 
-*OapiApi* | [**create_cluster_policy**](docs/OapiApi.md#create_cluster_policy) | **POST** /oapi/v1/clusterpolicies | 
-*OapiApi* | [**create_cluster_policy_binding**](docs/OapiApi.md#create_cluster_policy_binding) | **POST** /oapi/v1/clusterpolicybindings | 
 *OapiApi* | [**create_cluster_resource_quota**](docs/OapiApi.md#create_cluster_resource_quota) | **POST** /oapi/v1/clusterresourcequotas | 
 *OapiApi* | [**create_cluster_role**](docs/OapiApi.md#create_cluster_role) | **POST** /oapi/v1/clusterroles | 
 *OapiApi* | [**create_cluster_role_binding**](docs/OapiApi.md#create_cluster_role_binding) | **POST** /oapi/v1/clusterrolebindings | 
@@ -768,8 +767,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**create_namespaced_pod_security_policy_review**](docs/OapiApi.md#create_namespaced_pod_security_policy_review) | **POST** /oapi/v1/namespaces/{namespace}/podsecuritypolicyreviews | 
 *OapiApi* | [**create_namespaced_pod_security_policy_self_subject_review**](docs/OapiApi.md#create_namespaced_pod_security_policy_self_subject_review) | **POST** /oapi/v1/namespaces/{namespace}/podsecuritypolicyselfsubjectreviews | 
 *OapiApi* | [**create_namespaced_pod_security_policy_subject_review**](docs/OapiApi.md#create_namespaced_pod_security_policy_subject_review) | **POST** /oapi/v1/namespaces/{namespace}/podsecuritypolicysubjectreviews | 
-*OapiApi* | [**create_namespaced_policy**](docs/OapiApi.md#create_namespaced_policy) | **POST** /oapi/v1/namespaces/{namespace}/policies | 
-*OapiApi* | [**create_namespaced_policy_binding**](docs/OapiApi.md#create_namespaced_policy_binding) | **POST** /oapi/v1/namespaces/{namespace}/policybindings | 
 *OapiApi* | [**create_namespaced_processed_template**](docs/OapiApi.md#create_namespaced_processed_template) | **POST** /oapi/v1/namespaces/{namespace}/processedtemplates | 
 *OapiApi* | [**create_namespaced_resource_access_review**](docs/OapiApi.md#create_namespaced_resource_access_review) | **POST** /oapi/v1/namespaces/{namespace}/resourceaccessreviews | 
 *OapiApi* | [**create_namespaced_role**](docs/OapiApi.md#create_namespaced_role) | **POST** /oapi/v1/namespaces/{namespace}/roles | 
@@ -788,8 +785,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**create_pod_security_policy_review_for_all_namespaces**](docs/OapiApi.md#create_pod_security_policy_review_for_all_namespaces) | **POST** /oapi/v1/podsecuritypolicyreviews | 
 *OapiApi* | [**create_pod_security_policy_self_subject_review_for_all_namespaces**](docs/OapiApi.md#create_pod_security_policy_self_subject_review_for_all_namespaces) | **POST** /oapi/v1/podsecuritypolicyselfsubjectreviews | 
 *OapiApi* | [**create_pod_security_policy_subject_review_for_all_namespaces**](docs/OapiApi.md#create_pod_security_policy_subject_review_for_all_namespaces) | **POST** /oapi/v1/podsecuritypolicysubjectreviews | 
-*OapiApi* | [**create_policy_binding_for_all_namespaces**](docs/OapiApi.md#create_policy_binding_for_all_namespaces) | **POST** /oapi/v1/policybindings | 
-*OapiApi* | [**create_policy_for_all_namespaces**](docs/OapiApi.md#create_policy_for_all_namespaces) | **POST** /oapi/v1/policies | 
 *OapiApi* | [**create_processed_template_for_all_namespaces_v1**](docs/OapiApi.md#create_processed_template_for_all_namespaces_v1) | **POST** /oapi/v1/processedtemplates | 
 *OapiApi* | [**create_project**](docs/OapiApi.md#create_project) | **POST** /oapi/v1/projects | 
 *OapiApi* | [**create_project_request**](docs/OapiApi.md#create_project_request) | **POST** /oapi/v1/projectrequests | 
@@ -805,14 +800,10 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**create_user**](docs/OapiApi.md#create_user) | **POST** /oapi/v1/users | 
 *OapiApi* | [**create_user_identity_mapping**](docs/OapiApi.md#create_user_identity_mapping) | **POST** /oapi/v1/useridentitymappings | 
 *OapiApi* | [**delete_cluster_network**](docs/OapiApi.md#delete_cluster_network) | **DELETE** /oapi/v1/clusternetworks/{name} | 
-*OapiApi* | [**delete_cluster_policy**](docs/OapiApi.md#delete_cluster_policy) | **DELETE** /oapi/v1/clusterpolicies/{name} | 
-*OapiApi* | [**delete_cluster_policy_binding**](docs/OapiApi.md#delete_cluster_policy_binding) | **DELETE** /oapi/v1/clusterpolicybindings/{name} | 
 *OapiApi* | [**delete_cluster_resource_quota**](docs/OapiApi.md#delete_cluster_resource_quota) | **DELETE** /oapi/v1/clusterresourcequotas/{name} | 
 *OapiApi* | [**delete_cluster_role**](docs/OapiApi.md#delete_cluster_role) | **DELETE** /oapi/v1/clusterroles/{name} | 
 *OapiApi* | [**delete_cluster_role_binding**](docs/OapiApi.md#delete_cluster_role_binding) | **DELETE** /oapi/v1/clusterrolebindings/{name} | 
 *OapiApi* | [**delete_collection_cluster_network**](docs/OapiApi.md#delete_collection_cluster_network) | **DELETE** /oapi/v1/clusternetworks | 
-*OapiApi* | [**delete_collection_cluster_policy**](docs/OapiApi.md#delete_collection_cluster_policy) | **DELETE** /oapi/v1/clusterpolicies | 
-*OapiApi* | [**delete_collection_cluster_policy_binding**](docs/OapiApi.md#delete_collection_cluster_policy_binding) | **DELETE** /oapi/v1/clusterpolicybindings | 
 *OapiApi* | [**delete_collection_cluster_resource_quota**](docs/OapiApi.md#delete_collection_cluster_resource_quota) | **DELETE** /oapi/v1/clusterresourcequotas | 
 *OapiApi* | [**delete_collection_group**](docs/OapiApi.md#delete_collection_group) | **DELETE** /oapi/v1/groups | 
 *OapiApi* | [**delete_collection_host_subnet**](docs/OapiApi.md#delete_collection_host_subnet) | **DELETE** /oapi/v1/hostsubnets | 
@@ -823,8 +814,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**delete_collection_namespaced_deployment_config**](docs/OapiApi.md#delete_collection_namespaced_deployment_config) | **DELETE** /oapi/v1/namespaces/{namespace}/deploymentconfigs | 
 *OapiApi* | [**delete_collection_namespaced_egress_network_policy**](docs/OapiApi.md#delete_collection_namespaced_egress_network_policy) | **DELETE** /oapi/v1/namespaces/{namespace}/egressnetworkpolicies | 
 *OapiApi* | [**delete_collection_namespaced_image_stream**](docs/OapiApi.md#delete_collection_namespaced_image_stream) | **DELETE** /oapi/v1/namespaces/{namespace}/imagestreams | 
-*OapiApi* | [**delete_collection_namespaced_policy**](docs/OapiApi.md#delete_collection_namespaced_policy) | **DELETE** /oapi/v1/namespaces/{namespace}/policies | 
-*OapiApi* | [**delete_collection_namespaced_policy_binding**](docs/OapiApi.md#delete_collection_namespaced_policy_binding) | **DELETE** /oapi/v1/namespaces/{namespace}/policybindings | 
 *OapiApi* | [**delete_collection_namespaced_role_binding_restriction**](docs/OapiApi.md#delete_collection_namespaced_role_binding_restriction) | **DELETE** /oapi/v1/namespaces/{namespace}/rolebindingrestrictions | 
 *OapiApi* | [**delete_collection_namespaced_route**](docs/OapiApi.md#delete_collection_namespaced_route) | **DELETE** /oapi/v1/namespaces/{namespace}/routes | 
 *OapiApi* | [**delete_collection_namespaced_template**](docs/OapiApi.md#delete_collection_namespaced_template) | **DELETE** /oapi/v1/namespaces/{namespace}/templates | 
@@ -845,8 +834,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**delete_namespaced_egress_network_policy**](docs/OapiApi.md#delete_namespaced_egress_network_policy) | **DELETE** /oapi/v1/namespaces/{namespace}/egressnetworkpolicies/{name} | 
 *OapiApi* | [**delete_namespaced_image_stream**](docs/OapiApi.md#delete_namespaced_image_stream) | **DELETE** /oapi/v1/namespaces/{namespace}/imagestreams/{name} | 
 *OapiApi* | [**delete_namespaced_image_stream_tag**](docs/OapiApi.md#delete_namespaced_image_stream_tag) | **DELETE** /oapi/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-*OapiApi* | [**delete_namespaced_policy**](docs/OapiApi.md#delete_namespaced_policy) | **DELETE** /oapi/v1/namespaces/{namespace}/policies/{name} | 
-*OapiApi* | [**delete_namespaced_policy_binding**](docs/OapiApi.md#delete_namespaced_policy_binding) | **DELETE** /oapi/v1/namespaces/{namespace}/policybindings/{name} | 
 *OapiApi* | [**delete_namespaced_role**](docs/OapiApi.md#delete_namespaced_role) | **DELETE** /oapi/v1/namespaces/{namespace}/roles/{name} | 
 *OapiApi* | [**delete_namespaced_role_binding**](docs/OapiApi.md#delete_namespaced_role_binding) | **DELETE** /oapi/v1/namespaces/{namespace}/rolebindings/{name} | 
 *OapiApi* | [**delete_namespaced_role_binding_restriction**](docs/OapiApi.md#delete_namespaced_role_binding_restriction) | **DELETE** /oapi/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
@@ -860,15 +847,12 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**delete_project**](docs/OapiApi.md#delete_project) | **DELETE** /oapi/v1/projects/{name} | 
 *OapiApi* | [**delete_user**](docs/OapiApi.md#delete_user) | **DELETE** /oapi/v1/users/{name} | 
 *OapiApi* | [**delete_user_identity_mapping**](docs/OapiApi.md#delete_user_identity_mapping) | **DELETE** /oapi/v1/useridentitymappings/{name} | 
-*OapiApi* | [**generate_namespaced_deployment_config**](docs/OapiApi.md#generate_namespaced_deployment_config) | **GET** /oapi/v1/namespaces/{namespace}/generatedeploymentconfigs/{name} | 
 *OapiApi* | [**get_api_resources**](docs/OapiApi.md#get_api_resources) | **GET** /oapi/v1/ | 
-*OapiApi* | [**get_oapi_version**](docs/OapiApi.md#get_oapi_version) | **GET** /oapi/ | 
+*OapiApi* | [**get_legacy_api_versions**](docs/OapiApi.md#get_legacy_api_versions) | **GET** /oapi/ | 
 *OapiApi* | [**list_applied_cluster_resource_quota_for_all_namespaces**](docs/OapiApi.md#list_applied_cluster_resource_quota_for_all_namespaces) | **GET** /oapi/v1/appliedclusterresourcequotas | 
 *OapiApi* | [**list_build_config_for_all_namespaces**](docs/OapiApi.md#list_build_config_for_all_namespaces) | **GET** /oapi/v1/buildconfigs | 
 *OapiApi* | [**list_build_for_all_namespaces**](docs/OapiApi.md#list_build_for_all_namespaces) | **GET** /oapi/v1/builds | 
 *OapiApi* | [**list_cluster_network**](docs/OapiApi.md#list_cluster_network) | **GET** /oapi/v1/clusternetworks | 
-*OapiApi* | [**list_cluster_policy**](docs/OapiApi.md#list_cluster_policy) | **GET** /oapi/v1/clusterpolicies | 
-*OapiApi* | [**list_cluster_policy_binding**](docs/OapiApi.md#list_cluster_policy_binding) | **GET** /oapi/v1/clusterpolicybindings | 
 *OapiApi* | [**list_cluster_resource_quota**](docs/OapiApi.md#list_cluster_resource_quota) | **GET** /oapi/v1/clusterresourcequotas | 
 *OapiApi* | [**list_cluster_role**](docs/OapiApi.md#list_cluster_role) | **GET** /oapi/v1/clusterroles | 
 *OapiApi* | [**list_cluster_role_binding**](docs/OapiApi.md#list_cluster_role_binding) | **GET** /oapi/v1/clusterrolebindings | 
@@ -887,8 +871,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**list_namespaced_egress_network_policy**](docs/OapiApi.md#list_namespaced_egress_network_policy) | **GET** /oapi/v1/namespaces/{namespace}/egressnetworkpolicies | 
 *OapiApi* | [**list_namespaced_image_stream**](docs/OapiApi.md#list_namespaced_image_stream) | **GET** /oapi/v1/namespaces/{namespace}/imagestreams | 
 *OapiApi* | [**list_namespaced_image_stream_tag**](docs/OapiApi.md#list_namespaced_image_stream_tag) | **GET** /oapi/v1/namespaces/{namespace}/imagestreamtags | 
-*OapiApi* | [**list_namespaced_policy**](docs/OapiApi.md#list_namespaced_policy) | **GET** /oapi/v1/namespaces/{namespace}/policies | 
-*OapiApi* | [**list_namespaced_policy_binding**](docs/OapiApi.md#list_namespaced_policy_binding) | **GET** /oapi/v1/namespaces/{namespace}/policybindings | 
 *OapiApi* | [**list_namespaced_role**](docs/OapiApi.md#list_namespaced_role) | **GET** /oapi/v1/namespaces/{namespace}/roles | 
 *OapiApi* | [**list_namespaced_role_binding**](docs/OapiApi.md#list_namespaced_role_binding) | **GET** /oapi/v1/namespaces/{namespace}/rolebindings | 
 *OapiApi* | [**list_namespaced_role_binding_restriction**](docs/OapiApi.md#list_namespaced_role_binding_restriction) | **GET** /oapi/v1/namespaces/{namespace}/rolebindingrestrictions | 
@@ -899,8 +881,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**list_o_auth_authorize_token**](docs/OapiApi.md#list_o_auth_authorize_token) | **GET** /oapi/v1/oauthauthorizetokens | 
 *OapiApi* | [**list_o_auth_client**](docs/OapiApi.md#list_o_auth_client) | **GET** /oapi/v1/oauthclients | 
 *OapiApi* | [**list_o_auth_client_authorization**](docs/OapiApi.md#list_o_auth_client_authorization) | **GET** /oapi/v1/oauthclientauthorizations | 
-*OapiApi* | [**list_policy_binding_for_all_namespaces**](docs/OapiApi.md#list_policy_binding_for_all_namespaces) | **GET** /oapi/v1/policybindings | 
-*OapiApi* | [**list_policy_for_all_namespaces**](docs/OapiApi.md#list_policy_for_all_namespaces) | **GET** /oapi/v1/policies | 
 *OapiApi* | [**list_project**](docs/OapiApi.md#list_project) | **GET** /oapi/v1/projects | 
 *OapiApi* | [**list_project_request**](docs/OapiApi.md#list_project_request) | **GET** /oapi/v1/projectrequests | 
 *OapiApi* | [**list_role_binding_for_all_namespaces**](docs/OapiApi.md#list_role_binding_for_all_namespaces) | **GET** /oapi/v1/rolebindings | 
@@ -910,8 +890,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**list_template_for_all_namespaces**](docs/OapiApi.md#list_template_for_all_namespaces) | **GET** /oapi/v1/templates | 
 *OapiApi* | [**list_user**](docs/OapiApi.md#list_user) | **GET** /oapi/v1/users | 
 *OapiApi* | [**patch_cluster_network**](docs/OapiApi.md#patch_cluster_network) | **PATCH** /oapi/v1/clusternetworks/{name} | 
-*OapiApi* | [**patch_cluster_policy**](docs/OapiApi.md#patch_cluster_policy) | **PATCH** /oapi/v1/clusterpolicies/{name} | 
-*OapiApi* | [**patch_cluster_policy_binding**](docs/OapiApi.md#patch_cluster_policy_binding) | **PATCH** /oapi/v1/clusterpolicybindings/{name} | 
 *OapiApi* | [**patch_cluster_resource_quota**](docs/OapiApi.md#patch_cluster_resource_quota) | **PATCH** /oapi/v1/clusterresourcequotas/{name} | 
 *OapiApi* | [**patch_cluster_resource_quota_status**](docs/OapiApi.md#patch_cluster_resource_quota_status) | **PATCH** /oapi/v1/clusterresourcequotas/{name}/status | 
 *OapiApi* | [**patch_cluster_role**](docs/OapiApi.md#patch_cluster_role) | **PATCH** /oapi/v1/clusterroles/{name} | 
@@ -928,8 +906,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**patch_namespaced_image_stream**](docs/OapiApi.md#patch_namespaced_image_stream) | **PATCH** /oapi/v1/namespaces/{namespace}/imagestreams/{name} | 
 *OapiApi* | [**patch_namespaced_image_stream_status**](docs/OapiApi.md#patch_namespaced_image_stream_status) | **PATCH** /oapi/v1/namespaces/{namespace}/imagestreams/{name}/status | 
 *OapiApi* | [**patch_namespaced_image_stream_tag**](docs/OapiApi.md#patch_namespaced_image_stream_tag) | **PATCH** /oapi/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-*OapiApi* | [**patch_namespaced_policy**](docs/OapiApi.md#patch_namespaced_policy) | **PATCH** /oapi/v1/namespaces/{namespace}/policies/{name} | 
-*OapiApi* | [**patch_namespaced_policy_binding**](docs/OapiApi.md#patch_namespaced_policy_binding) | **PATCH** /oapi/v1/namespaces/{namespace}/policybindings/{name} | 
 *OapiApi* | [**patch_namespaced_role**](docs/OapiApi.md#patch_namespaced_role) | **PATCH** /oapi/v1/namespaces/{namespace}/roles/{name} | 
 *OapiApi* | [**patch_namespaced_role_binding**](docs/OapiApi.md#patch_namespaced_role_binding) | **PATCH** /oapi/v1/namespaces/{namespace}/rolebindings/{name} | 
 *OapiApi* | [**patch_namespaced_role_binding_restriction**](docs/OapiApi.md#patch_namespaced_role_binding_restriction) | **PATCH** /oapi/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
@@ -946,8 +922,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**patch_user**](docs/OapiApi.md#patch_user) | **PATCH** /oapi/v1/users/{name} | 
 *OapiApi* | [**patch_user_identity_mapping**](docs/OapiApi.md#patch_user_identity_mapping) | **PATCH** /oapi/v1/useridentitymappings/{name} | 
 *OapiApi* | [**read_cluster_network**](docs/OapiApi.md#read_cluster_network) | **GET** /oapi/v1/clusternetworks/{name} | 
-*OapiApi* | [**read_cluster_policy**](docs/OapiApi.md#read_cluster_policy) | **GET** /oapi/v1/clusterpolicies/{name} | 
-*OapiApi* | [**read_cluster_policy_binding**](docs/OapiApi.md#read_cluster_policy_binding) | **GET** /oapi/v1/clusterpolicybindings/{name} | 
 *OapiApi* | [**read_cluster_resource_quota**](docs/OapiApi.md#read_cluster_resource_quota) | **GET** /oapi/v1/clusterresourcequotas/{name} | 
 *OapiApi* | [**read_cluster_resource_quota_status**](docs/OapiApi.md#read_cluster_resource_quota_status) | **GET** /oapi/v1/clusterresourcequotas/{name}/status | 
 *OapiApi* | [**read_cluster_role**](docs/OapiApi.md#read_cluster_role) | **GET** /oapi/v1/clusterroles/{name} | 
@@ -968,8 +942,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**read_namespaced_image_stream_image**](docs/OapiApi.md#read_namespaced_image_stream_image) | **GET** /oapi/v1/namespaces/{namespace}/imagestreamimages/{name} | 
 *OapiApi* | [**read_namespaced_image_stream_status**](docs/OapiApi.md#read_namespaced_image_stream_status) | **GET** /oapi/v1/namespaces/{namespace}/imagestreams/{name}/status | 
 *OapiApi* | [**read_namespaced_image_stream_tag**](docs/OapiApi.md#read_namespaced_image_stream_tag) | **GET** /oapi/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-*OapiApi* | [**read_namespaced_policy**](docs/OapiApi.md#read_namespaced_policy) | **GET** /oapi/v1/namespaces/{namespace}/policies/{name} | 
-*OapiApi* | [**read_namespaced_policy_binding**](docs/OapiApi.md#read_namespaced_policy_binding) | **GET** /oapi/v1/namespaces/{namespace}/policybindings/{name} | 
 *OapiApi* | [**read_namespaced_role**](docs/OapiApi.md#read_namespaced_role) | **GET** /oapi/v1/namespaces/{namespace}/roles/{name} | 
 *OapiApi* | [**read_namespaced_role_binding**](docs/OapiApi.md#read_namespaced_role_binding) | **GET** /oapi/v1/namespaces/{namespace}/rolebindings/{name} | 
 *OapiApi* | [**read_namespaced_role_binding_restriction**](docs/OapiApi.md#read_namespaced_role_binding_restriction) | **GET** /oapi/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
@@ -987,8 +959,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**read_user**](docs/OapiApi.md#read_user) | **GET** /oapi/v1/users/{name} | 
 *OapiApi* | [**read_user_identity_mapping**](docs/OapiApi.md#read_user_identity_mapping) | **GET** /oapi/v1/useridentitymappings/{name} | 
 *OapiApi* | [**replace_cluster_network**](docs/OapiApi.md#replace_cluster_network) | **PUT** /oapi/v1/clusternetworks/{name} | 
-*OapiApi* | [**replace_cluster_policy**](docs/OapiApi.md#replace_cluster_policy) | **PUT** /oapi/v1/clusterpolicies/{name} | 
-*OapiApi* | [**replace_cluster_policy_binding**](docs/OapiApi.md#replace_cluster_policy_binding) | **PUT** /oapi/v1/clusterpolicybindings/{name} | 
 *OapiApi* | [**replace_cluster_resource_quota**](docs/OapiApi.md#replace_cluster_resource_quota) | **PUT** /oapi/v1/clusterresourcequotas/{name} | 
 *OapiApi* | [**replace_cluster_resource_quota_status**](docs/OapiApi.md#replace_cluster_resource_quota_status) | **PUT** /oapi/v1/clusterresourcequotas/{name}/status | 
 *OapiApi* | [**replace_cluster_role**](docs/OapiApi.md#replace_cluster_role) | **PUT** /oapi/v1/clusterroles/{name} | 
@@ -1006,8 +976,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**replace_namespaced_image_stream**](docs/OapiApi.md#replace_namespaced_image_stream) | **PUT** /oapi/v1/namespaces/{namespace}/imagestreams/{name} | 
 *OapiApi* | [**replace_namespaced_image_stream_status**](docs/OapiApi.md#replace_namespaced_image_stream_status) | **PUT** /oapi/v1/namespaces/{namespace}/imagestreams/{name}/status | 
 *OapiApi* | [**replace_namespaced_image_stream_tag**](docs/OapiApi.md#replace_namespaced_image_stream_tag) | **PUT** /oapi/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-*OapiApi* | [**replace_namespaced_policy**](docs/OapiApi.md#replace_namespaced_policy) | **PUT** /oapi/v1/namespaces/{namespace}/policies/{name} | 
-*OapiApi* | [**replace_namespaced_policy_binding**](docs/OapiApi.md#replace_namespaced_policy_binding) | **PUT** /oapi/v1/namespaces/{namespace}/policybindings/{name} | 
 *OapiApi* | [**replace_namespaced_role**](docs/OapiApi.md#replace_namespaced_role) | **PUT** /oapi/v1/namespaces/{namespace}/roles/{name} | 
 *OapiApi* | [**replace_namespaced_role_binding**](docs/OapiApi.md#replace_namespaced_role_binding) | **PUT** /oapi/v1/namespaces/{namespace}/rolebindings/{name} | 
 *OapiApi* | [**replace_namespaced_role_binding_restriction**](docs/OapiApi.md#replace_namespaced_role_binding_restriction) | **PUT** /oapi/v1/namespaces/{namespace}/rolebindingrestrictions/{name} | 
@@ -1023,38 +991,37 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**replace_project**](docs/OapiApi.md#replace_project) | **PUT** /oapi/v1/projects/{name} | 
 *OapiApi* | [**replace_user**](docs/OapiApi.md#replace_user) | **PUT** /oapi/v1/users/{name} | 
 *OapiApi* | [**replace_user_identity_mapping**](docs/OapiApi.md#replace_user_identity_mapping) | **PUT** /oapi/v1/useridentitymappings/{name} | 
-*OauthOpenshiftIoApi* | [**get_oauth_openshift_io_api_group**](docs/OauthOpenshiftIoApi.md#get_oauth_openshift_io_api_group) | **GET** /apis/oauth.openshift.io/ | 
-*OauthOpenshiftIoV1Api* | [**create_oauth_openshift_io_v1_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#create_oauth_openshift_io_v1_o_auth_access_token) | **POST** /apis/oauth.openshift.io/v1/oauthaccesstokens | 
-*OauthOpenshiftIoV1Api* | [**create_oauth_openshift_io_v1_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#create_oauth_openshift_io_v1_o_auth_authorize_token) | **POST** /apis/oauth.openshift.io/v1/oauthauthorizetokens | 
-*OauthOpenshiftIoV1Api* | [**create_oauth_openshift_io_v1_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#create_oauth_openshift_io_v1_o_auth_client) | **POST** /apis/oauth.openshift.io/v1/oauthclients | 
-*OauthOpenshiftIoV1Api* | [**create_oauth_openshift_io_v1_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#create_oauth_openshift_io_v1_o_auth_client_authorization) | **POST** /apis/oauth.openshift.io/v1/oauthclientauthorizations | 
-*OauthOpenshiftIoV1Api* | [**delete_oauth_openshift_io_v1_collection_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#delete_oauth_openshift_io_v1_collection_o_auth_access_token) | **DELETE** /apis/oauth.openshift.io/v1/oauthaccesstokens | 
-*OauthOpenshiftIoV1Api* | [**delete_oauth_openshift_io_v1_collection_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#delete_oauth_openshift_io_v1_collection_o_auth_authorize_token) | **DELETE** /apis/oauth.openshift.io/v1/oauthauthorizetokens | 
-*OauthOpenshiftIoV1Api* | [**delete_oauth_openshift_io_v1_collection_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#delete_oauth_openshift_io_v1_collection_o_auth_client) | **DELETE** /apis/oauth.openshift.io/v1/oauthclients | 
-*OauthOpenshiftIoV1Api* | [**delete_oauth_openshift_io_v1_collection_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#delete_oauth_openshift_io_v1_collection_o_auth_client_authorization) | **DELETE** /apis/oauth.openshift.io/v1/oauthclientauthorizations | 
-*OauthOpenshiftIoV1Api* | [**delete_oauth_openshift_io_v1_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#delete_oauth_openshift_io_v1_o_auth_access_token) | **DELETE** /apis/oauth.openshift.io/v1/oauthaccesstokens/{name} | 
-*OauthOpenshiftIoV1Api* | [**delete_oauth_openshift_io_v1_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#delete_oauth_openshift_io_v1_o_auth_authorize_token) | **DELETE** /apis/oauth.openshift.io/v1/oauthauthorizetokens/{name} | 
-*OauthOpenshiftIoV1Api* | [**delete_oauth_openshift_io_v1_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#delete_oauth_openshift_io_v1_o_auth_client) | **DELETE** /apis/oauth.openshift.io/v1/oauthclients/{name} | 
-*OauthOpenshiftIoV1Api* | [**delete_oauth_openshift_io_v1_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#delete_oauth_openshift_io_v1_o_auth_client_authorization) | **DELETE** /apis/oauth.openshift.io/v1/oauthclientauthorizations/{name} | 
-*OauthOpenshiftIoV1Api* | [**get_oauth_openshift_io_v1_api_resources**](docs/OauthOpenshiftIoV1Api.md#get_oauth_openshift_io_v1_api_resources) | **GET** /apis/oauth.openshift.io/v1/ | 
-*OauthOpenshiftIoV1Api* | [**list_oauth_openshift_io_v1_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#list_oauth_openshift_io_v1_o_auth_access_token) | **GET** /apis/oauth.openshift.io/v1/oauthaccesstokens | 
-*OauthOpenshiftIoV1Api* | [**list_oauth_openshift_io_v1_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#list_oauth_openshift_io_v1_o_auth_authorize_token) | **GET** /apis/oauth.openshift.io/v1/oauthauthorizetokens | 
-*OauthOpenshiftIoV1Api* | [**list_oauth_openshift_io_v1_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#list_oauth_openshift_io_v1_o_auth_client) | **GET** /apis/oauth.openshift.io/v1/oauthclients | 
-*OauthOpenshiftIoV1Api* | [**list_oauth_openshift_io_v1_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#list_oauth_openshift_io_v1_o_auth_client_authorization) | **GET** /apis/oauth.openshift.io/v1/oauthclientauthorizations | 
-*OauthOpenshiftIoV1Api* | [**patch_oauth_openshift_io_v1_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#patch_oauth_openshift_io_v1_o_auth_access_token) | **PATCH** /apis/oauth.openshift.io/v1/oauthaccesstokens/{name} | 
-*OauthOpenshiftIoV1Api* | [**patch_oauth_openshift_io_v1_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#patch_oauth_openshift_io_v1_o_auth_authorize_token) | **PATCH** /apis/oauth.openshift.io/v1/oauthauthorizetokens/{name} | 
-*OauthOpenshiftIoV1Api* | [**patch_oauth_openshift_io_v1_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#patch_oauth_openshift_io_v1_o_auth_client) | **PATCH** /apis/oauth.openshift.io/v1/oauthclients/{name} | 
-*OauthOpenshiftIoV1Api* | [**patch_oauth_openshift_io_v1_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#patch_oauth_openshift_io_v1_o_auth_client_authorization) | **PATCH** /apis/oauth.openshift.io/v1/oauthclientauthorizations/{name} | 
-*OauthOpenshiftIoV1Api* | [**read_oauth_openshift_io_v1_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#read_oauth_openshift_io_v1_o_auth_access_token) | **GET** /apis/oauth.openshift.io/v1/oauthaccesstokens/{name} | 
-*OauthOpenshiftIoV1Api* | [**read_oauth_openshift_io_v1_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#read_oauth_openshift_io_v1_o_auth_authorize_token) | **GET** /apis/oauth.openshift.io/v1/oauthauthorizetokens/{name} | 
-*OauthOpenshiftIoV1Api* | [**read_oauth_openshift_io_v1_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#read_oauth_openshift_io_v1_o_auth_client) | **GET** /apis/oauth.openshift.io/v1/oauthclients/{name} | 
-*OauthOpenshiftIoV1Api* | [**read_oauth_openshift_io_v1_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#read_oauth_openshift_io_v1_o_auth_client_authorization) | **GET** /apis/oauth.openshift.io/v1/oauthclientauthorizations/{name} | 
-*OauthOpenshiftIoV1Api* | [**replace_oauth_openshift_io_v1_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#replace_oauth_openshift_io_v1_o_auth_access_token) | **PUT** /apis/oauth.openshift.io/v1/oauthaccesstokens/{name} | 
-*OauthOpenshiftIoV1Api* | [**replace_oauth_openshift_io_v1_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#replace_oauth_openshift_io_v1_o_auth_authorize_token) | **PUT** /apis/oauth.openshift.io/v1/oauthauthorizetokens/{name} | 
-*OauthOpenshiftIoV1Api* | [**replace_oauth_openshift_io_v1_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#replace_oauth_openshift_io_v1_o_auth_client) | **PUT** /apis/oauth.openshift.io/v1/oauthclients/{name} | 
-*OauthOpenshiftIoV1Api* | [**replace_oauth_openshift_io_v1_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#replace_oauth_openshift_io_v1_o_auth_client_authorization) | **PUT** /apis/oauth.openshift.io/v1/oauthclientauthorizations/{name} | 
-*OsapiApi* | [**get_osapi_version**](docs/OsapiApi.md#get_osapi_version) | **GET** /osapi/ | 
-*PolicyApi* | [**get_policy_api_group**](docs/PolicyApi.md#get_policy_api_group) | **GET** /apis/policy/ | 
+*OauthOpenshiftIoApi* | [**get_api_group**](docs/OauthOpenshiftIoApi.md#get_api_group) | **GET** /apis/oauth.openshift.io/ | 
+*OauthOpenshiftIoV1Api* | [**create_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#create_o_auth_access_token) | **POST** /apis/oauth.openshift.io/v1/oauthaccesstokens | 
+*OauthOpenshiftIoV1Api* | [**create_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#create_o_auth_authorize_token) | **POST** /apis/oauth.openshift.io/v1/oauthauthorizetokens | 
+*OauthOpenshiftIoV1Api* | [**create_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#create_o_auth_client) | **POST** /apis/oauth.openshift.io/v1/oauthclients | 
+*OauthOpenshiftIoV1Api* | [**create_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#create_o_auth_client_authorization) | **POST** /apis/oauth.openshift.io/v1/oauthclientauthorizations | 
+*OauthOpenshiftIoV1Api* | [**delete_collection_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#delete_collection_o_auth_access_token) | **DELETE** /apis/oauth.openshift.io/v1/oauthaccesstokens | 
+*OauthOpenshiftIoV1Api* | [**delete_collection_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#delete_collection_o_auth_authorize_token) | **DELETE** /apis/oauth.openshift.io/v1/oauthauthorizetokens | 
+*OauthOpenshiftIoV1Api* | [**delete_collection_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#delete_collection_o_auth_client) | **DELETE** /apis/oauth.openshift.io/v1/oauthclients | 
+*OauthOpenshiftIoV1Api* | [**delete_collection_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#delete_collection_o_auth_client_authorization) | **DELETE** /apis/oauth.openshift.io/v1/oauthclientauthorizations | 
+*OauthOpenshiftIoV1Api* | [**delete_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#delete_o_auth_access_token) | **DELETE** /apis/oauth.openshift.io/v1/oauthaccesstokens/{name} | 
+*OauthOpenshiftIoV1Api* | [**delete_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#delete_o_auth_authorize_token) | **DELETE** /apis/oauth.openshift.io/v1/oauthauthorizetokens/{name} | 
+*OauthOpenshiftIoV1Api* | [**delete_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#delete_o_auth_client) | **DELETE** /apis/oauth.openshift.io/v1/oauthclients/{name} | 
+*OauthOpenshiftIoV1Api* | [**delete_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#delete_o_auth_client_authorization) | **DELETE** /apis/oauth.openshift.io/v1/oauthclientauthorizations/{name} | 
+*OauthOpenshiftIoV1Api* | [**get_api_resources**](docs/OauthOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/oauth.openshift.io/v1/ | 
+*OauthOpenshiftIoV1Api* | [**list_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#list_o_auth_access_token) | **GET** /apis/oauth.openshift.io/v1/oauthaccesstokens | 
+*OauthOpenshiftIoV1Api* | [**list_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#list_o_auth_authorize_token) | **GET** /apis/oauth.openshift.io/v1/oauthauthorizetokens | 
+*OauthOpenshiftIoV1Api* | [**list_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#list_o_auth_client) | **GET** /apis/oauth.openshift.io/v1/oauthclients | 
+*OauthOpenshiftIoV1Api* | [**list_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#list_o_auth_client_authorization) | **GET** /apis/oauth.openshift.io/v1/oauthclientauthorizations | 
+*OauthOpenshiftIoV1Api* | [**patch_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#patch_o_auth_access_token) | **PATCH** /apis/oauth.openshift.io/v1/oauthaccesstokens/{name} | 
+*OauthOpenshiftIoV1Api* | [**patch_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#patch_o_auth_authorize_token) | **PATCH** /apis/oauth.openshift.io/v1/oauthauthorizetokens/{name} | 
+*OauthOpenshiftIoV1Api* | [**patch_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#patch_o_auth_client) | **PATCH** /apis/oauth.openshift.io/v1/oauthclients/{name} | 
+*OauthOpenshiftIoV1Api* | [**patch_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#patch_o_auth_client_authorization) | **PATCH** /apis/oauth.openshift.io/v1/oauthclientauthorizations/{name} | 
+*OauthOpenshiftIoV1Api* | [**read_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#read_o_auth_access_token) | **GET** /apis/oauth.openshift.io/v1/oauthaccesstokens/{name} | 
+*OauthOpenshiftIoV1Api* | [**read_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#read_o_auth_authorize_token) | **GET** /apis/oauth.openshift.io/v1/oauthauthorizetokens/{name} | 
+*OauthOpenshiftIoV1Api* | [**read_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#read_o_auth_client) | **GET** /apis/oauth.openshift.io/v1/oauthclients/{name} | 
+*OauthOpenshiftIoV1Api* | [**read_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#read_o_auth_client_authorization) | **GET** /apis/oauth.openshift.io/v1/oauthclientauthorizations/{name} | 
+*OauthOpenshiftIoV1Api* | [**replace_o_auth_access_token**](docs/OauthOpenshiftIoV1Api.md#replace_o_auth_access_token) | **PUT** /apis/oauth.openshift.io/v1/oauthaccesstokens/{name} | 
+*OauthOpenshiftIoV1Api* | [**replace_o_auth_authorize_token**](docs/OauthOpenshiftIoV1Api.md#replace_o_auth_authorize_token) | **PUT** /apis/oauth.openshift.io/v1/oauthauthorizetokens/{name} | 
+*OauthOpenshiftIoV1Api* | [**replace_o_auth_client**](docs/OauthOpenshiftIoV1Api.md#replace_o_auth_client) | **PUT** /apis/oauth.openshift.io/v1/oauthclients/{name} | 
+*OauthOpenshiftIoV1Api* | [**replace_o_auth_client_authorization**](docs/OauthOpenshiftIoV1Api.md#replace_o_auth_client_authorization) | **PUT** /apis/oauth.openshift.io/v1/oauthclientauthorizations/{name} | 
+*PolicyApi* | [**get_api_group**](docs/PolicyApi.md#get_api_group) | **GET** /apis/policy/ | 
 *PolicyV1beta1Api* | [**create_namespaced_pod_disruption_budget**](docs/PolicyV1beta1Api.md#create_namespaced_pod_disruption_budget) | **POST** /apis/policy/v1beta1/namespaces/{namespace}/poddisruptionbudgets | 
 *PolicyV1beta1Api* | [**create_pod_disruption_budget_for_all_namespaces**](docs/PolicyV1beta1Api.md#create_pod_disruption_budget_for_all_namespaces) | **POST** /apis/policy/v1beta1/poddisruptionbudgets | 
 *PolicyV1beta1Api* | [**delete_collection_namespaced_pod_disruption_budget**](docs/PolicyV1beta1Api.md#delete_collection_namespaced_pod_disruption_budget) | **DELETE** /apis/policy/v1beta1/namespaces/{namespace}/poddisruptionbudgets | 
@@ -1068,54 +1035,103 @@ Class | Method | HTTP request | Description
 *PolicyV1beta1Api* | [**read_namespaced_pod_disruption_budget_status**](docs/PolicyV1beta1Api.md#read_namespaced_pod_disruption_budget_status) | **GET** /apis/policy/v1beta1/namespaces/{namespace}/poddisruptionbudgets/{name}/status | 
 *PolicyV1beta1Api* | [**replace_namespaced_pod_disruption_budget**](docs/PolicyV1beta1Api.md#replace_namespaced_pod_disruption_budget) | **PUT** /apis/policy/v1beta1/namespaces/{namespace}/poddisruptionbudgets/{name} | 
 *PolicyV1beta1Api* | [**replace_namespaced_pod_disruption_budget_status**](docs/PolicyV1beta1Api.md#replace_namespaced_pod_disruption_budget_status) | **PUT** /apis/policy/v1beta1/namespaces/{namespace}/poddisruptionbudgets/{name}/status | 
-*ProjectOpenshiftIoApi* | [**get_project_openshift_io_api_group**](docs/ProjectOpenshiftIoApi.md#get_project_openshift_io_api_group) | **GET** /apis/project.openshift.io/ | 
-*ProjectOpenshiftIoV1Api* | [**create_project_openshift_io_v1_project**](docs/ProjectOpenshiftIoV1Api.md#create_project_openshift_io_v1_project) | **POST** /apis/project.openshift.io/v1/projects | 
-*ProjectOpenshiftIoV1Api* | [**create_project_openshift_io_v1_project_request**](docs/ProjectOpenshiftIoV1Api.md#create_project_openshift_io_v1_project_request) | **POST** /apis/project.openshift.io/v1/projectrequests | 
-*ProjectOpenshiftIoV1Api* | [**delete_project_openshift_io_v1_project**](docs/ProjectOpenshiftIoV1Api.md#delete_project_openshift_io_v1_project) | **DELETE** /apis/project.openshift.io/v1/projects/{name} | 
-*ProjectOpenshiftIoV1Api* | [**get_project_openshift_io_v1_api_resources**](docs/ProjectOpenshiftIoV1Api.md#get_project_openshift_io_v1_api_resources) | **GET** /apis/project.openshift.io/v1/ | 
-*ProjectOpenshiftIoV1Api* | [**list_project_openshift_io_v1_project**](docs/ProjectOpenshiftIoV1Api.md#list_project_openshift_io_v1_project) | **GET** /apis/project.openshift.io/v1/projects | 
-*ProjectOpenshiftIoV1Api* | [**list_project_openshift_io_v1_project_request**](docs/ProjectOpenshiftIoV1Api.md#list_project_openshift_io_v1_project_request) | **GET** /apis/project.openshift.io/v1/projectrequests | 
-*ProjectOpenshiftIoV1Api* | [**patch_project_openshift_io_v1_project**](docs/ProjectOpenshiftIoV1Api.md#patch_project_openshift_io_v1_project) | **PATCH** /apis/project.openshift.io/v1/projects/{name} | 
-*ProjectOpenshiftIoV1Api* | [**read_project_openshift_io_v1_project**](docs/ProjectOpenshiftIoV1Api.md#read_project_openshift_io_v1_project) | **GET** /apis/project.openshift.io/v1/projects/{name} | 
-*ProjectOpenshiftIoV1Api* | [**replace_project_openshift_io_v1_project**](docs/ProjectOpenshiftIoV1Api.md#replace_project_openshift_io_v1_project) | **PUT** /apis/project.openshift.io/v1/projects/{name} | 
-*QuotaOpenshiftIoApi* | [**get_quota_openshift_io_api_group**](docs/QuotaOpenshiftIoApi.md#get_quota_openshift_io_api_group) | **GET** /apis/quota.openshift.io/ | 
-*QuotaOpenshiftIoV1Api* | [**create_quota_openshift_io_v1_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#create_quota_openshift_io_v1_cluster_resource_quota) | **POST** /apis/quota.openshift.io/v1/clusterresourcequotas | 
-*QuotaOpenshiftIoV1Api* | [**delete_quota_openshift_io_v1_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#delete_quota_openshift_io_v1_cluster_resource_quota) | **DELETE** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
-*QuotaOpenshiftIoV1Api* | [**delete_quota_openshift_io_v1_collection_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#delete_quota_openshift_io_v1_collection_cluster_resource_quota) | **DELETE** /apis/quota.openshift.io/v1/clusterresourcequotas | 
-*QuotaOpenshiftIoV1Api* | [**get_quota_openshift_io_v1_api_resources**](docs/QuotaOpenshiftIoV1Api.md#get_quota_openshift_io_v1_api_resources) | **GET** /apis/quota.openshift.io/v1/ | 
-*QuotaOpenshiftIoV1Api* | [**list_quota_openshift_io_v1_applied_cluster_resource_quota_for_all_namespaces**](docs/QuotaOpenshiftIoV1Api.md#list_quota_openshift_io_v1_applied_cluster_resource_quota_for_all_namespaces) | **GET** /apis/quota.openshift.io/v1/appliedclusterresourcequotas | 
-*QuotaOpenshiftIoV1Api* | [**list_quota_openshift_io_v1_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#list_quota_openshift_io_v1_cluster_resource_quota) | **GET** /apis/quota.openshift.io/v1/clusterresourcequotas | 
-*QuotaOpenshiftIoV1Api* | [**list_quota_openshift_io_v1_namespaced_applied_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#list_quota_openshift_io_v1_namespaced_applied_cluster_resource_quota) | **GET** /apis/quota.openshift.io/v1/namespaces/{namespace}/appliedclusterresourcequotas | 
-*QuotaOpenshiftIoV1Api* | [**patch_quota_openshift_io_v1_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#patch_quota_openshift_io_v1_cluster_resource_quota) | **PATCH** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
-*QuotaOpenshiftIoV1Api* | [**patch_quota_openshift_io_v1_cluster_resource_quota_status**](docs/QuotaOpenshiftIoV1Api.md#patch_quota_openshift_io_v1_cluster_resource_quota_status) | **PATCH** /apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status | 
-*QuotaOpenshiftIoV1Api* | [**read_quota_openshift_io_v1_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#read_quota_openshift_io_v1_cluster_resource_quota) | **GET** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
-*QuotaOpenshiftIoV1Api* | [**read_quota_openshift_io_v1_cluster_resource_quota_status**](docs/QuotaOpenshiftIoV1Api.md#read_quota_openshift_io_v1_cluster_resource_quota_status) | **GET** /apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status | 
-*QuotaOpenshiftIoV1Api* | [**read_quota_openshift_io_v1_namespaced_applied_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#read_quota_openshift_io_v1_namespaced_applied_cluster_resource_quota) | **GET** /apis/quota.openshift.io/v1/namespaces/{namespace}/appliedclusterresourcequotas/{name} | 
-*QuotaOpenshiftIoV1Api* | [**replace_quota_openshift_io_v1_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#replace_quota_openshift_io_v1_cluster_resource_quota) | **PUT** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
-*QuotaOpenshiftIoV1Api* | [**replace_quota_openshift_io_v1_cluster_resource_quota_status**](docs/QuotaOpenshiftIoV1Api.md#replace_quota_openshift_io_v1_cluster_resource_quota_status) | **PUT** /apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status | 
-*RouteOpenshiftIoApi* | [**get_route_openshift_io_api_group**](docs/RouteOpenshiftIoApi.md#get_route_openshift_io_api_group) | **GET** /apis/route.openshift.io/ | 
-*RouteOpenshiftIoV1Api* | [**create_route_openshift_io_v1_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#create_route_openshift_io_v1_namespaced_route) | **POST** /apis/route.openshift.io/v1/namespaces/{namespace}/routes | 
-*RouteOpenshiftIoV1Api* | [**create_route_openshift_io_v1_route_for_all_namespaces**](docs/RouteOpenshiftIoV1Api.md#create_route_openshift_io_v1_route_for_all_namespaces) | **POST** /apis/route.openshift.io/v1/routes | 
-*RouteOpenshiftIoV1Api* | [**delete_route_openshift_io_v1_collection_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#delete_route_openshift_io_v1_collection_namespaced_route) | **DELETE** /apis/route.openshift.io/v1/namespaces/{namespace}/routes | 
-*RouteOpenshiftIoV1Api* | [**delete_route_openshift_io_v1_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#delete_route_openshift_io_v1_namespaced_route) | **DELETE** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name} | 
-*RouteOpenshiftIoV1Api* | [**get_route_openshift_io_v1_api_resources**](docs/RouteOpenshiftIoV1Api.md#get_route_openshift_io_v1_api_resources) | **GET** /apis/route.openshift.io/v1/ | 
-*RouteOpenshiftIoV1Api* | [**list_route_openshift_io_v1_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#list_route_openshift_io_v1_namespaced_route) | **GET** /apis/route.openshift.io/v1/namespaces/{namespace}/routes | 
-*RouteOpenshiftIoV1Api* | [**list_route_openshift_io_v1_route_for_all_namespaces**](docs/RouteOpenshiftIoV1Api.md#list_route_openshift_io_v1_route_for_all_namespaces) | **GET** /apis/route.openshift.io/v1/routes | 
-*RouteOpenshiftIoV1Api* | [**patch_route_openshift_io_v1_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#patch_route_openshift_io_v1_namespaced_route) | **PATCH** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name} | 
-*RouteOpenshiftIoV1Api* | [**patch_route_openshift_io_v1_namespaced_route_status**](docs/RouteOpenshiftIoV1Api.md#patch_route_openshift_io_v1_namespaced_route_status) | **PATCH** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status | 
-*RouteOpenshiftIoV1Api* | [**read_route_openshift_io_v1_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#read_route_openshift_io_v1_namespaced_route) | **GET** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name} | 
-*RouteOpenshiftIoV1Api* | [**read_route_openshift_io_v1_namespaced_route_status**](docs/RouteOpenshiftIoV1Api.md#read_route_openshift_io_v1_namespaced_route_status) | **GET** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status | 
-*RouteOpenshiftIoV1Api* | [**replace_route_openshift_io_v1_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#replace_route_openshift_io_v1_namespaced_route) | **PUT** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name} | 
-*RouteOpenshiftIoV1Api* | [**replace_route_openshift_io_v1_namespaced_route_status**](docs/RouteOpenshiftIoV1Api.md#replace_route_openshift_io_v1_namespaced_route_status) | **PUT** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status | 
-*SecurityOpenshiftIoApi* | [**get_security_openshift_io_api_group**](docs/SecurityOpenshiftIoApi.md#get_security_openshift_io_api_group) | **GET** /apis/security.openshift.io/ | 
-*SecurityOpenshiftIoV1Api* | [**create_security_openshift_io_v1_namespaced_pod_security_policy_review**](docs/SecurityOpenshiftIoV1Api.md#create_security_openshift_io_v1_namespaced_pod_security_policy_review) | **POST** /apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicyreviews | 
-*SecurityOpenshiftIoV1Api* | [**create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review**](docs/SecurityOpenshiftIoV1Api.md#create_security_openshift_io_v1_namespaced_pod_security_policy_self_subject_review) | **POST** /apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicyselfsubjectreviews | 
-*SecurityOpenshiftIoV1Api* | [**create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review**](docs/SecurityOpenshiftIoV1Api.md#create_security_openshift_io_v1_namespaced_pod_security_policy_subject_review) | **POST** /apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicysubjectreviews | 
-*SecurityOpenshiftIoV1Api* | [**create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces**](docs/SecurityOpenshiftIoV1Api.md#create_security_openshift_io_v1_pod_security_policy_review_for_all_namespaces) | **POST** /apis/security.openshift.io/v1/podsecuritypolicyreviews | 
-*SecurityOpenshiftIoV1Api* | [**create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces**](docs/SecurityOpenshiftIoV1Api.md#create_security_openshift_io_v1_pod_security_policy_self_subject_review_for_all_namespaces) | **POST** /apis/security.openshift.io/v1/podsecuritypolicyselfsubjectreviews | 
-*SecurityOpenshiftIoV1Api* | [**create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces**](docs/SecurityOpenshiftIoV1Api.md#create_security_openshift_io_v1_pod_security_policy_subject_review_for_all_namespaces) | **POST** /apis/security.openshift.io/v1/podsecuritypolicysubjectreviews | 
-*SecurityOpenshiftIoV1Api* | [**get_security_openshift_io_v1_api_resources**](docs/SecurityOpenshiftIoV1Api.md#get_security_openshift_io_v1_api_resources) | **GET** /apis/security.openshift.io/v1/ | 
-*StorageApi* | [**get_storage_api_group**](docs/StorageApi.md#get_storage_api_group) | **GET** /apis/storage.k8s.io/ | 
+*ProjectOpenshiftIoApi* | [**get_api_group**](docs/ProjectOpenshiftIoApi.md#get_api_group) | **GET** /apis/project.openshift.io/ | 
+*ProjectOpenshiftIoV1Api* | [**create_project**](docs/ProjectOpenshiftIoV1Api.md#create_project) | **POST** /apis/project.openshift.io/v1/projects | 
+*ProjectOpenshiftIoV1Api* | [**create_project_request**](docs/ProjectOpenshiftIoV1Api.md#create_project_request) | **POST** /apis/project.openshift.io/v1/projectrequests | 
+*ProjectOpenshiftIoV1Api* | [**delete_project**](docs/ProjectOpenshiftIoV1Api.md#delete_project) | **DELETE** /apis/project.openshift.io/v1/projects/{name} | 
+*ProjectOpenshiftIoV1Api* | [**get_api_resources**](docs/ProjectOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/project.openshift.io/v1/ | 
+*ProjectOpenshiftIoV1Api* | [**list_project**](docs/ProjectOpenshiftIoV1Api.md#list_project) | **GET** /apis/project.openshift.io/v1/projects | 
+*ProjectOpenshiftIoV1Api* | [**list_project_request**](docs/ProjectOpenshiftIoV1Api.md#list_project_request) | **GET** /apis/project.openshift.io/v1/projectrequests | 
+*ProjectOpenshiftIoV1Api* | [**patch_project**](docs/ProjectOpenshiftIoV1Api.md#patch_project) | **PATCH** /apis/project.openshift.io/v1/projects/{name} | 
+*ProjectOpenshiftIoV1Api* | [**read_project**](docs/ProjectOpenshiftIoV1Api.md#read_project) | **GET** /apis/project.openshift.io/v1/projects/{name} | 
+*ProjectOpenshiftIoV1Api* | [**replace_project**](docs/ProjectOpenshiftIoV1Api.md#replace_project) | **PUT** /apis/project.openshift.io/v1/projects/{name} | 
+*QuotaOpenshiftIoApi* | [**get_api_group**](docs/QuotaOpenshiftIoApi.md#get_api_group) | **GET** /apis/quota.openshift.io/ | 
+*QuotaOpenshiftIoV1Api* | [**create_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#create_cluster_resource_quota) | **POST** /apis/quota.openshift.io/v1/clusterresourcequotas | 
+*QuotaOpenshiftIoV1Api* | [**delete_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#delete_cluster_resource_quota) | **DELETE** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
+*QuotaOpenshiftIoV1Api* | [**delete_collection_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#delete_collection_cluster_resource_quota) | **DELETE** /apis/quota.openshift.io/v1/clusterresourcequotas | 
+*QuotaOpenshiftIoV1Api* | [**get_api_resources**](docs/QuotaOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/quota.openshift.io/v1/ | 
+*QuotaOpenshiftIoV1Api* | [**list_applied_cluster_resource_quota_for_all_namespaces**](docs/QuotaOpenshiftIoV1Api.md#list_applied_cluster_resource_quota_for_all_namespaces) | **GET** /apis/quota.openshift.io/v1/appliedclusterresourcequotas | 
+*QuotaOpenshiftIoV1Api* | [**list_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#list_cluster_resource_quota) | **GET** /apis/quota.openshift.io/v1/clusterresourcequotas | 
+*QuotaOpenshiftIoV1Api* | [**list_namespaced_applied_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#list_namespaced_applied_cluster_resource_quota) | **GET** /apis/quota.openshift.io/v1/namespaces/{namespace}/appliedclusterresourcequotas | 
+*QuotaOpenshiftIoV1Api* | [**patch_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#patch_cluster_resource_quota) | **PATCH** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
+*QuotaOpenshiftIoV1Api* | [**patch_cluster_resource_quota_status**](docs/QuotaOpenshiftIoV1Api.md#patch_cluster_resource_quota_status) | **PATCH** /apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status | 
+*QuotaOpenshiftIoV1Api* | [**read_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#read_cluster_resource_quota) | **GET** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
+*QuotaOpenshiftIoV1Api* | [**read_cluster_resource_quota_status**](docs/QuotaOpenshiftIoV1Api.md#read_cluster_resource_quota_status) | **GET** /apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status | 
+*QuotaOpenshiftIoV1Api* | [**read_namespaced_applied_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#read_namespaced_applied_cluster_resource_quota) | **GET** /apis/quota.openshift.io/v1/namespaces/{namespace}/appliedclusterresourcequotas/{name} | 
+*QuotaOpenshiftIoV1Api* | [**replace_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#replace_cluster_resource_quota) | **PUT** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
+*QuotaOpenshiftIoV1Api* | [**replace_cluster_resource_quota_status**](docs/QuotaOpenshiftIoV1Api.md#replace_cluster_resource_quota_status) | **PUT** /apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status | 
+*RbacAuthorizationApi* | [**get_api_group**](docs/RbacAuthorizationApi.md#get_api_group) | **GET** /apis/rbac.authorization.k8s.io/ | 
+*RbacAuthorizationV1beta1Api* | [**create_cluster_role**](docs/RbacAuthorizationV1beta1Api.md#create_cluster_role) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/clusterroles | 
+*RbacAuthorizationV1beta1Api* | [**create_cluster_role_binding**](docs/RbacAuthorizationV1beta1Api.md#create_cluster_role_binding) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/clusterrolebindings | 
+*RbacAuthorizationV1beta1Api* | [**create_namespaced_role**](docs/RbacAuthorizationV1beta1Api.md#create_namespaced_role) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/roles | 
+*RbacAuthorizationV1beta1Api* | [**create_namespaced_role_binding**](docs/RbacAuthorizationV1beta1Api.md#create_namespaced_role_binding) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/rolebindings | 
+*RbacAuthorizationV1beta1Api* | [**create_role_binding_for_all_namespaces**](docs/RbacAuthorizationV1beta1Api.md#create_role_binding_for_all_namespaces) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/rolebindings | 
+*RbacAuthorizationV1beta1Api* | [**create_role_for_all_namespaces**](docs/RbacAuthorizationV1beta1Api.md#create_role_for_all_namespaces) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/roles | 
+*RbacAuthorizationV1beta1Api* | [**delete_cluster_role**](docs/RbacAuthorizationV1beta1Api.md#delete_cluster_role) | **DELETE** /apis/rbac.authorization.k8s.io/v1beta1/clusterroles/{name} | 
+*RbacAuthorizationV1beta1Api* | [**delete_cluster_role_binding**](docs/RbacAuthorizationV1beta1Api.md#delete_cluster_role_binding) | **DELETE** /apis/rbac.authorization.k8s.io/v1beta1/clusterrolebindings/{name} | 
+*RbacAuthorizationV1beta1Api* | [**delete_collection_cluster_role**](docs/RbacAuthorizationV1beta1Api.md#delete_collection_cluster_role) | **DELETE** /apis/rbac.authorization.k8s.io/v1beta1/clusterroles | 
+*RbacAuthorizationV1beta1Api* | [**delete_collection_cluster_role_binding**](docs/RbacAuthorizationV1beta1Api.md#delete_collection_cluster_role_binding) | **DELETE** /apis/rbac.authorization.k8s.io/v1beta1/clusterrolebindings | 
+*RbacAuthorizationV1beta1Api* | [**delete_collection_namespaced_role**](docs/RbacAuthorizationV1beta1Api.md#delete_collection_namespaced_role) | **DELETE** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/roles | 
+*RbacAuthorizationV1beta1Api* | [**delete_collection_namespaced_role_binding**](docs/RbacAuthorizationV1beta1Api.md#delete_collection_namespaced_role_binding) | **DELETE** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/rolebindings | 
+*RbacAuthorizationV1beta1Api* | [**delete_namespaced_role**](docs/RbacAuthorizationV1beta1Api.md#delete_namespaced_role) | **DELETE** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/roles/{name} | 
+*RbacAuthorizationV1beta1Api* | [**delete_namespaced_role_binding**](docs/RbacAuthorizationV1beta1Api.md#delete_namespaced_role_binding) | **DELETE** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/rolebindings/{name} | 
+*RbacAuthorizationV1beta1Api* | [**get_api_resources**](docs/RbacAuthorizationV1beta1Api.md#get_api_resources) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/ | 
+*RbacAuthorizationV1beta1Api* | [**list_cluster_role**](docs/RbacAuthorizationV1beta1Api.md#list_cluster_role) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/clusterroles | 
+*RbacAuthorizationV1beta1Api* | [**list_cluster_role_binding**](docs/RbacAuthorizationV1beta1Api.md#list_cluster_role_binding) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/clusterrolebindings | 
+*RbacAuthorizationV1beta1Api* | [**list_namespaced_role**](docs/RbacAuthorizationV1beta1Api.md#list_namespaced_role) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/roles | 
+*RbacAuthorizationV1beta1Api* | [**list_namespaced_role_binding**](docs/RbacAuthorizationV1beta1Api.md#list_namespaced_role_binding) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/rolebindings | 
+*RbacAuthorizationV1beta1Api* | [**list_role_binding_for_all_namespaces**](docs/RbacAuthorizationV1beta1Api.md#list_role_binding_for_all_namespaces) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/rolebindings | 
+*RbacAuthorizationV1beta1Api* | [**list_role_for_all_namespaces**](docs/RbacAuthorizationV1beta1Api.md#list_role_for_all_namespaces) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/roles | 
+*RbacAuthorizationV1beta1Api* | [**patch_cluster_role**](docs/RbacAuthorizationV1beta1Api.md#patch_cluster_role) | **PATCH** /apis/rbac.authorization.k8s.io/v1beta1/clusterroles/{name} | 
+*RbacAuthorizationV1beta1Api* | [**patch_cluster_role_binding**](docs/RbacAuthorizationV1beta1Api.md#patch_cluster_role_binding) | **PATCH** /apis/rbac.authorization.k8s.io/v1beta1/clusterrolebindings/{name} | 
+*RbacAuthorizationV1beta1Api* | [**patch_namespaced_role**](docs/RbacAuthorizationV1beta1Api.md#patch_namespaced_role) | **PATCH** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/roles/{name} | 
+*RbacAuthorizationV1beta1Api* | [**patch_namespaced_role_binding**](docs/RbacAuthorizationV1beta1Api.md#patch_namespaced_role_binding) | **PATCH** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/rolebindings/{name} | 
+*RbacAuthorizationV1beta1Api* | [**read_cluster_role**](docs/RbacAuthorizationV1beta1Api.md#read_cluster_role) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/clusterroles/{name} | 
+*RbacAuthorizationV1beta1Api* | [**read_cluster_role_binding**](docs/RbacAuthorizationV1beta1Api.md#read_cluster_role_binding) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/clusterrolebindings/{name} | 
+*RbacAuthorizationV1beta1Api* | [**read_namespaced_role**](docs/RbacAuthorizationV1beta1Api.md#read_namespaced_role) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/roles/{name} | 
+*RbacAuthorizationV1beta1Api* | [**read_namespaced_role_binding**](docs/RbacAuthorizationV1beta1Api.md#read_namespaced_role_binding) | **GET** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/rolebindings/{name} | 
+*RbacAuthorizationV1beta1Api* | [**replace_cluster_role**](docs/RbacAuthorizationV1beta1Api.md#replace_cluster_role) | **PUT** /apis/rbac.authorization.k8s.io/v1beta1/clusterroles/{name} | 
+*RbacAuthorizationV1beta1Api* | [**replace_cluster_role_binding**](docs/RbacAuthorizationV1beta1Api.md#replace_cluster_role_binding) | **PUT** /apis/rbac.authorization.k8s.io/v1beta1/clusterrolebindings/{name} | 
+*RbacAuthorizationV1beta1Api* | [**replace_namespaced_role**](docs/RbacAuthorizationV1beta1Api.md#replace_namespaced_role) | **PUT** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/roles/{name} | 
+*RbacAuthorizationV1beta1Api* | [**replace_namespaced_role_binding**](docs/RbacAuthorizationV1beta1Api.md#replace_namespaced_role_binding) | **PUT** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/rolebindings/{name} | 
+*RouteOpenshiftIoApi* | [**get_api_group**](docs/RouteOpenshiftIoApi.md#get_api_group) | **GET** /apis/route.openshift.io/ | 
+*RouteOpenshiftIoV1Api* | [**create_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#create_namespaced_route) | **POST** /apis/route.openshift.io/v1/namespaces/{namespace}/routes | 
+*RouteOpenshiftIoV1Api* | [**create_route_for_all_namespaces**](docs/RouteOpenshiftIoV1Api.md#create_route_for_all_namespaces) | **POST** /apis/route.openshift.io/v1/routes | 
+*RouteOpenshiftIoV1Api* | [**delete_collection_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#delete_collection_namespaced_route) | **DELETE** /apis/route.openshift.io/v1/namespaces/{namespace}/routes | 
+*RouteOpenshiftIoV1Api* | [**delete_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#delete_namespaced_route) | **DELETE** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name} | 
+*RouteOpenshiftIoV1Api* | [**get_api_resources**](docs/RouteOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/route.openshift.io/v1/ | 
+*RouteOpenshiftIoV1Api* | [**list_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#list_namespaced_route) | **GET** /apis/route.openshift.io/v1/namespaces/{namespace}/routes | 
+*RouteOpenshiftIoV1Api* | [**list_route_for_all_namespaces**](docs/RouteOpenshiftIoV1Api.md#list_route_for_all_namespaces) | **GET** /apis/route.openshift.io/v1/routes | 
+*RouteOpenshiftIoV1Api* | [**patch_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#patch_namespaced_route) | **PATCH** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name} | 
+*RouteOpenshiftIoV1Api* | [**patch_namespaced_route_status**](docs/RouteOpenshiftIoV1Api.md#patch_namespaced_route_status) | **PATCH** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status | 
+*RouteOpenshiftIoV1Api* | [**read_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#read_namespaced_route) | **GET** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name} | 
+*RouteOpenshiftIoV1Api* | [**read_namespaced_route_status**](docs/RouteOpenshiftIoV1Api.md#read_namespaced_route_status) | **GET** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status | 
+*RouteOpenshiftIoV1Api* | [**replace_namespaced_route**](docs/RouteOpenshiftIoV1Api.md#replace_namespaced_route) | **PUT** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name} | 
+*RouteOpenshiftIoV1Api* | [**replace_namespaced_route_status**](docs/RouteOpenshiftIoV1Api.md#replace_namespaced_route_status) | **PUT** /apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status | 
+*SecurityOpenshiftIoApi* | [**get_api_group**](docs/SecurityOpenshiftIoApi.md#get_api_group) | **GET** /apis/security.openshift.io/ | 
+*SecurityOpenshiftIoV1Api* | [**create_namespaced_pod_security_policy_review**](docs/SecurityOpenshiftIoV1Api.md#create_namespaced_pod_security_policy_review) | **POST** /apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicyreviews | 
+*SecurityOpenshiftIoV1Api* | [**create_namespaced_pod_security_policy_self_subject_review**](docs/SecurityOpenshiftIoV1Api.md#create_namespaced_pod_security_policy_self_subject_review) | **POST** /apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicyselfsubjectreviews | 
+*SecurityOpenshiftIoV1Api* | [**create_namespaced_pod_security_policy_subject_review**](docs/SecurityOpenshiftIoV1Api.md#create_namespaced_pod_security_policy_subject_review) | **POST** /apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicysubjectreviews | 
+*SecurityOpenshiftIoV1Api* | [**create_pod_security_policy_review_for_all_namespaces**](docs/SecurityOpenshiftIoV1Api.md#create_pod_security_policy_review_for_all_namespaces) | **POST** /apis/security.openshift.io/v1/podsecuritypolicyreviews | 
+*SecurityOpenshiftIoV1Api* | [**create_pod_security_policy_self_subject_review_for_all_namespaces**](docs/SecurityOpenshiftIoV1Api.md#create_pod_security_policy_self_subject_review_for_all_namespaces) | **POST** /apis/security.openshift.io/v1/podsecuritypolicyselfsubjectreviews | 
+*SecurityOpenshiftIoV1Api* | [**create_pod_security_policy_subject_review_for_all_namespaces**](docs/SecurityOpenshiftIoV1Api.md#create_pod_security_policy_subject_review_for_all_namespaces) | **POST** /apis/security.openshift.io/v1/podsecuritypolicysubjectreviews | 
+*SecurityOpenshiftIoV1Api* | [**create_security_context_constraints**](docs/SecurityOpenshiftIoV1Api.md#create_security_context_constraints) | **POST** /apis/security.openshift.io/v1/securitycontextconstraints | 
+*SecurityOpenshiftIoV1Api* | [**delete_collection_security_context_constraints**](docs/SecurityOpenshiftIoV1Api.md#delete_collection_security_context_constraints) | **DELETE** /apis/security.openshift.io/v1/securitycontextconstraints | 
+*SecurityOpenshiftIoV1Api* | [**delete_security_context_constraints**](docs/SecurityOpenshiftIoV1Api.md#delete_security_context_constraints) | **DELETE** /apis/security.openshift.io/v1/securitycontextconstraints/{name} | 
+*SecurityOpenshiftIoV1Api* | [**get_api_resources**](docs/SecurityOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/security.openshift.io/v1/ | 
+*SecurityOpenshiftIoV1Api* | [**list_security_context_constraints**](docs/SecurityOpenshiftIoV1Api.md#list_security_context_constraints) | **GET** /apis/security.openshift.io/v1/securitycontextconstraints | 
+*SecurityOpenshiftIoV1Api* | [**patch_security_context_constraints**](docs/SecurityOpenshiftIoV1Api.md#patch_security_context_constraints) | **PATCH** /apis/security.openshift.io/v1/securitycontextconstraints/{name} | 
+*SecurityOpenshiftIoV1Api* | [**read_security_context_constraints**](docs/SecurityOpenshiftIoV1Api.md#read_security_context_constraints) | **GET** /apis/security.openshift.io/v1/securitycontextconstraints/{name} | 
+*SecurityOpenshiftIoV1Api* | [**replace_security_context_constraints**](docs/SecurityOpenshiftIoV1Api.md#replace_security_context_constraints) | **PUT** /apis/security.openshift.io/v1/securitycontextconstraints/{name} | 
+*StorageApi* | [**get_api_group**](docs/StorageApi.md#get_api_group) | **GET** /apis/storage.k8s.io/ | 
+*StorageV1Api* | [**create_storage_class**](docs/StorageV1Api.md#create_storage_class) | **POST** /apis/storage.k8s.io/v1/storageclasses | 
+*StorageV1Api* | [**delete_collection_storage_class**](docs/StorageV1Api.md#delete_collection_storage_class) | **DELETE** /apis/storage.k8s.io/v1/storageclasses | 
+*StorageV1Api* | [**delete_storage_class**](docs/StorageV1Api.md#delete_storage_class) | **DELETE** /apis/storage.k8s.io/v1/storageclasses/{name} | 
+*StorageV1Api* | [**get_api_resources**](docs/StorageV1Api.md#get_api_resources) | **GET** /apis/storage.k8s.io/v1/ | 
+*StorageV1Api* | [**list_storage_class**](docs/StorageV1Api.md#list_storage_class) | **GET** /apis/storage.k8s.io/v1/storageclasses | 
+*StorageV1Api* | [**patch_storage_class**](docs/StorageV1Api.md#patch_storage_class) | **PATCH** /apis/storage.k8s.io/v1/storageclasses/{name} | 
+*StorageV1Api* | [**read_storage_class**](docs/StorageV1Api.md#read_storage_class) | **GET** /apis/storage.k8s.io/v1/storageclasses/{name} | 
+*StorageV1Api* | [**replace_storage_class**](docs/StorageV1Api.md#replace_storage_class) | **PUT** /apis/storage.k8s.io/v1/storageclasses/{name} | 
 *StorageV1beta1Api* | [**create_storage_class**](docs/StorageV1beta1Api.md#create_storage_class) | **POST** /apis/storage.k8s.io/v1beta1/storageclasses | 
 *StorageV1beta1Api* | [**delete_collection_storage_class**](docs/StorageV1beta1Api.md#delete_collection_storage_class) | **DELETE** /apis/storage.k8s.io/v1beta1/storageclasses | 
 *StorageV1beta1Api* | [**delete_storage_class**](docs/StorageV1beta1Api.md#delete_storage_class) | **DELETE** /apis/storage.k8s.io/v1beta1/storageclasses/{name} | 
@@ -1124,70 +1140,103 @@ Class | Method | HTTP request | Description
 *StorageV1beta1Api* | [**patch_storage_class**](docs/StorageV1beta1Api.md#patch_storage_class) | **PATCH** /apis/storage.k8s.io/v1beta1/storageclasses/{name} | 
 *StorageV1beta1Api* | [**read_storage_class**](docs/StorageV1beta1Api.md#read_storage_class) | **GET** /apis/storage.k8s.io/v1beta1/storageclasses/{name} | 
 *StorageV1beta1Api* | [**replace_storage_class**](docs/StorageV1beta1Api.md#replace_storage_class) | **PUT** /apis/storage.k8s.io/v1beta1/storageclasses/{name} | 
-*TemplateOpenshiftIoApi* | [**get_template_openshift_io_api_group**](docs/TemplateOpenshiftIoApi.md#get_template_openshift_io_api_group) | **GET** /apis/template.openshift.io/ | 
-*TemplateOpenshiftIoV1Api* | [**create_template_openshift_io_v1_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#create_template_openshift_io_v1_namespaced_template) | **POST** /apis/template.openshift.io/v1/namespaces/{namespace}/templates | 
-*TemplateOpenshiftIoV1Api* | [**create_template_openshift_io_v1_template_for_all_namespaces**](docs/TemplateOpenshiftIoV1Api.md#create_template_openshift_io_v1_template_for_all_namespaces) | **POST** /apis/template.openshift.io/v1/templates | 
-*TemplateOpenshiftIoV1Api* | [**delete_template_openshift_io_v1_collection_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#delete_template_openshift_io_v1_collection_namespaced_template) | **DELETE** /apis/template.openshift.io/v1/namespaces/{namespace}/templates | 
-*TemplateOpenshiftIoV1Api* | [**delete_template_openshift_io_v1_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#delete_template_openshift_io_v1_namespaced_template) | **DELETE** /apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name} | 
-*TemplateOpenshiftIoV1Api* | [**get_template_openshift_io_v1_api_resources**](docs/TemplateOpenshiftIoV1Api.md#get_template_openshift_io_v1_api_resources) | **GET** /apis/template.openshift.io/v1/ | 
-*TemplateOpenshiftIoV1Api* | [**list_template_openshift_io_v1_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#list_template_openshift_io_v1_namespaced_template) | **GET** /apis/template.openshift.io/v1/namespaces/{namespace}/templates | 
-*TemplateOpenshiftIoV1Api* | [**list_template_openshift_io_v1_template_for_all_namespaces**](docs/TemplateOpenshiftIoV1Api.md#list_template_openshift_io_v1_template_for_all_namespaces) | **GET** /apis/template.openshift.io/v1/templates | 
-*TemplateOpenshiftIoV1Api* | [**patch_template_openshift_io_v1_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#patch_template_openshift_io_v1_namespaced_template) | **PATCH** /apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name} | 
-*TemplateOpenshiftIoV1Api* | [**read_template_openshift_io_v1_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#read_template_openshift_io_v1_namespaced_template) | **GET** /apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name} | 
-*TemplateOpenshiftIoV1Api* | [**replace_template_openshift_io_v1_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#replace_template_openshift_io_v1_namespaced_template) | **PUT** /apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name} | 
+*TemplateOpenshiftIoApi* | [**get_api_group**](docs/TemplateOpenshiftIoApi.md#get_api_group) | **GET** /apis/template.openshift.io/ | 
+*TemplateOpenshiftIoV1Api* | [**create_broker_template_instance**](docs/TemplateOpenshiftIoV1Api.md#create_broker_template_instance) | **POST** /apis/template.openshift.io/v1/brokertemplateinstances | 
+*TemplateOpenshiftIoV1Api* | [**create_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#create_namespaced_template) | **POST** /apis/template.openshift.io/v1/namespaces/{namespace}/templates | 
+*TemplateOpenshiftIoV1Api* | [**create_namespaced_template_instance**](docs/TemplateOpenshiftIoV1Api.md#create_namespaced_template_instance) | **POST** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances | 
+*TemplateOpenshiftIoV1Api* | [**create_template_for_all_namespaces**](docs/TemplateOpenshiftIoV1Api.md#create_template_for_all_namespaces) | **POST** /apis/template.openshift.io/v1/templates | 
+*TemplateOpenshiftIoV1Api* | [**create_template_instance_for_all_namespaces**](docs/TemplateOpenshiftIoV1Api.md#create_template_instance_for_all_namespaces) | **POST** /apis/template.openshift.io/v1/templateinstances | 
+*TemplateOpenshiftIoV1Api* | [**delete_broker_template_instance**](docs/TemplateOpenshiftIoV1Api.md#delete_broker_template_instance) | **DELETE** /apis/template.openshift.io/v1/brokertemplateinstances/{name} | 
+*TemplateOpenshiftIoV1Api* | [**delete_collection_broker_template_instance**](docs/TemplateOpenshiftIoV1Api.md#delete_collection_broker_template_instance) | **DELETE** /apis/template.openshift.io/v1/brokertemplateinstances | 
+*TemplateOpenshiftIoV1Api* | [**delete_collection_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#delete_collection_namespaced_template) | **DELETE** /apis/template.openshift.io/v1/namespaces/{namespace}/templates | 
+*TemplateOpenshiftIoV1Api* | [**delete_collection_namespaced_template_instance**](docs/TemplateOpenshiftIoV1Api.md#delete_collection_namespaced_template_instance) | **DELETE** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances | 
+*TemplateOpenshiftIoV1Api* | [**delete_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#delete_namespaced_template) | **DELETE** /apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name} | 
+*TemplateOpenshiftIoV1Api* | [**delete_namespaced_template_instance**](docs/TemplateOpenshiftIoV1Api.md#delete_namespaced_template_instance) | **DELETE** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name} | 
+*TemplateOpenshiftIoV1Api* | [**get_api_resources**](docs/TemplateOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/template.openshift.io/v1/ | 
+*TemplateOpenshiftIoV1Api* | [**list_broker_template_instance**](docs/TemplateOpenshiftIoV1Api.md#list_broker_template_instance) | **GET** /apis/template.openshift.io/v1/brokertemplateinstances | 
+*TemplateOpenshiftIoV1Api* | [**list_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#list_namespaced_template) | **GET** /apis/template.openshift.io/v1/namespaces/{namespace}/templates | 
+*TemplateOpenshiftIoV1Api* | [**list_namespaced_template_instance**](docs/TemplateOpenshiftIoV1Api.md#list_namespaced_template_instance) | **GET** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances | 
+*TemplateOpenshiftIoV1Api* | [**list_template_for_all_namespaces**](docs/TemplateOpenshiftIoV1Api.md#list_template_for_all_namespaces) | **GET** /apis/template.openshift.io/v1/templates | 
+*TemplateOpenshiftIoV1Api* | [**list_template_instance_for_all_namespaces**](docs/TemplateOpenshiftIoV1Api.md#list_template_instance_for_all_namespaces) | **GET** /apis/template.openshift.io/v1/templateinstances | 
+*TemplateOpenshiftIoV1Api* | [**patch_broker_template_instance**](docs/TemplateOpenshiftIoV1Api.md#patch_broker_template_instance) | **PATCH** /apis/template.openshift.io/v1/brokertemplateinstances/{name} | 
+*TemplateOpenshiftIoV1Api* | [**patch_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#patch_namespaced_template) | **PATCH** /apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name} | 
+*TemplateOpenshiftIoV1Api* | [**patch_namespaced_template_instance**](docs/TemplateOpenshiftIoV1Api.md#patch_namespaced_template_instance) | **PATCH** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name} | 
+*TemplateOpenshiftIoV1Api* | [**patch_namespaced_template_instance_status**](docs/TemplateOpenshiftIoV1Api.md#patch_namespaced_template_instance_status) | **PATCH** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status | 
+*TemplateOpenshiftIoV1Api* | [**read_broker_template_instance**](docs/TemplateOpenshiftIoV1Api.md#read_broker_template_instance) | **GET** /apis/template.openshift.io/v1/brokertemplateinstances/{name} | 
+*TemplateOpenshiftIoV1Api* | [**read_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#read_namespaced_template) | **GET** /apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name} | 
+*TemplateOpenshiftIoV1Api* | [**read_namespaced_template_instance**](docs/TemplateOpenshiftIoV1Api.md#read_namespaced_template_instance) | **GET** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name} | 
+*TemplateOpenshiftIoV1Api* | [**read_namespaced_template_instance_status**](docs/TemplateOpenshiftIoV1Api.md#read_namespaced_template_instance_status) | **GET** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status | 
+*TemplateOpenshiftIoV1Api* | [**replace_broker_template_instance**](docs/TemplateOpenshiftIoV1Api.md#replace_broker_template_instance) | **PUT** /apis/template.openshift.io/v1/brokertemplateinstances/{name} | 
+*TemplateOpenshiftIoV1Api* | [**replace_namespaced_template**](docs/TemplateOpenshiftIoV1Api.md#replace_namespaced_template) | **PUT** /apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name} | 
+*TemplateOpenshiftIoV1Api* | [**replace_namespaced_template_instance**](docs/TemplateOpenshiftIoV1Api.md#replace_namespaced_template_instance) | **PUT** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name} | 
+*TemplateOpenshiftIoV1Api* | [**replace_namespaced_template_instance_status**](docs/TemplateOpenshiftIoV1Api.md#replace_namespaced_template_instance_status) | **PUT** /apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status | 
 *TemplateOpenshiftIoApi* | [**create_namespaced_processed_template_v1**](docs/TemplateOpenshiftIoApi.md#create_namespaced_processed_template_v1) | **POST** /apis/template.openshift.io/v1/namespaces/{namespace}/processedtemplates | 
 *TemplateOpenshiftIoApi* | [**create_processed_template_for_all_namespaces**](docs/TemplateOpenshiftIoApi.md#create_processed_template_for_all_namespaces) | **POST** /apis/template.openshift.io/v1/processedtemplates | 
-*UserOpenshiftIoApi* | [**get_user_openshift_io_api_group**](docs/UserOpenshiftIoApi.md#get_user_openshift_io_api_group) | **GET** /apis/user.openshift.io/ | 
-*UserOpenshiftIoV1Api* | [**create_user_openshift_io_v1_group**](docs/UserOpenshiftIoV1Api.md#create_user_openshift_io_v1_group) | **POST** /apis/user.openshift.io/v1/groups | 
-*UserOpenshiftIoV1Api* | [**create_user_openshift_io_v1_identity**](docs/UserOpenshiftIoV1Api.md#create_user_openshift_io_v1_identity) | **POST** /apis/user.openshift.io/v1/identities | 
-*UserOpenshiftIoV1Api* | [**create_user_openshift_io_v1_user**](docs/UserOpenshiftIoV1Api.md#create_user_openshift_io_v1_user) | **POST** /apis/user.openshift.io/v1/users | 
-*UserOpenshiftIoV1Api* | [**create_user_openshift_io_v1_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#create_user_openshift_io_v1_user_identity_mapping) | **POST** /apis/user.openshift.io/v1/useridentitymappings | 
-*UserOpenshiftIoV1Api* | [**delete_user_openshift_io_v1_collection_group**](docs/UserOpenshiftIoV1Api.md#delete_user_openshift_io_v1_collection_group) | **DELETE** /apis/user.openshift.io/v1/groups | 
-*UserOpenshiftIoV1Api* | [**delete_user_openshift_io_v1_collection_identity**](docs/UserOpenshiftIoV1Api.md#delete_user_openshift_io_v1_collection_identity) | **DELETE** /apis/user.openshift.io/v1/identities | 
-*UserOpenshiftIoV1Api* | [**delete_user_openshift_io_v1_collection_user**](docs/UserOpenshiftIoV1Api.md#delete_user_openshift_io_v1_collection_user) | **DELETE** /apis/user.openshift.io/v1/users | 
-*UserOpenshiftIoV1Api* | [**delete_user_openshift_io_v1_group**](docs/UserOpenshiftIoV1Api.md#delete_user_openshift_io_v1_group) | **DELETE** /apis/user.openshift.io/v1/groups/{name} | 
-*UserOpenshiftIoV1Api* | [**delete_user_openshift_io_v1_identity**](docs/UserOpenshiftIoV1Api.md#delete_user_openshift_io_v1_identity) | **DELETE** /apis/user.openshift.io/v1/identities/{name} | 
-*UserOpenshiftIoV1Api* | [**delete_user_openshift_io_v1_user**](docs/UserOpenshiftIoV1Api.md#delete_user_openshift_io_v1_user) | **DELETE** /apis/user.openshift.io/v1/users/{name} | 
-*UserOpenshiftIoV1Api* | [**delete_user_openshift_io_v1_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#delete_user_openshift_io_v1_user_identity_mapping) | **DELETE** /apis/user.openshift.io/v1/useridentitymappings/{name} | 
-*UserOpenshiftIoV1Api* | [**get_user_openshift_io_v1_api_resources**](docs/UserOpenshiftIoV1Api.md#get_user_openshift_io_v1_api_resources) | **GET** /apis/user.openshift.io/v1/ | 
-*UserOpenshiftIoV1Api* | [**list_user_openshift_io_v1_group**](docs/UserOpenshiftIoV1Api.md#list_user_openshift_io_v1_group) | **GET** /apis/user.openshift.io/v1/groups | 
-*UserOpenshiftIoV1Api* | [**list_user_openshift_io_v1_identity**](docs/UserOpenshiftIoV1Api.md#list_user_openshift_io_v1_identity) | **GET** /apis/user.openshift.io/v1/identities | 
-*UserOpenshiftIoV1Api* | [**list_user_openshift_io_v1_user**](docs/UserOpenshiftIoV1Api.md#list_user_openshift_io_v1_user) | **GET** /apis/user.openshift.io/v1/users | 
-*UserOpenshiftIoV1Api* | [**patch_user_openshift_io_v1_group**](docs/UserOpenshiftIoV1Api.md#patch_user_openshift_io_v1_group) | **PATCH** /apis/user.openshift.io/v1/groups/{name} | 
-*UserOpenshiftIoV1Api* | [**patch_user_openshift_io_v1_identity**](docs/UserOpenshiftIoV1Api.md#patch_user_openshift_io_v1_identity) | **PATCH** /apis/user.openshift.io/v1/identities/{name} | 
-*UserOpenshiftIoV1Api* | [**patch_user_openshift_io_v1_user**](docs/UserOpenshiftIoV1Api.md#patch_user_openshift_io_v1_user) | **PATCH** /apis/user.openshift.io/v1/users/{name} | 
-*UserOpenshiftIoV1Api* | [**patch_user_openshift_io_v1_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#patch_user_openshift_io_v1_user_identity_mapping) | **PATCH** /apis/user.openshift.io/v1/useridentitymappings/{name} | 
-*UserOpenshiftIoV1Api* | [**read_user_openshift_io_v1_group**](docs/UserOpenshiftIoV1Api.md#read_user_openshift_io_v1_group) | **GET** /apis/user.openshift.io/v1/groups/{name} | 
-*UserOpenshiftIoV1Api* | [**read_user_openshift_io_v1_identity**](docs/UserOpenshiftIoV1Api.md#read_user_openshift_io_v1_identity) | **GET** /apis/user.openshift.io/v1/identities/{name} | 
-*UserOpenshiftIoV1Api* | [**read_user_openshift_io_v1_user**](docs/UserOpenshiftIoV1Api.md#read_user_openshift_io_v1_user) | **GET** /apis/user.openshift.io/v1/users/{name} | 
-*UserOpenshiftIoV1Api* | [**read_user_openshift_io_v1_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#read_user_openshift_io_v1_user_identity_mapping) | **GET** /apis/user.openshift.io/v1/useridentitymappings/{name} | 
-*UserOpenshiftIoV1Api* | [**replace_user_openshift_io_v1_group**](docs/UserOpenshiftIoV1Api.md#replace_user_openshift_io_v1_group) | **PUT** /apis/user.openshift.io/v1/groups/{name} | 
-*UserOpenshiftIoV1Api* | [**replace_user_openshift_io_v1_identity**](docs/UserOpenshiftIoV1Api.md#replace_user_openshift_io_v1_identity) | **PUT** /apis/user.openshift.io/v1/identities/{name} | 
-*UserOpenshiftIoV1Api* | [**replace_user_openshift_io_v1_user**](docs/UserOpenshiftIoV1Api.md#replace_user_openshift_io_v1_user) | **PUT** /apis/user.openshift.io/v1/users/{name} | 
-*UserOpenshiftIoV1Api* | [**replace_user_openshift_io_v1_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#replace_user_openshift_io_v1_user_identity_mapping) | **PUT** /apis/user.openshift.io/v1/useridentitymappings/{name} | 
-*VersionApi* | [**get_code_version**](docs/VersionApi.md#get_code_version) | **GET** /version/ | 
+*UserOpenshiftIoApi* | [**get_api_group**](docs/UserOpenshiftIoApi.md#get_api_group) | **GET** /apis/user.openshift.io/ | 
+*UserOpenshiftIoV1Api* | [**create_group**](docs/UserOpenshiftIoV1Api.md#create_group) | **POST** /apis/user.openshift.io/v1/groups | 
+*UserOpenshiftIoV1Api* | [**create_identity**](docs/UserOpenshiftIoV1Api.md#create_identity) | **POST** /apis/user.openshift.io/v1/identities | 
+*UserOpenshiftIoV1Api* | [**create_user**](docs/UserOpenshiftIoV1Api.md#create_user) | **POST** /apis/user.openshift.io/v1/users | 
+*UserOpenshiftIoV1Api* | [**create_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#create_user_identity_mapping) | **POST** /apis/user.openshift.io/v1/useridentitymappings | 
+*UserOpenshiftIoV1Api* | [**delete_collection_group**](docs/UserOpenshiftIoV1Api.md#delete_collection_group) | **DELETE** /apis/user.openshift.io/v1/groups | 
+*UserOpenshiftIoV1Api* | [**delete_collection_identity**](docs/UserOpenshiftIoV1Api.md#delete_collection_identity) | **DELETE** /apis/user.openshift.io/v1/identities | 
+*UserOpenshiftIoV1Api* | [**delete_collection_user**](docs/UserOpenshiftIoV1Api.md#delete_collection_user) | **DELETE** /apis/user.openshift.io/v1/users | 
+*UserOpenshiftIoV1Api* | [**delete_group**](docs/UserOpenshiftIoV1Api.md#delete_group) | **DELETE** /apis/user.openshift.io/v1/groups/{name} | 
+*UserOpenshiftIoV1Api* | [**delete_identity**](docs/UserOpenshiftIoV1Api.md#delete_identity) | **DELETE** /apis/user.openshift.io/v1/identities/{name} | 
+*UserOpenshiftIoV1Api* | [**delete_user**](docs/UserOpenshiftIoV1Api.md#delete_user) | **DELETE** /apis/user.openshift.io/v1/users/{name} | 
+*UserOpenshiftIoV1Api* | [**delete_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#delete_user_identity_mapping) | **DELETE** /apis/user.openshift.io/v1/useridentitymappings/{name} | 
+*UserOpenshiftIoV1Api* | [**get_api_resources**](docs/UserOpenshiftIoV1Api.md#get_api_resources) | **GET** /apis/user.openshift.io/v1/ | 
+*UserOpenshiftIoV1Api* | [**list_group**](docs/UserOpenshiftIoV1Api.md#list_group) | **GET** /apis/user.openshift.io/v1/groups | 
+*UserOpenshiftIoV1Api* | [**list_identity**](docs/UserOpenshiftIoV1Api.md#list_identity) | **GET** /apis/user.openshift.io/v1/identities | 
+*UserOpenshiftIoV1Api* | [**list_user**](docs/UserOpenshiftIoV1Api.md#list_user) | **GET** /apis/user.openshift.io/v1/users | 
+*UserOpenshiftIoV1Api* | [**patch_group**](docs/UserOpenshiftIoV1Api.md#patch_group) | **PATCH** /apis/user.openshift.io/v1/groups/{name} | 
+*UserOpenshiftIoV1Api* | [**patch_identity**](docs/UserOpenshiftIoV1Api.md#patch_identity) | **PATCH** /apis/user.openshift.io/v1/identities/{name} | 
+*UserOpenshiftIoV1Api* | [**patch_user**](docs/UserOpenshiftIoV1Api.md#patch_user) | **PATCH** /apis/user.openshift.io/v1/users/{name} | 
+*UserOpenshiftIoV1Api* | [**patch_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#patch_user_identity_mapping) | **PATCH** /apis/user.openshift.io/v1/useridentitymappings/{name} | 
+*UserOpenshiftIoV1Api* | [**read_group**](docs/UserOpenshiftIoV1Api.md#read_group) | **GET** /apis/user.openshift.io/v1/groups/{name} | 
+*UserOpenshiftIoV1Api* | [**read_identity**](docs/UserOpenshiftIoV1Api.md#read_identity) | **GET** /apis/user.openshift.io/v1/identities/{name} | 
+*UserOpenshiftIoV1Api* | [**read_user**](docs/UserOpenshiftIoV1Api.md#read_user) | **GET** /apis/user.openshift.io/v1/users/{name} | 
+*UserOpenshiftIoV1Api* | [**read_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#read_user_identity_mapping) | **GET** /apis/user.openshift.io/v1/useridentitymappings/{name} | 
+*UserOpenshiftIoV1Api* | [**replace_group**](docs/UserOpenshiftIoV1Api.md#replace_group) | **PUT** /apis/user.openshift.io/v1/groups/{name} | 
+*UserOpenshiftIoV1Api* | [**replace_identity**](docs/UserOpenshiftIoV1Api.md#replace_identity) | **PUT** /apis/user.openshift.io/v1/identities/{name} | 
+*UserOpenshiftIoV1Api* | [**replace_user**](docs/UserOpenshiftIoV1Api.md#replace_user) | **PUT** /apis/user.openshift.io/v1/users/{name} | 
+*UserOpenshiftIoV1Api* | [**replace_user_identity_mapping**](docs/UserOpenshiftIoV1Api.md#replace_user_identity_mapping) | **PUT** /apis/user.openshift.io/v1/useridentitymappings/{name} | 
 
 
 ## Documentation For Models
 
- - [IntstrIntOrString](docs/IntstrIntOrString.md)
- - [ResourceQuantity](docs/ResourceQuantity.md)
+ - [AppsV1beta1Deployment](docs/AppsV1beta1Deployment.md)
+ - [AppsV1beta1DeploymentCondition](docs/AppsV1beta1DeploymentCondition.md)
+ - [AppsV1beta1DeploymentList](docs/AppsV1beta1DeploymentList.md)
+ - [AppsV1beta1DeploymentRollback](docs/AppsV1beta1DeploymentRollback.md)
+ - [AppsV1beta1DeploymentSpec](docs/AppsV1beta1DeploymentSpec.md)
+ - [AppsV1beta1DeploymentStatus](docs/AppsV1beta1DeploymentStatus.md)
+ - [AppsV1beta1DeploymentStrategy](docs/AppsV1beta1DeploymentStrategy.md)
+ - [AppsV1beta1RollbackConfig](docs/AppsV1beta1RollbackConfig.md)
+ - [AppsV1beta1RollingUpdateDeployment](docs/AppsV1beta1RollingUpdateDeployment.md)
+ - [AppsV1beta1Scale](docs/AppsV1beta1Scale.md)
+ - [AppsV1beta1ScaleSpec](docs/AppsV1beta1ScaleSpec.md)
+ - [AppsV1beta1ScaleStatus](docs/AppsV1beta1ScaleStatus.md)
+ - [ExtensionsV1beta1Deployment](docs/ExtensionsV1beta1Deployment.md)
+ - [ExtensionsV1beta1DeploymentCondition](docs/ExtensionsV1beta1DeploymentCondition.md)
+ - [ExtensionsV1beta1DeploymentList](docs/ExtensionsV1beta1DeploymentList.md)
+ - [ExtensionsV1beta1DeploymentRollback](docs/ExtensionsV1beta1DeploymentRollback.md)
+ - [ExtensionsV1beta1DeploymentSpec](docs/ExtensionsV1beta1DeploymentSpec.md)
+ - [ExtensionsV1beta1DeploymentStatus](docs/ExtensionsV1beta1DeploymentStatus.md)
+ - [ExtensionsV1beta1DeploymentStrategy](docs/ExtensionsV1beta1DeploymentStrategy.md)
+ - [ExtensionsV1beta1RollbackConfig](docs/ExtensionsV1beta1RollbackConfig.md)
+ - [ExtensionsV1beta1RollingUpdateDeployment](docs/ExtensionsV1beta1RollingUpdateDeployment.md)
+ - [ExtensionsV1beta1Scale](docs/ExtensionsV1beta1Scale.md)
+ - [ExtensionsV1beta1ScaleSpec](docs/ExtensionsV1beta1ScaleSpec.md)
+ - [ExtensionsV1beta1ScaleStatus](docs/ExtensionsV1beta1ScaleStatus.md)
  - [RuntimeRawExtension](docs/RuntimeRawExtension.md)
- - [UnversionedAPIGroup](docs/UnversionedAPIGroup.md)
- - [UnversionedAPIGroupList](docs/UnversionedAPIGroupList.md)
- - [UnversionedAPIResource](docs/UnversionedAPIResource.md)
- - [UnversionedAPIResourceList](docs/UnversionedAPIResourceList.md)
- - [UnversionedAPIVersions](docs/UnversionedAPIVersions.md)
- - [UnversionedGroupVersionForDiscovery](docs/UnversionedGroupVersionForDiscovery.md)
- - [UnversionedLabelSelector](docs/UnversionedLabelSelector.md)
- - [UnversionedLabelSelectorRequirement](docs/UnversionedLabelSelectorRequirement.md)
- - [UnversionedListMeta](docs/UnversionedListMeta.md)
- - [UnversionedServerAddressByClientCIDR](docs/UnversionedServerAddressByClientCIDR.md)
- - [UnversionedStatus](docs/UnversionedStatus.md)
- - [UnversionedStatusCause](docs/UnversionedStatusCause.md)
- - [UnversionedStatusDetails](docs/UnversionedStatusDetails.md)
- - [UnversionedTime](docs/UnversionedTime.md)
+ - [V1APIGroup](docs/V1APIGroup.md)
+ - [V1APIGroupList](docs/V1APIGroupList.md)
+ - [V1APIResource](docs/V1APIResource.md)
+ - [V1APIResourceList](docs/V1APIResourceList.md)
+ - [V1APIVersions](docs/V1APIVersions.md)
  - [V1AWSElasticBlockStoreVolumeSource](docs/V1AWSElasticBlockStoreVolumeSource.md)
+ - [V1Affinity](docs/V1Affinity.md)
+ - [V1AllowedFlexVolume](docs/V1AllowedFlexVolume.md)
  - [V1AppliedClusterResourceQuota](docs/V1AppliedClusterResourceQuota.md)
  - [V1AppliedClusterResourceQuotaList](docs/V1AppliedClusterResourceQuotaList.md)
  - [V1AttachedVolume](docs/V1AttachedVolume.md)
@@ -1195,6 +1244,10 @@ Class | Method | HTTP request | Description
  - [V1AzureFileVolumeSource](docs/V1AzureFileVolumeSource.md)
  - [V1BinaryBuildSource](docs/V1BinaryBuildSource.md)
  - [V1Binding](docs/V1Binding.md)
+ - [V1BitbucketWebHookCause](docs/V1BitbucketWebHookCause.md)
+ - [V1BrokerTemplateInstance](docs/V1BrokerTemplateInstance.md)
+ - [V1BrokerTemplateInstanceList](docs/V1BrokerTemplateInstanceList.md)
+ - [V1BrokerTemplateInstanceSpec](docs/V1BrokerTemplateInstanceSpec.md)
  - [V1Build](docs/V1Build.md)
  - [V1BuildConfig](docs/V1BuildConfig.md)
  - [V1BuildConfigList](docs/V1BuildConfigList.md)
@@ -1218,10 +1271,6 @@ Class | Method | HTTP request | Description
  - [V1CinderVolumeSource](docs/V1CinderVolumeSource.md)
  - [V1ClusterNetwork](docs/V1ClusterNetwork.md)
  - [V1ClusterNetworkList](docs/V1ClusterNetworkList.md)
- - [V1ClusterPolicy](docs/V1ClusterPolicy.md)
- - [V1ClusterPolicyBinding](docs/V1ClusterPolicyBinding.md)
- - [V1ClusterPolicyBindingList](docs/V1ClusterPolicyBindingList.md)
- - [V1ClusterPolicyList](docs/V1ClusterPolicyList.md)
  - [V1ClusterResourceQuota](docs/V1ClusterResourceQuota.md)
  - [V1ClusterResourceQuotaList](docs/V1ClusterResourceQuotaList.md)
  - [V1ClusterResourceQuotaSelector](docs/V1ClusterResourceQuotaSelector.md)
@@ -1236,8 +1285,10 @@ Class | Method | HTTP request | Description
  - [V1ComponentStatus](docs/V1ComponentStatus.md)
  - [V1ComponentStatusList](docs/V1ComponentStatusList.md)
  - [V1ConfigMap](docs/V1ConfigMap.md)
+ - [V1ConfigMapEnvSource](docs/V1ConfigMapEnvSource.md)
  - [V1ConfigMapKeySelector](docs/V1ConfigMapKeySelector.md)
  - [V1ConfigMapList](docs/V1ConfigMapList.md)
+ - [V1ConfigMapProjection](docs/V1ConfigMapProjection.md)
  - [V1ConfigMapVolumeSource](docs/V1ConfigMapVolumeSource.md)
  - [V1Container](docs/V1Container.md)
  - [V1ContainerImage](docs/V1ContainerImage.md)
@@ -1267,10 +1318,9 @@ Class | Method | HTTP request | Description
  - [V1DeploymentStrategy](docs/V1DeploymentStrategy.md)
  - [V1DeploymentTriggerImageChangeParams](docs/V1DeploymentTriggerImageChangeParams.md)
  - [V1DeploymentTriggerPolicy](docs/V1DeploymentTriggerPolicy.md)
- - [V1DeprecatedDownwardAPIVolumeFile](docs/V1DeprecatedDownwardAPIVolumeFile.md)
- - [V1DeprecatedDownwardAPIVolumeSource](docs/V1DeprecatedDownwardAPIVolumeSource.md)
  - [V1DockerBuildStrategy](docs/V1DockerBuildStrategy.md)
  - [V1DockerStrategyOptions](docs/V1DockerStrategyOptions.md)
+ - [V1DownwardAPIProjection](docs/V1DownwardAPIProjection.md)
  - [V1DownwardAPIVolumeFile](docs/V1DownwardAPIVolumeFile.md)
  - [V1DownwardAPIVolumeSource](docs/V1DownwardAPIVolumeSource.md)
  - [V1EgressNetworkPolicy](docs/V1EgressNetworkPolicy.md)
@@ -1284,6 +1334,7 @@ Class | Method | HTTP request | Description
  - [V1EndpointSubset](docs/V1EndpointSubset.md)
  - [V1Endpoints](docs/V1Endpoints.md)
  - [V1EndpointsList](docs/V1EndpointsList.md)
+ - [V1EnvFromSource](docs/V1EnvFromSource.md)
  - [V1EnvVar](docs/V1EnvVar.md)
  - [V1EnvVarSource](docs/V1EnvVarSource.md)
  - [V1Event](docs/V1Event.md)
@@ -1299,12 +1350,14 @@ Class | Method | HTTP request | Description
  - [V1GenericWebHookCause](docs/V1GenericWebHookCause.md)
  - [V1GitBuildSource](docs/V1GitBuildSource.md)
  - [V1GitHubWebHookCause](docs/V1GitHubWebHookCause.md)
+ - [V1GitLabWebHookCause](docs/V1GitLabWebHookCause.md)
  - [V1GitRepoVolumeSource](docs/V1GitRepoVolumeSource.md)
  - [V1GitSourceRevision](docs/V1GitSourceRevision.md)
  - [V1GlusterfsVolumeSource](docs/V1GlusterfsVolumeSource.md)
  - [V1Group](docs/V1Group.md)
  - [V1GroupList](docs/V1GroupList.md)
  - [V1GroupRestriction](docs/V1GroupRestriction.md)
+ - [V1GroupVersionForDiscovery](docs/V1GroupVersionForDiscovery.md)
  - [V1HTTPGetAction](docs/V1HTTPGetAction.md)
  - [V1HTTPHeader](docs/V1HTTPHeader.md)
  - [V1Handler](docs/V1Handler.md)
@@ -1312,6 +1365,7 @@ Class | Method | HTTP request | Description
  - [V1HorizontalPodAutoscalerList](docs/V1HorizontalPodAutoscalerList.md)
  - [V1HorizontalPodAutoscalerSpec](docs/V1HorizontalPodAutoscalerSpec.md)
  - [V1HorizontalPodAutoscalerStatus](docs/V1HorizontalPodAutoscalerStatus.md)
+ - [V1HostAlias](docs/V1HostAlias.md)
  - [V1HostPathVolumeSource](docs/V1HostPathVolumeSource.md)
  - [V1HostSubnet](docs/V1HostSubnet.md)
  - [V1HostSubnetList](docs/V1HostSubnetList.md)
@@ -1327,6 +1381,7 @@ Class | Method | HTTP request | Description
  - [V1ImageLabel](docs/V1ImageLabel.md)
  - [V1ImageLayer](docs/V1ImageLayer.md)
  - [V1ImageList](docs/V1ImageList.md)
+ - [V1ImageLookupPolicy](docs/V1ImageLookupPolicy.md)
  - [V1ImageSignature](docs/V1ImageSignature.md)
  - [V1ImageSource](docs/V1ImageSource.md)
  - [V1ImageSourcePath](docs/V1ImageSourcePath.md)
@@ -1341,6 +1396,8 @@ Class | Method | HTTP request | Description
  - [V1ImageStreamStatus](docs/V1ImageStreamStatus.md)
  - [V1ImageStreamTag](docs/V1ImageStreamTag.md)
  - [V1ImageStreamTagList](docs/V1ImageStreamTagList.md)
+ - [V1Initializer](docs/V1Initializer.md)
+ - [V1Initializers](docs/V1Initializers.md)
  - [V1JenkinsPipelineBuildStrategy](docs/V1JenkinsPipelineBuildStrategy.md)
  - [V1Job](docs/V1Job.md)
  - [V1JobCondition](docs/V1JobCondition.md)
@@ -1348,22 +1405,22 @@ Class | Method | HTTP request | Description
  - [V1JobSpec](docs/V1JobSpec.md)
  - [V1JobStatus](docs/V1JobStatus.md)
  - [V1KeyToPath](docs/V1KeyToPath.md)
+ - [V1LabelSelector](docs/V1LabelSelector.md)
+ - [V1LabelSelectorRequirement](docs/V1LabelSelectorRequirement.md)
  - [V1Lifecycle](docs/V1Lifecycle.md)
  - [V1LifecycleHook](docs/V1LifecycleHook.md)
  - [V1LimitRange](docs/V1LimitRange.md)
  - [V1LimitRangeItem](docs/V1LimitRangeItem.md)
  - [V1LimitRangeList](docs/V1LimitRangeList.md)
  - [V1LimitRangeSpec](docs/V1LimitRangeSpec.md)
+ - [V1ListMeta](docs/V1ListMeta.md)
  - [V1LoadBalancerIngress](docs/V1LoadBalancerIngress.md)
  - [V1LoadBalancerStatus](docs/V1LoadBalancerStatus.md)
  - [V1LocalObjectReference](docs/V1LocalObjectReference.md)
  - [V1LocalResourceAccessReview](docs/V1LocalResourceAccessReview.md)
  - [V1LocalSubjectAccessReview](docs/V1LocalSubjectAccessReview.md)
+ - [V1LocalVolumeSource](docs/V1LocalVolumeSource.md)
  - [V1NFSVolumeSource](docs/V1NFSVolumeSource.md)
- - [V1NamedClusterRole](docs/V1NamedClusterRole.md)
- - [V1NamedClusterRoleBinding](docs/V1NamedClusterRoleBinding.md)
- - [V1NamedRole](docs/V1NamedRole.md)
- - [V1NamedRoleBinding](docs/V1NamedRoleBinding.md)
  - [V1NamedTagEventList](docs/V1NamedTagEventList.md)
  - [V1Namespace](docs/V1Namespace.md)
  - [V1NamespaceList](docs/V1NamespaceList.md)
@@ -1371,14 +1428,25 @@ Class | Method | HTTP request | Description
  - [V1NamespaceStatus](docs/V1NamespaceStatus.md)
  - [V1NetNamespace](docs/V1NetNamespace.md)
  - [V1NetNamespaceList](docs/V1NetNamespaceList.md)
+ - [V1NetworkPolicy](docs/V1NetworkPolicy.md)
+ - [V1NetworkPolicyIngressRule](docs/V1NetworkPolicyIngressRule.md)
+ - [V1NetworkPolicyList](docs/V1NetworkPolicyList.md)
+ - [V1NetworkPolicyPeer](docs/V1NetworkPolicyPeer.md)
+ - [V1NetworkPolicyPort](docs/V1NetworkPolicyPort.md)
+ - [V1NetworkPolicySpec](docs/V1NetworkPolicySpec.md)
  - [V1Node](docs/V1Node.md)
  - [V1NodeAddress](docs/V1NodeAddress.md)
+ - [V1NodeAffinity](docs/V1NodeAffinity.md)
  - [V1NodeCondition](docs/V1NodeCondition.md)
  - [V1NodeDaemonEndpoints](docs/V1NodeDaemonEndpoints.md)
  - [V1NodeList](docs/V1NodeList.md)
+ - [V1NodeSelector](docs/V1NodeSelector.md)
+ - [V1NodeSelectorRequirement](docs/V1NodeSelectorRequirement.md)
+ - [V1NodeSelectorTerm](docs/V1NodeSelectorTerm.md)
  - [V1NodeSpec](docs/V1NodeSpec.md)
  - [V1NodeStatus](docs/V1NodeStatus.md)
  - [V1NodeSystemInfo](docs/V1NodeSystemInfo.md)
+ - [V1NonResourceAttributes](docs/V1NonResourceAttributes.md)
  - [V1OAuthAccessToken](docs/V1OAuthAccessToken.md)
  - [V1OAuthAccessTokenList](docs/V1OAuthAccessTokenList.md)
  - [V1OAuthAuthorizeToken](docs/V1OAuthAuthorizeToken.md)
@@ -1403,6 +1471,9 @@ Class | Method | HTTP request | Description
  - [V1PersistentVolumeStatus](docs/V1PersistentVolumeStatus.md)
  - [V1PhotonPersistentDiskVolumeSource](docs/V1PhotonPersistentDiskVolumeSource.md)
  - [V1Pod](docs/V1Pod.md)
+ - [V1PodAffinity](docs/V1PodAffinity.md)
+ - [V1PodAffinityTerm](docs/V1PodAffinityTerm.md)
+ - [V1PodAntiAffinity](docs/V1PodAntiAffinity.md)
  - [V1PodCondition](docs/V1PodCondition.md)
  - [V1PodList](docs/V1PodList.md)
  - [V1PodSecurityContext](docs/V1PodSecurityContext.md)
@@ -1419,18 +1490,17 @@ Class | Method | HTTP request | Description
  - [V1PodTemplate](docs/V1PodTemplate.md)
  - [V1PodTemplateList](docs/V1PodTemplateList.md)
  - [V1PodTemplateSpec](docs/V1PodTemplateSpec.md)
- - [V1Policy](docs/V1Policy.md)
- - [V1PolicyBinding](docs/V1PolicyBinding.md)
- - [V1PolicyBindingList](docs/V1PolicyBindingList.md)
- - [V1PolicyList](docs/V1PolicyList.md)
  - [V1PolicyRule](docs/V1PolicyRule.md)
+ - [V1PortworxVolumeSource](docs/V1PortworxVolumeSource.md)
  - [V1Preconditions](docs/V1Preconditions.md)
+ - [V1PreferredSchedulingTerm](docs/V1PreferredSchedulingTerm.md)
  - [V1Probe](docs/V1Probe.md)
  - [V1Project](docs/V1Project.md)
  - [V1ProjectList](docs/V1ProjectList.md)
  - [V1ProjectRequest](docs/V1ProjectRequest.md)
  - [V1ProjectSpec](docs/V1ProjectSpec.md)
  - [V1ProjectStatus](docs/V1ProjectStatus.md)
+ - [V1ProjectedVolumeSource](docs/V1ProjectedVolumeSource.md)
  - [V1QuobyteVolumeSource](docs/V1QuobyteVolumeSource.md)
  - [V1RBDVolumeSource](docs/V1RBDVolumeSource.md)
  - [V1RecreateDeploymentStrategyParams](docs/V1RecreateDeploymentStrategyParams.md)
@@ -1442,6 +1512,7 @@ Class | Method | HTTP request | Description
  - [V1RepositoryImportSpec](docs/V1RepositoryImportSpec.md)
  - [V1RepositoryImportStatus](docs/V1RepositoryImportStatus.md)
  - [V1ResourceAccessReview](docs/V1ResourceAccessReview.md)
+ - [V1ResourceAttributes](docs/V1ResourceAttributes.md)
  - [V1ResourceFieldSelector](docs/V1ResourceFieldSelector.md)
  - [V1ResourceQuota](docs/V1ResourceQuota.md)
  - [V1ResourceQuotaList](docs/V1ResourceQuotaList.md)
@@ -1469,20 +1540,26 @@ Class | Method | HTTP request | Description
  - [V1SELinuxContextStrategyOptions](docs/V1SELinuxContextStrategyOptions.md)
  - [V1SELinuxOptions](docs/V1SELinuxOptions.md)
  - [V1Scale](docs/V1Scale.md)
+ - [V1ScaleIOVolumeSource](docs/V1ScaleIOVolumeSource.md)
  - [V1ScaleSpec](docs/V1ScaleSpec.md)
  - [V1ScaleStatus](docs/V1ScaleStatus.md)
  - [V1ScopeRestriction](docs/V1ScopeRestriction.md)
  - [V1Secret](docs/V1Secret.md)
  - [V1SecretBuildSource](docs/V1SecretBuildSource.md)
+ - [V1SecretEnvSource](docs/V1SecretEnvSource.md)
  - [V1SecretKeySelector](docs/V1SecretKeySelector.md)
  - [V1SecretList](docs/V1SecretList.md)
+ - [V1SecretProjection](docs/V1SecretProjection.md)
  - [V1SecretSpec](docs/V1SecretSpec.md)
  - [V1SecretVolumeSource](docs/V1SecretVolumeSource.md)
  - [V1SecurityContext](docs/V1SecurityContext.md)
  - [V1SecurityContextConstraints](docs/V1SecurityContextConstraints.md)
  - [V1SecurityContextConstraintsList](docs/V1SecurityContextConstraintsList.md)
+ - [V1SelfSubjectAccessReview](docs/V1SelfSubjectAccessReview.md)
+ - [V1SelfSubjectAccessReviewSpec](docs/V1SelfSubjectAccessReviewSpec.md)
  - [V1SelfSubjectRulesReview](docs/V1SelfSubjectRulesReview.md)
  - [V1SelfSubjectRulesReviewSpec](docs/V1SelfSubjectRulesReviewSpec.md)
+ - [V1ServerAddressByClientCIDR](docs/V1ServerAddressByClientCIDR.md)
  - [V1Service](docs/V1Service.md)
  - [V1ServiceAccount](docs/V1ServiceAccount.md)
  - [V1ServiceAccountList](docs/V1ServiceAccountList.md)
@@ -1499,7 +1576,19 @@ Class | Method | HTTP request | Description
  - [V1SourceBuildStrategy](docs/V1SourceBuildStrategy.md)
  - [V1SourceControlUser](docs/V1SourceControlUser.md)
  - [V1SourceRevision](docs/V1SourceRevision.md)
+ - [V1SourceStrategyOptions](docs/V1SourceStrategyOptions.md)
+ - [V1StageInfo](docs/V1StageInfo.md)
+ - [V1Status](docs/V1Status.md)
+ - [V1StatusCause](docs/V1StatusCause.md)
+ - [V1StatusDetails](docs/V1StatusDetails.md)
+ - [V1StepInfo](docs/V1StepInfo.md)
+ - [V1StorageClass](docs/V1StorageClass.md)
+ - [V1StorageClassList](docs/V1StorageClassList.md)
+ - [V1StorageOSPersistentVolumeSource](docs/V1StorageOSPersistentVolumeSource.md)
+ - [V1StorageOSVolumeSource](docs/V1StorageOSVolumeSource.md)
  - [V1SubjectAccessReview](docs/V1SubjectAccessReview.md)
+ - [V1SubjectAccessReviewSpec](docs/V1SubjectAccessReviewSpec.md)
+ - [V1SubjectAccessReviewStatus](docs/V1SubjectAccessReviewStatus.md)
  - [V1SubjectRulesReview](docs/V1SubjectRulesReview.md)
  - [V1SubjectRulesReviewSpec](docs/V1SubjectRulesReviewSpec.md)
  - [V1SubjectRulesReviewStatus](docs/V1SubjectRulesReviewStatus.md)
@@ -1512,42 +1601,53 @@ Class | Method | HTTP request | Description
  - [V1TagImportPolicy](docs/V1TagImportPolicy.md)
  - [V1TagReference](docs/V1TagReference.md)
  - [V1TagReferencePolicy](docs/V1TagReferencePolicy.md)
+ - [V1Taint](docs/V1Taint.md)
  - [V1Template](docs/V1Template.md)
+ - [V1TemplateInstance](docs/V1TemplateInstance.md)
+ - [V1TemplateInstanceCondition](docs/V1TemplateInstanceCondition.md)
+ - [V1TemplateInstanceList](docs/V1TemplateInstanceList.md)
+ - [V1TemplateInstanceObject](docs/V1TemplateInstanceObject.md)
+ - [V1TemplateInstanceRequester](docs/V1TemplateInstanceRequester.md)
+ - [V1TemplateInstanceSpec](docs/V1TemplateInstanceSpec.md)
+ - [V1TemplateInstanceStatus](docs/V1TemplateInstanceStatus.md)
  - [V1TemplateList](docs/V1TemplateList.md)
+ - [V1TokenReview](docs/V1TokenReview.md)
+ - [V1TokenReviewSpec](docs/V1TokenReviewSpec.md)
+ - [V1TokenReviewStatus](docs/V1TokenReviewStatus.md)
+ - [V1Toleration](docs/V1Toleration.md)
  - [V1User](docs/V1User.md)
  - [V1UserIdentityMapping](docs/V1UserIdentityMapping.md)
+ - [V1UserInfo](docs/V1UserInfo.md)
  - [V1UserList](docs/V1UserList.md)
  - [V1UserRestriction](docs/V1UserRestriction.md)
  - [V1Volume](docs/V1Volume.md)
  - [V1VolumeMount](docs/V1VolumeMount.md)
+ - [V1VolumeProjection](docs/V1VolumeProjection.md)
  - [V1VsphereVirtualDiskVolumeSource](docs/V1VsphereVirtualDiskVolumeSource.md)
+ - [V1WatchEvent](docs/V1WatchEvent.md)
  - [V1WebHookTrigger](docs/V1WebHookTrigger.md)
- - [V1alpha1CertificateSigningRequest](docs/V1alpha1CertificateSigningRequest.md)
- - [V1alpha1CertificateSigningRequestCondition](docs/V1alpha1CertificateSigningRequestCondition.md)
- - [V1alpha1CertificateSigningRequestList](docs/V1alpha1CertificateSigningRequestList.md)
- - [V1alpha1CertificateSigningRequestSpec](docs/V1alpha1CertificateSigningRequestSpec.md)
- - [V1alpha1CertificateSigningRequestStatus](docs/V1alpha1CertificateSigningRequestStatus.md)
+ - [V1WeightedPodAffinityTerm](docs/V1WeightedPodAffinityTerm.md)
  - [V1beta1APIVersion](docs/V1beta1APIVersion.md)
- - [V1beta1CPUTargetUtilization](docs/V1beta1CPUTargetUtilization.md)
+ - [V1beta1CertificateSigningRequest](docs/V1beta1CertificateSigningRequest.md)
+ - [V1beta1CertificateSigningRequestCondition](docs/V1beta1CertificateSigningRequestCondition.md)
+ - [V1beta1CertificateSigningRequestList](docs/V1beta1CertificateSigningRequestList.md)
+ - [V1beta1CertificateSigningRequestSpec](docs/V1beta1CertificateSigningRequestSpec.md)
+ - [V1beta1CertificateSigningRequestStatus](docs/V1beta1CertificateSigningRequestStatus.md)
+ - [V1beta1ClusterRole](docs/V1beta1ClusterRole.md)
+ - [V1beta1ClusterRoleBinding](docs/V1beta1ClusterRoleBinding.md)
+ - [V1beta1ClusterRoleBindingList](docs/V1beta1ClusterRoleBindingList.md)
+ - [V1beta1ClusterRoleList](docs/V1beta1ClusterRoleList.md)
+ - [V1beta1ControllerRevision](docs/V1beta1ControllerRevision.md)
+ - [V1beta1ControllerRevisionList](docs/V1beta1ControllerRevisionList.md)
  - [V1beta1DaemonSet](docs/V1beta1DaemonSet.md)
  - [V1beta1DaemonSetList](docs/V1beta1DaemonSetList.md)
  - [V1beta1DaemonSetSpec](docs/V1beta1DaemonSetSpec.md)
  - [V1beta1DaemonSetStatus](docs/V1beta1DaemonSetStatus.md)
- - [V1beta1Deployment](docs/V1beta1Deployment.md)
- - [V1beta1DeploymentCondition](docs/V1beta1DeploymentCondition.md)
- - [V1beta1DeploymentList](docs/V1beta1DeploymentList.md)
- - [V1beta1DeploymentRollback](docs/V1beta1DeploymentRollback.md)
- - [V1beta1DeploymentSpec](docs/V1beta1DeploymentSpec.md)
- - [V1beta1DeploymentStatus](docs/V1beta1DeploymentStatus.md)
- - [V1beta1DeploymentStrategy](docs/V1beta1DeploymentStrategy.md)
+ - [V1beta1DaemonSetUpdateStrategy](docs/V1beta1DaemonSetUpdateStrategy.md)
  - [V1beta1Eviction](docs/V1beta1Eviction.md)
  - [V1beta1FSGroupStrategyOptions](docs/V1beta1FSGroupStrategyOptions.md)
  - [V1beta1HTTPIngressPath](docs/V1beta1HTTPIngressPath.md)
  - [V1beta1HTTPIngressRuleValue](docs/V1beta1HTTPIngressRuleValue.md)
- - [V1beta1HorizontalPodAutoscaler](docs/V1beta1HorizontalPodAutoscaler.md)
- - [V1beta1HorizontalPodAutoscalerList](docs/V1beta1HorizontalPodAutoscalerList.md)
- - [V1beta1HorizontalPodAutoscalerSpec](docs/V1beta1HorizontalPodAutoscalerSpec.md)
- - [V1beta1HorizontalPodAutoscalerStatus](docs/V1beta1HorizontalPodAutoscalerStatus.md)
  - [V1beta1HostPortRange](docs/V1beta1HostPortRange.md)
  - [V1beta1IDRange](docs/V1beta1IDRange.md)
  - [V1beta1Ingress](docs/V1beta1Ingress.md)
@@ -1557,11 +1657,6 @@ Class | Method | HTTP request | Description
  - [V1beta1IngressSpec](docs/V1beta1IngressSpec.md)
  - [V1beta1IngressStatus](docs/V1beta1IngressStatus.md)
  - [V1beta1IngressTLS](docs/V1beta1IngressTLS.md)
- - [V1beta1Job](docs/V1beta1Job.md)
- - [V1beta1JobCondition](docs/V1beta1JobCondition.md)
- - [V1beta1JobList](docs/V1beta1JobList.md)
- - [V1beta1JobSpec](docs/V1beta1JobSpec.md)
- - [V1beta1JobStatus](docs/V1beta1JobStatus.md)
  - [V1beta1LocalSubjectAccessReview](docs/V1beta1LocalSubjectAccessReview.md)
  - [V1beta1NetworkPolicy](docs/V1beta1NetworkPolicy.md)
  - [V1beta1NetworkPolicyIngressRule](docs/V1beta1NetworkPolicyIngressRule.md)
@@ -1577,31 +1672,35 @@ Class | Method | HTTP request | Description
  - [V1beta1PodSecurityPolicy](docs/V1beta1PodSecurityPolicy.md)
  - [V1beta1PodSecurityPolicyList](docs/V1beta1PodSecurityPolicyList.md)
  - [V1beta1PodSecurityPolicySpec](docs/V1beta1PodSecurityPolicySpec.md)
+ - [V1beta1PolicyRule](docs/V1beta1PolicyRule.md)
  - [V1beta1ReplicaSet](docs/V1beta1ReplicaSet.md)
  - [V1beta1ReplicaSetCondition](docs/V1beta1ReplicaSetCondition.md)
  - [V1beta1ReplicaSetList](docs/V1beta1ReplicaSetList.md)
  - [V1beta1ReplicaSetSpec](docs/V1beta1ReplicaSetSpec.md)
  - [V1beta1ReplicaSetStatus](docs/V1beta1ReplicaSetStatus.md)
  - [V1beta1ResourceAttributes](docs/V1beta1ResourceAttributes.md)
- - [V1beta1RollbackConfig](docs/V1beta1RollbackConfig.md)
- - [V1beta1RollingUpdateDeployment](docs/V1beta1RollingUpdateDeployment.md)
+ - [V1beta1Role](docs/V1beta1Role.md)
+ - [V1beta1RoleBinding](docs/V1beta1RoleBinding.md)
+ - [V1beta1RoleBindingList](docs/V1beta1RoleBindingList.md)
+ - [V1beta1RoleList](docs/V1beta1RoleList.md)
+ - [V1beta1RoleRef](docs/V1beta1RoleRef.md)
+ - [V1beta1RollingUpdateDaemonSet](docs/V1beta1RollingUpdateDaemonSet.md)
+ - [V1beta1RollingUpdateStatefulSetStrategy](docs/V1beta1RollingUpdateStatefulSetStrategy.md)
  - [V1beta1RunAsUserStrategyOptions](docs/V1beta1RunAsUserStrategyOptions.md)
  - [V1beta1SELinuxStrategyOptions](docs/V1beta1SELinuxStrategyOptions.md)
- - [V1beta1Scale](docs/V1beta1Scale.md)
- - [V1beta1ScaleSpec](docs/V1beta1ScaleSpec.md)
- - [V1beta1ScaleStatus](docs/V1beta1ScaleStatus.md)
  - [V1beta1SelfSubjectAccessReview](docs/V1beta1SelfSubjectAccessReview.md)
  - [V1beta1SelfSubjectAccessReviewSpec](docs/V1beta1SelfSubjectAccessReviewSpec.md)
  - [V1beta1StatefulSet](docs/V1beta1StatefulSet.md)
  - [V1beta1StatefulSetList](docs/V1beta1StatefulSetList.md)
  - [V1beta1StatefulSetSpec](docs/V1beta1StatefulSetSpec.md)
  - [V1beta1StatefulSetStatus](docs/V1beta1StatefulSetStatus.md)
+ - [V1beta1StatefulSetUpdateStrategy](docs/V1beta1StatefulSetUpdateStrategy.md)
  - [V1beta1StorageClass](docs/V1beta1StorageClass.md)
  - [V1beta1StorageClassList](docs/V1beta1StorageClassList.md)
+ - [V1beta1Subject](docs/V1beta1Subject.md)
  - [V1beta1SubjectAccessReview](docs/V1beta1SubjectAccessReview.md)
  - [V1beta1SubjectAccessReviewSpec](docs/V1beta1SubjectAccessReviewSpec.md)
  - [V1beta1SubjectAccessReviewStatus](docs/V1beta1SubjectAccessReviewStatus.md)
- - [V1beta1SubresourceReference](docs/V1beta1SubresourceReference.md)
  - [V1beta1SupplementalGroupsStrategyOptions](docs/V1beta1SupplementalGroupsStrategyOptions.md)
  - [V1beta1ThirdPartyResource](docs/V1beta1ThirdPartyResource.md)
  - [V1beta1ThirdPartyResourceList](docs/V1beta1ThirdPartyResourceList.md)
@@ -1613,19 +1712,41 @@ Class | Method | HTTP request | Description
  - [V2alpha1CronJobList](docs/V2alpha1CronJobList.md)
  - [V2alpha1CronJobSpec](docs/V2alpha1CronJobSpec.md)
  - [V2alpha1CronJobStatus](docs/V2alpha1CronJobStatus.md)
- - [V2alpha1Job](docs/V2alpha1Job.md)
- - [V2alpha1JobCondition](docs/V2alpha1JobCondition.md)
- - [V2alpha1JobList](docs/V2alpha1JobList.md)
- - [V2alpha1JobSpec](docs/V2alpha1JobSpec.md)
- - [V2alpha1JobStatus](docs/V2alpha1JobStatus.md)
  - [V2alpha1JobTemplateSpec](docs/V2alpha1JobTemplateSpec.md)
- - [VersionInfo](docs/VersionInfo.md)
- - [VersionedEvent](docs/VersionedEvent.md)
 
 
 ## Documentation For Authorization
 
- All endpoints do not require authorization.
+
+## BearerToken
+
+- **Type**: API key
+- **API key parameter name**: authorization
+- **Location**: HTTP header
+
+## Oauth2AccessToken
+
+- **Type**: OAuth
+- **Flow**: accessCode
+- **Authorization URL**: https://127.0.0.1:8443/oauth/authorize
+- **Scopes**: 
+ - **user:check-access**: Read-only access to view your privileges (for example, \"can I create builds?\")
+ - **user:full**: Full read/write access with all of your permissions
+ - **user:info**: Read-only access to your user information (including username, identities, and group membership)
+ - **user:list-projects**: Read-only access to list your projects and view their metadata (display name, description, etc.)
+ - **user:list-scoped-projects**: Read-only access to list your projects viewable with this token and view their metadata (display name, description, etc.)
+
+## Oauth2Implicit
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: https://127.0.0.1:8443/oauth/authorize
+- **Scopes**: 
+ - **user:check-access**: Read-only access to view your privileges (for example, \"can I create builds?\")
+ - **user:full**: Full read/write access with all of your permissions
+ - **user:info**: Read-only access to your user information (including username, identities, and group membership)
+ - **user:list-projects**: Read-only access to list your projects and view their metadata (display name, description, etc.)
+ - **user:list-scoped-projects**: Read-only access to list your projects viewable with this token and view their metadata (display name, description, etc.)
 
 
 ## Author

@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**env** | [**list[V1EnvVar]**](V1EnvVar.md) | env contains additional environment variables you want to pass into a builder container. ValueFrom is not supported. | [optional] 
+**env** | [**list[V1EnvVar]**](V1EnvVar.md) | env contains additional environment variables you want to pass into a builder container. | [optional] 
 **force_pull** | **bool** | forcePull describes if the builder should pull the images from registry prior to building. | [optional] 
 **_from** | [**V1ObjectReference**](V1ObjectReference.md) | from is reference to an DockerImage, ImageStreamTag, or ImageStreamImage from which the docker image should be pulled | 
 **incremental** | **bool** | incremental flag forces the Source build to do incremental builds if true. | [optional] 

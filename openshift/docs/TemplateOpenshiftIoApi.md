@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **create_namespaced_processed_template_v1**
-> V1Template create_namespaced_processed_template_v1(body, namespace, pretty=pretty)
+> V1Template create_namespaced_processed_template_v1(namespace, body, pretty=pretty)
 
 
 
@@ -23,14 +23,23 @@ import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
 # create an instance of the API class
 api_instance = openshift.client.TemplateOpenshiftIoApi()
-body = openshift.client.V1Template() # V1Template | 
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+body = openshift.client.V1Template() # V1Template | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.create_namespaced_processed_template_v1(body, namespace, pretty=pretty)
+    api_response = api_instance.create_namespaced_processed_template_v1(namespace, body, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling TemplateOpenshiftIoApi->create_namespaced_processed_template_v1: %s\n" % e)
@@ -40,8 +49,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**V1Template**](V1Template.md)|  | 
  **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **body** | [**V1Template**](V1Template.md)|  | 
  **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
 
 ### Return type
@@ -50,7 +59,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 
@@ -73,6 +82,15 @@ import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openshift.client.TemplateOpenshiftIoApi()
@@ -99,7 +117,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
 
 ### HTTP request headers
 

@@ -14,7 +14,6 @@ from .network_openshift_io_v1_api import NetworkOpenshiftIoV1Api
 from .oapi_api import OapiApi
 from .oauth_openshift_io_api import OauthOpenshiftIoApi
 from .oauth_openshift_io_v1_api import OauthOpenshiftIoV1Api
-from .osapi_api import OsapiApi
 from .project_openshift_io_api import ProjectOpenshiftIoApi
 from .project_openshift_io_v1_api import ProjectOpenshiftIoV1Api
 from .quota_openshift_io_api import QuotaOpenshiftIoApi
