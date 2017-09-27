@@ -3,9 +3,9 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
-    OpenAPI spec version: v3.6.0-alpha.0
+    OpenAPI spec version: latest
     
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
@@ -40,7 +40,7 @@ class OauthOpenshiftIoV1Api(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
-    def create_oauth_openshift_io_v1_o_auth_access_token(self, body, **kwargs):
+    def create_o_auth_access_token(self, body, **kwargs):
         """
         create an OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -49,7 +49,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_oauth_openshift_io_v1_o_auth_access_token(body, callback=callback_function)
+        >>> thread = api.create_o_auth_access_token(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -61,12 +61,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_oauth_openshift_io_v1_o_auth_access_token_with_http_info(body, **kwargs)
+            return self.create_o_auth_access_token_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_oauth_openshift_io_v1_o_auth_access_token_with_http_info(body, **kwargs)
+            (data) = self.create_o_auth_access_token_with_http_info(body, **kwargs)
             return data
 
-    def create_oauth_openshift_io_v1_o_auth_access_token_with_http_info(self, body, **kwargs):
+    def create_o_auth_access_token_with_http_info(self, body, **kwargs):
         """
         create an OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -75,7 +75,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_oauth_openshift_io_v1_o_auth_access_token_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_o_auth_access_token_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -97,13 +97,13 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_oauth_openshift_io_v1_o_auth_access_token" % key
+                    " to method create_o_auth_access_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_oauth_openshift_io_v1_o_auth_access_token`")
+            raise ValueError("Missing the required parameter `body` when calling `create_o_auth_access_token`")
 
 
         collection_formats = {}
@@ -132,7 +132,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -149,7 +149,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_oauth_openshift_io_v1_o_auth_authorize_token(self, body, **kwargs):
+    def create_o_auth_authorize_token(self, body, **kwargs):
         """
         create an OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -158,7 +158,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_oauth_openshift_io_v1_o_auth_authorize_token(body, callback=callback_function)
+        >>> thread = api.create_o_auth_authorize_token(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -170,12 +170,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(body, **kwargs)
+            return self.create_o_auth_authorize_token_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(body, **kwargs)
+            (data) = self.create_o_auth_authorize_token_with_http_info(body, **kwargs)
             return data
 
-    def create_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(self, body, **kwargs):
+    def create_o_auth_authorize_token_with_http_info(self, body, **kwargs):
         """
         create an OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -184,7 +184,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_o_auth_authorize_token_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -206,13 +206,13 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_oauth_openshift_io_v1_o_auth_authorize_token" % key
+                    " to method create_o_auth_authorize_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_oauth_openshift_io_v1_o_auth_authorize_token`")
+            raise ValueError("Missing the required parameter `body` when calling `create_o_auth_authorize_token`")
 
 
         collection_formats = {}
@@ -241,7 +241,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -258,7 +258,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_oauth_openshift_io_v1_o_auth_client(self, body, **kwargs):
+    def create_o_auth_client(self, body, **kwargs):
         """
         create an OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -267,7 +267,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_oauth_openshift_io_v1_o_auth_client(body, callback=callback_function)
+        >>> thread = api.create_o_auth_client(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -279,12 +279,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_oauth_openshift_io_v1_o_auth_client_with_http_info(body, **kwargs)
+            return self.create_o_auth_client_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_oauth_openshift_io_v1_o_auth_client_with_http_info(body, **kwargs)
+            (data) = self.create_o_auth_client_with_http_info(body, **kwargs)
             return data
 
-    def create_oauth_openshift_io_v1_o_auth_client_with_http_info(self, body, **kwargs):
+    def create_o_auth_client_with_http_info(self, body, **kwargs):
         """
         create an OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -293,7 +293,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_oauth_openshift_io_v1_o_auth_client_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_o_auth_client_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -315,13 +315,13 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_oauth_openshift_io_v1_o_auth_client" % key
+                    " to method create_o_auth_client" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_oauth_openshift_io_v1_o_auth_client`")
+            raise ValueError("Missing the required parameter `body` when calling `create_o_auth_client`")
 
 
         collection_formats = {}
@@ -350,7 +350,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -367,7 +367,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_oauth_openshift_io_v1_o_auth_client_authorization(self, body, **kwargs):
+    def create_o_auth_client_authorization(self, body, **kwargs):
         """
         create an OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -376,7 +376,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_oauth_openshift_io_v1_o_auth_client_authorization(body, callback=callback_function)
+        >>> thread = api.create_o_auth_client_authorization(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -388,12 +388,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(body, **kwargs)
+            return self.create_o_auth_client_authorization_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(body, **kwargs)
+            (data) = self.create_o_auth_client_authorization_with_http_info(body, **kwargs)
             return data
 
-    def create_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(self, body, **kwargs):
+    def create_o_auth_client_authorization_with_http_info(self, body, **kwargs):
         """
         create an OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -402,7 +402,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_o_auth_client_authorization_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -424,13 +424,13 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_oauth_openshift_io_v1_o_auth_client_authorization" % key
+                    " to method create_o_auth_client_authorization" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_oauth_openshift_io_v1_o_auth_client_authorization`")
+            raise ValueError("Missing the required parameter `body` when calling `create_o_auth_client_authorization`")
 
 
         collection_formats = {}
@@ -459,7 +459,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -476,7 +476,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_oauth_openshift_io_v1_collection_o_auth_access_token(self, **kwargs):
+    def delete_collection_o_auth_access_token(self, **kwargs):
         """
         delete collection of OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -485,28 +485,29 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_collection_o_auth_access_token(callback=callback_function)
+        >>> thread = api.delete_collection_o_auth_access_token(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_oauth_openshift_io_v1_collection_o_auth_access_token_with_http_info(**kwargs)
+            return self.delete_collection_o_auth_access_token_with_http_info(**kwargs)
         else:
-            (data) = self.delete_oauth_openshift_io_v1_collection_o_auth_access_token_with_http_info(**kwargs)
+            (data) = self.delete_collection_o_auth_access_token_with_http_info(**kwargs)
             return data
 
-    def delete_oauth_openshift_io_v1_collection_o_auth_access_token_with_http_info(self, **kwargs):
+    def delete_collection_o_auth_access_token_with_http_info(self, **kwargs):
         """
         delete collection of OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -515,22 +516,23 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_collection_o_auth_access_token_with_http_info(callback=callback_function)
+        >>> thread = api.delete_collection_o_auth_access_token_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -541,7 +543,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_oauth_openshift_io_v1_collection_o_auth_access_token" % key
+                    " to method delete_collection_o_auth_access_token" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -557,6 +559,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -581,7 +585,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -590,7 +594,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -598,7 +602,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_oauth_openshift_io_v1_collection_o_auth_authorize_token(self, **kwargs):
+    def delete_collection_o_auth_authorize_token(self, **kwargs):
         """
         delete collection of OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -607,28 +611,29 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_collection_o_auth_authorize_token(callback=callback_function)
+        >>> thread = api.delete_collection_o_auth_authorize_token(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_oauth_openshift_io_v1_collection_o_auth_authorize_token_with_http_info(**kwargs)
+            return self.delete_collection_o_auth_authorize_token_with_http_info(**kwargs)
         else:
-            (data) = self.delete_oauth_openshift_io_v1_collection_o_auth_authorize_token_with_http_info(**kwargs)
+            (data) = self.delete_collection_o_auth_authorize_token_with_http_info(**kwargs)
             return data
 
-    def delete_oauth_openshift_io_v1_collection_o_auth_authorize_token_with_http_info(self, **kwargs):
+    def delete_collection_o_auth_authorize_token_with_http_info(self, **kwargs):
         """
         delete collection of OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -637,22 +642,23 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_collection_o_auth_authorize_token_with_http_info(callback=callback_function)
+        >>> thread = api.delete_collection_o_auth_authorize_token_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -663,7 +669,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_oauth_openshift_io_v1_collection_o_auth_authorize_token" % key
+                    " to method delete_collection_o_auth_authorize_token" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -679,6 +685,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -703,7 +711,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -712,7 +720,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -720,7 +728,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_oauth_openshift_io_v1_collection_o_auth_client(self, **kwargs):
+    def delete_collection_o_auth_client(self, **kwargs):
         """
         delete collection of OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -729,28 +737,29 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_collection_o_auth_client(callback=callback_function)
+        >>> thread = api.delete_collection_o_auth_client(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_oauth_openshift_io_v1_collection_o_auth_client_with_http_info(**kwargs)
+            return self.delete_collection_o_auth_client_with_http_info(**kwargs)
         else:
-            (data) = self.delete_oauth_openshift_io_v1_collection_o_auth_client_with_http_info(**kwargs)
+            (data) = self.delete_collection_o_auth_client_with_http_info(**kwargs)
             return data
 
-    def delete_oauth_openshift_io_v1_collection_o_auth_client_with_http_info(self, **kwargs):
+    def delete_collection_o_auth_client_with_http_info(self, **kwargs):
         """
         delete collection of OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -759,22 +768,23 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_collection_o_auth_client_with_http_info(callback=callback_function)
+        >>> thread = api.delete_collection_o_auth_client_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -785,7 +795,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_oauth_openshift_io_v1_collection_o_auth_client" % key
+                    " to method delete_collection_o_auth_client" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -801,6 +811,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -825,7 +837,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -834,7 +846,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -842,7 +854,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_oauth_openshift_io_v1_collection_o_auth_client_authorization(self, **kwargs):
+    def delete_collection_o_auth_client_authorization(self, **kwargs):
         """
         delete collection of OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -851,28 +863,29 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_collection_o_auth_client_authorization(callback=callback_function)
+        >>> thread = api.delete_collection_o_auth_client_authorization(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_oauth_openshift_io_v1_collection_o_auth_client_authorization_with_http_info(**kwargs)
+            return self.delete_collection_o_auth_client_authorization_with_http_info(**kwargs)
         else:
-            (data) = self.delete_oauth_openshift_io_v1_collection_o_auth_client_authorization_with_http_info(**kwargs)
+            (data) = self.delete_collection_o_auth_client_authorization_with_http_info(**kwargs)
             return data
 
-    def delete_oauth_openshift_io_v1_collection_o_auth_client_authorization_with_http_info(self, **kwargs):
+    def delete_collection_o_auth_client_authorization_with_http_info(self, **kwargs):
         """
         delete collection of OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -881,22 +894,23 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_collection_o_auth_client_authorization_with_http_info(callback=callback_function)
+        >>> thread = api.delete_collection_o_auth_client_authorization_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -907,7 +921,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_oauth_openshift_io_v1_collection_o_auth_client_authorization" % key
+                    " to method delete_collection_o_auth_client_authorization" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -923,6 +937,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -947,7 +963,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -956,7 +972,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -964,7 +980,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_oauth_openshift_io_v1_o_auth_access_token(self, name, body, **kwargs):
+    def delete_o_auth_access_token(self, name, body, **kwargs):
         """
         delete an OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -973,7 +989,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_o_auth_access_token(name, body, callback=callback_function)
+        >>> thread = api.delete_o_auth_access_token(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -981,19 +997,20 @@ class OauthOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, **kwargs)
+            return self.delete_o_auth_access_token_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.delete_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, **kwargs)
+            (data) = self.delete_o_auth_access_token_with_http_info(name, body, **kwargs)
             return data
 
-    def delete_oauth_openshift_io_v1_o_auth_access_token_with_http_info(self, name, body, **kwargs):
+    def delete_o_auth_access_token_with_http_info(self, name, body, **kwargs):
         """
         delete an OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -1002,7 +1019,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.delete_o_auth_access_token_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1010,13 +1027,14 @@ class OauthOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1027,16 +1045,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_oauth_openshift_io_v1_o_auth_access_token" % key
+                    " to method delete_o_auth_access_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_oauth_openshift_io_v1_o_auth_access_token`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_o_auth_access_token`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_oauth_openshift_io_v1_o_auth_access_token`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_o_auth_access_token`")
 
 
         collection_formats = {}
@@ -1053,6 +1071,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1071,7 +1091,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1080,7 +1100,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1088,7 +1108,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_oauth_openshift_io_v1_o_auth_authorize_token(self, name, body, **kwargs):
+    def delete_o_auth_authorize_token(self, name, body, **kwargs):
         """
         delete an OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -1097,7 +1117,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_o_auth_authorize_token(name, body, callback=callback_function)
+        >>> thread = api.delete_o_auth_authorize_token(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1105,19 +1125,20 @@ class OauthOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, **kwargs)
+            return self.delete_o_auth_authorize_token_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.delete_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, **kwargs)
+            (data) = self.delete_o_auth_authorize_token_with_http_info(name, body, **kwargs)
             return data
 
-    def delete_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(self, name, body, **kwargs):
+    def delete_o_auth_authorize_token_with_http_info(self, name, body, **kwargs):
         """
         delete an OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -1126,7 +1147,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.delete_o_auth_authorize_token_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1134,13 +1155,14 @@ class OauthOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1151,16 +1173,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_oauth_openshift_io_v1_o_auth_authorize_token" % key
+                    " to method delete_o_auth_authorize_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_oauth_openshift_io_v1_o_auth_authorize_token`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_o_auth_authorize_token`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_oauth_openshift_io_v1_o_auth_authorize_token`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_o_auth_authorize_token`")
 
 
         collection_formats = {}
@@ -1177,6 +1199,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1195,7 +1219,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1204,7 +1228,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1212,7 +1236,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_oauth_openshift_io_v1_o_auth_client(self, name, body, **kwargs):
+    def delete_o_auth_client(self, name, body, **kwargs):
         """
         delete an OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -1221,7 +1245,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_o_auth_client(name, body, callback=callback_function)
+        >>> thread = api.delete_o_auth_client(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1229,19 +1253,20 @@ class OauthOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, **kwargs)
+            return self.delete_o_auth_client_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.delete_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, **kwargs)
+            (data) = self.delete_o_auth_client_with_http_info(name, body, **kwargs)
             return data
 
-    def delete_oauth_openshift_io_v1_o_auth_client_with_http_info(self, name, body, **kwargs):
+    def delete_o_auth_client_with_http_info(self, name, body, **kwargs):
         """
         delete an OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -1250,7 +1275,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.delete_o_auth_client_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1258,13 +1283,14 @@ class OauthOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1275,16 +1301,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_oauth_openshift_io_v1_o_auth_client" % key
+                    " to method delete_o_auth_client" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_oauth_openshift_io_v1_o_auth_client`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_o_auth_client`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_oauth_openshift_io_v1_o_auth_client`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_o_auth_client`")
 
 
         collection_formats = {}
@@ -1301,6 +1327,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1319,7 +1347,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1328,7 +1356,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1336,7 +1364,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_oauth_openshift_io_v1_o_auth_client_authorization(self, name, body, **kwargs):
+    def delete_o_auth_client_authorization(self, name, body, **kwargs):
         """
         delete an OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -1345,7 +1373,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_o_auth_client_authorization(name, body, callback=callback_function)
+        >>> thread = api.delete_o_auth_client_authorization(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1353,19 +1381,20 @@ class OauthOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, **kwargs)
+            return self.delete_o_auth_client_authorization_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.delete_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, **kwargs)
+            (data) = self.delete_o_auth_client_authorization_with_http_info(name, body, **kwargs)
             return data
 
-    def delete_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(self, name, body, **kwargs):
+    def delete_o_auth_client_authorization_with_http_info(self, name, body, **kwargs):
         """
         delete an OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -1374,7 +1403,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.delete_o_auth_client_authorization_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1382,13 +1411,14 @@ class OauthOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1399,16 +1429,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_oauth_openshift_io_v1_o_auth_client_authorization" % key
+                    " to method delete_o_auth_client_authorization" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_oauth_openshift_io_v1_o_auth_client_authorization`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_o_auth_client_authorization`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_oauth_openshift_io_v1_o_auth_client_authorization`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_o_auth_client_authorization`")
 
 
         collection_formats = {}
@@ -1425,6 +1455,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1443,7 +1475,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1452,7 +1484,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1460,7 +1492,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def get_oauth_openshift_io_v1_api_resources(self, **kwargs):
+    def get_api_resources(self, **kwargs):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
@@ -1469,22 +1501,22 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_oauth_openshift_io_v1_api_resources(callback=callback_function)
+        >>> thread = api.get_api_resources(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: UnversionedAPIResourceList
+        :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.get_oauth_openshift_io_v1_api_resources_with_http_info(**kwargs)
+            return self.get_api_resources_with_http_info(**kwargs)
         else:
-            (data) = self.get_oauth_openshift_io_v1_api_resources_with_http_info(**kwargs)
+            (data) = self.get_api_resources_with_http_info(**kwargs)
             return data
 
-    def get_oauth_openshift_io_v1_api_resources_with_http_info(self, **kwargs):
+    def get_api_resources_with_http_info(self, **kwargs):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
@@ -1493,11 +1525,11 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_oauth_openshift_io_v1_api_resources_with_http_info(callback=callback_function)
+        >>> thread = api.get_api_resources_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: UnversionedAPIResourceList
+        :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1513,7 +1545,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_oauth_openshift_io_v1_api_resources" % key
+                    " to method get_api_resources" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1540,7 +1572,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1549,7 +1581,7 @@ class OauthOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedAPIResourceList',
+                                        response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1557,7 +1589,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_oauth_openshift_io_v1_o_auth_access_token(self, **kwargs):
+    def list_o_auth_access_token(self, **kwargs):
         """
         list or watch objects of kind OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -1566,14 +1598,15 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_oauth_openshift_io_v1_o_auth_access_token(callback=callback_function)
+        >>> thread = api.list_o_auth_access_token(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1OAuthAccessTokenList
@@ -1582,12 +1615,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_oauth_openshift_io_v1_o_auth_access_token_with_http_info(**kwargs)
+            return self.list_o_auth_access_token_with_http_info(**kwargs)
         else:
-            (data) = self.list_oauth_openshift_io_v1_o_auth_access_token_with_http_info(**kwargs)
+            (data) = self.list_o_auth_access_token_with_http_info(**kwargs)
             return data
 
-    def list_oauth_openshift_io_v1_o_auth_access_token_with_http_info(self, **kwargs):
+    def list_o_auth_access_token_with_http_info(self, **kwargs):
         """
         list or watch objects of kind OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -1596,14 +1629,15 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_oauth_openshift_io_v1_o_auth_access_token_with_http_info(callback=callback_function)
+        >>> thread = api.list_o_auth_access_token_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1OAuthAccessTokenList
@@ -1611,7 +1645,7 @@ class OauthOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1622,7 +1656,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_oauth_openshift_io_v1_o_auth_access_token" % key
+                    " to method list_o_auth_access_token" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1638,6 +1672,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1662,7 +1698,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1679,7 +1715,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_oauth_openshift_io_v1_o_auth_authorize_token(self, **kwargs):
+    def list_o_auth_authorize_token(self, **kwargs):
         """
         list or watch objects of kind OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -1688,14 +1724,15 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_oauth_openshift_io_v1_o_auth_authorize_token(callback=callback_function)
+        >>> thread = api.list_o_auth_authorize_token(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1OAuthAuthorizeTokenList
@@ -1704,12 +1741,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(**kwargs)
+            return self.list_o_auth_authorize_token_with_http_info(**kwargs)
         else:
-            (data) = self.list_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(**kwargs)
+            (data) = self.list_o_auth_authorize_token_with_http_info(**kwargs)
             return data
 
-    def list_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(self, **kwargs):
+    def list_o_auth_authorize_token_with_http_info(self, **kwargs):
         """
         list or watch objects of kind OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -1718,14 +1755,15 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(callback=callback_function)
+        >>> thread = api.list_o_auth_authorize_token_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1OAuthAuthorizeTokenList
@@ -1733,7 +1771,7 @@ class OauthOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1744,7 +1782,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_oauth_openshift_io_v1_o_auth_authorize_token" % key
+                    " to method list_o_auth_authorize_token" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1760,6 +1798,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1784,7 +1824,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1801,7 +1841,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_oauth_openshift_io_v1_o_auth_client(self, **kwargs):
+    def list_o_auth_client(self, **kwargs):
         """
         list or watch objects of kind OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -1810,14 +1850,15 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_oauth_openshift_io_v1_o_auth_client(callback=callback_function)
+        >>> thread = api.list_o_auth_client(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1OAuthClientList
@@ -1826,12 +1867,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_oauth_openshift_io_v1_o_auth_client_with_http_info(**kwargs)
+            return self.list_o_auth_client_with_http_info(**kwargs)
         else:
-            (data) = self.list_oauth_openshift_io_v1_o_auth_client_with_http_info(**kwargs)
+            (data) = self.list_o_auth_client_with_http_info(**kwargs)
             return data
 
-    def list_oauth_openshift_io_v1_o_auth_client_with_http_info(self, **kwargs):
+    def list_o_auth_client_with_http_info(self, **kwargs):
         """
         list or watch objects of kind OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -1840,14 +1881,15 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_oauth_openshift_io_v1_o_auth_client_with_http_info(callback=callback_function)
+        >>> thread = api.list_o_auth_client_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1OAuthClientList
@@ -1855,7 +1897,7 @@ class OauthOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1866,7 +1908,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_oauth_openshift_io_v1_o_auth_client" % key
+                    " to method list_o_auth_client" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1882,6 +1924,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1906,7 +1950,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1923,7 +1967,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_oauth_openshift_io_v1_o_auth_client_authorization(self, **kwargs):
+    def list_o_auth_client_authorization(self, **kwargs):
         """
         list or watch objects of kind OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -1932,14 +1976,15 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_oauth_openshift_io_v1_o_auth_client_authorization(callback=callback_function)
+        >>> thread = api.list_o_auth_client_authorization(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1OAuthClientAuthorizationList
@@ -1948,12 +1993,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(**kwargs)
+            return self.list_o_auth_client_authorization_with_http_info(**kwargs)
         else:
-            (data) = self.list_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(**kwargs)
+            (data) = self.list_o_auth_client_authorization_with_http_info(**kwargs)
             return data
 
-    def list_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(self, **kwargs):
+    def list_o_auth_client_authorization_with_http_info(self, **kwargs):
         """
         list or watch objects of kind OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -1962,14 +2007,15 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(callback=callback_function)
+        >>> thread = api.list_o_auth_client_authorization_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1OAuthClientAuthorizationList
@@ -1977,7 +2023,7 @@ class OauthOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1988,7 +2034,7 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_oauth_openshift_io_v1_o_auth_client_authorization" % key
+                    " to method list_o_auth_client_authorization" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -2004,6 +2050,8 @@ class OauthOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -2028,7 +2076,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2045,7 +2093,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_oauth_openshift_io_v1_o_auth_access_token(self, name, body, **kwargs):
+    def patch_o_auth_access_token(self, name, body, **kwargs):
         """
         partially update the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2054,12 +2102,12 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_oauth_openshift_io_v1_o_auth_access_token(name, body, callback=callback_function)
+        >>> thread = api.patch_o_auth_access_token(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthAccessToken (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthAccessToken
                  If the method is called asynchronously,
@@ -2067,12 +2115,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, **kwargs)
+            return self.patch_o_auth_access_token_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.patch_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, **kwargs)
+            (data) = self.patch_o_auth_access_token_with_http_info(name, body, **kwargs)
             return data
 
-    def patch_oauth_openshift_io_v1_o_auth_access_token_with_http_info(self, name, body, **kwargs):
+    def patch_o_auth_access_token_with_http_info(self, name, body, **kwargs):
         """
         partially update the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2081,12 +2129,12 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.patch_o_auth_access_token_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthAccessToken (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthAccessToken
                  If the method is called asynchronously,
@@ -2104,16 +2152,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_oauth_openshift_io_v1_o_auth_access_token" % key
+                    " to method patch_o_auth_access_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_oauth_openshift_io_v1_o_auth_access_token`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_o_auth_access_token`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_oauth_openshift_io_v1_o_auth_access_token`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_o_auth_access_token`")
 
 
         collection_formats = {}
@@ -2144,7 +2192,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2161,7 +2209,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_oauth_openshift_io_v1_o_auth_authorize_token(self, name, body, **kwargs):
+    def patch_o_auth_authorize_token(self, name, body, **kwargs):
         """
         partially update the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2170,12 +2218,12 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_oauth_openshift_io_v1_o_auth_authorize_token(name, body, callback=callback_function)
+        >>> thread = api.patch_o_auth_authorize_token(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthAuthorizeToken (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthAuthorizeToken
                  If the method is called asynchronously,
@@ -2183,12 +2231,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, **kwargs)
+            return self.patch_o_auth_authorize_token_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.patch_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, **kwargs)
+            (data) = self.patch_o_auth_authorize_token_with_http_info(name, body, **kwargs)
             return data
 
-    def patch_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(self, name, body, **kwargs):
+    def patch_o_auth_authorize_token_with_http_info(self, name, body, **kwargs):
         """
         partially update the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2197,12 +2245,12 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.patch_o_auth_authorize_token_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthAuthorizeToken (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthAuthorizeToken
                  If the method is called asynchronously,
@@ -2220,16 +2268,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_oauth_openshift_io_v1_o_auth_authorize_token" % key
+                    " to method patch_o_auth_authorize_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_oauth_openshift_io_v1_o_auth_authorize_token`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_o_auth_authorize_token`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_oauth_openshift_io_v1_o_auth_authorize_token`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_o_auth_authorize_token`")
 
 
         collection_formats = {}
@@ -2260,7 +2308,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2277,7 +2325,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_oauth_openshift_io_v1_o_auth_client(self, name, body, **kwargs):
+    def patch_o_auth_client(self, name, body, **kwargs):
         """
         partially update the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -2286,12 +2334,12 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_oauth_openshift_io_v1_o_auth_client(name, body, callback=callback_function)
+        >>> thread = api.patch_o_auth_client(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthClient (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthClient
                  If the method is called asynchronously,
@@ -2299,12 +2347,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, **kwargs)
+            return self.patch_o_auth_client_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.patch_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, **kwargs)
+            (data) = self.patch_o_auth_client_with_http_info(name, body, **kwargs)
             return data
 
-    def patch_oauth_openshift_io_v1_o_auth_client_with_http_info(self, name, body, **kwargs):
+    def patch_o_auth_client_with_http_info(self, name, body, **kwargs):
         """
         partially update the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -2313,12 +2361,12 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.patch_o_auth_client_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthClient (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthClient
                  If the method is called asynchronously,
@@ -2336,16 +2384,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_oauth_openshift_io_v1_o_auth_client" % key
+                    " to method patch_o_auth_client" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_oauth_openshift_io_v1_o_auth_client`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_o_auth_client`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_oauth_openshift_io_v1_o_auth_client`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_o_auth_client`")
 
 
         collection_formats = {}
@@ -2376,7 +2424,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2393,7 +2441,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_oauth_openshift_io_v1_o_auth_client_authorization(self, name, body, **kwargs):
+    def patch_o_auth_client_authorization(self, name, body, **kwargs):
         """
         partially update the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -2402,12 +2450,12 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_oauth_openshift_io_v1_o_auth_client_authorization(name, body, callback=callback_function)
+        >>> thread = api.patch_o_auth_client_authorization(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthClientAuthorization (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthClientAuthorization
                  If the method is called asynchronously,
@@ -2415,12 +2463,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, **kwargs)
+            return self.patch_o_auth_client_authorization_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.patch_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, **kwargs)
+            (data) = self.patch_o_auth_client_authorization_with_http_info(name, body, **kwargs)
             return data
 
-    def patch_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(self, name, body, **kwargs):
+    def patch_o_auth_client_authorization_with_http_info(self, name, body, **kwargs):
         """
         partially update the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -2429,12 +2477,12 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.patch_o_auth_client_authorization_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthClientAuthorization (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthClientAuthorization
                  If the method is called asynchronously,
@@ -2452,16 +2500,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_oauth_openshift_io_v1_o_auth_client_authorization" % key
+                    " to method patch_o_auth_client_authorization" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_oauth_openshift_io_v1_o_auth_client_authorization`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_o_auth_client_authorization`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_oauth_openshift_io_v1_o_auth_client_authorization`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_o_auth_client_authorization`")
 
 
         collection_formats = {}
@@ -2492,7 +2540,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2509,7 +2557,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_oauth_openshift_io_v1_o_auth_access_token(self, name, **kwargs):
+    def read_o_auth_access_token(self, name, **kwargs):
         """
         read the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2518,13 +2566,13 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_oauth_openshift_io_v1_o_auth_access_token(name, callback=callback_function)
+        >>> thread = api.read_o_auth_access_token(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthAccessToken (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1OAuthAccessToken
                  If the method is called asynchronously,
@@ -2532,12 +2580,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, **kwargs)
+            return self.read_o_auth_access_token_with_http_info(name, **kwargs)
         else:
-            (data) = self.read_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, **kwargs)
+            (data) = self.read_o_auth_access_token_with_http_info(name, **kwargs)
             return data
 
-    def read_oauth_openshift_io_v1_o_auth_access_token_with_http_info(self, name, **kwargs):
+    def read_o_auth_access_token_with_http_info(self, name, **kwargs):
         """
         read the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2546,13 +2594,13 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, callback=callback_function)
+        >>> thread = api.read_o_auth_access_token_with_http_info(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthAccessToken (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1OAuthAccessToken
                  If the method is called asynchronously,
@@ -2570,13 +2618,13 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_oauth_openshift_io_v1_o_auth_access_token" % key
+                    " to method read_o_auth_access_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_oauth_openshift_io_v1_o_auth_access_token`")
+            raise ValueError("Missing the required parameter `name` when calling `read_o_auth_access_token`")
 
 
         collection_formats = {}
@@ -2609,7 +2657,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2626,7 +2674,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_oauth_openshift_io_v1_o_auth_authorize_token(self, name, **kwargs):
+    def read_o_auth_authorize_token(self, name, **kwargs):
         """
         read the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2635,13 +2683,13 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_oauth_openshift_io_v1_o_auth_authorize_token(name, callback=callback_function)
+        >>> thread = api.read_o_auth_authorize_token(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthAuthorizeToken (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1OAuthAuthorizeToken
                  If the method is called asynchronously,
@@ -2649,12 +2697,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, **kwargs)
+            return self.read_o_auth_authorize_token_with_http_info(name, **kwargs)
         else:
-            (data) = self.read_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, **kwargs)
+            (data) = self.read_o_auth_authorize_token_with_http_info(name, **kwargs)
             return data
 
-    def read_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(self, name, **kwargs):
+    def read_o_auth_authorize_token_with_http_info(self, name, **kwargs):
         """
         read the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2663,13 +2711,13 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, callback=callback_function)
+        >>> thread = api.read_o_auth_authorize_token_with_http_info(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthAuthorizeToken (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1OAuthAuthorizeToken
                  If the method is called asynchronously,
@@ -2687,13 +2735,13 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_oauth_openshift_io_v1_o_auth_authorize_token" % key
+                    " to method read_o_auth_authorize_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_oauth_openshift_io_v1_o_auth_authorize_token`")
+            raise ValueError("Missing the required parameter `name` when calling `read_o_auth_authorize_token`")
 
 
         collection_formats = {}
@@ -2726,7 +2774,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2743,7 +2791,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_oauth_openshift_io_v1_o_auth_client(self, name, **kwargs):
+    def read_o_auth_client(self, name, **kwargs):
         """
         read the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -2752,13 +2800,13 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_oauth_openshift_io_v1_o_auth_client(name, callback=callback_function)
+        >>> thread = api.read_o_auth_client(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthClient (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1OAuthClient
                  If the method is called asynchronously,
@@ -2766,12 +2814,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_oauth_openshift_io_v1_o_auth_client_with_http_info(name, **kwargs)
+            return self.read_o_auth_client_with_http_info(name, **kwargs)
         else:
-            (data) = self.read_oauth_openshift_io_v1_o_auth_client_with_http_info(name, **kwargs)
+            (data) = self.read_o_auth_client_with_http_info(name, **kwargs)
             return data
 
-    def read_oauth_openshift_io_v1_o_auth_client_with_http_info(self, name, **kwargs):
+    def read_o_auth_client_with_http_info(self, name, **kwargs):
         """
         read the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -2780,13 +2828,13 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_oauth_openshift_io_v1_o_auth_client_with_http_info(name, callback=callback_function)
+        >>> thread = api.read_o_auth_client_with_http_info(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthClient (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1OAuthClient
                  If the method is called asynchronously,
@@ -2804,13 +2852,13 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_oauth_openshift_io_v1_o_auth_client" % key
+                    " to method read_o_auth_client" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_oauth_openshift_io_v1_o_auth_client`")
+            raise ValueError("Missing the required parameter `name` when calling `read_o_auth_client`")
 
 
         collection_formats = {}
@@ -2843,7 +2891,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2860,7 +2908,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_oauth_openshift_io_v1_o_auth_client_authorization(self, name, **kwargs):
+    def read_o_auth_client_authorization(self, name, **kwargs):
         """
         read the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -2869,13 +2917,13 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_oauth_openshift_io_v1_o_auth_client_authorization(name, callback=callback_function)
+        >>> thread = api.read_o_auth_client_authorization(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthClientAuthorization (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1OAuthClientAuthorization
                  If the method is called asynchronously,
@@ -2883,12 +2931,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, **kwargs)
+            return self.read_o_auth_client_authorization_with_http_info(name, **kwargs)
         else:
-            (data) = self.read_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, **kwargs)
+            (data) = self.read_o_auth_client_authorization_with_http_info(name, **kwargs)
             return data
 
-    def read_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(self, name, **kwargs):
+    def read_o_auth_client_authorization_with_http_info(self, name, **kwargs):
         """
         read the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -2897,13 +2945,13 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, callback=callback_function)
+        >>> thread = api.read_o_auth_client_authorization_with_http_info(name, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the OAuthClientAuthorization (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1OAuthClientAuthorization
                  If the method is called asynchronously,
@@ -2921,13 +2969,13 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_oauth_openshift_io_v1_o_auth_client_authorization" % key
+                    " to method read_o_auth_client_authorization" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_oauth_openshift_io_v1_o_auth_client_authorization`")
+            raise ValueError("Missing the required parameter `name` when calling `read_o_auth_client_authorization`")
 
 
         collection_formats = {}
@@ -2960,7 +3008,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2977,7 +3025,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_oauth_openshift_io_v1_o_auth_access_token(self, name, body, **kwargs):
+    def replace_o_auth_access_token(self, name, body, **kwargs):
         """
         replace the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -2986,7 +3034,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_oauth_openshift_io_v1_o_auth_access_token(name, body, callback=callback_function)
+        >>> thread = api.replace_o_auth_access_token(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -2999,12 +3047,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, **kwargs)
+            return self.replace_o_auth_access_token_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.replace_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, **kwargs)
+            (data) = self.replace_o_auth_access_token_with_http_info(name, body, **kwargs)
             return data
 
-    def replace_oauth_openshift_io_v1_o_auth_access_token_with_http_info(self, name, body, **kwargs):
+    def replace_o_auth_access_token_with_http_info(self, name, body, **kwargs):
         """
         replace the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
@@ -3013,7 +3061,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_oauth_openshift_io_v1_o_auth_access_token_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.replace_o_auth_access_token_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3036,16 +3084,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_oauth_openshift_io_v1_o_auth_access_token" % key
+                    " to method replace_o_auth_access_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_oauth_openshift_io_v1_o_auth_access_token`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_o_auth_access_token`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_oauth_openshift_io_v1_o_auth_access_token`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_o_auth_access_token`")
 
 
         collection_formats = {}
@@ -3076,7 +3124,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,
@@ -3093,7 +3141,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_oauth_openshift_io_v1_o_auth_authorize_token(self, name, body, **kwargs):
+    def replace_o_auth_authorize_token(self, name, body, **kwargs):
         """
         replace the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -3102,7 +3150,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_oauth_openshift_io_v1_o_auth_authorize_token(name, body, callback=callback_function)
+        >>> thread = api.replace_o_auth_authorize_token(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3115,12 +3163,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, **kwargs)
+            return self.replace_o_auth_authorize_token_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.replace_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, **kwargs)
+            (data) = self.replace_o_auth_authorize_token_with_http_info(name, body, **kwargs)
             return data
 
-    def replace_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(self, name, body, **kwargs):
+    def replace_o_auth_authorize_token_with_http_info(self, name, body, **kwargs):
         """
         replace the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
@@ -3129,7 +3177,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_oauth_openshift_io_v1_o_auth_authorize_token_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.replace_o_auth_authorize_token_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3152,16 +3200,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_oauth_openshift_io_v1_o_auth_authorize_token" % key
+                    " to method replace_o_auth_authorize_token" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_oauth_openshift_io_v1_o_auth_authorize_token`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_o_auth_authorize_token`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_oauth_openshift_io_v1_o_auth_authorize_token`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_o_auth_authorize_token`")
 
 
         collection_formats = {}
@@ -3192,7 +3240,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,
@@ -3209,7 +3257,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_oauth_openshift_io_v1_o_auth_client(self, name, body, **kwargs):
+    def replace_o_auth_client(self, name, body, **kwargs):
         """
         replace the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -3218,7 +3266,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_oauth_openshift_io_v1_o_auth_client(name, body, callback=callback_function)
+        >>> thread = api.replace_o_auth_client(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3231,12 +3279,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, **kwargs)
+            return self.replace_o_auth_client_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.replace_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, **kwargs)
+            (data) = self.replace_o_auth_client_with_http_info(name, body, **kwargs)
             return data
 
-    def replace_oauth_openshift_io_v1_o_auth_client_with_http_info(self, name, body, **kwargs):
+    def replace_o_auth_client_with_http_info(self, name, body, **kwargs):
         """
         replace the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
@@ -3245,7 +3293,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_oauth_openshift_io_v1_o_auth_client_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.replace_o_auth_client_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3268,16 +3316,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_oauth_openshift_io_v1_o_auth_client" % key
+                    " to method replace_o_auth_client" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_oauth_openshift_io_v1_o_auth_client`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_o_auth_client`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_oauth_openshift_io_v1_o_auth_client`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_o_auth_client`")
 
 
         collection_formats = {}
@@ -3308,7 +3356,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,
@@ -3325,7 +3373,7 @@ class OauthOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_oauth_openshift_io_v1_o_auth_client_authorization(self, name, body, **kwargs):
+    def replace_o_auth_client_authorization(self, name, body, **kwargs):
         """
         replace the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -3334,7 +3382,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_oauth_openshift_io_v1_o_auth_client_authorization(name, body, callback=callback_function)
+        >>> thread = api.replace_o_auth_client_authorization(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3347,12 +3395,12 @@ class OauthOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, **kwargs)
+            return self.replace_o_auth_client_authorization_with_http_info(name, body, **kwargs)
         else:
-            (data) = self.replace_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, **kwargs)
+            (data) = self.replace_o_auth_client_authorization_with_http_info(name, body, **kwargs)
             return data
 
-    def replace_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(self, name, body, **kwargs):
+    def replace_o_auth_client_authorization_with_http_info(self, name, body, **kwargs):
         """
         replace the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
@@ -3361,7 +3409,7 @@ class OauthOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_oauth_openshift_io_v1_o_auth_client_authorization_with_http_info(name, body, callback=callback_function)
+        >>> thread = api.replace_o_auth_client_authorization_with_http_info(name, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3384,16 +3432,16 @@ class OauthOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_oauth_openshift_io_v1_o_auth_client_authorization" % key
+                    " to method replace_o_auth_client_authorization" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_oauth_openshift_io_v1_o_auth_client_authorization`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_o_auth_client_authorization`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_oauth_openshift_io_v1_o_auth_client_authorization`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_o_auth_client_authorization`")
 
 
         collection_formats = {}
@@ -3424,7 +3472,7 @@ class OauthOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,

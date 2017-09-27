@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 **min_ready_seconds** | **int** | MinReadySeconds is the minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) | [optional] 
 **paused** | **bool** | Paused indicates that the deployment config is paused resulting in no new deployments on template changes or changes in the template caused by other triggers. | [optional] 
 **replicas** | **int** | Replicas is the number of desired replicas. | 
-**revision_history_limit** | **int** | RevisionHistoryLimit is the number of old ReplicationControllers to retain to allow for rollbacks. This field is a pointer to allow for differentiation between an explicit zero and not specified. | [optional] 
+**revision_history_limit** | **int** | RevisionHistoryLimit is the number of old ReplicationControllers to retain to allow for rollbacks. This field is a pointer to allow for differentiation between an explicit zero and not specified. Defaults to 10. (This only applies to DeploymentConfigs created via the new group API resource, not the legacy resource.) | [optional] 
 **selector** | **dict(str, str)** | Selector is a label query over pods that should match the Replicas count. | [optional] 
 **strategy** | [**V1DeploymentStrategy**](V1DeploymentStrategy.md) | Strategy describes how a deployment is executed. | 
 **template** | [**V1PodTemplateSpec**](V1PodTemplateSpec.md) | Template is the object that describes the pod that will be created if insufficient replicas are detected. | [optional] 

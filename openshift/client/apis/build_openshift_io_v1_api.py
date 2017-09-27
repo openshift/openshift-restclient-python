@@ -3,9 +3,9 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
-    OpenAPI spec version: v3.6.0-alpha.0
+    OpenAPI spec version: latest
     
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
@@ -40,7 +40,7 @@ class BuildOpenshiftIoV1Api(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
-    def connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary(self, name, namespace, **kwargs):
+    def connect_post_namespaced_binary_build_request_options_instantiatebinary(self, name, namespace, **kwargs):
         """
         connect POST requests to instantiatebinary of BinaryBuildRequestOptions
         This method makes a synchronous HTTP request by default. To make an
@@ -49,7 +49,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary(name, namespace, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_binary_build_request_options_instantiatebinary(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -62,18 +62,18 @@ class BuildOpenshiftIoV1Api(object):
         :param str revision_committer_email: revision.committerEmail of the source control user
         :param str revision_committer_name: revision.committerName of the source control user
         :param str revision_message: revision.message is the description of a specific commit
-        :return: str
+        :return: V1Build
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, **kwargs)
+            return self.connect_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, **kwargs)
+            (data) = self.connect_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, **kwargs)
             return data
 
-    def connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(self, name, namespace, **kwargs):
+    def connect_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(self, name, namespace, **kwargs):
         """
         connect POST requests to instantiatebinary of BinaryBuildRequestOptions
         This method makes a synchronous HTTP request by default. To make an
@@ -82,7 +82,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -95,7 +95,7 @@ class BuildOpenshiftIoV1Api(object):
         :param str revision_committer_email: revision.committerEmail of the source control user
         :param str revision_committer_name: revision.committerName of the source control user
         :param str revision_message: revision.message is the description of a specific commit
-        :return: str
+        :return: V1Build
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -111,16 +111,16 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary" % key
+                    " to method connect_post_namespaced_binary_build_request_options_instantiatebinary" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary`")
+            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_binary_build_request_options_instantiatebinary`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `connect_build_openshift_io_v1_post_namespaced_binary_build_request_options_instantiatebinary`")
+            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_binary_build_request_options_instantiatebinary`")
 
 
         collection_formats = {}
@@ -163,7 +163,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -172,7 +172,7 @@ class BuildOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='str',
+                                        response_type='V1Build',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -180,20 +180,20 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def connect_build_openshift_io_v1_post_namespaced_status_webhooks(self, name, namespace, **kwargs):
+    def connect_post_namespaced_build_webhooks(self, name, namespace, **kwargs):
         """
-        connect POST requests to webhooks of Status
+        connect POST requests to webhooks of Build
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_build_openshift_io_v1_post_namespaced_status_webhooks(name, namespace, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_webhooks(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str name: name of the Status (required)
+        :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str path: Path is the URL path to use for the current proxy request to pod.
         :return: str
@@ -202,25 +202,25 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_http_info(name, namespace, **kwargs)
+            return self.connect_post_namespaced_build_webhooks_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_http_info(name, namespace, **kwargs)
+            (data) = self.connect_post_namespaced_build_webhooks_with_http_info(name, namespace, **kwargs)
             return data
 
-    def connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_http_info(self, name, namespace, **kwargs):
+    def connect_post_namespaced_build_webhooks_with_http_info(self, name, namespace, **kwargs):
         """
-        connect POST requests to webhooks of Status
+        connect POST requests to webhooks of Build
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_webhooks_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str name: name of the Status (required)
+        :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str path: Path is the URL path to use for the current proxy request to pod.
         :return: str
@@ -239,16 +239,16 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method connect_build_openshift_io_v1_post_namespaced_status_webhooks" % key
+                    " to method connect_post_namespaced_build_webhooks" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `connect_build_openshift_io_v1_post_namespaced_status_webhooks`")
+            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_build_webhooks`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `connect_build_openshift_io_v1_post_namespaced_status_webhooks`")
+            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_build_webhooks`")
 
 
         collection_formats = {}
@@ -279,7 +279,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -296,20 +296,20 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path(self, name, namespace, path, **kwargs):
+    def connect_post_namespaced_build_webhooks_with_path(self, name, namespace, path, **kwargs):
         """
-        connect POST requests to webhooks of Status
+        connect POST requests to webhooks of Build
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path(name, namespace, path, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_webhooks_with_path(name, namespace, path, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str name: name of the Status (required)
+        :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str path: path to the resource (required)
         :param str path2: Path is the URL path to use for the current proxy request to pod.
@@ -319,25 +319,25 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
+            return self.connect_post_namespaced_build_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
         else:
-            (data) = self.connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
+            (data) = self.connect_post_namespaced_build_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
             return data
 
-    def connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path_with_http_info(self, name, namespace, path, **kwargs):
+    def connect_post_namespaced_build_webhooks_with_path_with_http_info(self, name, namespace, path, **kwargs):
         """
-        connect POST requests to webhooks of Status
+        connect POST requests to webhooks of Build
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path_with_http_info(name, namespace, path, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_webhooks_with_path_with_http_info(name, namespace, path, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str name: name of the Status (required)
+        :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str path: path to the resource (required)
         :param str path2: Path is the URL path to use for the current proxy request to pod.
@@ -357,19 +357,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path" % key
+                    " to method connect_post_namespaced_build_webhooks_with_path" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path`")
+            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_build_webhooks_with_path`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path`")
+            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_build_webhooks_with_path`")
         # verify the required parameter 'path' is set
         if ('path' not in params) or (params['path'] is None):
-            raise ValueError("Missing the required parameter `path` when calling `connect_build_openshift_io_v1_post_namespaced_status_webhooks_with_path`")
+            raise ValueError("Missing the required parameter `path` when calling `connect_post_namespaced_build_webhooks_with_path`")
 
 
         collection_formats = {}
@@ -402,7 +402,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -419,7 +419,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_build_openshift_io_v1_build_config_for_all_namespaces(self, body, **kwargs):
+    def create_build_config_for_all_namespaces(self, body, **kwargs):
         """
         create a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -428,7 +428,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_build_config_for_all_namespaces(body, callback=callback_function)
+        >>> thread = api.create_build_config_for_all_namespaces(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -440,12 +440,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_build_openshift_io_v1_build_config_for_all_namespaces_with_http_info(body, **kwargs)
+            return self.create_build_config_for_all_namespaces_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_build_openshift_io_v1_build_config_for_all_namespaces_with_http_info(body, **kwargs)
+            (data) = self.create_build_config_for_all_namespaces_with_http_info(body, **kwargs)
             return data
 
-    def create_build_openshift_io_v1_build_config_for_all_namespaces_with_http_info(self, body, **kwargs):
+    def create_build_config_for_all_namespaces_with_http_info(self, body, **kwargs):
         """
         create a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -454,7 +454,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_build_config_for_all_namespaces_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_build_config_for_all_namespaces_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -476,13 +476,13 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_build_openshift_io_v1_build_config_for_all_namespaces" % key
+                    " to method create_build_config_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_build_openshift_io_v1_build_config_for_all_namespaces`")
+            raise ValueError("Missing the required parameter `body` when calling `create_build_config_for_all_namespaces`")
 
 
         collection_formats = {}
@@ -511,7 +511,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -528,7 +528,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_build_openshift_io_v1_build_for_all_namespaces(self, body, **kwargs):
+    def create_build_for_all_namespaces(self, body, **kwargs):
         """
         create a Build
         This method makes a synchronous HTTP request by default. To make an
@@ -537,7 +537,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_build_for_all_namespaces(body, callback=callback_function)
+        >>> thread = api.create_build_for_all_namespaces(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -549,12 +549,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_build_openshift_io_v1_build_for_all_namespaces_with_http_info(body, **kwargs)
+            return self.create_build_for_all_namespaces_with_http_info(body, **kwargs)
         else:
-            (data) = self.create_build_openshift_io_v1_build_for_all_namespaces_with_http_info(body, **kwargs)
+            (data) = self.create_build_for_all_namespaces_with_http_info(body, **kwargs)
             return data
 
-    def create_build_openshift_io_v1_build_for_all_namespaces_with_http_info(self, body, **kwargs):
+    def create_build_for_all_namespaces_with_http_info(self, body, **kwargs):
         """
         create a Build
         This method makes a synchronous HTTP request by default. To make an
@@ -563,7 +563,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_build_for_all_namespaces_with_http_info(body, callback=callback_function)
+        >>> thread = api.create_build_for_all_namespaces_with_http_info(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -585,13 +585,13 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_build_openshift_io_v1_build_for_all_namespaces" % key
+                    " to method create_build_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_build_openshift_io_v1_build_for_all_namespaces`")
+            raise ValueError("Missing the required parameter `body` when calling `create_build_for_all_namespaces`")
 
 
         collection_formats = {}
@@ -620,7 +620,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -637,7 +637,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_build_openshift_io_v1_namespaced_build(self, namespace, body, **kwargs):
+    def create_namespaced_build(self, namespace, body, **kwargs):
         """
         create a Build
         This method makes a synchronous HTTP request by default. To make an
@@ -646,7 +646,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_namespaced_build(namespace, body, callback=callback_function)
+        >>> thread = api.create_namespaced_build(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -659,12 +659,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_build_openshift_io_v1_namespaced_build_with_http_info(namespace, body, **kwargs)
+            return self.create_namespaced_build_with_http_info(namespace, body, **kwargs)
         else:
-            (data) = self.create_build_openshift_io_v1_namespaced_build_with_http_info(namespace, body, **kwargs)
+            (data) = self.create_namespaced_build_with_http_info(namespace, body, **kwargs)
             return data
 
-    def create_build_openshift_io_v1_namespaced_build_with_http_info(self, namespace, body, **kwargs):
+    def create_namespaced_build_with_http_info(self, namespace, body, **kwargs):
         """
         create a Build
         This method makes a synchronous HTTP request by default. To make an
@@ -673,7 +673,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_namespaced_build_with_http_info(namespace, body, callback=callback_function)
+        >>> thread = api.create_namespaced_build_with_http_info(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -696,16 +696,16 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_build_openshift_io_v1_namespaced_build" % key
+                    " to method create_namespaced_build" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_build`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_build`")
 
 
         collection_formats = {}
@@ -736,7 +736,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -753,7 +753,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_build_openshift_io_v1_namespaced_build_config(self, namespace, body, **kwargs):
+    def create_namespaced_build_config(self, namespace, body, **kwargs):
         """
         create a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -762,7 +762,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_namespaced_build_config(namespace, body, callback=callback_function)
+        >>> thread = api.create_namespaced_build_config(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -775,12 +775,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_build_openshift_io_v1_namespaced_build_config_with_http_info(namespace, body, **kwargs)
+            return self.create_namespaced_build_config_with_http_info(namespace, body, **kwargs)
         else:
-            (data) = self.create_build_openshift_io_v1_namespaced_build_config_with_http_info(namespace, body, **kwargs)
+            (data) = self.create_namespaced_build_config_with_http_info(namespace, body, **kwargs)
             return data
 
-    def create_build_openshift_io_v1_namespaced_build_config_with_http_info(self, namespace, body, **kwargs):
+    def create_namespaced_build_config_with_http_info(self, namespace, body, **kwargs):
         """
         create a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -789,7 +789,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_namespaced_build_config_with_http_info(namespace, body, callback=callback_function)
+        >>> thread = api.create_namespaced_build_config_with_http_info(namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -812,16 +812,16 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_build_openshift_io_v1_namespaced_build_config" % key
+                    " to method create_namespaced_build_config" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_build_config`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_build_config`")
 
 
         collection_formats = {}
@@ -852,7 +852,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -869,7 +869,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_build_openshift_io_v1_namespaced_build_request_clone(self, body, name, namespace, **kwargs):
+    def create_namespaced_build_request_clone(self, name, namespace, body, **kwargs):
         """
         create clone of a BuildRequest
         This method makes a synchronous HTTP request by default. To make an
@@ -878,13 +878,13 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_namespaced_build_request_clone(body, name, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_build_request_clone(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1BuildRequest body: (required)
         :param str name: name of the BuildRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1BuildRequest body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1BuildRequest
                  If the method is called asynchronously,
@@ -892,12 +892,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_build_openshift_io_v1_namespaced_build_request_clone_with_http_info(body, name, namespace, **kwargs)
+            return self.create_namespaced_build_request_clone_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.create_build_openshift_io_v1_namespaced_build_request_clone_with_http_info(body, name, namespace, **kwargs)
+            (data) = self.create_namespaced_build_request_clone_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def create_build_openshift_io_v1_namespaced_build_request_clone_with_http_info(self, body, name, namespace, **kwargs):
+    def create_namespaced_build_request_clone_with_http_info(self, name, namespace, body, **kwargs):
         """
         create clone of a BuildRequest
         This method makes a synchronous HTTP request by default. To make an
@@ -906,20 +906,20 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_namespaced_build_request_clone_with_http_info(body, name, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_build_request_clone_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1BuildRequest body: (required)
         :param str name: name of the BuildRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1BuildRequest body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1BuildRequest
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body', 'name', 'namespace', 'pretty']
+        all_params = ['name', 'namespace', 'body', 'pretty']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -930,19 +930,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_build_openshift_io_v1_namespaced_build_request_clone" % key
+                    " to method create_namespaced_build_request_clone" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_build_openshift_io_v1_namespaced_build_request_clone`")
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `create_build_openshift_io_v1_namespaced_build_request_clone`")
+            raise ValueError("Missing the required parameter `name` when calling `create_namespaced_build_request_clone`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_build_openshift_io_v1_namespaced_build_request_clone`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_build_request_clone`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_build_request_clone`")
 
 
         collection_formats = {}
@@ -975,7 +975,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -992,7 +992,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_build_openshift_io_v1_namespaced_build_request_instantiate(self, body, name, namespace, **kwargs):
+    def create_namespaced_build_request_instantiate(self, name, namespace, body, **kwargs):
         """
         create instantiate of a BuildRequest
         This method makes a synchronous HTTP request by default. To make an
@@ -1001,26 +1001,26 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_namespaced_build_request_instantiate(body, name, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_build_request_instantiate(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1BuildRequest body: (required)
         :param str name: name of the BuildRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1BuildRequest body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :return: V1BuildRequest
+        :return: V1Build
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_build_openshift_io_v1_namespaced_build_request_instantiate_with_http_info(body, name, namespace, **kwargs)
+            return self.create_namespaced_build_request_instantiate_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.create_build_openshift_io_v1_namespaced_build_request_instantiate_with_http_info(body, name, namespace, **kwargs)
+            (data) = self.create_namespaced_build_request_instantiate_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def create_build_openshift_io_v1_namespaced_build_request_instantiate_with_http_info(self, body, name, namespace, **kwargs):
+    def create_namespaced_build_request_instantiate_with_http_info(self, name, namespace, body, **kwargs):
         """
         create instantiate of a BuildRequest
         This method makes a synchronous HTTP request by default. To make an
@@ -1029,20 +1029,20 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_build_openshift_io_v1_namespaced_build_request_instantiate_with_http_info(body, name, namespace, callback=callback_function)
+        >>> thread = api.create_namespaced_build_request_instantiate_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1BuildRequest body: (required)
         :param str name: name of the BuildRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1BuildRequest body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :return: V1BuildRequest
+        :return: V1Build
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body', 'name', 'namespace', 'pretty']
+        all_params = ['name', 'namespace', 'body', 'pretty']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1053,19 +1053,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_build_openshift_io_v1_namespaced_build_request_instantiate" % key
+                    " to method create_namespaced_build_request_instantiate" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_build_openshift_io_v1_namespaced_build_request_instantiate`")
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `create_build_openshift_io_v1_namespaced_build_request_instantiate`")
+            raise ValueError("Missing the required parameter `name` when calling `create_namespaced_build_request_instantiate`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_build_openshift_io_v1_namespaced_build_request_instantiate`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_build_request_instantiate`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_build_request_instantiate`")
 
 
         collection_formats = {}
@@ -1098,7 +1098,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
@@ -1107,7 +1107,7 @@ class BuildOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='V1BuildRequest',
+                                        response_type='V1Build',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1115,7 +1115,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_build_openshift_io_v1_collection_namespaced_build(self, namespace, **kwargs):
+    def delete_collection_namespaced_build(self, namespace, **kwargs):
         """
         delete collection of Build
         This method makes a synchronous HTTP request by default. To make an
@@ -1124,29 +1124,30 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_build_openshift_io_v1_collection_namespaced_build(namespace, callback=callback_function)
+        >>> thread = api.delete_collection_namespaced_build(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_build_openshift_io_v1_collection_namespaced_build_with_http_info(namespace, **kwargs)
+            return self.delete_collection_namespaced_build_with_http_info(namespace, **kwargs)
         else:
-            (data) = self.delete_build_openshift_io_v1_collection_namespaced_build_with_http_info(namespace, **kwargs)
+            (data) = self.delete_collection_namespaced_build_with_http_info(namespace, **kwargs)
             return data
 
-    def delete_build_openshift_io_v1_collection_namespaced_build_with_http_info(self, namespace, **kwargs):
+    def delete_collection_namespaced_build_with_http_info(self, namespace, **kwargs):
         """
         delete collection of Build
         This method makes a synchronous HTTP request by default. To make an
@@ -1155,23 +1156,24 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_build_openshift_io_v1_collection_namespaced_build_with_http_info(namespace, callback=callback_function)
+        >>> thread = api.delete_collection_namespaced_build_with_http_info(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['namespace', 'pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1182,13 +1184,13 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_build_openshift_io_v1_collection_namespaced_build" % key
+                    " to method delete_collection_namespaced_build" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `delete_build_openshift_io_v1_collection_namespaced_build`")
+            raise ValueError("Missing the required parameter `namespace` when calling `delete_collection_namespaced_build`")
 
 
         collection_formats = {}
@@ -1203,6 +1205,8 @@ class BuildOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1227,7 +1231,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1236,7 +1240,7 @@ class BuildOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1244,7 +1248,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_build_openshift_io_v1_collection_namespaced_build_config(self, namespace, **kwargs):
+    def delete_collection_namespaced_build_config(self, namespace, **kwargs):
         """
         delete collection of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -1253,29 +1257,30 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_build_openshift_io_v1_collection_namespaced_build_config(namespace, callback=callback_function)
+        >>> thread = api.delete_collection_namespaced_build_config(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_build_openshift_io_v1_collection_namespaced_build_config_with_http_info(namespace, **kwargs)
+            return self.delete_collection_namespaced_build_config_with_http_info(namespace, **kwargs)
         else:
-            (data) = self.delete_build_openshift_io_v1_collection_namespaced_build_config_with_http_info(namespace, **kwargs)
+            (data) = self.delete_collection_namespaced_build_config_with_http_info(namespace, **kwargs)
             return data
 
-    def delete_build_openshift_io_v1_collection_namespaced_build_config_with_http_info(self, namespace, **kwargs):
+    def delete_collection_namespaced_build_config_with_http_info(self, namespace, **kwargs):
         """
         delete collection of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -1284,23 +1289,24 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_build_openshift_io_v1_collection_namespaced_build_config_with_http_info(namespace, callback=callback_function)
+        >>> thread = api.delete_collection_namespaced_build_config_with_http_info(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: UnversionedStatus
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['namespace', 'pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1311,13 +1317,13 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_build_openshift_io_v1_collection_namespaced_build_config" % key
+                    " to method delete_collection_namespaced_build_config" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `delete_build_openshift_io_v1_collection_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `namespace` when calling `delete_collection_namespaced_build_config`")
 
 
         collection_formats = {}
@@ -1332,6 +1338,8 @@ class BuildOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1356,7 +1364,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1365,7 +1373,7 @@ class BuildOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1373,7 +1381,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_build_openshift_io_v1_namespaced_build(self, name, namespace, body, **kwargs):
+    def delete_namespaced_build(self, name, namespace, body, **kwargs):
         """
         delete a Build
         This method makes a synchronous HTTP request by default. To make an
@@ -1382,7 +1390,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_build_openshift_io_v1_namespaced_build(name, namespace, body, callback=callback_function)
+        >>> thread = api.delete_namespaced_build(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1391,19 +1399,20 @@ class BuildOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, **kwargs)
+            return self.delete_namespaced_build_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.delete_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.delete_namespaced_build_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def delete_build_openshift_io_v1_namespaced_build_with_http_info(self, name, namespace, body, **kwargs):
+    def delete_namespaced_build_with_http_info(self, name, namespace, body, **kwargs):
         """
         delete a Build
         This method makes a synchronous HTTP request by default. To make an
@@ -1412,7 +1421,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.delete_namespaced_build_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1421,13 +1430,14 @@ class BuildOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1438,19 +1448,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_build_openshift_io_v1_namespaced_build" % key
+                    " to method delete_namespaced_build" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_namespaced_build`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `delete_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `namespace` when calling `delete_namespaced_build`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_namespaced_build`")
 
 
         collection_formats = {}
@@ -1469,6 +1479,8 @@ class BuildOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1487,7 +1499,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1496,7 +1508,7 @@ class BuildOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1504,7 +1516,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def delete_build_openshift_io_v1_namespaced_build_config(self, name, namespace, body, **kwargs):
+    def delete_namespaced_build_config(self, name, namespace, body, **kwargs):
         """
         delete a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -1513,7 +1525,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_build_openshift_io_v1_namespaced_build_config(name, namespace, body, callback=callback_function)
+        >>> thread = api.delete_namespaced_build_config(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1522,19 +1534,20 @@ class BuildOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.delete_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
+            return self.delete_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.delete_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.delete_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def delete_build_openshift_io_v1_namespaced_build_config_with_http_info(self, name, namespace, body, **kwargs):
+    def delete_namespaced_build_config_with_http_info(self, name, namespace, body, **kwargs):
         """
         delete a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -1543,7 +1556,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.delete_namespaced_build_config_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1552,13 +1565,14 @@ class BuildOpenshiftIoV1Api(object):
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
-        :param bool orphan_dependents: Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list.
-        :return: UnversionedStatus
+        :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents']
+        all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1569,19 +1583,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_build_openshift_io_v1_namespaced_build_config" % key
+                    " to method delete_namespaced_build_config" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `delete_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `name` when calling `delete_namespaced_build_config`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `delete_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `namespace` when calling `delete_namespaced_build_config`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `delete_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `body` when calling `delete_namespaced_build_config`")
 
 
         collection_formats = {}
@@ -1600,6 +1614,8 @@ class BuildOpenshiftIoV1Api(object):
             query_params['gracePeriodSeconds'] = params['grace_period_seconds']
         if 'orphan_dependents' in params:
             query_params['orphanDependents'] = params['orphan_dependents']
+        if 'propagation_policy' in params:
+            query_params['propagationPolicy'] = params['propagation_policy']
 
         header_params = {}
 
@@ -1618,7 +1634,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'DELETE',
                                         path_params,
@@ -1627,7 +1643,7 @@ class BuildOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedStatus',
+                                        response_type='V1Status',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1635,7 +1651,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def get_build_openshift_io_v1_api_resources(self, **kwargs):
+    def get_api_resources(self, **kwargs):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
@@ -1644,22 +1660,22 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_build_openshift_io_v1_api_resources(callback=callback_function)
+        >>> thread = api.get_api_resources(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: UnversionedAPIResourceList
+        :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.get_build_openshift_io_v1_api_resources_with_http_info(**kwargs)
+            return self.get_api_resources_with_http_info(**kwargs)
         else:
-            (data) = self.get_build_openshift_io_v1_api_resources_with_http_info(**kwargs)
+            (data) = self.get_api_resources_with_http_info(**kwargs)
             return data
 
-    def get_build_openshift_io_v1_api_resources_with_http_info(self, **kwargs):
+    def get_api_resources_with_http_info(self, **kwargs):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
@@ -1668,11 +1684,11 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_build_openshift_io_v1_api_resources_with_http_info(callback=callback_function)
+        >>> thread = api.get_api_resources_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: UnversionedAPIResourceList
+        :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1688,7 +1704,7 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_build_openshift_io_v1_api_resources" % key
+                    " to method get_api_resources" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1715,7 +1731,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1724,7 +1740,7 @@ class BuildOpenshiftIoV1Api(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='UnversionedAPIResourceList',
+                                        response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1732,7 +1748,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_build_openshift_io_v1_build_config_for_all_namespaces(self, **kwargs):
+    def list_build_config_for_all_namespaces(self, **kwargs):
         """
         list or watch objects of kind BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -1741,14 +1757,15 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_build_openshift_io_v1_build_config_for_all_namespaces(callback=callback_function)
+        >>> thread = api.list_build_config_for_all_namespaces(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1BuildConfigList
@@ -1757,12 +1774,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_build_openshift_io_v1_build_config_for_all_namespaces_with_http_info(**kwargs)
+            return self.list_build_config_for_all_namespaces_with_http_info(**kwargs)
         else:
-            (data) = self.list_build_openshift_io_v1_build_config_for_all_namespaces_with_http_info(**kwargs)
+            (data) = self.list_build_config_for_all_namespaces_with_http_info(**kwargs)
             return data
 
-    def list_build_openshift_io_v1_build_config_for_all_namespaces_with_http_info(self, **kwargs):
+    def list_build_config_for_all_namespaces_with_http_info(self, **kwargs):
         """
         list or watch objects of kind BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -1771,14 +1788,15 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_build_openshift_io_v1_build_config_for_all_namespaces_with_http_info(callback=callback_function)
+        >>> thread = api.list_build_config_for_all_namespaces_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1BuildConfigList
@@ -1786,7 +1804,7 @@ class BuildOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1797,7 +1815,7 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_build_openshift_io_v1_build_config_for_all_namespaces" % key
+                    " to method list_build_config_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1813,6 +1831,8 @@ class BuildOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1837,7 +1857,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1854,7 +1874,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_build_openshift_io_v1_build_for_all_namespaces(self, **kwargs):
+    def list_build_for_all_namespaces(self, **kwargs):
         """
         list or watch objects of kind Build
         This method makes a synchronous HTTP request by default. To make an
@@ -1863,14 +1883,15 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_build_openshift_io_v1_build_for_all_namespaces(callback=callback_function)
+        >>> thread = api.list_build_for_all_namespaces(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1BuildList
@@ -1879,12 +1900,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_build_openshift_io_v1_build_for_all_namespaces_with_http_info(**kwargs)
+            return self.list_build_for_all_namespaces_with_http_info(**kwargs)
         else:
-            (data) = self.list_build_openshift_io_v1_build_for_all_namespaces_with_http_info(**kwargs)
+            (data) = self.list_build_for_all_namespaces_with_http_info(**kwargs)
             return data
 
-    def list_build_openshift_io_v1_build_for_all_namespaces_with_http_info(self, **kwargs):
+    def list_build_for_all_namespaces_with_http_info(self, **kwargs):
         """
         list or watch objects of kind Build
         This method makes a synchronous HTTP request by default. To make an
@@ -1893,14 +1914,15 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_build_openshift_io_v1_build_for_all_namespaces_with_http_info(callback=callback_function)
+        >>> thread = api.list_build_for_all_namespaces_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1BuildList
@@ -1908,7 +1930,7 @@ class BuildOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1919,7 +1941,7 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_build_openshift_io_v1_build_for_all_namespaces" % key
+                    " to method list_build_for_all_namespaces" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1935,6 +1957,8 @@ class BuildOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -1959,7 +1983,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -1976,7 +2000,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_build_openshift_io_v1_namespaced_build(self, namespace, **kwargs):
+    def list_namespaced_build(self, namespace, **kwargs):
         """
         list or watch objects of kind Build
         This method makes a synchronous HTTP request by default. To make an
@@ -1985,15 +2009,16 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_build_openshift_io_v1_namespaced_build(namespace, callback=callback_function)
+        >>> thread = api.list_namespaced_build(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1BuildList
@@ -2002,12 +2027,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_build_openshift_io_v1_namespaced_build_with_http_info(namespace, **kwargs)
+            return self.list_namespaced_build_with_http_info(namespace, **kwargs)
         else:
-            (data) = self.list_build_openshift_io_v1_namespaced_build_with_http_info(namespace, **kwargs)
+            (data) = self.list_namespaced_build_with_http_info(namespace, **kwargs)
             return data
 
-    def list_build_openshift_io_v1_namespaced_build_with_http_info(self, namespace, **kwargs):
+    def list_namespaced_build_with_http_info(self, namespace, **kwargs):
         """
         list or watch objects of kind Build
         This method makes a synchronous HTTP request by default. To make an
@@ -2016,15 +2041,16 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_build_openshift_io_v1_namespaced_build_with_http_info(namespace, callback=callback_function)
+        >>> thread = api.list_namespaced_build_with_http_info(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1BuildList
@@ -2032,7 +2058,7 @@ class BuildOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['namespace', 'pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -2043,13 +2069,13 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_build_openshift_io_v1_namespaced_build" % key
+                    " to method list_namespaced_build" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `list_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `namespace` when calling `list_namespaced_build`")
 
 
         collection_formats = {}
@@ -2064,6 +2090,8 @@ class BuildOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -2088,7 +2116,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2105,7 +2133,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def list_build_openshift_io_v1_namespaced_build_config(self, namespace, **kwargs):
+    def list_namespaced_build_config(self, namespace, **kwargs):
         """
         list or watch objects of kind BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -2114,15 +2142,16 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_build_openshift_io_v1_namespaced_build_config(namespace, callback=callback_function)
+        >>> thread = api.list_namespaced_build_config(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1BuildConfigList
@@ -2131,12 +2160,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.list_build_openshift_io_v1_namespaced_build_config_with_http_info(namespace, **kwargs)
+            return self.list_namespaced_build_config_with_http_info(namespace, **kwargs)
         else:
-            (data) = self.list_build_openshift_io_v1_namespaced_build_config_with_http_info(namespace, **kwargs)
+            (data) = self.list_namespaced_build_config_with_http_info(namespace, **kwargs)
             return data
 
-    def list_build_openshift_io_v1_namespaced_build_config_with_http_info(self, namespace, **kwargs):
+    def list_namespaced_build_config_with_http_info(self, namespace, **kwargs):
         """
         list or watch objects of kind BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -2145,15 +2174,16 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.list_build_openshift_io_v1_namespaced_build_config_with_http_info(namespace, callback=callback_function)
+        >>> thread = api.list_namespaced_build_config_with_http_info(namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
         :return: V1BuildConfigList
@@ -2161,7 +2191,7 @@ class BuildOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['namespace', 'pretty', 'field_selector', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
+        all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -2172,13 +2202,13 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_build_openshift_io_v1_namespaced_build_config" % key
+                    " to method list_namespaced_build_config" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `list_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `namespace` when calling `list_namespaced_build_config`")
 
 
         collection_formats = {}
@@ -2193,6 +2223,8 @@ class BuildOpenshiftIoV1Api(object):
             query_params['pretty'] = params['pretty']
         if 'field_selector' in params:
             query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
         if 'label_selector' in params:
             query_params['labelSelector'] = params['label_selector']
         if 'resource_version' in params:
@@ -2217,7 +2249,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2234,7 +2266,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_build_openshift_io_v1_namespaced_build(self, name, namespace, body, **kwargs):
+    def patch_namespaced_build(self, name, namespace, body, **kwargs):
         """
         partially update the specified Build
         This method makes a synchronous HTTP request by default. To make an
@@ -2243,13 +2275,13 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_build_openshift_io_v1_namespaced_build(name, namespace, body, callback=callback_function)
+        >>> thread = api.patch_namespaced_build(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Build
                  If the method is called asynchronously,
@@ -2257,12 +2289,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, **kwargs)
+            return self.patch_namespaced_build_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.patch_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.patch_namespaced_build_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def patch_build_openshift_io_v1_namespaced_build_with_http_info(self, name, namespace, body, **kwargs):
+    def patch_namespaced_build_with_http_info(self, name, namespace, body, **kwargs):
         """
         partially update the specified Build
         This method makes a synchronous HTTP request by default. To make an
@@ -2271,13 +2303,13 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.patch_namespaced_build_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Build
                  If the method is called asynchronously,
@@ -2295,19 +2327,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_build_openshift_io_v1_namespaced_build" % key
+                    " to method patch_namespaced_build" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_namespaced_build`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `patch_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `namespace` when calling `patch_namespaced_build`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_namespaced_build`")
 
 
         collection_formats = {}
@@ -2340,7 +2372,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2357,7 +2389,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def patch_build_openshift_io_v1_namespaced_build_config(self, name, namespace, body, **kwargs):
+    def patch_namespaced_build_config(self, name, namespace, body, **kwargs):
         """
         partially update the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -2366,13 +2398,13 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_build_openshift_io_v1_namespaced_build_config(name, namespace, body, callback=callback_function)
+        >>> thread = api.patch_namespaced_build_config(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1BuildConfig
                  If the method is called asynchronously,
@@ -2380,12 +2412,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.patch_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
+            return self.patch_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.patch_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.patch_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def patch_build_openshift_io_v1_namespaced_build_config_with_http_info(self, name, namespace, body, **kwargs):
+    def patch_namespaced_build_config_with_http_info(self, name, namespace, body, **kwargs):
         """
         partially update the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -2394,13 +2426,13 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.patch_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.patch_namespaced_build_config_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param UnversionedPatch body: (required)
+        :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1BuildConfig
                  If the method is called asynchronously,
@@ -2418,19 +2450,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method patch_build_openshift_io_v1_namespaced_build_config" % key
+                    " to method patch_namespaced_build_config" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `name` when calling `patch_namespaced_build_config`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `patch_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `namespace` when calling `patch_namespaced_build_config`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `body` when calling `patch_namespaced_build_config`")
 
 
         collection_formats = {}
@@ -2463,7 +2495,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PATCH',
                                         path_params,
@@ -2480,7 +2512,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_build_openshift_io_v1_namespaced_build(self, name, namespace, **kwargs):
+    def read_namespaced_build(self, name, namespace, **kwargs):
         """
         read the specified Build
         This method makes a synchronous HTTP request by default. To make an
@@ -2489,14 +2521,14 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_build_openshift_io_v1_namespaced_build(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_build(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1Build
                  If the method is called asynchronously,
@@ -2504,12 +2536,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, **kwargs)
+            return self.read_namespaced_build_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.read_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, **kwargs)
+            (data) = self.read_namespaced_build_with_http_info(name, namespace, **kwargs)
             return data
 
-    def read_build_openshift_io_v1_namespaced_build_with_http_info(self, name, namespace, **kwargs):
+    def read_namespaced_build_with_http_info(self, name, namespace, **kwargs):
         """
         read the specified Build
         This method makes a synchronous HTTP request by default. To make an
@@ -2518,14 +2550,14 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_build_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1Build
                  If the method is called asynchronously,
@@ -2543,16 +2575,16 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_build_openshift_io_v1_namespaced_build" % key
+                    " to method read_namespaced_build" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_build`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `read_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_build`")
 
 
         collection_formats = {}
@@ -2587,7 +2619,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2604,7 +2636,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_build_openshift_io_v1_namespaced_build_config(self, name, namespace, **kwargs):
+    def read_namespaced_build_config(self, name, namespace, **kwargs):
         """
         read the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -2613,14 +2645,14 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_build_openshift_io_v1_namespaced_build_config(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_build_config(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1BuildConfig
                  If the method is called asynchronously,
@@ -2628,12 +2660,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, **kwargs)
+            return self.read_namespaced_build_config_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.read_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, **kwargs)
+            (data) = self.read_namespaced_build_config_with_http_info(name, namespace, **kwargs)
             return data
 
-    def read_build_openshift_io_v1_namespaced_build_config_with_http_info(self, name, namespace, **kwargs):
+    def read_namespaced_build_config_with_http_info(self, name, namespace, **kwargs):
         """
         read the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -2642,14 +2674,14 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_build_config_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
-        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'
+        :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
         :param bool export: Should this value be exported.  Export strips fields that a user can not specify.
         :return: V1BuildConfig
                  If the method is called asynchronously,
@@ -2667,16 +2699,16 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_build_openshift_io_v1_namespaced_build_config" % key
+                    " to method read_namespaced_build_config" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_build_config`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `read_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_build_config`")
 
 
         collection_formats = {}
@@ -2711,7 +2743,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2728,7 +2760,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_build_openshift_io_v1_namespaced_build_log_log(self, name, namespace, **kwargs):
+    def read_namespaced_build_log_log(self, name, namespace, **kwargs):
         """
         read log of the specified BuildLog
         This method makes a synchronous HTTP request by default. To make an
@@ -2737,7 +2769,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_build_openshift_io_v1_namespaced_build_log_log(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_build_log_log(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -2750,7 +2782,6 @@ class BuildOpenshiftIoV1Api(object):
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool previous: previous returns previous build logs. Defaults to false.
         :param int since_seconds: sinceSeconds is a relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
-        :param str since_time: sinceTime is an RFC3339 timestamp from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
         :param int tail_lines: tailLines, If set, is the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
         :param bool timestamps: timestamps, If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false.
         :param int version: version of the build for which to view logs.
@@ -2760,12 +2791,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_build_openshift_io_v1_namespaced_build_log_log_with_http_info(name, namespace, **kwargs)
+            return self.read_namespaced_build_log_log_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.read_build_openshift_io_v1_namespaced_build_log_log_with_http_info(name, namespace, **kwargs)
+            (data) = self.read_namespaced_build_log_log_with_http_info(name, namespace, **kwargs)
             return data
 
-    def read_build_openshift_io_v1_namespaced_build_log_log_with_http_info(self, name, namespace, **kwargs):
+    def read_namespaced_build_log_log_with_http_info(self, name, namespace, **kwargs):
         """
         read log of the specified BuildLog
         This method makes a synchronous HTTP request by default. To make an
@@ -2774,7 +2805,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_build_openshift_io_v1_namespaced_build_log_log_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_build_log_log_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -2787,7 +2818,6 @@ class BuildOpenshiftIoV1Api(object):
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool previous: previous returns previous build logs. Defaults to false.
         :param int since_seconds: sinceSeconds is a relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
-        :param str since_time: sinceTime is an RFC3339 timestamp from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
         :param int tail_lines: tailLines, If set, is the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
         :param bool timestamps: timestamps, If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false.
         :param int version: version of the build for which to view logs.
@@ -2796,7 +2826,7 @@ class BuildOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['name', 'namespace', 'container', 'follow', 'limit_bytes', 'nowait', 'pretty', 'previous', 'since_seconds', 'since_time', 'tail_lines', 'timestamps', 'version']
+        all_params = ['name', 'namespace', 'container', 'follow', 'limit_bytes', 'nowait', 'pretty', 'previous', 'since_seconds', 'tail_lines', 'timestamps', 'version']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -2807,16 +2837,16 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_build_openshift_io_v1_namespaced_build_log_log" % key
+                    " to method read_namespaced_build_log_log" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_build_openshift_io_v1_namespaced_build_log_log`")
+            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_build_log_log`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `read_build_openshift_io_v1_namespaced_build_log_log`")
+            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_build_log_log`")
 
 
         collection_formats = {}
@@ -2843,8 +2873,6 @@ class BuildOpenshiftIoV1Api(object):
             query_params['previous'] = params['previous']
         if 'since_seconds' in params:
             query_params['sinceSeconds'] = params['since_seconds']
-        if 'since_time' in params:
-            query_params['sinceTime'] = params['since_time']
         if 'tail_lines' in params:
             query_params['tailLines'] = params['tail_lines']
         if 'timestamps' in params:
@@ -2867,7 +2895,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
@@ -2884,7 +2912,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_build_openshift_io_v1_namespaced_build(self, name, namespace, body, **kwargs):
+    def replace_namespaced_build(self, name, namespace, body, **kwargs):
         """
         replace the specified Build
         This method makes a synchronous HTTP request by default. To make an
@@ -2893,7 +2921,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_build_openshift_io_v1_namespaced_build(name, namespace, body, callback=callback_function)
+        >>> thread = api.replace_namespaced_build(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -2907,12 +2935,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, **kwargs)
+            return self.replace_namespaced_build_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.replace_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.replace_namespaced_build_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def replace_build_openshift_io_v1_namespaced_build_with_http_info(self, name, namespace, body, **kwargs):
+    def replace_namespaced_build_with_http_info(self, name, namespace, body, **kwargs):
         """
         replace the specified Build
         This method makes a synchronous HTTP request by default. To make an
@@ -2921,7 +2949,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_build_openshift_io_v1_namespaced_build_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.replace_namespaced_build_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -2945,19 +2973,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_build_openshift_io_v1_namespaced_build" % key
+                    " to method replace_namespaced_build" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_namespaced_build`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `replace_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `namespace` when calling `replace_namespaced_build`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_build_openshift_io_v1_namespaced_build`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_namespaced_build`")
 
 
         collection_formats = {}
@@ -2990,7 +3018,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,
@@ -3007,7 +3035,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_build_openshift_io_v1_namespaced_build_config(self, name, namespace, body, **kwargs):
+    def replace_namespaced_build_config(self, name, namespace, body, **kwargs):
         """
         replace the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -3016,7 +3044,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_build_openshift_io_v1_namespaced_build_config(name, namespace, body, callback=callback_function)
+        >>> thread = api.replace_namespaced_build_config(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3030,12 +3058,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
+            return self.replace_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.replace_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.replace_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def replace_build_openshift_io_v1_namespaced_build_config_with_http_info(self, name, namespace, body, **kwargs):
+    def replace_namespaced_build_config_with_http_info(self, name, namespace, body, **kwargs):
         """
         replace the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
@@ -3044,7 +3072,7 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_build_openshift_io_v1_namespaced_build_config_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.replace_namespaced_build_config_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3068,19 +3096,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_build_openshift_io_v1_namespaced_build_config" % key
+                    " to method replace_namespaced_build_config" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_namespaced_build_config`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `replace_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `namespace` when calling `replace_namespaced_build_config`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_build_openshift_io_v1_namespaced_build_config`")
+            raise ValueError("Missing the required parameter `body` when calling `replace_namespaced_build_config`")
 
 
         collection_formats = {}
@@ -3113,7 +3141,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,
@@ -3130,7 +3158,7 @@ class BuildOpenshiftIoV1Api(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def replace_build_openshift_io_v1_namespaced_build_details(self, body, name, namespace, **kwargs):
+    def replace_namespaced_build_details(self, name, namespace, body, **kwargs):
         """
         replace details of the specified Build
         This method makes a synchronous HTTP request by default. To make an
@@ -3139,13 +3167,13 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_build_openshift_io_v1_namespaced_build_details(body, name, namespace, callback=callback_function)
+        >>> thread = api.replace_namespaced_build_details(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1Build body: (required)
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1Build body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Build
                  If the method is called asynchronously,
@@ -3153,12 +3181,12 @@ class BuildOpenshiftIoV1Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.replace_build_openshift_io_v1_namespaced_build_details_with_http_info(body, name, namespace, **kwargs)
+            return self.replace_namespaced_build_details_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.replace_build_openshift_io_v1_namespaced_build_details_with_http_info(body, name, namespace, **kwargs)
+            (data) = self.replace_namespaced_build_details_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def replace_build_openshift_io_v1_namespaced_build_details_with_http_info(self, body, name, namespace, **kwargs):
+    def replace_namespaced_build_details_with_http_info(self, name, namespace, body, **kwargs):
         """
         replace details of the specified Build
         This method makes a synchronous HTTP request by default. To make an
@@ -3167,20 +3195,20 @@ class BuildOpenshiftIoV1Api(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.replace_build_openshift_io_v1_namespaced_build_details_with_http_info(body, name, namespace, callback=callback_function)
+        >>> thread = api.replace_namespaced_build_details_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param V1Build body: (required)
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1Build body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Build
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body', 'name', 'namespace', 'pretty']
+        all_params = ['name', 'namespace', 'body', 'pretty']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -3191,19 +3219,19 @@ class BuildOpenshiftIoV1Api(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method replace_build_openshift_io_v1_namespaced_build_details" % key
+                    " to method replace_namespaced_build_details" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_build_openshift_io_v1_namespaced_build_details`")
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_build_openshift_io_v1_namespaced_build_details`")
+            raise ValueError("Missing the required parameter `name` when calling `replace_namespaced_build_details`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `replace_build_openshift_io_v1_namespaced_build_details`")
+            raise ValueError("Missing the required parameter `namespace` when calling `replace_namespaced_build_details`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `replace_namespaced_build_details`")
 
 
         collection_formats = {}
@@ -3236,7 +3264,7 @@ class BuildOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['BearerToken']
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
 
         return self.api_client.call_api(resource_path, 'PUT',
                                         path_params,

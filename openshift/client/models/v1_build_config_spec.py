@@ -3,9 +3,9 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
-    OpenAPI spec version: v3.6.0-alpha.0
+    OpenAPI spec version: latest
     
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
@@ -21,7 +21,7 @@ class V1BuildConfigSpec(object):
     NOTE: This class is auto generated by the swagger code generator program.
     Do not edit the class manually.
     """
-    def __init__(self, completion_deadline_seconds=None, node_selector=None, output=None, post_commit=None, resources=None, revision=None, run_policy=None, service_account=None, source=None, strategy=None, triggers=None):
+    def __init__(self, completion_deadline_seconds=None, failed_builds_history_limit=None, node_selector=None, output=None, post_commit=None, resources=None, revision=None, run_policy=None, service_account=None, source=None, strategy=None, successful_builds_history_limit=None, triggers=None):
         """
         V1BuildConfigSpec - a model defined in Swagger
 
@@ -32,6 +32,7 @@ class V1BuildConfigSpec(object):
         """
         self.swagger_types = {
             'completion_deadline_seconds': 'int',
+            'failed_builds_history_limit': 'int',
             'node_selector': 'dict(str, str)',
             'output': 'V1BuildOutput',
             'post_commit': 'V1BuildPostCommitSpec',
@@ -41,11 +42,13 @@ class V1BuildConfigSpec(object):
             'service_account': 'str',
             'source': 'V1BuildSource',
             'strategy': 'V1BuildStrategy',
+            'successful_builds_history_limit': 'int',
             'triggers': 'list[V1BuildTriggerPolicy]'
         }
 
         self.attribute_map = {
             'completion_deadline_seconds': 'completionDeadlineSeconds',
+            'failed_builds_history_limit': 'failedBuildsHistoryLimit',
             'node_selector': 'nodeSelector',
             'output': 'output',
             'post_commit': 'postCommit',
@@ -55,10 +58,12 @@ class V1BuildConfigSpec(object):
             'service_account': 'serviceAccount',
             'source': 'source',
             'strategy': 'strategy',
+            'successful_builds_history_limit': 'successfulBuildsHistoryLimit',
             'triggers': 'triggers'
         }
 
         self._completion_deadline_seconds = completion_deadline_seconds
+        self._failed_builds_history_limit = failed_builds_history_limit
         self._node_selector = node_selector
         self._output = output
         self._post_commit = post_commit
@@ -68,6 +73,7 @@ class V1BuildConfigSpec(object):
         self._service_account = service_account
         self._source = source
         self._strategy = strategy
+        self._successful_builds_history_limit = successful_builds_history_limit
         self._triggers = triggers
 
     @property
@@ -92,6 +98,29 @@ class V1BuildConfigSpec(object):
         """
 
         self._completion_deadline_seconds = completion_deadline_seconds
+
+    @property
+    def failed_builds_history_limit(self):
+        """
+        Gets the failed_builds_history_limit of this V1BuildConfigSpec.
+        failedBuildsHistoryLimit is the number of old failed builds to retain. If not specified, all failed builds are retained.
+
+        :return: The failed_builds_history_limit of this V1BuildConfigSpec.
+        :rtype: int
+        """
+        return self._failed_builds_history_limit
+
+    @failed_builds_history_limit.setter
+    def failed_builds_history_limit(self, failed_builds_history_limit):
+        """
+        Sets the failed_builds_history_limit of this V1BuildConfigSpec.
+        failedBuildsHistoryLimit is the number of old failed builds to retain. If not specified, all failed builds are retained.
+
+        :param failed_builds_history_limit: The failed_builds_history_limit of this V1BuildConfigSpec.
+        :type: int
+        """
+
+        self._failed_builds_history_limit = failed_builds_history_limit
 
     @property
     def node_selector(self):
@@ -303,6 +332,29 @@ class V1BuildConfigSpec(object):
             raise ValueError("Invalid value for `strategy`, must not be `None`")
 
         self._strategy = strategy
+
+    @property
+    def successful_builds_history_limit(self):
+        """
+        Gets the successful_builds_history_limit of this V1BuildConfigSpec.
+        successfulBuildsHistoryLimit is the number of old successful builds to retain. If not specified, all successful builds are retained.
+
+        :return: The successful_builds_history_limit of this V1BuildConfigSpec.
+        :rtype: int
+        """
+        return self._successful_builds_history_limit
+
+    @successful_builds_history_limit.setter
+    def successful_builds_history_limit(self, successful_builds_history_limit):
+        """
+        Sets the successful_builds_history_limit of this V1BuildConfigSpec.
+        successfulBuildsHistoryLimit is the number of old successful builds to retain. If not specified, all successful builds are retained.
+
+        :param successful_builds_history_limit: The successful_builds_history_limit of this V1BuildConfigSpec.
+        :type: int
+        """
+
+        self._successful_builds_history_limit = successful_builds_history_limit
 
     @property
     def triggers(self):

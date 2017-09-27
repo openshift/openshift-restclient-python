@@ -3,9 +3,9 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'unversioned.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
 
-    OpenAPI spec version: v3.6.0-alpha.0
+    OpenAPI spec version: latest
     
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
@@ -21,7 +21,7 @@ class V1SecurityContextConstraints(object):
     NOTE: This class is auto generated by the swagger code generator program.
     Do not edit the class manually.
     """
-    def __init__(self, allow_host_dir_volume_plugin=None, allow_host_ipc=None, allow_host_network=None, allow_host_pid=None, allow_host_ports=None, allow_privileged_container=None, allowed_capabilities=None, api_version=None, default_add_capabilities=None, fs_group=None, groups=None, kind=None, metadata=None, priority=None, read_only_root_filesystem=None, required_drop_capabilities=None, run_as_user=None, se_linux_context=None, seccomp_profiles=None, supplemental_groups=None, users=None, volumes=None):
+    def __init__(self, allow_host_dir_volume_plugin=None, allow_host_ipc=None, allow_host_network=None, allow_host_pid=None, allow_host_ports=None, allow_privileged_container=None, allowed_capabilities=None, allowed_flex_volumes=None, api_version=None, default_add_capabilities=None, fs_group=None, groups=None, kind=None, metadata=None, priority=None, read_only_root_filesystem=None, required_drop_capabilities=None, run_as_user=None, se_linux_context=None, seccomp_profiles=None, supplemental_groups=None, users=None, volumes=None):
         """
         V1SecurityContextConstraints - a model defined in Swagger
 
@@ -38,6 +38,7 @@ class V1SecurityContextConstraints(object):
             'allow_host_ports': 'bool',
             'allow_privileged_container': 'bool',
             'allowed_capabilities': 'list[str]',
+            'allowed_flex_volumes': 'list[V1AllowedFlexVolume]',
             'api_version': 'str',
             'default_add_capabilities': 'list[str]',
             'fs_group': 'V1FSGroupStrategyOptions',
@@ -63,6 +64,7 @@ class V1SecurityContextConstraints(object):
             'allow_host_ports': 'allowHostPorts',
             'allow_privileged_container': 'allowPrivilegedContainer',
             'allowed_capabilities': 'allowedCapabilities',
+            'allowed_flex_volumes': 'allowedFlexVolumes',
             'api_version': 'apiVersion',
             'default_add_capabilities': 'defaultAddCapabilities',
             'fs_group': 'fsGroup',
@@ -87,6 +89,7 @@ class V1SecurityContextConstraints(object):
         self._allow_host_ports = allow_host_ports
         self._allow_privileged_container = allow_privileged_container
         self._allowed_capabilities = allowed_capabilities
+        self._allowed_flex_volumes = allowed_flex_volumes
         self._api_version = api_version
         self._default_add_capabilities = default_add_capabilities
         self._fs_group = fs_group
@@ -279,10 +282,35 @@ class V1SecurityContextConstraints(object):
         self._allowed_capabilities = allowed_capabilities
 
     @property
+    def allowed_flex_volumes(self):
+        """
+        Gets the allowed_flex_volumes of this V1SecurityContextConstraints.
+        AllowedFlexVolumes is a whitelist of allowed Flexvolumes.  Empty or nil indicates that all Flexvolumes may be used.  This parameter is effective only when the usage of the Flexvolumes is allowed in the \"Volumes\" field.
+
+        :return: The allowed_flex_volumes of this V1SecurityContextConstraints.
+        :rtype: list[V1AllowedFlexVolume]
+        """
+        return self._allowed_flex_volumes
+
+    @allowed_flex_volumes.setter
+    def allowed_flex_volumes(self, allowed_flex_volumes):
+        """
+        Sets the allowed_flex_volumes of this V1SecurityContextConstraints.
+        AllowedFlexVolumes is a whitelist of allowed Flexvolumes.  Empty or nil indicates that all Flexvolumes may be used.  This parameter is effective only when the usage of the Flexvolumes is allowed in the \"Volumes\" field.
+
+        :param allowed_flex_volumes: The allowed_flex_volumes of this V1SecurityContextConstraints.
+        :type: list[V1AllowedFlexVolume]
+        """
+        if allowed_flex_volumes is None:
+            raise ValueError("Invalid value for `allowed_flex_volumes`, must not be `None`")
+
+        self._allowed_flex_volumes = allowed_flex_volumes
+
+    @property
     def api_version(self):
         """
         Gets the api_version of this V1SecurityContextConstraints.
-        APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: http://releases.k8s.io/HEAD/docs/devel/api-conventions.md#resources
+        APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
 
         :return: The api_version of this V1SecurityContextConstraints.
         :rtype: str
@@ -293,7 +321,7 @@ class V1SecurityContextConstraints(object):
     def api_version(self, api_version):
         """
         Sets the api_version of this V1SecurityContextConstraints.
-        APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: http://releases.k8s.io/HEAD/docs/devel/api-conventions.md#resources
+        APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
 
         :param api_version: The api_version of this V1SecurityContextConstraints.
         :type: str
@@ -376,7 +404,7 @@ class V1SecurityContextConstraints(object):
     def kind(self):
         """
         Gets the kind of this V1SecurityContextConstraints.
-        Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: http://releases.k8s.io/HEAD/docs/devel/api-conventions.md#types-kinds
+        Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds
 
         :return: The kind of this V1SecurityContextConstraints.
         :rtype: str
@@ -387,7 +415,7 @@ class V1SecurityContextConstraints(object):
     def kind(self, kind):
         """
         Sets the kind of this V1SecurityContextConstraints.
-        Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: http://releases.k8s.io/HEAD/docs/devel/api-conventions.md#types-kinds
+        Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds
 
         :param kind: The kind of this V1SecurityContextConstraints.
         :type: str
@@ -422,7 +450,7 @@ class V1SecurityContextConstraints(object):
     def priority(self):
         """
         Gets the priority of this V1SecurityContextConstraints.
-        Priority influences the sort order of SCCs when evaluating which SCCs to try first for a given pod request based on access in the Users and Groups fields.  The higher the int, the higher priority.  If scores for multiple SCCs are equal they will be sorted by name.
+        Priority influences the sort order of SCCs when evaluating which SCCs to try first for a given pod request based on access in the Users and Groups fields.  The higher the int, the higher priority. An unset value is considered a 0 priority. If scores for multiple SCCs are equal they will be sorted from most restrictive to least restrictive. If both priorities and restrictions are equal the SCCs will be sorted by name.
 
         :return: The priority of this V1SecurityContextConstraints.
         :rtype: int
@@ -433,7 +461,7 @@ class V1SecurityContextConstraints(object):
     def priority(self, priority):
         """
         Sets the priority of this V1SecurityContextConstraints.
-        Priority influences the sort order of SCCs when evaluating which SCCs to try first for a given pod request based on access in the Users and Groups fields.  The higher the int, the higher priority.  If scores for multiple SCCs are equal they will be sorted by name.
+        Priority influences the sort order of SCCs when evaluating which SCCs to try first for a given pod request based on access in the Users and Groups fields.  The higher the int, the higher priority. An unset value is considered a 0 priority. If scores for multiple SCCs are equal they will be sorted from most restrictive to least restrictive. If both priorities and restrictions are equal the SCCs will be sorted by name.
 
         :param priority: The priority of this V1SecurityContextConstraints.
         :type: int
@@ -612,7 +640,7 @@ class V1SecurityContextConstraints(object):
     def volumes(self):
         """
         Gets the volumes of this V1SecurityContextConstraints.
-        Volumes is a white list of allowed volume plugins.  FSType corresponds directly with the field names of a VolumeSource (azureFile, configMap, emptyDir).  To allow all volumes you may use '*'.
+        Volumes is a white list of allowed volume plugins.  FSType corresponds directly with the field names of a VolumeSource (azureFile, configMap, emptyDir).  To allow all volumes you may use \"*\". To allow no volumes, set to [\"none\"].
 
         :return: The volumes of this V1SecurityContextConstraints.
         :rtype: list[str]
@@ -623,7 +651,7 @@ class V1SecurityContextConstraints(object):
     def volumes(self, volumes):
         """
         Sets the volumes of this V1SecurityContextConstraints.
-        Volumes is a white list of allowed volume plugins.  FSType corresponds directly with the field names of a VolumeSource (azureFile, configMap, emptyDir).  To allow all volumes you may use '*'.
+        Volumes is a white list of allowed volume plugins.  FSType corresponds directly with the field names of a VolumeSource (azureFile, configMap, emptyDir).  To allow all volumes you may use \"*\". To allow no volumes, set to [\"none\"].
 
         :param volumes: The volumes of this V1SecurityContextConstraints.
         :type: list[str]
