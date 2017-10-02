@@ -41,6 +41,7 @@ from .models.v1_build_strategy import V1BuildStrategy
 from .models.v1_build_trigger_cause import V1BuildTriggerCause
 from .models.v1_build_trigger_policy import V1BuildTriggerPolicy
 from .models.v1_cluster_network import V1ClusterNetwork
+from .models.v1_cluster_network_entry import V1ClusterNetworkEntry
 from .models.v1_cluster_network_list import V1ClusterNetworkList
 from .models.v1_cluster_resource_quota import V1ClusterResourceQuota
 from .models.v1_cluster_resource_quota_list import V1ClusterResourceQuotaList
