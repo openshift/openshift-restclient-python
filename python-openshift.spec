@@ -3,13 +3,14 @@
 %global library openshift
 
 Name:       python-%{library}
-Version:    1.0.0
-Release:    0.3%{?dist}
+Version:    0.3.1
+Release:    0%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
 Source0:    https://github.com/openshift/openshift-restclient-python/%{library}-%{version}.tar.gz
 BuildArch:  noarch
+Epoch:      1
 
 %package -n python2-%{library}
 Summary:    Python client for the OpenShift API  
