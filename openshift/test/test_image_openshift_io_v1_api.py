@@ -263,6 +263,14 @@ class TestImageOpenshiftIoV1Api(unittest.TestCase):
         """
         pass
 
+    def test_read_namespaced_image_stream_secrets(self):
+        """
+        Test case for read_namespaced_image_stream_secrets
+
+        
+        """
+        pass
+
     def test_read_namespaced_image_stream_status(self):
         """
         Test case for read_namespaced_image_stream_status
@@ -274,14 +282,6 @@ class TestImageOpenshiftIoV1Api(unittest.TestCase):
     def test_read_namespaced_image_stream_tag(self):
         """
         Test case for read_namespaced_image_stream_tag
-
-        
-        """
-        pass
-
-    def test_read_namespaced_secret_list_secrets(self):
-        """
-        Test case for read_namespaced_secret_list_secrets
 
         
         """

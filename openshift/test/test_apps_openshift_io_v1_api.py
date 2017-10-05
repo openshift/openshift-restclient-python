@@ -47,17 +47,17 @@ class TestAppsOpenshiftIoV1Api(unittest.TestCase):
         """
         pass
 
-    def test_create_namespaced_deployment_config_rollback_rollback(self):
+    def test_create_namespaced_deployment_config_instantiate(self):
         """
-        Test case for create_namespaced_deployment_config_rollback_rollback
+        Test case for create_namespaced_deployment_config_instantiate
 
         
         """
         pass
 
-    def test_create_namespaced_deployment_request_instantiate(self):
+    def test_create_namespaced_deployment_config_rollback(self):
         """
-        Test case for create_namespaced_deployment_request_instantiate
+        Test case for create_namespaced_deployment_config_rollback
 
         
         """
@@ -111,17 +111,17 @@ class TestAppsOpenshiftIoV1Api(unittest.TestCase):
         """
         pass
 
-    def test_patch_namespaced_deployment_config_status(self):
+    def test_patch_namespaced_deployment_config_scale(self):
         """
-        Test case for patch_namespaced_deployment_config_status
+        Test case for patch_namespaced_deployment_config_scale
 
         
         """
         pass
 
-    def test_patch_namespaced_scale_scale(self):
+    def test_patch_namespaced_deployment_config_status(self):
         """
-        Test case for patch_namespaced_scale_scale
+        Test case for patch_namespaced_deployment_config_status
 
         
         """
@@ -135,25 +135,25 @@ class TestAppsOpenshiftIoV1Api(unittest.TestCase):
         """
         pass
 
+    def test_read_namespaced_deployment_config_log(self):
+        """
+        Test case for read_namespaced_deployment_config_log
+
+        
+        """
+        pass
+
+    def test_read_namespaced_deployment_config_scale(self):
+        """
+        Test case for read_namespaced_deployment_config_scale
+
+        
+        """
+        pass
+
     def test_read_namespaced_deployment_config_status(self):
         """
         Test case for read_namespaced_deployment_config_status
-
-        
-        """
-        pass
-
-    def test_read_namespaced_deployment_log_log(self):
-        """
-        Test case for read_namespaced_deployment_log_log
-
-        
-        """
-        pass
-
-    def test_read_namespaced_scale_scale(self):
-        """
-        Test case for read_namespaced_scale_scale
 
         
         """
@@ -167,17 +167,17 @@ class TestAppsOpenshiftIoV1Api(unittest.TestCase):
         """
         pass
 
-    def test_replace_namespaced_deployment_config_status(self):
+    def test_replace_namespaced_deployment_config_scale(self):
         """
-        Test case for replace_namespaced_deployment_config_status
+        Test case for replace_namespaced_deployment_config_scale
 
         
         """
         pass
 
-    def test_replace_namespaced_scale_scale(self):
+    def test_replace_namespaced_deployment_config_status(self):
         """
-        Test case for replace_namespaced_scale_scale
+        Test case for replace_namespaced_deployment_config_status
 
         
         """
