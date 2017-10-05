@@ -33,9 +33,9 @@ Method | HTTP request | Description
 [**read_image**](ImageOpenshiftIoV1Api.md#read_image) | **GET** /apis/image.openshift.io/v1/images/{name} | 
 [**read_namespaced_image_stream**](ImageOpenshiftIoV1Api.md#read_namespaced_image_stream) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
 [**read_namespaced_image_stream_image**](ImageOpenshiftIoV1Api.md#read_namespaced_image_stream_image) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamimages/{name} | 
+[**read_namespaced_image_stream_secrets**](ImageOpenshiftIoV1Api.md#read_namespaced_image_stream_secrets) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/secrets | 
 [**read_namespaced_image_stream_status**](ImageOpenshiftIoV1Api.md#read_namespaced_image_stream_status) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/status | 
 [**read_namespaced_image_stream_tag**](ImageOpenshiftIoV1Api.md#read_namespaced_image_stream_tag) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreamtags/{name} | 
-[**read_namespaced_secret_list_secrets**](ImageOpenshiftIoV1Api.md#read_namespaced_secret_list_secrets) | **GET** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/secrets | 
 [**replace_image**](ImageOpenshiftIoV1Api.md#replace_image) | **PUT** /apis/image.openshift.io/v1/images/{name} | 
 [**replace_namespaced_image_stream**](ImageOpenshiftIoV1Api.md#replace_namespaced_image_stream) | **PUT** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name} | 
 [**replace_namespaced_image_stream_status**](ImageOpenshiftIoV1Api.md#replace_namespaced_image_stream_status) | **PUT** /apis/image.openshift.io/v1/namespaces/{namespace}/imagestreams/{name}/status | 
@@ -1848,6 +1848,78 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **read_namespaced_image_stream_secrets**
+> V1SecretList read_namespaced_image_stream_secrets(name, namespace, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, pretty=pretty, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+
+
+
+read secrets of the specified ImageStream
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.client
+from kubernetes.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.client.ImageOpenshiftIoV1Api()
+name = 'name_example' # str | name of the SecretList
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
+include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
+label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
+pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
+resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
+timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
+watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
+
+try: 
+    api_response = api_instance.read_namespaced_image_stream_secrets(name, namespace, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, pretty=pretty, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling ImageOpenshiftIoV1Api->read_namespaced_image_stream_secrets: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the SecretList | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
+ **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
+ **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
+ **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
+ **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
+ **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
+ **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
+
+### Return type
+
+[**V1SecretList**](V1SecretList.md)
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **read_namespaced_image_stream_status**
 > V1ImageStream read_namespaced_image_stream_status(name, namespace, pretty=pretty)
 
@@ -1956,78 +2028,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**V1ImageStreamTag**](V1ImageStreamTag.md)
-
-### Authorization
-
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
-
-### HTTP request headers
-
- - **Content-Type**: */*
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **read_namespaced_secret_list_secrets**
-> V1SecretList read_namespaced_secret_list_secrets(name, namespace, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, pretty=pretty, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
-
-
-
-read secrets of the specified SecretList
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
-
-# create an instance of the API class
-api_instance = openshift.client.ImageOpenshiftIoV1Api()
-name = 'name_example' # str | name of the SecretList
-namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
-include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
-label_selector = 'label_selector_example' # str | A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-resource_version = 'resource_version_example' # str | When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. (optional)
-timeout_seconds = 56 # int | Timeout for the list/watch call. (optional)
-watch = true # bool | Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)
-
-try: 
-    api_response = api_instance.read_namespaced_secret_list_secrets(name, namespace, field_selector=field_selector, include_uninitialized=include_uninitialized, label_selector=label_selector, pretty=pretty, resource_version=resource_version, timeout_seconds=timeout_seconds, watch=watch)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ImageOpenshiftIoV1Api->read_namespaced_secret_list_secrets: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **name** | **str**| name of the SecretList | 
- **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **field_selector** | **str**| A selector to restrict the list of returned objects by their fields. Defaults to everything. | [optional] 
- **include_uninitialized** | **bool**| If true, partially initialized resources are included in the response. | [optional] 
- **label_selector** | **str**| A selector to restrict the list of returned objects by their labels. Defaults to everything. | [optional] 
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
- **resource_version** | **str**| When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it&#39;s 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv. | [optional] 
- **timeout_seconds** | **int**| Timeout for the list/watch call. | [optional] 
- **watch** | **bool**| Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. | [optional] 
-
-### Return type
-
-[**V1SecretList**](V1SecretList.md)
 
 ### Authorization
 

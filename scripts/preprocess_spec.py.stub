@@ -150,7 +150,7 @@ def openshift_main():
         out_spec = process_swagger(process_openshift_swagger(in_spec, output_path))
         update_codegen_ignore(out_spec, output_path)
         with open(output_path, 'w') as out:
-            json.dump(out_spec, out, sort_keys=False, indent=2,
+            json.dump(out_spec, out, sort_keys=True, indent=2,
                       separators=(',', ': '), ensure_ascii=True)
     return 0
 

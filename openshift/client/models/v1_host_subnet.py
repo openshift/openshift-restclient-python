@@ -101,8 +101,6 @@ class V1HostSubnet(object):
         :param egress_i_ps: The egress_i_ps of this V1HostSubnet.
         :type: list[str]
         """
-        if egress_i_ps is None:
-            raise ValueError("Invalid value for `egress_i_ps`, must not be `None`")
 
         self._egress_i_ps = egress_i_ps
 

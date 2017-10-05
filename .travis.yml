@@ -47,7 +47,12 @@ jobs:
       on:
         tags: true
         repo: openshift/openshift-restclient-python
+  - stage: test-deploy
+    script: python -c "import openshift ; print(openshift.__version__)"
+    install:
+      - pip install openshift
 stages:
 - lint
 - test
 - deploy
+- test-deploy

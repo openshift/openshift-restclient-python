@@ -31,25 +31,25 @@ class TestBuildOpenshiftIoV1Api(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_connect_post_namespaced_binary_build_request_options_instantiatebinary(self):
+    def test_connect_post_namespaced_build_config_instantiatebinary(self):
         """
-        Test case for connect_post_namespaced_binary_build_request_options_instantiatebinary
+        Test case for connect_post_namespaced_build_config_instantiatebinary
 
         
         """
         pass
 
-    def test_connect_post_namespaced_build_webhooks(self):
+    def test_connect_post_namespaced_build_config_webhooks(self):
         """
-        Test case for connect_post_namespaced_build_webhooks
+        Test case for connect_post_namespaced_build_config_webhooks
 
         
         """
         pass
 
-    def test_connect_post_namespaced_build_webhooks_with_path(self):
+    def test_connect_post_namespaced_build_config_webhooks_with_path(self):
         """
-        Test case for connect_post_namespaced_build_webhooks_with_path
+        Test case for connect_post_namespaced_build_config_webhooks_with_path
 
         
         """
@@ -79,6 +79,14 @@ class TestBuildOpenshiftIoV1Api(unittest.TestCase):
         """
         pass
 
+    def test_create_namespaced_build_clone(self):
+        """
+        Test case for create_namespaced_build_clone
+
+        
+        """
+        pass
+
     def test_create_namespaced_build_config(self):
         """
         Test case for create_namespaced_build_config
@@ -87,17 +95,9 @@ class TestBuildOpenshiftIoV1Api(unittest.TestCase):
         """
         pass
 
-    def test_create_namespaced_build_request_clone(self):
+    def test_create_namespaced_build_config_instantiate(self):
         """
-        Test case for create_namespaced_build_request_clone
-
-        
-        """
-        pass
-
-    def test_create_namespaced_build_request_instantiate(self):
-        """
-        Test case for create_namespaced_build_request_instantiate
+        Test case for create_namespaced_build_config_instantiate
 
         
         """
@@ -207,9 +207,9 @@ class TestBuildOpenshiftIoV1Api(unittest.TestCase):
         """
         pass
 
-    def test_read_namespaced_build_log_log(self):
+    def test_read_namespaced_build_log(self):
         """
-        Test case for read_namespaced_build_log_log
+        Test case for read_namespaced_build_log
 
         
         """

@@ -4,15 +4,15 @@ All URIs are relative to *https://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**connect_post_namespaced_binary_build_request_options_instantiatebinary**](BuildOpenshiftIoV1Api.md#connect_post_namespaced_binary_build_request_options_instantiatebinary) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiatebinary | 
-[**connect_post_namespaced_build_webhooks**](BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_webhooks) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks | 
-[**connect_post_namespaced_build_webhooks_with_path**](BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_webhooks_with_path) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks/{path} | 
+[**connect_post_namespaced_build_config_instantiatebinary**](BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_config_instantiatebinary) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiatebinary | 
+[**connect_post_namespaced_build_config_webhooks**](BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_config_webhooks) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks | 
+[**connect_post_namespaced_build_config_webhooks_with_path**](BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_config_webhooks_with_path) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks/{path} | 
 [**create_build_config_for_all_namespaces**](BuildOpenshiftIoV1Api.md#create_build_config_for_all_namespaces) | **POST** /apis/build.openshift.io/v1/buildconfigs | 
 [**create_build_for_all_namespaces**](BuildOpenshiftIoV1Api.md#create_build_for_all_namespaces) | **POST** /apis/build.openshift.io/v1/builds | 
 [**create_namespaced_build**](BuildOpenshiftIoV1Api.md#create_namespaced_build) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/builds | 
+[**create_namespaced_build_clone**](BuildOpenshiftIoV1Api.md#create_namespaced_build_clone) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/clone | 
 [**create_namespaced_build_config**](BuildOpenshiftIoV1Api.md#create_namespaced_build_config) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs | 
-[**create_namespaced_build_request_clone**](BuildOpenshiftIoV1Api.md#create_namespaced_build_request_clone) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/clone | 
-[**create_namespaced_build_request_instantiate**](BuildOpenshiftIoV1Api.md#create_namespaced_build_request_instantiate) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiate | 
+[**create_namespaced_build_config_instantiate**](BuildOpenshiftIoV1Api.md#create_namespaced_build_config_instantiate) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiate | 
 [**delete_collection_namespaced_build**](BuildOpenshiftIoV1Api.md#delete_collection_namespaced_build) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/builds | 
 [**delete_collection_namespaced_build_config**](BuildOpenshiftIoV1Api.md#delete_collection_namespaced_build_config) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs | 
 [**delete_namespaced_build**](BuildOpenshiftIoV1Api.md#delete_namespaced_build) | **DELETE** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
@@ -26,18 +26,18 @@ Method | HTTP request | Description
 [**patch_namespaced_build_config**](BuildOpenshiftIoV1Api.md#patch_namespaced_build_config) | **PATCH** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
 [**read_namespaced_build**](BuildOpenshiftIoV1Api.md#read_namespaced_build) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
 [**read_namespaced_build_config**](BuildOpenshiftIoV1Api.md#read_namespaced_build_config) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
-[**read_namespaced_build_log_log**](BuildOpenshiftIoV1Api.md#read_namespaced_build_log_log) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/log | 
+[**read_namespaced_build_log**](BuildOpenshiftIoV1Api.md#read_namespaced_build_log) | **GET** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/log | 
 [**replace_namespaced_build**](BuildOpenshiftIoV1Api.md#replace_namespaced_build) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name} | 
 [**replace_namespaced_build_config**](BuildOpenshiftIoV1Api.md#replace_namespaced_build_config) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name} | 
 [**replace_namespaced_build_details**](BuildOpenshiftIoV1Api.md#replace_namespaced_build_details) | **PUT** /apis/build.openshift.io/v1/namespaces/{namespace}/builds/{name}/details | 
 
 
-# **connect_post_namespaced_binary_build_request_options_instantiatebinary**
-> V1Build connect_post_namespaced_binary_build_request_options_instantiatebinary(name, namespace, as_file=as_file, revision_author_email=revision_author_email, revision_author_name=revision_author_name, revision_commit=revision_commit, revision_committer_email=revision_committer_email, revision_committer_name=revision_committer_name, revision_message=revision_message)
+# **connect_post_namespaced_build_config_instantiatebinary**
+> V1Build connect_post_namespaced_build_config_instantiatebinary(name, namespace, as_file=as_file, revision_author_email=revision_author_email, revision_author_name=revision_author_name, revision_commit=revision_commit, revision_committer_email=revision_committer_email, revision_committer_name=revision_committer_name, revision_message=revision_message)
 
 
 
-connect POST requests to instantiatebinary of BinaryBuildRequestOptions
+connect POST requests to instantiatebinary of BuildConfig
 
 ### Example 
 ```python
@@ -69,10 +69,10 @@ revision_committer_name = 'revision_committer_name_example' # str | revision.com
 revision_message = 'revision_message_example' # str | revision.message is the description of a specific commit (optional)
 
 try: 
-    api_response = api_instance.connect_post_namespaced_binary_build_request_options_instantiatebinary(name, namespace, as_file=as_file, revision_author_email=revision_author_email, revision_author_name=revision_author_name, revision_commit=revision_commit, revision_committer_email=revision_committer_email, revision_committer_name=revision_committer_name, revision_message=revision_message)
+    api_response = api_instance.connect_post_namespaced_build_config_instantiatebinary(name, namespace, as_file=as_file, revision_author_email=revision_author_email, revision_author_name=revision_author_name, revision_commit=revision_commit, revision_committer_email=revision_committer_email, revision_committer_name=revision_committer_name, revision_message=revision_message)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling BuildOpenshiftIoV1Api->connect_post_namespaced_binary_build_request_options_instantiatebinary: %s\n" % e)
+    print("Exception when calling BuildOpenshiftIoV1Api->connect_post_namespaced_build_config_instantiatebinary: %s\n" % e)
 ```
 
 ### Parameters
@@ -104,12 +104,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **connect_post_namespaced_build_webhooks**
-> str connect_post_namespaced_build_webhooks(name, namespace, path=path)
+# **connect_post_namespaced_build_config_webhooks**
+> str connect_post_namespaced_build_config_webhooks(name, namespace, path=path)
 
 
 
-connect POST requests to webhooks of Build
+connect POST requests to webhooks of BuildConfig
 
 ### Example 
 ```python
@@ -135,10 +135,10 @@ namespace = 'namespace_example' # str | object name and auth scope, such as for 
 path = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
 
 try: 
-    api_response = api_instance.connect_post_namespaced_build_webhooks(name, namespace, path=path)
+    api_response = api_instance.connect_post_namespaced_build_config_webhooks(name, namespace, path=path)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling BuildOpenshiftIoV1Api->connect_post_namespaced_build_webhooks: %s\n" % e)
+    print("Exception when calling BuildOpenshiftIoV1Api->connect_post_namespaced_build_config_webhooks: %s\n" % e)
 ```
 
 ### Parameters
@@ -164,12 +164,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **connect_post_namespaced_build_webhooks_with_path**
-> str connect_post_namespaced_build_webhooks_with_path(name, namespace, path, path2=path2)
+# **connect_post_namespaced_build_config_webhooks_with_path**
+> str connect_post_namespaced_build_config_webhooks_with_path(name, namespace, path, path2=path2)
 
 
 
-connect POST requests to webhooks of Build
+connect POST requests to webhooks of BuildConfig
 
 ### Example 
 ```python
@@ -196,10 +196,10 @@ path = 'path_example' # str | path to the resource
 path2 = 'path_example' # str | Path is the URL path to use for the current proxy request to pod. (optional)
 
 try: 
-    api_response = api_instance.connect_post_namespaced_build_webhooks_with_path(name, namespace, path, path2=path2)
+    api_response = api_instance.connect_post_namespaced_build_config_webhooks_with_path(name, namespace, path, path2=path2)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling BuildOpenshiftIoV1Api->connect_post_namespaced_build_webhooks_with_path: %s\n" % e)
+    print("Exception when calling BuildOpenshiftIoV1Api->connect_post_namespaced_build_config_webhooks_with_path: %s\n" % e)
 ```
 
 ### Parameters
@@ -402,6 +402,68 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **create_namespaced_build_clone**
+> V1BuildRequest create_namespaced_build_clone(name, namespace, body, pretty=pretty)
+
+
+
+create clone of a Build
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import openshift.client
+from kubernetes.client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure API key authorization: BearerToken
+openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = openshift.client.BuildOpenshiftIoV1Api()
+name = 'name_example' # str | name of the BuildRequest
+namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
+body = openshift.client.V1BuildRequest() # V1BuildRequest | 
+pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
+
+try: 
+    api_response = api_instance.create_namespaced_build_clone(name, namespace, body, pretty=pretty)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling BuildOpenshiftIoV1Api->create_namespaced_build_clone: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **str**| name of the BuildRequest | 
+ **namespace** | **str**| object name and auth scope, such as for teams and projects | 
+ **body** | [**V1BuildRequest**](V1BuildRequest.md)|  | 
+ **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
+
+### Return type
+
+[**V1BuildRequest**](V1BuildRequest.md)
+
+### Authorization
+
+[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+
+### HTTP request headers
+
+ - **Content-Type**: */*
+ - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **create_namespaced_build_config**
 > V1BuildConfig create_namespaced_build_config(namespace, body, pretty=pretty)
 
@@ -462,74 +524,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create_namespaced_build_request_clone**
-> V1BuildRequest create_namespaced_build_request_clone(name, namespace, body, pretty=pretty)
+# **create_namespaced_build_config_instantiate**
+> V1Build create_namespaced_build_config_instantiate(name, namespace, body, pretty=pretty)
 
 
 
-create clone of a BuildRequest
-
-### Example 
-```python
-from __future__ import print_statement
-import time
-import openshift.client
-from kubernetes.client.rest import ApiException
-from pprint import pprint
-
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
-
-# create an instance of the API class
-api_instance = openshift.client.BuildOpenshiftIoV1Api()
-name = 'name_example' # str | name of the BuildRequest
-namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
-body = openshift.client.V1BuildRequest() # V1BuildRequest | 
-pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
-
-try: 
-    api_response = api_instance.create_namespaced_build_request_clone(name, namespace, body, pretty=pretty)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling BuildOpenshiftIoV1Api->create_namespaced_build_request_clone: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **name** | **str**| name of the BuildRequest | 
- **namespace** | **str**| object name and auth scope, such as for teams and projects | 
- **body** | [**V1BuildRequest**](V1BuildRequest.md)|  | 
- **pretty** | **str**| If &#39;true&#39;, then the output is pretty printed. | [optional] 
-
-### Return type
-
-[**V1BuildRequest**](V1BuildRequest.md)
-
-### Authorization
-
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
-
-### HTTP request headers
-
- - **Content-Type**: */*
- - **Accept**: application/json, application/yaml, application/vnd.kubernetes.protobuf
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **create_namespaced_build_request_instantiate**
-> V1Build create_namespaced_build_request_instantiate(name, namespace, body, pretty=pretty)
-
-
-
-create instantiate of a BuildRequest
+create instantiate of a BuildConfig
 
 ### Example 
 ```python
@@ -556,10 +556,10 @@ body = openshift.client.V1BuildRequest() # V1BuildRequest |
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
 try: 
-    api_response = api_instance.create_namespaced_build_request_instantiate(name, namespace, body, pretty=pretty)
+    api_response = api_instance.create_namespaced_build_config_instantiate(name, namespace, body, pretty=pretty)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling BuildOpenshiftIoV1Api->create_namespaced_build_request_instantiate: %s\n" % e)
+    print("Exception when calling BuildOpenshiftIoV1Api->create_namespaced_build_config_instantiate: %s\n" % e)
 ```
 
 ### Parameters
@@ -1442,12 +1442,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **read_namespaced_build_log_log**
-> V1BuildLog read_namespaced_build_log_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, nowait=nowait, pretty=pretty, previous=previous, since_seconds=since_seconds, tail_lines=tail_lines, timestamps=timestamps, version=version)
+# **read_namespaced_build_log**
+> V1BuildLog read_namespaced_build_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, nowait=nowait, pretty=pretty, previous=previous, since_seconds=since_seconds, tail_lines=tail_lines, timestamps=timestamps, version=version)
 
 
 
-read log of the specified BuildLog
+read log of the specified Build
 
 ### Example 
 ```python
@@ -1482,10 +1482,10 @@ timestamps = true # bool | timestamps, If true, add an RFC3339 or RFC3339Nano ti
 version = 56 # int | version of the build for which to view logs. (optional)
 
 try: 
-    api_response = api_instance.read_namespaced_build_log_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, nowait=nowait, pretty=pretty, previous=previous, since_seconds=since_seconds, tail_lines=tail_lines, timestamps=timestamps, version=version)
+    api_response = api_instance.read_namespaced_build_log(name, namespace, container=container, follow=follow, limit_bytes=limit_bytes, nowait=nowait, pretty=pretty, previous=previous, since_seconds=since_seconds, tail_lines=tail_lines, timestamps=timestamps, version=version)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling BuildOpenshiftIoV1Api->read_namespaced_build_log_log: %s\n" % e)
+    print("Exception when calling BuildOpenshiftIoV1Api->read_namespaced_build_log: %s\n" % e)
 ```
 
 ### Parameters

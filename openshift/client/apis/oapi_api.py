@@ -40,16 +40,16 @@ class OapiApi(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
-    def connect_post_namespaced_binary_build_request_options_instantiatebinary(self, name, namespace, **kwargs):
+    def connect_post_namespaced_build_config_instantiatebinary(self, name, namespace, **kwargs):
         """
-        connect POST requests to instantiatebinary of BinaryBuildRequestOptions
+        connect POST requests to instantiatebinary of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_post_namespaced_binary_build_request_options_instantiatebinary(name, namespace, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_config_instantiatebinary(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -68,21 +68,21 @@ class OapiApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.connect_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, **kwargs)
+            return self.connect_post_namespaced_build_config_instantiatebinary_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.connect_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, **kwargs)
+            (data) = self.connect_post_namespaced_build_config_instantiatebinary_with_http_info(name, namespace, **kwargs)
             return data
 
-    def connect_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(self, name, namespace, **kwargs):
+    def connect_post_namespaced_build_config_instantiatebinary_with_http_info(self, name, namespace, **kwargs):
         """
-        connect POST requests to instantiatebinary of BinaryBuildRequestOptions
+        connect POST requests to instantiatebinary of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_post_namespaced_binary_build_request_options_instantiatebinary_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_config_instantiatebinary_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -111,16 +111,16 @@ class OapiApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method connect_post_namespaced_binary_build_request_options_instantiatebinary" % key
+                    " to method connect_post_namespaced_build_config_instantiatebinary" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_binary_build_request_options_instantiatebinary`")
+            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_build_config_instantiatebinary`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_binary_build_request_options_instantiatebinary`")
+            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_build_config_instantiatebinary`")
 
 
         collection_formats = {}
@@ -180,16 +180,16 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def connect_post_namespaced_build_webhooks(self, name, namespace, **kwargs):
+    def connect_post_namespaced_build_config_webhooks(self, name, namespace, **kwargs):
         """
-        connect POST requests to webhooks of Build
+        connect POST requests to webhooks of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_post_namespaced_build_webhooks(name, namespace, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_config_webhooks(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -202,21 +202,21 @@ class OapiApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.connect_post_namespaced_build_webhooks_with_http_info(name, namespace, **kwargs)
+            return self.connect_post_namespaced_build_config_webhooks_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.connect_post_namespaced_build_webhooks_with_http_info(name, namespace, **kwargs)
+            (data) = self.connect_post_namespaced_build_config_webhooks_with_http_info(name, namespace, **kwargs)
             return data
 
-    def connect_post_namespaced_build_webhooks_with_http_info(self, name, namespace, **kwargs):
+    def connect_post_namespaced_build_config_webhooks_with_http_info(self, name, namespace, **kwargs):
         """
-        connect POST requests to webhooks of Build
+        connect POST requests to webhooks of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_post_namespaced_build_webhooks_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -239,16 +239,16 @@ class OapiApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method connect_post_namespaced_build_webhooks" % key
+                    " to method connect_post_namespaced_build_config_webhooks" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_build_webhooks`")
+            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_build_config_webhooks`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_build_webhooks`")
+            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_build_config_webhooks`")
 
 
         collection_formats = {}
@@ -296,16 +296,16 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def connect_post_namespaced_build_webhooks_with_path(self, name, namespace, path, **kwargs):
+    def connect_post_namespaced_build_config_webhooks_with_path(self, name, namespace, path, **kwargs):
         """
-        connect POST requests to webhooks of Build
+        connect POST requests to webhooks of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_post_namespaced_build_webhooks_with_path(name, namespace, path, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_path(name, namespace, path, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -319,21 +319,21 @@ class OapiApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.connect_post_namespaced_build_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
+            return self.connect_post_namespaced_build_config_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
         else:
-            (data) = self.connect_post_namespaced_build_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
+            (data) = self.connect_post_namespaced_build_config_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
             return data
 
-    def connect_post_namespaced_build_webhooks_with_path_with_http_info(self, name, namespace, path, **kwargs):
+    def connect_post_namespaced_build_config_webhooks_with_path_with_http_info(self, name, namespace, path, **kwargs):
         """
-        connect POST requests to webhooks of Build
+        connect POST requests to webhooks of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.connect_post_namespaced_build_webhooks_with_path_with_http_info(name, namespace, path, callback=callback_function)
+        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_path_with_http_info(name, namespace, path, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -357,19 +357,19 @@ class OapiApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method connect_post_namespaced_build_webhooks_with_path" % key
+                    " to method connect_post_namespaced_build_config_webhooks_with_path" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_build_webhooks_with_path`")
+            raise ValueError("Missing the required parameter `name` when calling `connect_post_namespaced_build_config_webhooks_with_path`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_build_webhooks_with_path`")
+            raise ValueError("Missing the required parameter `namespace` when calling `connect_post_namespaced_build_config_webhooks_with_path`")
         # verify the required parameter 'path' is set
         if ('path' not in params) or (params['path'] is None):
-            raise ValueError("Missing the required parameter `path` when calling `connect_post_namespaced_build_webhooks_with_path`")
+            raise ValueError("Missing the required parameter `path` when calling `connect_post_namespaced_build_config_webhooks_with_path`")
 
 
         collection_formats = {}
@@ -2715,6 +2715,129 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
+    def create_namespaced_build_clone(self, name, namespace, body, **kwargs):
+        """
+        create clone of a Build
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.create_namespaced_build_clone(name, namespace, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the BuildRequest (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1BuildRequest body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1BuildRequest
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.create_namespaced_build_clone_with_http_info(name, namespace, body, **kwargs)
+        else:
+            (data) = self.create_namespaced_build_clone_with_http_info(name, namespace, body, **kwargs)
+            return data
+
+    def create_namespaced_build_clone_with_http_info(self, name, namespace, body, **kwargs):
+        """
+        create clone of a Build
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.create_namespaced_build_clone_with_http_info(name, namespace, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the BuildRequest (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1BuildRequest body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1BuildRequest
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'namespace', 'body', 'pretty']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method create_namespaced_build_clone" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `create_namespaced_build_clone`")
+        # verify the required parameter 'namespace' is set
+        if ('namespace' not in params) or (params['namespace'] is None):
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_build_clone`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_build_clone`")
+
+
+        collection_formats = {}
+
+        resource_path = '/oapi/v1/namespaces/{namespace}/builds/{name}/clone'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+        if 'namespace' in params:
+            path_params['namespace'] = params['namespace']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'POST',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1BuildRequest',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
     def create_namespaced_build_config(self, namespace, body, **kwargs):
         """
         create a BuildConfig
@@ -2831,139 +2954,16 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_namespaced_build_request_clone(self, name, namespace, body, **kwargs):
+    def create_namespaced_build_config_instantiate(self, name, namespace, body, **kwargs):
         """
-        create clone of a BuildRequest
+        create instantiate of a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_namespaced_build_request_clone(name, namespace, body, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the BuildRequest (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param V1BuildRequest body: (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: V1BuildRequest
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.create_namespaced_build_request_clone_with_http_info(name, namespace, body, **kwargs)
-        else:
-            (data) = self.create_namespaced_build_request_clone_with_http_info(name, namespace, body, **kwargs)
-            return data
-
-    def create_namespaced_build_request_clone_with_http_info(self, name, namespace, body, **kwargs):
-        """
-        create clone of a BuildRequest
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_build_request_clone_with_http_info(name, namespace, body, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the BuildRequest (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param V1BuildRequest body: (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: V1BuildRequest
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method create_namespaced_build_request_clone" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `create_namespaced_build_request_clone`")
-        # verify the required parameter 'namespace' is set
-        if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_build_request_clone`")
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_build_request_clone`")
-
-
-        collection_formats = {}
-
-        resource_path = '/oapi/v1/namespaces/{namespace}/builds/{name}/clone'.replace('{format}', 'json')
-        path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']
-        if 'namespace' in params:
-            path_params['namespace'] = params['namespace']
-
-        query_params = {}
-        if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in params:
-            body_params = params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['*/*'])
-
-        # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
-
-        return self.api_client.call_api(resource_path, 'POST',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='V1BuildRequest',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def create_namespaced_build_request_instantiate(self, name, namespace, body, **kwargs):
-        """
-        create instantiate of a BuildRequest
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_build_request_instantiate(name, namespace, body, callback=callback_function)
+        >>> thread = api.create_namespaced_build_config_instantiate(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -2977,21 +2977,21 @@ class OapiApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_namespaced_build_request_instantiate_with_http_info(name, namespace, body, **kwargs)
+            return self.create_namespaced_build_config_instantiate_with_http_info(name, namespace, body, **kwargs)
         else:
-            (data) = self.create_namespaced_build_request_instantiate_with_http_info(name, namespace, body, **kwargs)
+            (data) = self.create_namespaced_build_config_instantiate_with_http_info(name, namespace, body, **kwargs)
             return data
 
-    def create_namespaced_build_request_instantiate_with_http_info(self, name, namespace, body, **kwargs):
+    def create_namespaced_build_config_instantiate_with_http_info(self, name, namespace, body, **kwargs):
         """
-        create instantiate of a BuildRequest
+        create instantiate of a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_namespaced_build_request_instantiate_with_http_info(name, namespace, body, callback=callback_function)
+        >>> thread = api.create_namespaced_build_config_instantiate_with_http_info(name, namespace, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -3015,19 +3015,19 @@ class OapiApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_namespaced_build_request_instantiate" % key
+                    " to method create_namespaced_build_config_instantiate" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `create_namespaced_build_request_instantiate`")
+            raise ValueError("Missing the required parameter `name` when calling `create_namespaced_build_config_instantiate`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_build_request_instantiate`")
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_build_config_instantiate`")
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_build_request_instantiate`")
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_build_config_instantiate`")
 
 
         collection_formats = {}
@@ -3193,6 +3193,129 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
+    def create_namespaced_deployment_config_instantiate(self, name, namespace, body, **kwargs):
+        """
+        create instantiate of a DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.create_namespaced_deployment_config_instantiate(name, namespace, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the DeploymentRequest (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1DeploymentRequest body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1DeploymentRequest
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, **kwargs)
+        else:
+            (data) = self.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, **kwargs)
+            return data
+
+    def create_namespaced_deployment_config_instantiate_with_http_info(self, name, namespace, body, **kwargs):
+        """
+        create instantiate of a DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the DeploymentRequest (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param V1DeploymentRequest body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: V1DeploymentRequest
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'namespace', 'body', 'pretty']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method create_namespaced_deployment_config_instantiate" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `create_namespaced_deployment_config_instantiate`")
+        # verify the required parameter 'namespace' is set
+        if ('namespace' not in params) or (params['namespace'] is None):
+            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_deployment_config_instantiate`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_deployment_config_instantiate`")
+
+
+        collection_formats = {}
+
+        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/instantiate'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+        if 'namespace' in params:
+            path_params['namespace'] = params['namespace']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'POST',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1DeploymentRequest',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
     def create_namespaced_deployment_config_rollback(self, namespace, body, **kwargs):
         """
         create a DeploymentConfigRollback
@@ -3311,7 +3434,7 @@ class OapiApi(object):
 
     def create_namespaced_deployment_config_rollback_rollback(self, name, namespace, body, **kwargs):
         """
-        create rollback of a DeploymentConfigRollback
+        create rollback of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
@@ -3339,7 +3462,7 @@ class OapiApi(object):
 
     def create_namespaced_deployment_config_rollback_rollback_with_http_info(self, name, namespace, body, **kwargs):
         """
-        create rollback of a DeploymentConfigRollback
+        create rollback of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
@@ -3425,129 +3548,6 @@ class OapiApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='V1DeploymentConfigRollback',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def create_namespaced_deployment_request_instantiate(self, name, namespace, body, **kwargs):
-        """
-        create instantiate of a DeploymentRequest
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_deployment_request_instantiate(name, namespace, body, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the DeploymentRequest (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param V1DeploymentRequest body: (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: V1DeploymentRequest
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.create_namespaced_deployment_request_instantiate_with_http_info(name, namespace, body, **kwargs)
-        else:
-            (data) = self.create_namespaced_deployment_request_instantiate_with_http_info(name, namespace, body, **kwargs)
-            return data
-
-    def create_namespaced_deployment_request_instantiate_with_http_info(self, name, namespace, body, **kwargs):
-        """
-        create instantiate of a DeploymentRequest
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_deployment_request_instantiate_with_http_info(name, namespace, body, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the DeploymentRequest (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param V1DeploymentRequest body: (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: V1DeploymentRequest
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method create_namespaced_deployment_request_instantiate" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `create_namespaced_deployment_request_instantiate`")
-        # verify the required parameter 'namespace' is set
-        if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `create_namespaced_deployment_request_instantiate`")
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `create_namespaced_deployment_request_instantiate`")
-
-
-        collection_formats = {}
-
-        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/instantiate'.replace('{format}', 'json')
-        path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']
-        if 'namespace' in params:
-            path_params['namespace'] = params['namespace']
-
-        query_params = {}
-        if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in params:
-            body_params = params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['*/*'])
-
-        # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
-
-        return self.api_client.call_api(resource_path, 'POST',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='V1DeploymentRequest',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -21165,6 +21165,129 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
+    def patch_namespaced_deployment_config_scale(self, name, namespace, body, **kwargs):
+        """
+        partially update scale of the specified DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.patch_namespaced_deployment_config_scale(name, namespace, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the Scale (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param object body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: ExtensionsV1beta1Scale
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
+        else:
+            (data) = self.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
+            return data
+
+    def patch_namespaced_deployment_config_scale_with_http_info(self, name, namespace, body, **kwargs):
+        """
+        partially update scale of the specified DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the Scale (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param object body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: ExtensionsV1beta1Scale
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'namespace', 'body', 'pretty']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method patch_namespaced_deployment_config_scale" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `patch_namespaced_deployment_config_scale`")
+        # verify the required parameter 'namespace' is set
+        if ('namespace' not in params) or (params['namespace'] is None):
+            raise ValueError("Missing the required parameter `namespace` when calling `patch_namespaced_deployment_config_scale`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `patch_namespaced_deployment_config_scale`")
+
+
+        collection_formats = {}
+
+        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+        if 'namespace' in params:
+            path_params['namespace'] = params['namespace']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'PATCH',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='ExtensionsV1beta1Scale',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
     def patch_namespaced_deployment_config_status(self, name, namespace, body, **kwargs):
         """
         partially update status of the specified DeploymentConfig
@@ -22388,129 +22511,6 @@ class OapiApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='V1Route',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def patch_namespaced_scale_scale(self, name, namespace, body, **kwargs):
-        """
-        partially update scale of the specified Scale
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_scale_scale(name, namespace, body, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the Scale (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param object body: (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: ExtensionsV1beta1Scale
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.patch_namespaced_scale_scale_with_http_info(name, namespace, body, **kwargs)
-        else:
-            (data) = self.patch_namespaced_scale_scale_with_http_info(name, namespace, body, **kwargs)
-            return data
-
-    def patch_namespaced_scale_scale_with_http_info(self, name, namespace, body, **kwargs):
-        """
-        partially update scale of the specified Scale
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_scale_scale_with_http_info(name, namespace, body, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the Scale (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param object body: (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: ExtensionsV1beta1Scale
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method patch_namespaced_scale_scale" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `patch_namespaced_scale_scale`")
-        # verify the required parameter 'namespace' is set
-        if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `patch_namespaced_scale_scale`")
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `patch_namespaced_scale_scale`")
-
-
-        collection_formats = {}
-
-        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale'.replace('{format}', 'json')
-        path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']
-        if 'namespace' in params:
-            path_params['namespace'] = params['namespace']
-
-        query_params = {}
-        if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in params:
-            body_params = params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
-
-        # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
-
-        return self.api_client.call_api(resource_path, 'PATCH',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='ExtensionsV1beta1Scale',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -24962,16 +24962,16 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def read_namespaced_build_log_log(self, name, namespace, **kwargs):
+    def read_namespaced_build_log(self, name, namespace, **kwargs):
         """
-        read log of the specified BuildLog
+        read log of the specified Build
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_namespaced_build_log_log(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_build_log(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -24993,21 +24993,21 @@ class OapiApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.read_namespaced_build_log_log_with_http_info(name, namespace, **kwargs)
+            return self.read_namespaced_build_log_with_http_info(name, namespace, **kwargs)
         else:
-            (data) = self.read_namespaced_build_log_log_with_http_info(name, namespace, **kwargs)
+            (data) = self.read_namespaced_build_log_with_http_info(name, namespace, **kwargs)
             return data
 
-    def read_namespaced_build_log_log_with_http_info(self, name, namespace, **kwargs):
+    def read_namespaced_build_log_with_http_info(self, name, namespace, **kwargs):
         """
-        read log of the specified BuildLog
+        read log of the specified Build
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.read_namespaced_build_log_log_with_http_info(name, namespace, callback=callback_function)
+        >>> thread = api.read_namespaced_build_log_with_http_info(name, namespace, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -25039,16 +25039,16 @@ class OapiApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method read_namespaced_build_log_log" % key
+                    " to method read_namespaced_build_log" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'name' is set
         if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_build_log_log`")
+            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_build_log`")
         # verify the required parameter 'namespace' is set
         if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_build_log_log`")
+            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_build_log`")
 
 
         collection_formats = {}
@@ -25238,6 +25238,274 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
+    def read_namespaced_deployment_config_log(self, name, namespace, **kwargs):
+        """
+        read log of the specified DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.read_namespaced_deployment_config_log(name, namespace, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the DeploymentLog (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param str container: The container for which to stream logs. Defaults to only container if there is one container in the pod.
+        :param bool follow: Follow if true indicates that the build log should be streamed until the build terminates.
+        :param int limit_bytes: If set, the number of bytes to read from the server before terminating the log output. This may not display a complete final line of logging, and may return slightly more or slightly less than the specified limit.
+        :param bool nowait: NoWait if true causes the call to return immediately even if the deployment is not available yet. Otherwise the server will wait until the deployment has started.
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param bool previous: Return previous deployment logs. Defaults to false.
+        :param int since_seconds: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
+        :param int tail_lines: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
+        :param bool timestamps: If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false.
+        :param int version: Version of the deployment for which to view logs.
+        :return: V1DeploymentLog
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.read_namespaced_deployment_config_log_with_http_info(name, namespace, **kwargs)
+        else:
+            (data) = self.read_namespaced_deployment_config_log_with_http_info(name, namespace, **kwargs)
+            return data
+
+    def read_namespaced_deployment_config_log_with_http_info(self, name, namespace, **kwargs):
+        """
+        read log of the specified DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.read_namespaced_deployment_config_log_with_http_info(name, namespace, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the DeploymentLog (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param str container: The container for which to stream logs. Defaults to only container if there is one container in the pod.
+        :param bool follow: Follow if true indicates that the build log should be streamed until the build terminates.
+        :param int limit_bytes: If set, the number of bytes to read from the server before terminating the log output. This may not display a complete final line of logging, and may return slightly more or slightly less than the specified limit.
+        :param bool nowait: NoWait if true causes the call to return immediately even if the deployment is not available yet. Otherwise the server will wait until the deployment has started.
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param bool previous: Return previous deployment logs. Defaults to false.
+        :param int since_seconds: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
+        :param int tail_lines: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
+        :param bool timestamps: If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false.
+        :param int version: Version of the deployment for which to view logs.
+        :return: V1DeploymentLog
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'namespace', 'container', 'follow', 'limit_bytes', 'nowait', 'pretty', 'previous', 'since_seconds', 'tail_lines', 'timestamps', 'version']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method read_namespaced_deployment_config_log" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_deployment_config_log`")
+        # verify the required parameter 'namespace' is set
+        if ('namespace' not in params) or (params['namespace'] is None):
+            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_deployment_config_log`")
+
+
+        collection_formats = {}
+
+        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/log'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+        if 'namespace' in params:
+            path_params['namespace'] = params['namespace']
+
+        query_params = {}
+        if 'container' in params:
+            query_params['container'] = params['container']
+        if 'follow' in params:
+            query_params['follow'] = params['follow']
+        if 'limit_bytes' in params:
+            query_params['limitBytes'] = params['limit_bytes']
+        if 'nowait' in params:
+            query_params['nowait'] = params['nowait']
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+        if 'previous' in params:
+            query_params['previous'] = params['previous']
+        if 'since_seconds' in params:
+            query_params['sinceSeconds'] = params['since_seconds']
+        if 'tail_lines' in params:
+            query_params['tailLines'] = params['tail_lines']
+        if 'timestamps' in params:
+            query_params['timestamps'] = params['timestamps']
+        if 'version' in params:
+            query_params['version'] = params['version']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1DeploymentLog',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def read_namespaced_deployment_config_scale(self, name, namespace, **kwargs):
+        """
+        read scale of the specified DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.read_namespaced_deployment_config_scale(name, namespace, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the Scale (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: ExtensionsV1beta1Scale
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.read_namespaced_deployment_config_scale_with_http_info(name, namespace, **kwargs)
+        else:
+            (data) = self.read_namespaced_deployment_config_scale_with_http_info(name, namespace, **kwargs)
+            return data
+
+    def read_namespaced_deployment_config_scale_with_http_info(self, name, namespace, **kwargs):
+        """
+        read scale of the specified DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.read_namespaced_deployment_config_scale_with_http_info(name, namespace, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the Scale (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: ExtensionsV1beta1Scale
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'namespace', 'pretty']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method read_namespaced_deployment_config_scale" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_deployment_config_scale`")
+        # verify the required parameter 'namespace' is set
+        if ('namespace' not in params) or (params['namespace'] is None):
+            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_deployment_config_scale`")
+
+
+        collection_formats = {}
+
+        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+        if 'namespace' in params:
+            path_params['namespace'] = params['namespace']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='ExtensionsV1beta1Scale',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
     def read_namespaced_deployment_config_status(self, name, namespace, **kwargs):
         """
         read status of the specified DeploymentConfig
@@ -25347,158 +25615,6 @@ class OapiApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def read_namespaced_deployment_log_log(self, name, namespace, **kwargs):
-        """
-        read log of the specified DeploymentLog
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_deployment_log_log(name, namespace, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the DeploymentLog (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param str container: The container for which to stream logs. Defaults to only container if there is one container in the pod.
-        :param bool follow: Follow if true indicates that the build log should be streamed until the build terminates.
-        :param int limit_bytes: If set, the number of bytes to read from the server before terminating the log output. This may not display a complete final line of logging, and may return slightly more or slightly less than the specified limit.
-        :param bool nowait: NoWait if true causes the call to return immediately even if the deployment is not available yet. Otherwise the server will wait until the deployment has started.
-        :param str pretty: If 'true', then the output is pretty printed.
-        :param bool previous: Return previous deployment logs. Defaults to false.
-        :param int since_seconds: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
-        :param int tail_lines: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
-        :param bool timestamps: If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false.
-        :param int version: Version of the deployment for which to view logs.
-        :return: V1DeploymentLog
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.read_namespaced_deployment_log_log_with_http_info(name, namespace, **kwargs)
-        else:
-            (data) = self.read_namespaced_deployment_log_log_with_http_info(name, namespace, **kwargs)
-            return data
-
-    def read_namespaced_deployment_log_log_with_http_info(self, name, namespace, **kwargs):
-        """
-        read log of the specified DeploymentLog
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_deployment_log_log_with_http_info(name, namespace, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the DeploymentLog (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param str container: The container for which to stream logs. Defaults to only container if there is one container in the pod.
-        :param bool follow: Follow if true indicates that the build log should be streamed until the build terminates.
-        :param int limit_bytes: If set, the number of bytes to read from the server before terminating the log output. This may not display a complete final line of logging, and may return slightly more or slightly less than the specified limit.
-        :param bool nowait: NoWait if true causes the call to return immediately even if the deployment is not available yet. Otherwise the server will wait until the deployment has started.
-        :param str pretty: If 'true', then the output is pretty printed.
-        :param bool previous: Return previous deployment logs. Defaults to false.
-        :param int since_seconds: A relative time in seconds before the current time from which to show logs. If this value precedes the time a pod was started, only logs since the pod start will be returned. If this value is in the future, no logs will be returned. Only one of sinceSeconds or sinceTime may be specified.
-        :param int tail_lines: If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime
-        :param bool timestamps: If true, add an RFC3339 or RFC3339Nano timestamp at the beginning of every line of log output. Defaults to false.
-        :param int version: Version of the deployment for which to view logs.
-        :return: V1DeploymentLog
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['name', 'namespace', 'container', 'follow', 'limit_bytes', 'nowait', 'pretty', 'previous', 'since_seconds', 'tail_lines', 'timestamps', 'version']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method read_namespaced_deployment_log_log" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_deployment_log_log`")
-        # verify the required parameter 'namespace' is set
-        if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_deployment_log_log`")
-
-
-        collection_formats = {}
-
-        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/log'.replace('{format}', 'json')
-        path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']
-        if 'namespace' in params:
-            path_params['namespace'] = params['namespace']
-
-        query_params = {}
-        if 'container' in params:
-            query_params['container'] = params['container']
-        if 'follow' in params:
-            query_params['follow'] = params['follow']
-        if 'limit_bytes' in params:
-            query_params['limitBytes'] = params['limit_bytes']
-        if 'nowait' in params:
-            query_params['nowait'] = params['nowait']
-        if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
-        if 'previous' in params:
-            query_params['previous'] = params['previous']
-        if 'since_seconds' in params:
-            query_params['sinceSeconds'] = params['since_seconds']
-        if 'tail_lines' in params:
-            query_params['tailLines'] = params['tail_lines']
-        if 'timestamps' in params:
-            query_params['timestamps'] = params['timestamps']
-        if 'version' in params:
-            query_params['version'] = params['version']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['*/*'])
-
-        # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
-
-        return self.api_client.call_api(resource_path, 'GET',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='V1DeploymentLog',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -25863,6 +25979,146 @@ class OapiApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='V1ImageStreamImage',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def read_namespaced_image_stream_secrets(self, name, namespace, **kwargs):
+        """
+        read secrets of the specified ImageStream
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.read_namespaced_image_stream_secrets(name, namespace, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecretList (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
+        :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
+        :param int timeout_seconds: Timeout for the list/watch call.
+        :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        :return: V1SecretList
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.read_namespaced_image_stream_secrets_with_http_info(name, namespace, **kwargs)
+        else:
+            (data) = self.read_namespaced_image_stream_secrets_with_http_info(name, namespace, **kwargs)
+            return data
+
+    def read_namespaced_image_stream_secrets_with_http_info(self, name, namespace, **kwargs):
+        """
+        read secrets of the specified ImageStream
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.read_namespaced_image_stream_secrets_with_http_info(name, namespace, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the SecretList (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
+        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
+        :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param str pretty: If 'true', then the output is pretty printed.
+        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
+        :param int timeout_seconds: Timeout for the list/watch call.
+        :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
+        :return: V1SecretList
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'namespace', 'field_selector', 'include_uninitialized', 'label_selector', 'pretty', 'resource_version', 'timeout_seconds', 'watch']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method read_namespaced_image_stream_secrets" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_image_stream_secrets`")
+        # verify the required parameter 'namespace' is set
+        if ('namespace' not in params) or (params['namespace'] is None):
+            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_image_stream_secrets`")
+
+
+        collection_formats = {}
+
+        resource_path = '/oapi/v1/namespaces/{namespace}/imagestreams/{name}/secrets'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+        if 'namespace' in params:
+            path_params['namespace'] = params['namespace']
+
+        query_params = {}
+        if 'field_selector' in params:
+            query_params['fieldSelector'] = params['field_selector']
+        if 'include_uninitialized' in params:
+            query_params['includeUninitialized'] = params['include_uninitialized']
+        if 'label_selector' in params:
+            query_params['labelSelector'] = params['label_selector']
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+        if 'resource_version' in params:
+            query_params['resourceVersion'] = params['resource_version']
+        if 'timeout_seconds' in params:
+            query_params['timeoutSeconds'] = params['timeout_seconds']
+        if 'watch' in params:
+            query_params['watch'] = params['watch']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='V1SecretList',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -26691,262 +26947,6 @@ class OapiApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='V1Route',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def read_namespaced_scale_scale(self, name, namespace, **kwargs):
-        """
-        read scale of the specified Scale
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_scale_scale(name, namespace, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the Scale (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: ExtensionsV1beta1Scale
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.read_namespaced_scale_scale_with_http_info(name, namespace, **kwargs)
-        else:
-            (data) = self.read_namespaced_scale_scale_with_http_info(name, namespace, **kwargs)
-            return data
-
-    def read_namespaced_scale_scale_with_http_info(self, name, namespace, **kwargs):
-        """
-        read scale of the specified Scale
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_scale_scale_with_http_info(name, namespace, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the Scale (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: ExtensionsV1beta1Scale
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['name', 'namespace', 'pretty']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method read_namespaced_scale_scale" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_scale_scale`")
-        # verify the required parameter 'namespace' is set
-        if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_scale_scale`")
-
-
-        collection_formats = {}
-
-        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale'.replace('{format}', 'json')
-        path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']
-        if 'namespace' in params:
-            path_params['namespace'] = params['namespace']
-
-        query_params = {}
-        if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['*/*'])
-
-        # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
-
-        return self.api_client.call_api(resource_path, 'GET',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='ExtensionsV1beta1Scale',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def read_namespaced_secret_list_secrets(self, name, namespace, **kwargs):
-        """
-        read secrets of the specified SecretList
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_secret_list_secrets(name, namespace, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the SecretList (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
-        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
-        :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str pretty: If 'true', then the output is pretty printed.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
-        :param int timeout_seconds: Timeout for the list/watch call.
-        :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: V1SecretList
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.read_namespaced_secret_list_secrets_with_http_info(name, namespace, **kwargs)
-        else:
-            (data) = self.read_namespaced_secret_list_secrets_with_http_info(name, namespace, **kwargs)
-            return data
-
-    def read_namespaced_secret_list_secrets_with_http_info(self, name, namespace, **kwargs):
-        """
-        read secrets of the specified SecretList
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_secret_list_secrets_with_http_info(name, namespace, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the SecretList (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
-        :param bool include_uninitialized: If true, partially initialized resources are included in the response.
-        :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
-        :param str pretty: If 'true', then the output is pretty printed.
-        :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
-        :param int timeout_seconds: Timeout for the list/watch call.
-        :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
-        :return: V1SecretList
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['name', 'namespace', 'field_selector', 'include_uninitialized', 'label_selector', 'pretty', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method read_namespaced_secret_list_secrets" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `read_namespaced_secret_list_secrets`")
-        # verify the required parameter 'namespace' is set
-        if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `read_namespaced_secret_list_secrets`")
-
-
-        collection_formats = {}
-
-        resource_path = '/oapi/v1/namespaces/{namespace}/imagestreams/{name}/secrets'.replace('{format}', 'json')
-        path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']
-        if 'namespace' in params:
-            path_params['namespace'] = params['namespace']
-
-        query_params = {}
-        if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
-        if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
-        if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
-        if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
-        if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
-        if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
-        if 'watch' in params:
-            query_params['watch'] = params['watch']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['*/*'])
-
-        # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
-
-        return self.api_client.call_api(resource_path, 'GET',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='V1SecretList',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -29534,6 +29534,129 @@ class OapiApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
+    def replace_namespaced_deployment_config_scale(self, name, namespace, body, **kwargs):
+        """
+        replace scale of the specified DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.replace_namespaced_deployment_config_scale(name, namespace, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the Scale (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param ExtensionsV1beta1Scale body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: ExtensionsV1beta1Scale
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
+        else:
+            (data) = self.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
+            return data
+
+    def replace_namespaced_deployment_config_scale_with_http_info(self, name, namespace, body, **kwargs):
+        """
+        replace scale of the specified DeploymentConfig
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str name: name of the Scale (required)
+        :param str namespace: object name and auth scope, such as for teams and projects (required)
+        :param ExtensionsV1beta1Scale body: (required)
+        :param str pretty: If 'true', then the output is pretty printed.
+        :return: ExtensionsV1beta1Scale
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['name', 'namespace', 'body', 'pretty']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method replace_namespaced_deployment_config_scale" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'name' is set
+        if ('name' not in params) or (params['name'] is None):
+            raise ValueError("Missing the required parameter `name` when calling `replace_namespaced_deployment_config_scale`")
+        # verify the required parameter 'namespace' is set
+        if ('namespace' not in params) or (params['namespace'] is None):
+            raise ValueError("Missing the required parameter `namespace` when calling `replace_namespaced_deployment_config_scale`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `replace_namespaced_deployment_config_scale`")
+
+
+        collection_formats = {}
+
+        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale'.replace('{format}', 'json')
+        path_params = {}
+        if 'name' in params:
+            path_params['name'] = params['name']
+        if 'namespace' in params:
+            path_params['namespace'] = params['namespace']
+
+        query_params = {}
+        if 'pretty' in params:
+            query_params['pretty'] = params['pretty']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['*/*'])
+
+        # Authentication setting
+        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+
+        return self.api_client.call_api(resource_path, 'PUT',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='ExtensionsV1beta1Scale',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
     def replace_namespaced_deployment_config_status(self, name, namespace, body, **kwargs):
         """
         replace status of the specified DeploymentConfig
@@ -30757,129 +30880,6 @@ class OapiApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='V1Route',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def replace_namespaced_scale_scale(self, name, namespace, body, **kwargs):
-        """
-        replace scale of the specified Scale
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_scale_scale(name, namespace, body, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the Scale (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param ExtensionsV1beta1Scale body: (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: ExtensionsV1beta1Scale
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.replace_namespaced_scale_scale_with_http_info(name, namespace, body, **kwargs)
-        else:
-            (data) = self.replace_namespaced_scale_scale_with_http_info(name, namespace, body, **kwargs)
-            return data
-
-    def replace_namespaced_scale_scale_with_http_info(self, name, namespace, body, **kwargs):
-        """
-        replace scale of the specified Scale
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_scale_scale_with_http_info(name, namespace, body, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str name: name of the Scale (required)
-        :param str namespace: object name and auth scope, such as for teams and projects (required)
-        :param ExtensionsV1beta1Scale body: (required)
-        :param str pretty: If 'true', then the output is pretty printed.
-        :return: ExtensionsV1beta1Scale
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method replace_namespaced_scale_scale" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'name' is set
-        if ('name' not in params) or (params['name'] is None):
-            raise ValueError("Missing the required parameter `name` when calling `replace_namespaced_scale_scale`")
-        # verify the required parameter 'namespace' is set
-        if ('namespace' not in params) or (params['namespace'] is None):
-            raise ValueError("Missing the required parameter `namespace` when calling `replace_namespaced_scale_scale`")
-        # verify the required parameter 'body' is set
-        if ('body' not in params) or (params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `replace_namespaced_scale_scale`")
-
-
-        collection_formats = {}
-
-        resource_path = '/oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale'.replace('{format}', 'json')
-        path_params = {}
-        if 'name' in params:
-            path_params['name'] = params['name']
-        if 'namespace' in params:
-            path_params['namespace'] = params['namespace']
-
-        query_params = {}
-        if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in params:
-            body_params = params['body']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['*/*'])
-
-        # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
-
-        return self.api_client.call_api(resource_path, 'PUT',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='ExtensionsV1beta1Scale',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
