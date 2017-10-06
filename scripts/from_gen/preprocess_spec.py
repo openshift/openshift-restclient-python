@@ -289,7 +289,7 @@ def main():
 
 
 import re
-VERSION_RX = re.compile("V\d((alpha|beta)\d)?")
+VERSION_RX = re.compile(".*V\d((alpha|beta)\d)?")
 
 DEFAULT_CODEGEN_IGNORE_LINES = {
   ".gitignore",

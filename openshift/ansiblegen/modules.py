@@ -53,7 +53,8 @@ class Modules(object):
                     continue
                 model_api = matches.group(0)
                 base_model_name = model.replace(model_api, '')
-                model_name_snake = string_utils.camel_case_to_snake(base_model_name)
+                model_name_snake = string_utils.camel_case_to_snake(base_model_name).lower()
+                model_api_snake = string_utils.camel_case_to_snake(model_api).lower()
                 if requested_models and \
                    base_model_name not in requested_models and \
                    model_name_snake not in requested_models:
@@ -64,6 +65,7 @@ class Modules(object):
                         models.append({
                             'model': model,
                             'model_api': model_api,
+                            'model_api_snake': model_api_snake,
                             'base_model_name': base_model_name,
                             'model_name_snake': model_name_snake
                         })
@@ -71,6 +73,7 @@ class Modules(object):
                     models.append({
                         'model': model,
                         'model_api': model_api,
+                        'model_api_snake': model_api_snake,
                         'base_model_name': base_model_name,
                         'model_name_snake': model_name_snake
                     })
@@ -102,18 +105,18 @@ class Modules(object):
         temp_dir = os.path.realpath(tempfile.mkdtemp())  # jinja temp dir
         for model in models:
             module_name = "{}_{}_{}.py".format(prefix,
-                                               model['model_api'].lower(),
+                                               model['model_api_snake'],
                                                model['model_name_snake'])
             if prefix == 'openshift':
-                docs = OpenShiftDocStrings(model['model_name_snake'], model['model_api'])
+                docs = OpenShiftDocStrings(model['model_name_snake'], model['model_api_snake'])
             else:
-                docs = KubernetesDocStrings(model['model_name_snake'], model['model_api'])
+                docs = KubernetesDocStrings(model['model_name_snake'], model['model_api_snake'])
             context = {
                 'documentation_string': docs.documentation,
                 'return_string': docs.return_block,
                 'examples_string': docs.examples,
                 'kind': model['model_name_snake'],
-                'api_version': model['model_api']
+                'api_version': model['model_api_snake']
             }
             template_file = prefix + '_module.j2'
             cls.__jinja_render_to_file(JINJA2_TEMPLATE_PATH, template_file,
