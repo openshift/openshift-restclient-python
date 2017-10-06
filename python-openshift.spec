@@ -4,11 +4,11 @@
 
 Name:       python-%{library}
 Version:    0.3.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
-Source0:    https://github.com/openshift/openshift-restclient-python/%{library}-%{version}.tar.gz
+Source0:    https://github.com/openshift/openshift-restclient-python/openshift-restclient-python-%{version}.tar.gz
 BuildArch:  noarch
 Epoch:      1
 
@@ -128,6 +128,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-2
+- Fix source name 
+
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-1
 - new package built with tito
 
