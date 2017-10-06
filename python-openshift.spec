@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.3.2
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -113,6 +113,7 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %{python2_sitelib}/%{library}/*
 %{python2_sitelib}/%{library}-*.egg-info
 %exclude %{python2_sitelib}/scripts
+%exclude /usr/requirements.txt/requirements.txt
 #TODO: What about for python3?
 %if %{with_python3} == 0
 %{_bindir}/openshift-ansible-gen
@@ -128,6 +129,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-5
+- ignore requirements.txt in packaging
+
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-4
 - 
 
