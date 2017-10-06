@@ -484,10 +484,12 @@ class BaseObjectHelper(object):
         :return: class
         """
         camel_kind = string_utils.snake_case_to_camel(kind)
+        camel_api_version = string_utils.snake_case_to_camel(api_version)
         # capitalize the first letter of the string without lower-casing the remainder
-        name = camel_kind[:1].capitalize() + camel_kind[1:]
-        name = name.replace("Api", "API")
-        model_name = api_version.capitalize() + name
+        name = (camel_kind[:1].capitalize() + camel_kind[1:]).replace("Api", "API")
+        api = camel_api_version[:1].capitalize() + camel_api_version[1:]
+
+        model_name = api + name
         try:
             model = self.model_class_from_name(model_name)
         except AttributeError:
