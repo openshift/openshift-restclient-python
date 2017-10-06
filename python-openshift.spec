@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.3.2
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -76,7 +76,7 @@ Python client for the OpenShift API
 Python client for the OpenShift API 
 
 %prep
-%autosetup -n %{library}-%{version} -S git
+%autosetup -S git
 #there is no include in RHEL7 setuptools find_packages
 #the requirements are also done in an non-backwards compatible way
 %if 0%{?rhel}
@@ -128,6 +128,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-4
+- 
+
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-3
 - make source name match package name
 
