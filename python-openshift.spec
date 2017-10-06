@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.3.2
-Release:    0%{?dist}
+Release:    1%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -128,6 +128,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-1
+- new package built with tito
+
 * Wed May 10 2017 Jason Montleon <jmontleo@redhat.com> 1.0.0-0.3
 - Initial Build
 
