@@ -22,11 +22,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-if ! which mvn > /dev/null 2>&1; then
-  echo "Maven is not installed."
-  exit
-fi
-
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE}")
 PACKAGE_NAME=$(python "${SCRIPT_ROOT}/constants.py" PACKAGE_NAME)
 SOURCE_ROOT="${SCRIPT_ROOT}/../"

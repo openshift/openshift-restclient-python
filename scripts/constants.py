@@ -23,7 +23,7 @@ SPEC_VERSION = "v3.7.0"
 
 # client version for packaging and releasing. It can
 # be different than SPEC_VERSION.
-CLIENT_VERSION = "0.3.2"
+CLIENT_VERSION = "0.3.3"
 KUBERNETES_CLIENT_VERSION = "3.0.0"
 
 # Name of the release package
