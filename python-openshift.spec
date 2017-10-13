@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.3.3
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -24,6 +24,7 @@ Requires: python2
 Requires: python2-dictdiffer
 Requires: python2-kubernetes
 Requires: python2-string_utils
+Requires: python-requests
 Requires: python2-ruamel-yaml
 Requires: python-six
 Requires: python-jinja2
@@ -129,6 +130,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Fri Oct 13 2017 Jason Montleon <jmontleo@redhat.com> 0.3.3-7
+- add python-requests rpm dep
+
 * Fri Oct 13 2017 Jason Montleon <jmontleo@redhat.com> 0.3.3-6
 - Fix module Python interpreter (chousekn@redhat.com)
 - Version bump (fabian@fabianism.us)
