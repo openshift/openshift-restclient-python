@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.3.3
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -129,6 +129,12 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Fri Oct 13 2017 Jason Montleon <jmontleo@redhat.com> 0.3.3-6
+- Fix module Python interpreter (chousekn@redhat.com)
+- Version bump (fabian@fabianism.us)
+- fix version regex and api_version formatting to prevent filtering out valid
+  APIs (fabian@fabianism.us)
+
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-5
 - ignore requirements.txt in packaging
 
