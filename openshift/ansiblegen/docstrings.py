@@ -129,8 +129,9 @@ class DocStringsBase(object):
             if pdict.get('type') and pdict.get('type') != 'str':
                 doc_string['options'][pname]['type'] = pdict['type']
 
-        for param_name in sorted([x for x, _ in self.helper.argspec.items()]):
-            param_dict = self.helper.argspec[param_name]
+        for raw_param_name in sorted([x for x, _ in self.helper.argspec.items()]):
+            param_name = self.remove_leading_underscore(raw_param_name)
+            param_dict = self.helper.argspec[raw_param_name]
             if param_name.endswith('params'):
                 descr = [self.__params_descr(param_name)]
                 add_option(param_name, param_dict, descr=descr)
@@ -190,6 +191,13 @@ class DocStringsBase(object):
         self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper, width=80)
 
+    def remove_leading_underscore(prop):
+        if prop.startswith('_'):
+            ret = prop[1:]
+            logger.debug("Trimmed {} to {}".format(prop, ret))
+            return ret
+        return prop
+
     def __get_attributes(self, obj, doc_key=None):
         """
         Recursively inspect the attributes of a given obj
@@ -200,10 +208,11 @@ class DocStringsBase(object):
         """
         model_class = type(obj)
         model_name = self.helper.get_base_model_name_snake(model_class.__name__)
-        for attribute in dir(model_class):
-            if isinstance(getattr(model_class, attribute), property):
-                kind = obj.swagger_types[attribute]
-                docs = inspect.getdoc(getattr(type(obj), attribute))
+        for raw_attribute in dir(model_class):
+            attribute = self.remove_leading_underscore(raw_attribute)
+            if isinstance(getattr(model_class, raw_attribute), property):
+                kind = obj.swagger_types[raw_attribute]
+                docs = inspect.getdoc(getattr(type(obj), raw_attribute))
                 string_list = self.__doc_clean_up(docs.split('\n'))
                 if kind in ('str', 'int', 'bool'):
                     doc_key[attribute] = CommentedMap()

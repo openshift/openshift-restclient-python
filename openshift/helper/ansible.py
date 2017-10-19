@@ -14,6 +14,12 @@ from .openshift import OpenShiftObjectHelper
 
 # Attributes in argspec not needed by Ansible
 ARG_ATTRIBUTES_BLACKLIST = ('description', 'auth_option', 'property_path')
+ARG_NAME_MAP = {
+    '_from': 'from'
+}
+ARG_NAME_MAP.update(dict([reversed(item) for item in ARG_NAME_MAP.items()]))
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -343,7 +349,8 @@ class AnsibleMixin(object):
                                                                 json.dumps(param_value)))
 
         while len(property_path) > 0:
-            prop_name = property_path.pop(0)
+            raw_prop_name = property_path.pop(0)
+            prop_name = ARG_NAME_MAP.get(raw_prop_name, raw_prop_name)
             prop_kind = obj.swagger_types[prop_name]
             if prop_kind in PRIMITIVES:
                 try:
@@ -613,7 +620,8 @@ class AnsibleMixin(object):
             prop_paths.append(prop_name)
             args[prop_prefix + prop_name]['property_path'] = prop_paths
 
-        for prop, prop_attributes in properties.items():
+        for raw_prop, prop_attributes in properties.items():
+            prop = ARG_NAME_MAP.get(raw_prop, raw_prop)
             logger.debug("Prop: {0} attributes: {1}".format(prop, str(prop_attributes)))
             if prop in ('api_version', 'status', 'kind', 'items') and not prefix:
                 # Don't expose these properties
