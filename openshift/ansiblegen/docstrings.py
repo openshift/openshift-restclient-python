@@ -22,7 +22,7 @@ from .. import __version__
 from .. import __k8s_client_version__
 from ..client import models as openshift_models
 from ..helper.exceptions import KubernetesException
-from ..helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper
+from ..helper.ansible import KubernetesAnsibleModuleHelper, OpenShiftAnsibleModuleHelper, PYTHON_KEYWORD_MAPPING
 
 
 logger = logging.getLogger(__name__)
@@ -130,7 +130,7 @@ class DocStringsBase(object):
                 doc_string['options'][pname]['type'] = pdict['type']
 
         for raw_param_name in sorted([x for x, _ in self.helper.argspec.items()]):
-            param_name = self.remove_leading_underscore(raw_param_name)
+            param_name = PYTHON_KEYWORD_MAPPING.get(raw_param_name, raw_param_name)
             param_dict = self.helper.argspec[raw_param_name]
             if param_name.endswith('params'):
                 descr = [self.__params_descr(param_name)]
@@ -191,13 +191,6 @@ class DocStringsBase(object):
         self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper, width=80)
 
-    def remove_leading_underscore(prop):
-        if prop.startswith('_'):
-            ret = prop[1:]
-            logger.debug("Trimmed {} to {}".format(prop, ret))
-            return ret
-        return prop
-
     def __get_attributes(self, obj, doc_key=None):
         """
         Recursively inspect the attributes of a given obj
@@ -209,7 +202,7 @@ class DocStringsBase(object):
         model_class = type(obj)
         model_name = self.helper.get_base_model_name_snake(model_class.__name__)
         for raw_attribute in dir(model_class):
-            attribute = self.remove_leading_underscore(raw_attribute)
+            attribute = PYTHON_KEYWORD_MAPPING.get(raw_attribute, raw_attribute)
             if isinstance(getattr(model_class, raw_attribute), property):
                 kind = obj.swagger_types[raw_attribute]
                 docs = inspect.getdoc(getattr(type(obj), raw_attribute))

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
-import base64
 import copy
 import json
+import base64
 import logging
+from keyword import kwlist
 
 import string_utils
 
@@ -14,12 +15,8 @@ from .openshift import OpenShiftObjectHelper
 
 # Attributes in argspec not needed by Ansible
 ARG_ATTRIBUTES_BLACKLIST = ('description', 'auth_option', 'property_path')
-ARG_NAME_MAP = {
-    '_from': 'from'
-}
-ARG_NAME_MAP.update(dict([reversed(item) for item in ARG_NAME_MAP.items()]))
-
-
+PYTHON_KEYWORD_MAPPING = dict(zip(map('_{}'.format, kwlist), kwlist))
+PYTHON_KEYWORD_MAPPING.update(dict([reversed(item) for item in PYTHON_KEYWORD_MAPPING.items()]))
 
 logger = logging.getLogger(__name__)
 
@@ -350,7 +347,7 @@ class AnsibleMixin(object):
 
         while len(property_path) > 0:
             raw_prop_name = property_path.pop(0)
-            prop_name = ARG_NAME_MAP.get(raw_prop_name, raw_prop_name)
+            prop_name = PYTHON_KEYWORD_MAPPING.get(raw_prop_name, raw_prop_name)
             prop_kind = obj.swagger_types[prop_name]
             if prop_kind in PRIMITIVES:
                 try:
@@ -621,7 +618,7 @@ class AnsibleMixin(object):
             args[prop_prefix + prop_name]['property_path'] = prop_paths
 
         for raw_prop, prop_attributes in properties.items():
-            prop = ARG_NAME_MAP.get(raw_prop, raw_prop)
+            prop = PYTHON_KEYWORD_MAPPING.get(raw_prop, raw_prop)
             logger.debug("Prop: {0} attributes: {1}".format(prop, str(prop_attributes)))
             if prop in ('api_version', 'status', 'kind', 'items') and not prefix:
                 # Don't expose these properties
