@@ -24,7 +24,7 @@ from setuptools import find_packages, setup
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-client.sh.
-CLIENT_VERSION = "0.3.3"
+CLIENT_VERSION = "0.3.4"
 PACKAGE_NAME = "openshift"
 DEVELOPMENT_STATUS = "3 - Alpha"
 
