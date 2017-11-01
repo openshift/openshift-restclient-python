@@ -275,7 +275,7 @@ class BaseObjectHelper(object):
         if not namespace:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
-                    status_obj = delete_method(name, body=V1DeleteOptions())
+                    status_obj = delete_method(name, body=V1DeleteOptions(propagation_policy='Foreground'))
                 else:
                     status_obj = delete_method(name)
             except ApiException as exc:
@@ -286,7 +286,7 @@ class BaseObjectHelper(object):
         else:
             try:
                 if 'body' in inspect.getargspec(delete_method).args:
-                    status_obj = delete_method(name, namespace, body=V1DeleteOptions())
+                    status_obj = delete_method(name, namespace, body=V1DeleteOptions(propagation_policy='Foreground'))
                 else:
                     status_obj = delete_method(name, namespace)
             except ApiException as exc:
