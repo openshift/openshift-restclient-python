@@ -3,8 +3,8 @@
 %global library openshift
 
 Name:       python-%{library}
-Version:    0.3.3
-Release:    8%{?dist}
+Version:    0.3.4
+Release:    2%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -130,6 +130,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.4-2
+- Update version 
+
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.3-8
 - Bug 1508969 - Add foreground propagation policy (david.j.zager@gmail.com)
 - Document how to use the Dockerfile (david.j.zager@gmail.com)
