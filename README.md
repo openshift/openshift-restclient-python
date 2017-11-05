@@ -21,9 +21,21 @@ From [PyPi](https://pypi.python.org/pypi/openshift/) directly:
 pip install openshift
 ```
 
+Using [Dockerfile](Dockerfile):
+
+```
+docker build -t openshift-restclient-python -f Dockerfile .
+```
+
 ## Usage and examples
 
 The OpenShift client depends on the [Kubernetes Python client](https://github.com/kubernetes-incubator/client-python.git), and as part of the installation process, the Kubernetes (K8s) client is automatically installed.
+
+In the case you are using Docker, you will likely need to share your `.kube/config` with the `openshift-restclient-python` container:
+
+```
+docker run -it -v $HOME/.kube/config:/root/.kube/config:z openshift-restclient-python python
+```
 
 To work with a K8s object, use the K8s client, and to work with an OpenShift specific object, use the OpenShift client. For example, the following uses the K8s client to create a new Service object:
 
