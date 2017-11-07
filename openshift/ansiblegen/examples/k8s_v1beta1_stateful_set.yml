@@ -10,7 +10,7 @@ tasks:
     labels:
       name: test
     namespace: test
-    service_name: test
+    spec_service_name: test
     spec_replicas: 3
     spec_template_metadata_labels:
       name: test
