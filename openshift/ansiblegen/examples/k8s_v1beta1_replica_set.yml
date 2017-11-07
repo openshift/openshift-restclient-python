@@ -12,7 +12,7 @@ tasks:
     #   - {key: name, operator: In, values: [myreplicaset]}
     spec_template_metadata_labels:
       name: myreplicaset
-    containers:
+    spec_template_spec_containers:
     - name: myreplicaset
       image: openshift/origin-ruby-sample:v1.0
   name: Create replica set
