@@ -35,7 +35,7 @@ tasks:
     namespace: k8s-project
     spec_template_metadata_labels:
       name: frontend
-    spec_template_containers:
+    spec_template_spec_containers:
     - name: helloworld
       image: "openshift/origin-ruby-sample:v1.0"
       ports:
@@ -50,7 +50,7 @@ tasks:
     namespace: k8s-project
     spec_template_metadata_labels:
       name: frontend_app
-    spec_template_containers:
+    spec_template_spec_containers:
     - name: helloworld
       image: openshift/origin-ruby-sample:v2
       ports:
