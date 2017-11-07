@@ -5,8 +5,8 @@ tasks:
 - create:
     name: mypvc
     namespace: demo_project
-    access_modes:
+    spec_access_modes:
       - ReadWriteOnce
-    resources_requests:
+    spec_resources_requests:
       storage: 1Gi
   name: Create persitent volume claim

@@ -5,9 +5,9 @@ tasks:
 - create:
     name: test-scaler
     namespace: test
-    scale_target_ref_kind: ReplicaSet
-    scale_target_ref_name: test
-    min_replicas: 2
-    max_replicas: 5
+    spec_scale_target_ref_kind: ReplicaSet
+    spec_scale_target_ref_name: test
+    spec_min_replicas: 2
+    spec_max_replicas: 5
     # target_cpu_utilization_percentage: 50
   name: Create replica set

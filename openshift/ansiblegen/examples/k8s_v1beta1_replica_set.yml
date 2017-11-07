@@ -5,7 +5,7 @@ tasks:
 - create:
     name: myreplicaset
     namespace: test
-    replicas: 3
+    spec_replicas: 3
     # spec_selector_match_labels:
     #   name: myreplicaset
     # spec_selector_match_expressions:
