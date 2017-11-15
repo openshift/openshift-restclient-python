@@ -96,10 +96,12 @@ def remove_watch_operations(op, parent, operation_ids):
 
 def strip_tags_from_operation_id(operation, _):
     operation_id = operation['operationId']
-    for t in operation['tags']:
-        operation_id = operation_id.replace(_to_camel_case(t), '')
-    operation['operationId'] = operation_id
-
+    try:
+        for t in operation['tags']:
+            operation_id = operation_id.replace(_to_camel_case(t), '')
+        operation['operationId'] = operation_id
+    except KeyError:
+        pass
 
 def add_custom_objects_spec(spec):
     with open(CUSTOM_OBJECTS_SPEC_PATH, 'r') as custom_objects_spec_file:
