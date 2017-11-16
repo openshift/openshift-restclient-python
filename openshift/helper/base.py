@@ -413,6 +413,9 @@ class BaseObjectHelper(object):
             }
         return result
 
+    def candidate_apis(self):
+        return list(filter(lambda x: self.api_version in self.attribute_to_snake(x), self.available_apis()))
+
     def lookup_method(self, operation=None, namespace=None, method_name=None):
         """
         Get the requested method (e.g. create, delete, patch, update) for
@@ -427,7 +430,7 @@ class BaseObjectHelper(object):
             method_name += self.kind.replace('_list', '') if self.kind.endswith('_list') else self.kind
 
         method = None
-        for api in self.available_apis():
+        for api in self.candidate_apis():
             api_class = self.api_class_from_name(api)
 
             method = getattr(api_class(self.api_client), method_name, None)
