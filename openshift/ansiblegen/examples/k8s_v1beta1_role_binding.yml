@@ -1,6 +1,11 @@
 # v1beta1_role_binding.yml
 ---
 
+version_limits:
+  min: '3.7'
+  max: '3.7'
+  skip_latest: yes
+
 dependencies:
   - k8s_v1beta1_role:
       name: edit
