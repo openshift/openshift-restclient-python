@@ -1,10 +1,17 @@
 # v1beta1_role_binding.yml
 ---
 
+dependencies:
+  - k8s_v1beta1_role:
+      name: edit
+      namespace: test
+
 tasks:
 - create:
     name: edit
     namespace: test
+    role_ref_kind: Role
+    role_ref_name: edit
     subjects:
     - kind: ServiceAccount
       name: magico
