@@ -414,7 +414,11 @@ class BaseObjectHelper(object):
         return result
 
     def candidate_apis(self):
-        return list(filter(lambda x: self.api_version in self.attribute_to_snake(x), self.available_apis()))
+        return [
+            api for api in self.available_apis()
+            if self.api_version in self.attribute_to_snake(api)
+            or not VERSION_RX.match(api)
+        ]
 
     def lookup_method(self, operation=None, namespace=None, method_name=None):
         """
