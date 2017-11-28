@@ -9,6 +9,7 @@ import yaml
 
 import pytest
 
+from openshift.helper.ansible import OpenShiftAnsibleModuleHelper, KubernetesAnsibleModuleHelper
 from openshift.helper.exceptions import KubernetesException
 
 
@@ -117,8 +118,33 @@ class Example(object):
             parameter['name'] = object_name
         return parameters
 
+
+    @pytest.fixture(scope='class')
+    def dependencies(self, project, auth):
+        dependencies = []
+        for dependency in self.tasks.get('dependencies', []):
+            resource_name, params = dependency.items()[0]
+            api, api_version, kind = resource_name.split('_')
+            if api == 'k8s':
+                ansible_helper = KubernetesAnsibleModuleHelper(api_version, kind, debug=True, reset_logfile=False, **auth)
+            else:
+                ansible_helper = OpenShiftAnsibleModuleHelper(api_version, kind, debug=True, reset_logfile=False, **auth)
+            if params.get('namespace'):
+                params['namespace'] = project
+            name = params.get('name')
+            request_body = ansible_helper.request_body_from_params(params)
+            dependencies.append((name, project, ansible_helper.create_object(project, body=request_body)))
+        try:
+            yield dependencies
+        finally:
+            for name, namespace, dependency in dependencies:
+                try:
+                    ansible_helper.delete_object(name, namespace)
+                except KubernetesException:
+                    pass
+
     @pytest.fixture()
-    def resources(self, ansible_helper, create_params):
+    def resources(self, ansible_helper, create_params, dependencies):
         k8s_objs = []
         for create in create_params:
             request_body = ansible_helper.request_body_from_params(create)

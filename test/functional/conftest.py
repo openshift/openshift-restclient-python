@@ -121,17 +121,8 @@ def parse_test_name(name):
 
 
 @pytest.fixture(scope='class')
-def ansible_helper(request, kubeconfig, admin_kubeconfig, port):
+def ansible_helper(request, auth):
     api_version, resource = parse_test_name(request.node.name)
-    needs_admin = request.node.cls.tasks.get('admin')
-    config = admin_kubeconfig if needs_admin else kubeconfig
-    auth = {}
-    if kubeconfig is not None:
-        auth = {
-            'kubeconfig': str(config),
-            'host': 'https://localhost:{}'.format(port),
-            'verify_ssl': False
-        }
     try:
         helper = KubernetesAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
     except Exception:
@@ -173,16 +164,9 @@ def obj_compare():
 
 
 @pytest.fixture(scope='class')
-def namespace(kubeconfig, port):
+def namespace(auth):
     name = "test-{}".format(uuid.uuid4())
 
-    auth = {}
-    if kubeconfig is not None:
-        auth = {
-            'kubeconfig': str(kubeconfig),
-            'host': 'https://localhost:{}'.format(port),
-            'verify_ssl': False
-        }
     helper = KubernetesAnsibleModuleHelper('v1', 'namespace', debug=True, reset_logfile=False, **auth)
 
     k8s_obj = helper.create_object(V1Namespace(metadata=V1ObjectMeta(name=name)))
@@ -198,17 +182,23 @@ def object_name(request):
     action = request.function.__name__.split('_')[1]
     return '{}-{}'.format(action, uuid.uuid4())[:22].strip('-')
 
-
 @pytest.fixture(scope='class')
-def project(kubeconfig, port):
-    name = "test-{}".format(uuid.uuid4())
-    auth = {}
-    if kubeconfig is not None:
-        auth = {
-            'kubeconfig': str(kubeconfig),
+def auth(request, kubeconfig, admin_kubeconfig, port):
+    needs_admin = request.node.cls.tasks.get('admin')
+    config = admin_kubeconfig if needs_admin else kubeconfig
+    if config is not None:
+        return {
+            'kubeconfig': str(config),
             'host': 'https://localhost:{}'.format(port),
             'verify_ssl': False
         }
+
+    return {}
+
+
+@pytest.fixture(scope='class')
+def project(auth):
+    name = "test-{}".format(uuid.uuid4())
     helper = OpenShiftAnsibleModuleHelper('v1', 'project', debug=True, reset_logfile=False, **auth)
 
     k8s_obj = helper.create_project(metadata=V1ObjectMeta(name=name))
