@@ -1,7 +1,7 @@
 coverage
 docker ~= 2.1.0
 flake8
-pytest
+pytest < 3.3
 pytest-cov
 PyYAML
 dictdiffer
