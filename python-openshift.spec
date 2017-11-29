@@ -115,6 +115,7 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %{python2_sitelib}/%{library}-*.egg-info
 %exclude %{python2_sitelib}/scripts
 %exclude /usr/requirements.txt/requirements.txt
+%exclude /usr/custom_objects_spec.json/custom_objects_spec.json
 #TODO: What about for python3?
 %if %{with_python3} == 0
 %{_bindir}/openshift-ansible-gen
