@@ -1,0 +1,19 @@
+# openshift_v1_role_binding.yml
+---
+
+tasks:
+- create:
+    namespace: test
+    name: testapp
+    role_ref_name: "view"
+    subjects:
+    - kind: ServiceAccount
+      name: testaccount
+      namespace: test
+- create:
+    name: "jenkins_edit"
+    namespace: test
+    role_ref_name: edit
+    subjects:
+      - kind: "ServiceAccount"
+        name: "jenkins"
