@@ -1,0 +1,13 @@
+# openshift_v1_image_stream_import.yml
+---
+
+tasks:
+- create:
+    name: "example-image-stream-import"
+    namespace: "example-project"
+    images:
+      - from:
+          kind: "DockerImage"
+          name: "docker.io/memcached:1.4-alpine"
+        to:
+          name: "1.4-alpine"
