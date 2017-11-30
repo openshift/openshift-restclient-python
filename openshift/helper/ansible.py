@@ -165,6 +165,14 @@ class AnsibleMixin(object):
                 ]
             }
 
+        used_names = set(argument_spec.keys())
+        for _, arg_options in sorted(argument_spec.items()):
+            for alias in arg_options.get('aliases', []):
+                if alias in used_names:
+                    arg_options['aliases'].remove(alias)
+                else:
+                    used_names.add(alias)
+
         self._argspec_cache = argument_spec
         self.log_argspec()
         return self._argspec_cache
