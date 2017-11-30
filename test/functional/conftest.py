@@ -115,17 +115,18 @@ def admin_kubeconfig(openshift_container, tmpdir_factory):
 
 def parse_test_name(name):
     pieces = re.findall('[A-Z][a-z0-9]*', name)
-    api_version = pieces[1].lower()
-    resource = '_'.join(map(str.lower, pieces[2:]))
-    return api_version, resource
+    cluster_type = pieces[1].lower()
+    api_version = pieces[2].lower()
+    resource = '_'.join(map(str.lower, pieces[3:]))
+    return cluster_type, api_version, resource
 
 
 @pytest.fixture(scope='class')
 def ansible_helper(request, auth):
-    api_version, resource = parse_test_name(request.node.name)
-    try:
+    cluster_type, api_version, resource = parse_test_name(request.node.name)
+    if cluster_type == 'k8s':
         helper = KubernetesAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
-    except Exception:
+    else:
         helper = OpenShiftAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
 
     helper.api_client.config.debug = True
@@ -216,7 +217,7 @@ def openshift_version():
 
 @pytest.fixture(autouse=True)
 def skip_empty(request):
-    api_version, resource = parse_test_name(request.node.cls._type)
+    _, api_version, resource = parse_test_name(request.node.cls._type)
     action = request.function.__name__.split('_')[1]
     tasks = list(filter(lambda x: x.get(action), request.node.cls.tasks['tasks']))
     if not tasks and action not in ['get', 'remove']:

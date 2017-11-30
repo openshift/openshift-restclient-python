@@ -21,14 +21,14 @@ def get_tasks():
     )
     yaml_names = os.listdir(example_dir)
     for yaml_name in yaml_names:
-        _, api_version, resource = yaml_name.split('_', 2)
+        cluster, api_version, resource = yaml_name.split('_', 2)
         resource = resource[0:-4]
         yaml_path = os.path.join(example_dir, yaml_name)
 
         with open(yaml_path, 'r') as f:
             data = yaml.load(f)
 
-        tasks.append(((api_version, resource), data))
+        tasks.append(((cluster, api_version, resource), data))
     return tasks
 
 
@@ -177,8 +177,8 @@ def ClassFactory(name):
     return type(name, (Example,), {})
 
 
-for ((apiversion, resource_type), tasks) in get_tasks():
-    class_name = 'Test{}{}'.format(apiversion.capitalize(), ''.join(map(str.capitalize, resource_type.split('_'))))
+for ((cluster_type, apiversion, resource_type), tasks) in get_tasks():
+    class_name = 'Test{}{}{}'.format(cluster_type.capitalize(), apiversion.capitalize(), ''.join(map(str.capitalize, resource_type.split('_'))))
     globals()[class_name] = ClassFactory(resource_type)
     globals()[class_name]._type = class_name
     globals()[class_name].tasks = tasks
