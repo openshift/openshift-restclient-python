@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.3.4
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,20 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Mon Dec 04 2017 Jason Montleon <jmontleo@redhat.com> 0.3.4-3
+- prefix test names with the cluster type (openshift/k8s) to prevent collision
+  (fabian@fabianism.us)
+- after the argspec is fully created, go through all aliases and remove any
+  collisions (fabian@fabianism.us)
+- Add test for build config (fabian@fabianism.us)
+- Update _from conversion to handle all python keywords (fabian@fabianism.us)
+- Handle _from -> from and vice versa in ansible helper (fabian@fabianism.us)
+- add exclude for new file that won't be packaged (#125) (jmontleo@redhat.com)
+- Fix k8s_v1beta1_role_binding 404s (#122) (fabian@fabianism.us)
+- Pin pytest version due to broken internal API (fabian@fabianism.us)
+- Add custom_objects_spec.json to package data
+  (ceridwen@users.noreply.github.com)
+
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.4-2
 - Update version 
 
