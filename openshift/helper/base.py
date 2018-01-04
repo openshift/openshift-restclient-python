@@ -15,9 +15,9 @@ from logging import config as logging_config
 import string_utils
 
 from dictdiffer import diff
-from kubernetes import watch
 from kubernetes.client.models import V1DeleteOptions
 from kubernetes.client.rest import ApiException
+from openshift import watch
 from six import add_metaclass
 from urllib3.exceptions import MaxRetryError
 
@@ -556,7 +556,6 @@ class BaseObjectHelper(object):
         try:
             list_method = self.lookup_method('list', namespace)
             w = watch.Watch()
-            w._api_client = self.api_client  # monkey patch for access to OpenShift models
             if namespace:
                 stream = w.stream(list_method, namespace, timeout_seconds=self.timeout)
             else:
