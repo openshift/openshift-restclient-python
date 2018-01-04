@@ -84,7 +84,7 @@ class Example(object):
             namespace = resource.metadata.namespace
             ansible_helper.delete_object(name, namespace)
             k8s_obj = ansible_helper.get_object(name, namespace)
-            while k8s_obj and k8s_obj.status.phase == 'Terminating':
+            while k8s_obj:
                 k8s_obj = ansible_helper.get_object(name, namespace)
             assert k8s_obj is None
 
