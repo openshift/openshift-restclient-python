@@ -15,9 +15,9 @@ from logging import config as logging_config
 import string_utils
 
 from dictdiffer import diff
-from kubernetes import watch
 from kubernetes.client.models import V1DeleteOptions
 from kubernetes.client.rest import ApiException
+from openshift import watch
 from six import add_metaclass
 from urllib3.exceptions import MaxRetryError
 
@@ -41,11 +41,14 @@ class BaseObjectHelper(object):
         self.kind = kind
         self.timeout = timeout  # number of seconds to wait for an API request
 
+        if debug:
+            self.enable_debug(reset_logfile)
+
         if api_version and kind:
             self.set_model(api_version, kind)
 
-        if debug:
-            self.enable_debug(reset_logfile)
+        self.logger.debug("API Version: {0}".format(self.api_version))
+        self.logger.debug("Kind: {0}".format(self.kind))
 
         self.set_client_config(**auth)
 
@@ -207,7 +210,7 @@ class BaseObjectHelper(object):
         self.__remove_creation_timestamps(k8s_obj)
         w, stream = self._create_stream(namespace)
         return_obj = None
-        self.logger.debug("Patching object: {}".format(k8s_obj.to_str()))
+        self.logger.debug("Patching object: {0}".format(k8s_obj.to_str()))
         try:
             patch_method = self.lookup_method('patch', namespace)
             if namespace:
@@ -313,8 +316,8 @@ class BaseObjectHelper(object):
 
         existing_obj = self.get_object(name, namespace)
         if not existing_obj:
-            msg = "Error: Replacing object. Unable to find {}".format(name)
-            msg += " in namespace {}".format(namespace) if namespace else ""
+            msg = "Error: Replacing object. Unable to find {0}".format(name)
+            msg += " in namespace {0}".format(namespace) if namespace else ""
             raise self.get_exception_class()(msg)
 
         if k8s_obj:
@@ -414,9 +417,10 @@ class BaseObjectHelper(object):
         return result
 
     def candidate_apis(self):
+        api_version = self.api_version.replace('/', '_')
         return [
             api for api in self.available_apis()
-            if self.api_version in self.attribute_to_snake(api)
+            if api_version in self.attribute_to_snake(api)
             or not VERSION_RX.match(api)
         ]
 
@@ -436,7 +440,6 @@ class BaseObjectHelper(object):
         method = None
         for api in self.candidate_apis():
             api_class = self.api_class_from_name(api)
-
             method = getattr(api_class(self.api_client), method_name, None)
             if method is not None:
                 break
@@ -490,19 +493,23 @@ class BaseObjectHelper(object):
         :param kind: The name of object type (i.e. Service, Route, Container, etc.)
         :return: class
         """
-        camel_kind = string_utils.snake_case_to_camel(kind)
-        camel_api_version = string_utils.snake_case_to_camel(api_version)
-        # capitalize the first letter of the string without lower-casing the remainder
-        name = (camel_kind[:1].capitalize() + camel_kind[1:]).replace("Api", "API")
-        api = camel_api_version[:1].capitalize() + camel_api_version[1:]
+        # Handle API paths. In the case of 'batch/', remove it completely, otherwise, replace '/' with '_'.
+        api = re.sub(r'batch/', '', api_version, count=0, flags=re.IGNORECASE).replace('/', '_')
 
-        model_name = api + name
+        camel_kind = string_utils.snake_case_to_camel(kind)
+        camel_api_version = string_utils.snake_case_to_camel(api)
+
+        # Capitalize the first letter of the string without lower-casing the remainder
+        kind_name = (camel_kind[:1].capitalize() + camel_kind[1:]).replace("Api", "API")
+        api_name = (camel_api_version[:1].capitalize() + camel_api_version[1:])
+
+        model_name = api_name + kind_name
         try:
             model = self.model_class_from_name(model_name)
         except AttributeError:
-            raise self.get_exception_class()(
-                "Error: {} was not found in client.models. "
-                "Did you specify the correct Kind and API Version?".format(model_name)
+            raise KubernetesException(
+                "{0} was not found in client.models. Did you specify the correct Kind and API "
+                "Version?".format(model_name)
             )
         return model
 
@@ -532,22 +539,16 @@ class BaseObjectHelper(object):
 
         while tries <= half:
             obj = self.get_object(name, namespace)
-            if action == 'delete':
-                if not obj:
-                    break
-            elif obj and not hasattr(obj, 'status'):
+            if action == 'delete' and not obj:
                 break
-            elif obj and obj.status and hasattr(obj.status, 'phase'):
-                if obj.status.phase == 'Active':
-                    break
-            elif obj and obj.status:
+            elif obj:
                 break
             tries += 2
             time.sleep(2)
         return obj
 
     def _create_stream(self, namespace):
-        """ Create a stream that gets events for the our model """
+        """ Create a stream that gets events for the model """
         w = None
         stream = None
         exception_class = self.get_exception_class()
@@ -555,11 +556,10 @@ class BaseObjectHelper(object):
         try:
             list_method = self.lookup_method('list', namespace)
             w = watch.Watch()
-            w._api_client = self.api_client  # monkey patch for access to OpenShift models
             if namespace:
-                stream = w.stream(list_method, namespace, _request_timeout=self.timeout)
+                stream = w.stream(list_method, namespace, timeout_seconds=self.timeout)
             else:
-                stream = w.stream(list_method, _request_timeout=self.timeout)
+                stream = w.stream(list_method, timeout_seconds=self.timeout)
         except exception_class:
             pass
         except Exception:
@@ -568,63 +568,62 @@ class BaseObjectHelper(object):
         return w, stream
 
     def _read_stream(self, watcher, stream, name):
-
+        """
+        Generic stream reader. Waits for a status to be available, but makes no attempt at
+        interpreting the status. There may still be some cases where we don't properly detect
+        a status, in which case the stream will timeout, and the current object state will
+        be returned. When a timeout happens, no error is thrown. It's up to the caller to
+        evaluate the object status, and take the appropriate action.
+        """
         return_obj = None
+        for event in stream:
+            if event['object'] and event['object'].metadata.name == name:
+                obj = event['object']
+                if event['type'] == 'DELETED':
+                    # Object was deleted
+                    return_obj = obj
+                    watcher.stop()
+                    break
 
-        try:
-            for event in stream:
-                obj = None
-                if event.get('object'):
-                    obj_json = event['object'].to_str()
-                    self.logger.debug(
-                        "EVENT type: {0} object: {1}".format(event['type'], obj_json)
-                    )
-                    obj = event['object']
-                else:
-                    self.logger.debug(repr(event))
-
-                if event['object'].metadata.name == name:
-                    if event['type'] == 'DELETED':
-                        # Object was deleted
+                # Object is either added or modified. Check the status and determine if we
+                #  should continue waiting
+                if hasattr(obj, 'status'):
+                    status = getattr(obj, 'status')
+                    if hasattr(status, 'phase'):
+                        if status.phase in ('Active', 'Failed'):
+                            # TODO other phase values ??
+                            # TODO test namespaces for OpenShift annotations if needed
+                            return_obj = obj
+                            watcher.stop()
+                            break
+                    elif hasattr(status, 'conditions'):
+                        conditions = getattr(status, 'conditions')
+                        if conditions and len(conditions) > 0:
+                            # We know there is a status, but it's up to the user to determine meaning.
+                            return_obj = obj
+                            watcher.stop()
+                            break
+                    elif hasattr(status, 'succeeded'):
+                        if status.succeeded is not None:
+                            return_obj = obj
+                            watcher.stop()
+                            break
+                    elif hasattr(status, 'failed'):
+                        if status.failed is not None:
+                            return_obj = obj
+                            watcher.stop()
+                            break
+                    elif obj.kind == 'Service' and status is not None:
                         return_obj = obj
                         watcher.stop()
                         break
-                    elif obj is not None:
-                        # Object is either added or modified. Check the status and determine if we
-                        #  should continue waiting
-                        if hasattr(obj, 'status'):
-                            status = getattr(obj, 'status')
-                            if hasattr(status, 'phase'):
-                                if status.phase == 'Active':
-                                    # TODO other phase values ??
-                                    # TODO test namespaces for OpenShift annotations if needed
-                                    return_obj = obj
-                                    watcher.stop()
-                                    break
-                            elif hasattr(status, 'conditions'):
-                                conditions = getattr(status, 'conditions')
-                                if conditions and len(conditions) > 0:
-                                    # We know there is a status, but it's up to the user to determine meaning.
-                                    return_obj = obj
-                                    watcher.stop()
-                                    break
-                            elif obj.kind == 'Service' and status is not None:
-                                return_obj = obj
-                                watcher.stop()
-                                break
-                            elif obj.kind == 'Route':
-                                route_statuses = set()
-                                for route_ingress in status.ingress:
-                                    for condition in route_ingress.conditions:
-                                        route_statuses.add(condition.type)
-                                if route_statuses <= {'Ready', 'Admitted'}:
-                                    return_obj = obj
-                                    watcher.stop()
-                                    break
-
-        except Exception as exc:
-            # A timeout occurred
-            self.logger.debug('STREAM FAILED: {}'.format(exc))
-            pass
-
+                    elif obj.kind == 'Route':
+                        route_statuses = set()
+                        for route_ingress in status.ingress:
+                            for condition in route_ingress.conditions:
+                                route_statuses.add(condition.type)
+                        if route_statuses <= {'Ready', 'Admitted'}:
+                            return_obj = obj
+                            watcher.stop()
+                            break
         return self.fix_serialization(return_obj)
