@@ -35,7 +35,9 @@ class TestV1SourceBuildStrategy(unittest.TestCase):
         """
         Test V1SourceBuildStrategy
         """
-        model = openshift.client.models.v1_source_build_strategy.V1SourceBuildStrategy()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_source_build_strategy.V1SourceBuildStrategy()
+        pass
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ class TestV1SecurityContextConstraintsList(unittest.TestCase):
         """
         Test V1SecurityContextConstraintsList
         """
-        model = openshift.client.models.v1_security_context_constraints_list.V1SecurityContextConstraintsList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_security_context_constraints_list.V1SecurityContextConstraintsList()
+        pass
 
 
 if __name__ == '__main__':

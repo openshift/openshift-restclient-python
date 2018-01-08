@@ -35,7 +35,9 @@ class TestV1HostSubnet(unittest.TestCase):
         """
         Test V1HostSubnet
         """
-        model = openshift.client.models.v1_host_subnet.V1HostSubnet()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_host_subnet.V1HostSubnet()
+        pass
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ class TestV1RouteSpec(unittest.TestCase):
         """
         Test V1RouteSpec
         """
-        model = openshift.client.models.v1_route_spec.V1RouteSpec()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_route_spec.V1RouteSpec()
+        pass
 
 
 if __name__ == '__main__':

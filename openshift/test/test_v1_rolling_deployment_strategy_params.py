@@ -35,7 +35,9 @@ class TestV1RollingDeploymentStrategyParams(unittest.TestCase):
         """
         Test V1RollingDeploymentStrategyParams
         """
-        model = openshift.client.models.v1_rolling_deployment_strategy_params.V1RollingDeploymentStrategyParams()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_rolling_deployment_strategy_params.V1RollingDeploymentStrategyParams()
+        pass
 
 
 if __name__ == '__main__':

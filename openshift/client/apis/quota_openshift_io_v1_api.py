@@ -20,7 +20,6 @@ import re
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from kubernetes.client.configuration import Configuration
 from ..api_client import ApiClient
 
 
@@ -32,27 +31,19 @@ class QuotaOpenshiftIoV1Api(object):
     """
 
     def __init__(self, api_client=None):
-        config = Configuration()
-        if api_client:
-            self.api_client = api_client
-        else:
-            if not config.api_client:
-                config.api_client = ApiClient()
-            self.api_client = config.api_client
+        if api_client is None:
+            api_client = ApiClient()
+        self.api_client = api_client
 
     def create_cluster_resource_quota(self, body, **kwargs):
         """
         create a ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_cluster_resource_quota(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_cluster_resource_quota(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterResourceQuota
@@ -60,7 +51,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_cluster_resource_quota_with_http_info(body, **kwargs)
         else:
             (data) = self.create_cluster_resource_quota_with_http_info(body, **kwargs)
@@ -70,15 +61,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         create a ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_cluster_resource_quota_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_cluster_resource_quota_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterResourceQuota
@@ -87,7 +74,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -108,12 +95,11 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -132,9 +118,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -143,7 +129,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -153,15 +139,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         delete a ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_cluster_resource_quota(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_cluster_resource_quota(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -173,7 +155,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_cluster_resource_quota_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_cluster_resource_quota_with_http_info(name, body, **kwargs)
@@ -183,15 +165,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         delete a ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_cluster_resource_quota_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_cluster_resource_quota_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -204,7 +182,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -228,20 +206,19 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'grace_period_seconds' in params:
-            query_params['gracePeriodSeconds'] = params['grace_period_seconds']
+            query_params.append(('gracePeriodSeconds', params['grace_period_seconds']))
         if 'orphan_dependents' in params:
-            query_params['orphanDependents'] = params['orphan_dependents']
+            query_params.append(('orphanDependents', params['orphan_dependents']))
         if 'propagation_policy' in params:
-            query_params['propagationPolicy'] = params['propagation_policy']
+            query_params.append(('propagationPolicy', params['propagation_policy']))
 
         header_params = {}
 
@@ -260,9 +237,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas/{name}', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -271,7 +248,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -281,15 +258,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         delete collection of ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_cluster_resource_quota(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_cluster_resource_quota(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -302,7 +275,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_collection_cluster_resource_quota_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_cluster_resource_quota_with_http_info(**kwargs)
@@ -312,15 +285,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         delete collection of ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_cluster_resource_quota_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_cluster_resource_quota_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -334,7 +303,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -352,24 +321,23 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -386,9 +354,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -397,7 +365,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -407,21 +375,17 @@ class QuotaOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_api_resources(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_api_resources(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.get_api_resources_with_http_info(**kwargs)
         else:
             (data) = self.get_api_resources_with_http_info(**kwargs)
@@ -431,22 +395,18 @@ class QuotaOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_api_resources_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_api_resources_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -463,10 +423,9 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -483,9 +442,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -494,7 +453,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -504,15 +463,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         list objects of kind AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_applied_cluster_resource_quota_for_all_namespaces(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_applied_cluster_resource_quota_for_all_namespaces(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
@@ -525,7 +480,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_applied_cluster_resource_quota_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_applied_cluster_resource_quota_for_all_namespaces_with_http_info(**kwargs)
@@ -535,15 +490,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         list objects of kind AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_applied_cluster_resource_quota_for_all_namespaces_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_applied_cluster_resource_quota_for_all_namespaces_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
@@ -557,7 +508,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['field_selector', 'include_uninitialized', 'label_selector', 'pretty', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -575,24 +526,23 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/appliedclusterresourcequotas'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -609,9 +559,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/appliedclusterresourcequotas', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -620,7 +570,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1AppliedClusterResourceQuotaList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -630,15 +580,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         list or watch objects of kind ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_cluster_resource_quota(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_cluster_resource_quota(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -651,7 +597,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_cluster_resource_quota_with_http_info(**kwargs)
         else:
             (data) = self.list_cluster_resource_quota_with_http_info(**kwargs)
@@ -661,15 +607,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         list or watch objects of kind ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_cluster_resource_quota_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_cluster_resource_quota_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -683,7 +625,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -701,24 +643,23 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -735,9 +676,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -746,7 +687,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuotaList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -756,15 +697,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         list objects of kind AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_namespaced_applied_cluster_resource_quota(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_namespaced_applied_cluster_resource_quota(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -778,7 +715,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_namespaced_applied_cluster_resource_quota_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_applied_cluster_resource_quota_with_http_info(namespace, **kwargs)
@@ -788,15 +725,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         list objects of kind AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_namespaced_applied_cluster_resource_quota_with_http_info(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_namespaced_applied_cluster_resource_quota_with_http_info(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -811,7 +744,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'field_selector', 'include_uninitialized', 'label_selector', 'pretty', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -832,26 +765,25 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/namespaces/{namespace}/appliedclusterresourcequotas'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -868,9 +800,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/namespaces/{namespace}/appliedclusterresourcequotas', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -879,7 +811,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1AppliedClusterResourceQuotaList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -889,15 +821,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         partially update the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_cluster_resource_quota(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_cluster_resource_quota(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -906,7 +834,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_cluster_resource_quota_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_cluster_resource_quota_with_http_info(name, body, **kwargs)
@@ -916,15 +844,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         partially update the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_cluster_resource_quota_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_cluster_resource_quota_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -934,7 +858,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -958,14 +882,13 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -984,9 +907,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas/{name}', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -995,7 +918,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1005,15 +928,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         partially update status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_cluster_resource_quota_status(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_cluster_resource_quota_status(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1022,7 +941,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_cluster_resource_quota_status_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_cluster_resource_quota_status_with_http_info(name, body, **kwargs)
@@ -1032,15 +951,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         partially update status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_cluster_resource_quota_status_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_cluster_resource_quota_status_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1050,7 +965,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1074,14 +989,13 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1100,9 +1014,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1111,7 +1025,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1121,15 +1035,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         read the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_cluster_resource_quota(name, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_cluster_resource_quota(name, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -1139,7 +1049,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_cluster_resource_quota_with_http_info(name, **kwargs)
         else:
             (data) = self.read_cluster_resource_quota_with_http_info(name, **kwargs)
@@ -1149,15 +1059,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         read the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_cluster_resource_quota_with_http_info(name, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_cluster_resource_quota_with_http_info(name, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -1168,7 +1074,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1189,18 +1095,17 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'exact' in params:
-            query_params['exact'] = params['exact']
+            query_params.append(('exact', params['exact']))
         if 'export' in params:
-            query_params['export'] = params['export']
+            query_params.append(('export', params['export']))
 
         header_params = {}
 
@@ -1217,9 +1122,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas/{name}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1228,7 +1133,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1238,15 +1143,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         read status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_cluster_resource_quota_status(name, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_cluster_resource_quota_status(name, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterResourceQuota
@@ -1254,7 +1155,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_cluster_resource_quota_status_with_http_info(name, **kwargs)
         else:
             (data) = self.read_cluster_resource_quota_status_with_http_info(name, **kwargs)
@@ -1264,15 +1165,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         read status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_cluster_resource_quota_status_with_http_info(name, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_cluster_resource_quota_status_with_http_info(name, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterResourceQuota
@@ -1281,7 +1178,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1302,14 +1199,13 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1326,9 +1222,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1337,7 +1233,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1347,15 +1243,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         read the specified AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_applied_cluster_resource_quota(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_applied_cluster_resource_quota(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the AppliedClusterResourceQuota (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1364,7 +1256,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_namespaced_applied_cluster_resource_quota_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_applied_cluster_resource_quota_with_http_info(name, namespace, **kwargs)
@@ -1374,15 +1266,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         read the specified AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_applied_cluster_resource_quota_with_http_info(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_applied_cluster_resource_quota_with_http_info(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the AppliedClusterResourceQuota (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1392,7 +1280,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1416,16 +1304,15 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/namespaces/{namespace}/appliedclusterresourcequotas/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1442,9 +1329,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/namespaces/{namespace}/appliedclusterresourcequotas/{name}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1453,7 +1340,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1AppliedClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1463,15 +1350,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         replace the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_cluster_resource_quota(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_cluster_resource_quota(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1480,7 +1363,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_cluster_resource_quota_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_cluster_resource_quota_with_http_info(name, body, **kwargs)
@@ -1490,15 +1373,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         replace the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_cluster_resource_quota_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_cluster_resource_quota_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1508,7 +1387,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1532,14 +1411,13 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1558,9 +1436,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas/{name}', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1569,7 +1447,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1579,15 +1457,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         replace status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_cluster_resource_quota_status(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_cluster_resource_quota_status(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1596,7 +1470,7 @@ class QuotaOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_cluster_resource_quota_status_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_cluster_resource_quota_status_with_http_info(name, body, **kwargs)
@@ -1606,15 +1480,11 @@ class QuotaOpenshiftIoV1Api(object):
         """
         replace status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_cluster_resource_quota_status_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_cluster_resource_quota_status_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1624,7 +1494,7 @@ class QuotaOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1648,14 +1518,13 @@ class QuotaOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1674,9 +1543,9 @@ class QuotaOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1685,7 +1554,7 @@ class QuotaOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

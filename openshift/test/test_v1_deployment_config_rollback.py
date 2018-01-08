@@ -35,7 +35,9 @@ class TestV1DeploymentConfigRollback(unittest.TestCase):
         """
         Test V1DeploymentConfigRollback
         """
-        model = openshift.client.models.v1_deployment_config_rollback.V1DeploymentConfigRollback()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_deployment_config_rollback.V1DeploymentConfigRollback()
+        pass
 
 
 if __name__ == '__main__':

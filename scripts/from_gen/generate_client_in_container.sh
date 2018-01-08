@@ -33,6 +33,7 @@ set -o pipefail
 : "${CLEANUP_DIRS?Must set CLEANUP_DIRS env var}"
 : "${KUBERNETES_BRANCH?Must set KUBERNETES_BRANCH env var}"
 : "${CLIENT_VERSION?Must set CLIENT_VERSION env var}"
+: "${CLIENT_LANGUAGE?Must set CLIENT_LANGUAGE env var}"
 : "${PACKAGE_NAME?Must set PACKAGE_NAME env var}"
 : "${SWAGGER_CODEGEN_COMMIT?Must set SWAGGER_CODEGEN_COMMIT env var}"
 
@@ -78,7 +79,7 @@ popd
 mkdir -p "${output_dir}"
 
 echo "--- Downloading and pre-processing OpenAPI spec"
-python "${SCRIPT_ROOT}/preprocess_spec.py" "${KUBERNETES_BRANCH}" "${output_dir}/swagger.json"
+python "${SCRIPT_ROOT}/preprocess_spec.py" "${CLIENT_LANGUAGE}" "${KUBERNETES_BRANCH}" "${output_dir}/swagger.json"
 
 echo "--- Cleaning up previously generated folders"
 for i in ${CLEANUP_DIRS}; do

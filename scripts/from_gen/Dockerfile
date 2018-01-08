@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM maven:3.5-jdk-7
+FROM maven:3.5-jdk-8-slim
 ARG SWAGGER_CODEGEN_COMMIT
 ARG GENERATION_XML_FILE
 ARG SWAGGER_CODEGEN_USER_ORG=swagger-api
 
 # Install preprocessing script requirements
-RUN apt-get update && apt-get -y install python-pip && pip install urllib3 kubernetes python-string-utils
+RUN apt-get update && apt-get -y install git python-pip && pip install urllib3 kubernetes python-string-utils
 
 # Check out specific commit of swagger-codegen
 RUN mkdir /source && \
@@ -32,10 +32,20 @@ RUN cd /source/swagger-codegen && \
     mvn install -DskipTests -Dmaven.test.skip=true -pl modules/swagger-codegen-maven-plugin -am && \
     cp -r /root/.m2/* /usr/share/maven/ref
 
+# Install Autorest
+RUN apt-get update && apt-get -qq -y install libunwind8 libicu57 libssl1.0 liblttng-ust0 libcurl3 libuuid1 libkrb5-3 zlib1g
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - 
+RUN apt-get update && apt-get -y install \
+    nodejs \
+    libunwind8-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g autorest@preview #TODO-krabhishek8260: Remove preview as soon as the required bits are in release version 
+
 # Copy required files
-COPY ${GENERATION_XML_FILE} /generation_params.xml
 COPY generate_client_in_container.sh /generate_client.sh
 COPY preprocess_spec.py /
 COPY custom_objects_spec.json /
+COPY ${GENERATION_XML_FILE} /generation_params.xml
 
 ENTRYPOINT ["mvn-entrypoint.sh", "/generate_client.sh"]

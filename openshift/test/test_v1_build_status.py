@@ -35,7 +35,9 @@ class TestV1BuildStatus(unittest.TestCase):
         """
         Test V1BuildStatus
         """
-        model = openshift.client.models.v1_build_status.V1BuildStatus()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_build_status.V1BuildStatus()
+        pass
 
 
 if __name__ == '__main__':

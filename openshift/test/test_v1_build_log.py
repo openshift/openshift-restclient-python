@@ -35,7 +35,9 @@ class TestV1BuildLog(unittest.TestCase):
         """
         Test V1BuildLog
         """
-        model = openshift.client.models.v1_build_log.V1BuildLog()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_build_log.V1BuildLog()
+        pass
 
 
 if __name__ == '__main__':

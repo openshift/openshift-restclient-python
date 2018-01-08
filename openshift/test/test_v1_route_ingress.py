@@ -35,7 +35,9 @@ class TestV1RouteIngress(unittest.TestCase):
         """
         Test V1RouteIngress
         """
-        model = openshift.client.models.v1_route_ingress.V1RouteIngress()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_route_ingress.V1RouteIngress()
+        pass
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ class TestV1ServiceAccountPodSecurityPolicyReviewStatus(unittest.TestCase):
         """
         Test V1ServiceAccountPodSecurityPolicyReviewStatus
         """
-        model = openshift.client.models.v1_service_account_pod_security_policy_review_status.V1ServiceAccountPodSecurityPolicyReviewStatus()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_service_account_pod_security_policy_review_status.V1ServiceAccountPodSecurityPolicyReviewStatus()
+        pass
 
 
 if __name__ == '__main__':

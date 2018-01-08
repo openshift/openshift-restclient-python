@@ -35,7 +35,9 @@ class TestV1SourceControlUser(unittest.TestCase):
         """
         Test V1SourceControlUser
         """
-        model = openshift.client.models.v1_source_control_user.V1SourceControlUser()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_source_control_user.V1SourceControlUser()
+        pass
 
 
 if __name__ == '__main__':

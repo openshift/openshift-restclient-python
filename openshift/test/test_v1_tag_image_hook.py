@@ -35,7 +35,9 @@ class TestV1TagImageHook(unittest.TestCase):
         """
         Test V1TagImageHook
         """
-        model = openshift.client.models.v1_tag_image_hook.V1TagImageHook()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_tag_image_hook.V1TagImageHook()
+        pass
 
 
 if __name__ == '__main__':

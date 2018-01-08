@@ -35,7 +35,9 @@ class TestV1ImageStream(unittest.TestCase):
         """
         Test V1ImageStream
         """
-        model = openshift.client.models.v1_image_stream.V1ImageStream()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_image_stream.V1ImageStream()
+        pass
 
 
 if __name__ == '__main__':

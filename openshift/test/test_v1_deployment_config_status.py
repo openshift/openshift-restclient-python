@@ -35,7 +35,9 @@ class TestV1DeploymentConfigStatus(unittest.TestCase):
         """
         Test V1DeploymentConfigStatus
         """
-        model = openshift.client.models.v1_deployment_config_status.V1DeploymentConfigStatus()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_deployment_config_status.V1DeploymentConfigStatus()
+        pass
 
 
 if __name__ == '__main__':

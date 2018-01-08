@@ -35,7 +35,9 @@ class TestV1StepInfo(unittest.TestCase):
         """
         Test V1StepInfo
         """
-        model = openshift.client.models.v1_step_info.V1StepInfo()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_step_info.V1StepInfo()
+        pass
 
 
 if __name__ == '__main__':

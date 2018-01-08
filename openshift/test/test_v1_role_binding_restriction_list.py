@@ -35,7 +35,9 @@ class TestV1RoleBindingRestrictionList(unittest.TestCase):
         """
         Test V1RoleBindingRestrictionList
         """
-        model = openshift.client.models.v1_role_binding_restriction_list.V1RoleBindingRestrictionList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_role_binding_restriction_list.V1RoleBindingRestrictionList()
+        pass
 
 
 if __name__ == '__main__':

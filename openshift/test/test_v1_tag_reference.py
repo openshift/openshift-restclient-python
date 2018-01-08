@@ -35,7 +35,9 @@ class TestV1TagReference(unittest.TestCase):
         """
         Test V1TagReference
         """
-        model = openshift.client.models.v1_tag_reference.V1TagReference()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_tag_reference.V1TagReference()
+        pass
 
 
 if __name__ == '__main__':

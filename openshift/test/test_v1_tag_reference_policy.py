@@ -35,7 +35,9 @@ class TestV1TagReferencePolicy(unittest.TestCase):
         """
         Test V1TagReferencePolicy
         """
-        model = openshift.client.models.v1_tag_reference_policy.V1TagReferencePolicy()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_tag_reference_policy.V1TagReferencePolicy()
+        pass
 
 
 if __name__ == '__main__':

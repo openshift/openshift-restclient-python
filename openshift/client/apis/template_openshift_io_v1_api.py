@@ -20,7 +20,6 @@ import re
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from kubernetes.client.configuration import Configuration
 from ..api_client import ApiClient
 
 
@@ -32,27 +31,19 @@ class TemplateOpenshiftIoV1Api(object):
     """
 
     def __init__(self, api_client=None):
-        config = Configuration()
-        if api_client:
-            self.api_client = api_client
-        else:
-            if not config.api_client:
-                config.api_client = ApiClient()
-            self.api_client = config.api_client
+        if api_client is None:
+            api_client = ApiClient()
+        self.api_client = api_client
 
     def create_broker_template_instance(self, body, **kwargs):
         """
         create a BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_broker_template_instance(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_broker_template_instance(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1BrokerTemplateInstance body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1BrokerTemplateInstance
@@ -60,7 +51,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_broker_template_instance_with_http_info(body, **kwargs)
         else:
             (data) = self.create_broker_template_instance_with_http_info(body, **kwargs)
@@ -70,15 +61,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_broker_template_instance_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_broker_template_instance_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1BrokerTemplateInstance body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1BrokerTemplateInstance
@@ -87,7 +74,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -108,12 +95,11 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/brokertemplateinstances'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -132,9 +118,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/brokertemplateinstances', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -143,7 +129,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1BrokerTemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -153,15 +139,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_template(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_template(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -170,7 +152,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_namespaced_template_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_template_with_http_info(namespace, body, **kwargs)
@@ -180,15 +162,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_template_with_http_info(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_template_with_http_info(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -198,7 +176,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -222,14 +200,13 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templates'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -248,9 +225,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templates', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -259,7 +236,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -269,15 +246,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_template_instance(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_template_instance(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1TemplateInstance body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -286,7 +259,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_namespaced_template_instance_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_template_instance_with_http_info(namespace, body, **kwargs)
@@ -296,15 +269,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_template_instance_with_http_info(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_template_instance_with_http_info(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1TemplateInstance body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -314,7 +283,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -338,14 +307,13 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -364,9 +332,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -375,7 +343,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -385,15 +353,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_template_for_all_namespaces(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_template_for_all_namespaces(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Template
@@ -401,7 +365,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_template_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_template_for_all_namespaces_with_http_info(body, **kwargs)
@@ -411,15 +375,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_template_for_all_namespaces_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_template_for_all_namespaces_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Template
@@ -428,7 +388,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -449,12 +409,11 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/templates'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -473,9 +432,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/templates', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -484,7 +443,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -494,15 +453,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_template_instance_for_all_namespaces(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_template_instance_for_all_namespaces(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1TemplateInstance body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1TemplateInstance
@@ -510,7 +465,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_template_instance_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_template_instance_for_all_namespaces_with_http_info(body, **kwargs)
@@ -520,15 +475,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         create a TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_template_instance_for_all_namespaces_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_template_instance_for_all_namespaces_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1TemplateInstance body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1TemplateInstance
@@ -537,7 +488,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -558,12 +509,11 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/templateinstances'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -582,9 +532,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/templateinstances', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -593,7 +543,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -603,15 +553,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete a BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_broker_template_instance(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_broker_template_instance(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the BrokerTemplateInstance (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -623,7 +569,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_broker_template_instance_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_broker_template_instance_with_http_info(name, body, **kwargs)
@@ -633,15 +579,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete a BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_broker_template_instance_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_broker_template_instance_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the BrokerTemplateInstance (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -654,7 +596,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -678,20 +620,19 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/brokertemplateinstances/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'grace_period_seconds' in params:
-            query_params['gracePeriodSeconds'] = params['grace_period_seconds']
+            query_params.append(('gracePeriodSeconds', params['grace_period_seconds']))
         if 'orphan_dependents' in params:
-            query_params['orphanDependents'] = params['orphan_dependents']
+            query_params.append(('orphanDependents', params['orphan_dependents']))
         if 'propagation_policy' in params:
-            query_params['propagationPolicy'] = params['propagation_policy']
+            query_params.append(('propagationPolicy', params['propagation_policy']))
 
         header_params = {}
 
@@ -710,9 +651,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/brokertemplateinstances/{name}', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -721,7 +662,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -731,15 +672,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete collection of BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_broker_template_instance(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_broker_template_instance(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -752,7 +689,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_collection_broker_template_instance_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_broker_template_instance_with_http_info(**kwargs)
@@ -762,15 +699,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete collection of BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_broker_template_instance_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_broker_template_instance_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -784,7 +717,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -802,24 +735,23 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/brokertemplateinstances'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -836,9 +768,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/brokertemplateinstances', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -847,7 +779,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -857,15 +789,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete collection of Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_namespaced_template(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_namespaced_template(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -879,7 +807,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_collection_namespaced_template_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_template_with_http_info(namespace, **kwargs)
@@ -889,15 +817,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete collection of Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_namespaced_template_with_http_info(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_namespaced_template_with_http_info(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -912,7 +836,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -933,26 +857,25 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templates'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -969,9 +892,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templates', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -980,7 +903,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -990,15 +913,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete collection of TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_namespaced_template_instance(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_namespaced_template_instance(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1012,7 +931,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_collection_namespaced_template_instance_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_template_instance_with_http_info(namespace, **kwargs)
@@ -1022,15 +941,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete collection of TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_namespaced_template_instance_with_http_info(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_namespaced_template_instance_with_http_info(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1045,7 +960,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1066,26 +981,25 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -1102,9 +1016,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1113,7 +1027,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1123,15 +1037,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_namespaced_template(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_namespaced_template(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -1144,7 +1054,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_namespaced_template_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_template_with_http_info(name, namespace, body, **kwargs)
@@ -1154,15 +1064,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_namespaced_template_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_namespaced_template_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -1176,7 +1082,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1203,22 +1109,21 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'grace_period_seconds' in params:
-            query_params['gracePeriodSeconds'] = params['grace_period_seconds']
+            query_params.append(('gracePeriodSeconds', params['grace_period_seconds']))
         if 'orphan_dependents' in params:
-            query_params['orphanDependents'] = params['orphan_dependents']
+            query_params.append(('orphanDependents', params['orphan_dependents']))
         if 'propagation_policy' in params:
-            query_params['propagationPolicy'] = params['propagation_policy']
+            query_params.append(('propagationPolicy', params['propagation_policy']))
 
         header_params = {}
 
@@ -1237,9 +1142,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name}', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1248,7 +1153,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1258,15 +1163,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete a TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_namespaced_template_instance(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_namespaced_template_instance(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -1279,7 +1180,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_namespaced_template_instance_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_template_instance_with_http_info(name, namespace, body, **kwargs)
@@ -1289,15 +1190,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         delete a TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_namespaced_template_instance_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_namespaced_template_instance_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -1311,7 +1208,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1338,22 +1235,21 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'grace_period_seconds' in params:
-            query_params['gracePeriodSeconds'] = params['grace_period_seconds']
+            query_params.append(('gracePeriodSeconds', params['grace_period_seconds']))
         if 'orphan_dependents' in params:
-            query_params['orphanDependents'] = params['orphan_dependents']
+            query_params.append(('orphanDependents', params['orphan_dependents']))
         if 'propagation_policy' in params:
-            query_params['propagationPolicy'] = params['propagation_policy']
+            query_params.append(('propagationPolicy', params['propagation_policy']))
 
         header_params = {}
 
@@ -1372,9 +1268,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1383,7 +1279,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1393,21 +1289,17 @@ class TemplateOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_api_resources(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_api_resources(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.get_api_resources_with_http_info(**kwargs)
         else:
             (data) = self.get_api_resources_with_http_info(**kwargs)
@@ -1417,22 +1309,18 @@ class TemplateOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_api_resources_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_api_resources_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1449,10 +1337,9 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -1469,9 +1356,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1480,7 +1367,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1490,15 +1377,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_broker_template_instance(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_broker_template_instance(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -1511,7 +1394,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_broker_template_instance_with_http_info(**kwargs)
         else:
             (data) = self.list_broker_template_instance_with_http_info(**kwargs)
@@ -1521,15 +1404,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_broker_template_instance_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_broker_template_instance_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -1543,7 +1422,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1561,24 +1440,23 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/brokertemplateinstances'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -1595,9 +1473,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/brokertemplateinstances', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1606,7 +1484,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1BrokerTemplateInstanceList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1616,15 +1494,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_namespaced_template(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_namespaced_template(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1638,7 +1512,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_namespaced_template_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_template_with_http_info(namespace, **kwargs)
@@ -1648,15 +1522,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_namespaced_template_with_http_info(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_namespaced_template_with_http_info(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1671,7 +1541,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1692,26 +1562,25 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templates'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -1728,9 +1597,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templates', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1739,7 +1608,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1749,15 +1618,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_namespaced_template_instance(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_namespaced_template_instance(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1771,7 +1636,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_namespaced_template_instance_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_template_instance_with_http_info(namespace, **kwargs)
@@ -1781,15 +1646,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_namespaced_template_instance_with_http_info(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_namespaced_template_instance_with_http_info(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1804,7 +1665,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1825,26 +1686,25 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -1861,9 +1721,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1872,7 +1732,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstanceList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1882,15 +1742,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_template_for_all_namespaces(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_template_for_all_namespaces(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -1903,7 +1759,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_template_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_template_for_all_namespaces_with_http_info(**kwargs)
@@ -1913,15 +1769,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_template_for_all_namespaces_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_template_for_all_namespaces_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -1935,7 +1787,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1953,24 +1805,23 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/templates'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -1987,9 +1838,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/templates', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1998,7 +1849,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2008,15 +1859,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_template_instance_for_all_namespaces(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_template_instance_for_all_namespaces(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -2029,7 +1876,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_template_instance_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_template_instance_for_all_namespaces_with_http_info(**kwargs)
@@ -2039,15 +1886,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         list or watch objects of kind TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_template_instance_for_all_namespaces_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_template_instance_for_all_namespaces_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -2061,7 +1904,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2079,24 +1922,23 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/templateinstances'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -2113,9 +1955,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/templateinstances', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -2124,7 +1966,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstanceList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2134,15 +1976,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         partially update the specified BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_broker_template_instance(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_broker_template_instance(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the BrokerTemplateInstance (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2151,7 +1989,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_broker_template_instance_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_broker_template_instance_with_http_info(name, body, **kwargs)
@@ -2161,15 +1999,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         partially update the specified BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_broker_template_instance_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_broker_template_instance_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the BrokerTemplateInstance (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2179,7 +2013,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2203,14 +2037,13 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/brokertemplateinstances/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -2229,9 +2062,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/brokertemplateinstances/{name}', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -2240,7 +2073,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1BrokerTemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2250,15 +2083,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         partially update the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_template(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_template(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -2268,7 +2097,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_namespaced_template_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_template_with_http_info(name, namespace, body, **kwargs)
@@ -2278,15 +2107,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         partially update the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_template_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_template_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -2297,7 +2122,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2324,16 +2149,15 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -2352,9 +2176,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name}', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -2363,7 +2187,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2373,15 +2197,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         partially update the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_template_instance(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_template_instance(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -2391,7 +2211,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_namespaced_template_instance_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_template_instance_with_http_info(name, namespace, body, **kwargs)
@@ -2401,15 +2221,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         partially update the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_template_instance_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_template_instance_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -2420,7 +2236,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2447,16 +2263,15 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -2475,9 +2290,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -2486,7 +2301,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2496,15 +2311,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         partially update status of the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_template_instance_status(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_template_instance_status(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -2514,7 +2325,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_namespaced_template_instance_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_template_instance_status_with_http_info(name, namespace, body, **kwargs)
@@ -2524,15 +2335,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         partially update status of the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_template_instance_status_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_template_instance_status_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -2543,7 +2350,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2570,16 +2377,15 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -2598,9 +2404,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -2609,7 +2415,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2619,15 +2425,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         read the specified BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_broker_template_instance(name, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_broker_template_instance(name, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the BrokerTemplateInstance (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -2637,7 +2439,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_broker_template_instance_with_http_info(name, **kwargs)
         else:
             (data) = self.read_broker_template_instance_with_http_info(name, **kwargs)
@@ -2647,15 +2449,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         read the specified BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_broker_template_instance_with_http_info(name, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_broker_template_instance_with_http_info(name, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the BrokerTemplateInstance (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -2666,7 +2464,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2687,18 +2485,17 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/brokertemplateinstances/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'exact' in params:
-            query_params['exact'] = params['exact']
+            query_params.append(('exact', params['exact']))
         if 'export' in params:
-            query_params['export'] = params['export']
+            query_params.append(('export', params['export']))
 
         header_params = {}
 
@@ -2715,9 +2512,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/brokertemplateinstances/{name}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -2726,7 +2523,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1BrokerTemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2736,15 +2533,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         read the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_template(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_template(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2755,7 +2548,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_namespaced_template_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_template_with_http_info(name, namespace, **kwargs)
@@ -2765,15 +2558,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         read the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_template_with_http_info(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_template_with_http_info(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2785,7 +2574,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2809,20 +2598,19 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'exact' in params:
-            query_params['exact'] = params['exact']
+            query_params.append(('exact', params['exact']))
         if 'export' in params:
-            query_params['export'] = params['export']
+            query_params.append(('export', params['export']))
 
         header_params = {}
 
@@ -2839,9 +2627,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -2850,7 +2638,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2860,15 +2648,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         read the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_template_instance(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_template_instance(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2879,7 +2663,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_namespaced_template_instance_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_template_instance_with_http_info(name, namespace, **kwargs)
@@ -2889,15 +2673,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         read the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_template_instance_with_http_info(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_template_instance_with_http_info(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2909,7 +2689,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2933,20 +2713,19 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'exact' in params:
-            query_params['exact'] = params['exact']
+            query_params.append(('exact', params['exact']))
         if 'export' in params:
-            query_params['export'] = params['export']
+            query_params.append(('export', params['export']))
 
         header_params = {}
 
@@ -2963,9 +2742,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -2974,7 +2753,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2984,15 +2763,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         read status of the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_template_instance_status(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_template_instance_status(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3001,7 +2776,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_namespaced_template_instance_status_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_template_instance_status_with_http_info(name, namespace, **kwargs)
@@ -3011,15 +2786,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         read status of the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_template_instance_status_with_http_info(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_template_instance_status_with_http_info(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3029,7 +2800,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3053,16 +2824,15 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -3079,9 +2849,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -3090,7 +2860,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3100,15 +2870,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         replace the specified BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_broker_template_instance(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_broker_template_instance(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the BrokerTemplateInstance (required)
         :param V1BrokerTemplateInstance body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3117,7 +2883,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_broker_template_instance_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_broker_template_instance_with_http_info(name, body, **kwargs)
@@ -3127,15 +2893,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         replace the specified BrokerTemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_broker_template_instance_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_broker_template_instance_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the BrokerTemplateInstance (required)
         :param V1BrokerTemplateInstance body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3145,7 +2907,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3169,14 +2931,13 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/brokertemplateinstances/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -3195,9 +2956,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/brokertemplateinstances/{name}', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -3206,7 +2967,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1BrokerTemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3216,15 +2977,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         replace the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_template(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_template(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
@@ -3234,7 +2991,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_namespaced_template_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_template_with_http_info(name, namespace, body, **kwargs)
@@ -3244,15 +3001,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         replace the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_template_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_template_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
@@ -3263,7 +3016,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3290,16 +3043,15 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -3318,9 +3070,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templates/{name}', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -3329,7 +3081,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3339,15 +3091,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         replace the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_template_instance(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_template_instance(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1TemplateInstance body: (required)
@@ -3357,7 +3105,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_namespaced_template_instance_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_template_instance_with_http_info(name, namespace, body, **kwargs)
@@ -3367,15 +3115,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         replace the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_template_instance_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_template_instance_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1TemplateInstance body: (required)
@@ -3386,7 +3130,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3413,16 +3157,15 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -3441,9 +3184,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -3452,7 +3195,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3462,15 +3205,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         replace status of the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_template_instance_status(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_template_instance_status(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1TemplateInstance body: (required)
@@ -3480,7 +3219,7 @@ class TemplateOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_namespaced_template_instance_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_template_instance_status_with_http_info(name, namespace, body, **kwargs)
@@ -3490,15 +3229,11 @@ class TemplateOpenshiftIoV1Api(object):
         """
         replace status of the specified TemplateInstance
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_template_instance_status_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_template_instance_status_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the TemplateInstance (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1TemplateInstance body: (required)
@@ -3509,7 +3244,7 @@ class TemplateOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3536,16 +3271,15 @@ class TemplateOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -3564,9 +3298,9 @@ class TemplateOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/template.openshift.io/v1/namespaces/{namespace}/templateinstances/{name}/status', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -3575,7 +3309,7 @@ class TemplateOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1TemplateInstance',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

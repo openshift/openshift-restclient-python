@@ -35,7 +35,9 @@ class TestV1ImageStreamTagList(unittest.TestCase):
         """
         Test V1ImageStreamTagList
         """
-        model = openshift.client.models.v1_image_stream_tag_list.V1ImageStreamTagList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_image_stream_tag_list.V1ImageStreamTagList()
+        pass
 
 
 if __name__ == '__main__':
