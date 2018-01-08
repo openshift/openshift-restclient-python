@@ -19,11 +19,11 @@ import unittest
 
 import openshift.client
 from kubernetes.client.rest import ApiException
-from openshift.client.models.v1_role_binding import V1RoleBinding
+from openshift.client.models.v1beta1_third_party_resource_list import V1beta1ThirdPartyResourceList
 
 
-class TestV1RoleBinding(unittest.TestCase):
-    """ V1RoleBinding unit test stubs """
+class TestV1beta1ThirdPartyResourceList(unittest.TestCase):
+    """ V1beta1ThirdPartyResourceList unit test stubs """
 
     def setUp(self):
         pass
@@ -31,11 +31,13 @@ class TestV1RoleBinding(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testV1RoleBinding(self):
+    def testV1beta1ThirdPartyResourceList(self):
         """
-        Test V1RoleBinding
+        Test V1beta1ThirdPartyResourceList
         """
-        model = openshift.client.models.v1_role_binding.V1RoleBinding()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1beta1_third_party_resource_list.V1beta1ThirdPartyResourceList()
+        pass
 
 
 if __name__ == '__main__':

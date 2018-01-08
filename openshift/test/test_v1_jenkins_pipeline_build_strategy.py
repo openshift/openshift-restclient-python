@@ -35,7 +35,9 @@ class TestV1JenkinsPipelineBuildStrategy(unittest.TestCase):
         """
         Test V1JenkinsPipelineBuildStrategy
         """
-        model = openshift.client.models.v1_jenkins_pipeline_build_strategy.V1JenkinsPipelineBuildStrategy()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_jenkins_pipeline_build_strategy.V1JenkinsPipelineBuildStrategy()
+        pass
 
 
 if __name__ == '__main__':

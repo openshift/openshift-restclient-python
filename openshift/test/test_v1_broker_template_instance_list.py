@@ -35,7 +35,9 @@ class TestV1BrokerTemplateInstanceList(unittest.TestCase):
         """
         Test V1BrokerTemplateInstanceList
         """
-        model = openshift.client.models.v1_broker_template_instance_list.V1BrokerTemplateInstanceList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_broker_template_instance_list.V1BrokerTemplateInstanceList()
+        pass
 
 
 if __name__ == '__main__':

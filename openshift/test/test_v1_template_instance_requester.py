@@ -35,7 +35,9 @@ class TestV1TemplateInstanceRequester(unittest.TestCase):
         """
         Test V1TemplateInstanceRequester
         """
-        model = openshift.client.models.v1_template_instance_requester.V1TemplateInstanceRequester()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_template_instance_requester.V1TemplateInstanceRequester()
+        pass
 
 
 if __name__ == '__main__':

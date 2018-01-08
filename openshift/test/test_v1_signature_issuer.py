@@ -35,7 +35,9 @@ class TestV1SignatureIssuer(unittest.TestCase):
         """
         Test V1SignatureIssuer
         """
-        model = openshift.client.models.v1_signature_issuer.V1SignatureIssuer()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_signature_issuer.V1SignatureIssuer()
+        pass
 
 
 if __name__ == '__main__':

@@ -46,23 +46,26 @@ create a ClusterNetwork
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 body = openshift.client.V1ClusterNetwork() # V1ClusterNetwork | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
@@ -86,7 +89,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -104,23 +107,26 @@ create an EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 body = openshift.client.V1EgressNetworkPolicy() # V1EgressNetworkPolicy | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
@@ -144,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -162,23 +168,26 @@ create a HostSubnet
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 body = openshift.client.V1HostSubnet() # V1HostSubnet | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
@@ -202,7 +211,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -220,23 +229,26 @@ create an EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 body = openshift.client.V1EgressNetworkPolicy() # V1EgressNetworkPolicy | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -262,7 +274,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -280,23 +292,26 @@ create a NetNamespace
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 body = openshift.client.V1NetNamespace() # V1NetNamespace | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 
@@ -320,7 +335,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -338,23 +353,26 @@ delete a ClusterNetwork
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the ClusterNetwork
 body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -386,7 +404,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -404,23 +422,26 @@ delete collection of ClusterNetwork
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
@@ -454,7 +475,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -472,23 +493,26 @@ delete collection of HostSubnet
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
@@ -522,7 +546,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -540,23 +564,26 @@ delete collection of EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
@@ -592,7 +619,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -610,23 +637,26 @@ delete collection of NetNamespace
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
@@ -660,7 +690,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -678,23 +708,26 @@ delete a HostSubnet
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the HostSubnet
 body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -726,7 +759,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -744,23 +777,26 @@ delete an EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the EgressNetworkPolicy
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
@@ -794,7 +830,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -812,23 +848,26 @@ delete a NetNamespace
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the NetNamespace
 body = openshift.client.V1DeleteOptions() # V1DeleteOptions | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -860,7 +899,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -878,23 +917,26 @@ get available resources
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 
 try: 
     api_response = api_instance.get_api_resources()
@@ -912,7 +954,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -930,23 +972,26 @@ list or watch objects of kind ClusterNetwork
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
@@ -980,7 +1025,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -998,23 +1043,26 @@ list or watch objects of kind EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
@@ -1048,7 +1096,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1066,23 +1114,26 @@ list or watch objects of kind HostSubnet
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
@@ -1116,7 +1167,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1134,23 +1185,26 @@ list or watch objects of kind EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
@@ -1186,7 +1240,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1204,23 +1258,26 @@ list or watch objects of kind NetNamespace
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 field_selector = 'field_selector_example' # str | A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)
 include_uninitialized = true # bool | If true, partially initialized resources are included in the response. (optional)
@@ -1254,7 +1311,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1272,23 +1329,26 @@ partially update the specified ClusterNetwork
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the ClusterNetwork
 body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -1314,7 +1374,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1332,23 +1392,26 @@ partially update the specified HostSubnet
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the HostSubnet
 body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -1374,7 +1437,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1392,23 +1455,26 @@ partially update the specified EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the EgressNetworkPolicy
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 body = NULL # object | 
@@ -1436,7 +1502,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1454,23 +1520,26 @@ partially update the specified NetNamespace
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the NetNamespace
 body = NULL # object | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -1496,7 +1565,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1514,23 +1583,26 @@ read the specified ClusterNetwork
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the ClusterNetwork
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
@@ -1558,7 +1630,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1576,23 +1648,26 @@ read the specified HostSubnet
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the HostSubnet
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
@@ -1620,7 +1695,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1638,23 +1713,26 @@ read the specified EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the EgressNetworkPolicy
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -1684,7 +1762,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1702,23 +1780,26 @@ read the specified NetNamespace
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the NetNamespace
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
 exact = true # bool | Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'. (optional)
@@ -1746,7 +1827,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1764,23 +1845,26 @@ replace the specified ClusterNetwork
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the ClusterNetwork
 body = openshift.client.V1ClusterNetwork() # V1ClusterNetwork | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -1806,7 +1890,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1824,23 +1908,26 @@ replace the specified HostSubnet
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the HostSubnet
 body = openshift.client.V1HostSubnet() # V1HostSubnet | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -1866,7 +1953,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1884,23 +1971,26 @@ replace the specified EgressNetworkPolicy
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the EgressNetworkPolicy
 namespace = 'namespace_example' # str | object name and auth scope, such as for teams and projects
 body = openshift.client.V1EgressNetworkPolicy() # V1EgressNetworkPolicy | 
@@ -1928,7 +2018,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 
@@ -1946,23 +2036,26 @@ replace the specified NetNamespace
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import openshift.client
 from kubernetes.client.rest import ApiException
 from pprint import pprint
 
-# Configure OAuth2 access token for authorization: Oauth2Implicit
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
-# Configure OAuth2 access token for authorization: Oauth2AccessToken
-openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure API key authorization: BearerToken
-openshift.client.configuration.api_key['authorization'] = 'YOUR_API_KEY'
+configuration = openshift.client.Configuration()
+configuration.api_key['authorization'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openshift.client.configuration.api_key_prefix['authorization'] = 'Bearer'
+# configuration.api_key_prefix['authorization'] = 'Bearer'
+# Configure OAuth2 access token for authorization: Oauth2AccessToken
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+# Configure OAuth2 access token for authorization: Oauth2Implicit
+configuration = openshift.client.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openshift.client.NetworkOpenshiftIoV1Api()
+api_instance = openshift.client.NetworkOpenshiftIoV1Api(openshift.client.ApiClient(configuration))
 name = 'name_example' # str | name of the NetNamespace
 body = openshift.client.V1NetNamespace() # V1NetNamespace | 
 pretty = 'pretty_example' # str | If 'true', then the output is pretty printed. (optional)
@@ -1988,7 +2081,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Oauth2Implicit](../README.md#Oauth2Implicit), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [BearerToken](../README.md#BearerToken)
+[BearerToken](../README.md#BearerToken), [Oauth2AccessToken](../README.md#Oauth2AccessToken), [Oauth2Implicit](../README.md#Oauth2Implicit)
 
 ### HTTP request headers
 

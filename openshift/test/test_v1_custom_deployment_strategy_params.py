@@ -35,7 +35,9 @@ class TestV1CustomDeploymentStrategyParams(unittest.TestCase):
         """
         Test V1CustomDeploymentStrategyParams
         """
-        model = openshift.client.models.v1_custom_deployment_strategy_params.V1CustomDeploymentStrategyParams()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_custom_deployment_strategy_params.V1CustomDeploymentStrategyParams()
+        pass
 
 
 if __name__ == '__main__':

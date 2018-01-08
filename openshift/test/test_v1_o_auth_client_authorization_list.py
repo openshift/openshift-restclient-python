@@ -35,7 +35,9 @@ class TestV1OAuthClientAuthorizationList(unittest.TestCase):
         """
         Test V1OAuthClientAuthorizationList
         """
-        model = openshift.client.models.v1_o_auth_client_authorization_list.V1OAuthClientAuthorizationList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_o_auth_client_authorization_list.V1OAuthClientAuthorizationList()
+        pass
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ class TestV1TagEvent(unittest.TestCase):
         """
         Test V1TagEvent
         """
-        model = openshift.client.models.v1_tag_event.V1TagEvent()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_tag_event.V1TagEvent()
+        pass
 
 
 if __name__ == '__main__':

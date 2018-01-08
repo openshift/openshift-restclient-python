@@ -35,7 +35,9 @@ class TestV1User(unittest.TestCase):
         """
         Test V1User
         """
-        model = openshift.client.models.v1_user.V1User()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_user.V1User()
+        pass
 
 
 if __name__ == '__main__':

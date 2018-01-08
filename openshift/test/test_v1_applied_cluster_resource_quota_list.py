@@ -35,7 +35,9 @@ class TestV1AppliedClusterResourceQuotaList(unittest.TestCase):
         """
         Test V1AppliedClusterResourceQuotaList
         """
-        model = openshift.client.models.v1_applied_cluster_resource_quota_list.V1AppliedClusterResourceQuotaList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_applied_cluster_resource_quota_list.V1AppliedClusterResourceQuotaList()
+        pass
 
 
 if __name__ == '__main__':

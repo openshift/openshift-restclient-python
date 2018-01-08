@@ -19,11 +19,11 @@ import unittest
 
 import openshift.client
 from kubernetes.client.rest import ApiException
-from openshift.client.models.v1_role import V1Role
+from openshift.client.models.v1beta1_api_version import V1beta1APIVersion
 
 
-class TestV1Role(unittest.TestCase):
-    """ V1Role unit test stubs """
+class TestV1beta1APIVersion(unittest.TestCase):
+    """ V1beta1APIVersion unit test stubs """
 
     def setUp(self):
         pass
@@ -31,11 +31,13 @@ class TestV1Role(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testV1Role(self):
+    def testV1beta1APIVersion(self):
         """
-        Test V1Role
+        Test V1beta1APIVersion
         """
-        model = openshift.client.models.v1_role.V1Role()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1beta1_api_version.V1beta1APIVersion()
+        pass
 
 
 if __name__ == '__main__':

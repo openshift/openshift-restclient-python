@@ -35,7 +35,9 @@ class TestV1ImageChangeCause(unittest.TestCase):
         """
         Test V1ImageChangeCause
         """
-        model = openshift.client.models.v1_image_change_cause.V1ImageChangeCause()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_image_change_cause.V1ImageChangeCause()
+        pass
 
 
 if __name__ == '__main__':

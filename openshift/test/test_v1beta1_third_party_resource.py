@@ -19,11 +19,11 @@ import unittest
 
 import openshift.client
 from kubernetes.client.rest import ApiException
-from openshift.client.models.v1_self_subject_rules_review_spec import V1SelfSubjectRulesReviewSpec
+from openshift.client.models.v1beta1_third_party_resource import V1beta1ThirdPartyResource
 
 
-class TestV1SelfSubjectRulesReviewSpec(unittest.TestCase):
-    """ V1SelfSubjectRulesReviewSpec unit test stubs """
+class TestV1beta1ThirdPartyResource(unittest.TestCase):
+    """ V1beta1ThirdPartyResource unit test stubs """
 
     def setUp(self):
         pass
@@ -31,11 +31,13 @@ class TestV1SelfSubjectRulesReviewSpec(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testV1SelfSubjectRulesReviewSpec(self):
+    def testV1beta1ThirdPartyResource(self):
         """
-        Test V1SelfSubjectRulesReviewSpec
+        Test V1beta1ThirdPartyResource
         """
-        model = openshift.client.models.v1_self_subject_rules_review_spec.V1SelfSubjectRulesReviewSpec()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1beta1_third_party_resource.V1beta1ThirdPartyResource()
+        pass
 
 
 if __name__ == '__main__':

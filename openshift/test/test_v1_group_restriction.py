@@ -35,7 +35,9 @@ class TestV1GroupRestriction(unittest.TestCase):
         """
         Test V1GroupRestriction
         """
-        model = openshift.client.models.v1_group_restriction.V1GroupRestriction()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_group_restriction.V1GroupRestriction()
+        pass
 
 
 if __name__ == '__main__':

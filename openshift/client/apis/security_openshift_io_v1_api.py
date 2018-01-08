@@ -20,7 +20,6 @@ import re
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from kubernetes.client.configuration import Configuration
 from ..api_client import ApiClient
 
 
@@ -32,27 +31,19 @@ class SecurityOpenshiftIoV1Api(object):
     """
 
     def __init__(self, api_client=None):
-        config = Configuration()
-        if api_client:
-            self.api_client = api_client
-        else:
-            if not config.api_client:
-                config.api_client = ApiClient()
-            self.api_client = config.api_client
+        if api_client is None:
+            api_client = ApiClient()
+        self.api_client = api_client
 
     def create_namespaced_pod_security_policy_review(self, namespace, body, **kwargs):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_pod_security_policy_review(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_pod_security_policy_review(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -61,7 +52,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, **kwargs)
@@ -71,15 +62,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -89,7 +76,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -113,14 +100,13 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicyreviews'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -139,9 +125,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicyreviews', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -150,7 +136,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicyReview',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -160,15 +146,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -177,7 +159,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, **kwargs)
@@ -187,15 +169,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -205,7 +183,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -229,14 +207,13 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicyselfsubjectreviews'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -255,9 +232,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicyselfsubjectreviews', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -266,7 +243,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicySelfSubjectReview',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -276,15 +253,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_pod_security_policy_subject_review(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_pod_security_policy_subject_review(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -293,7 +266,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, **kwargs)
@@ -303,15 +276,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -321,7 +290,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -345,14 +314,13 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicysubjectreviews'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -371,9 +339,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/namespaces/{namespace}/podsecuritypolicysubjectreviews', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -382,7 +350,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicySubjectReview',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -392,15 +360,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_pod_security_policy_review_for_all_namespaces(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_pod_security_policy_review_for_all_namespaces(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicyReview
@@ -408,7 +372,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -418,15 +382,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicyReview
@@ -435,7 +395,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -456,12 +416,11 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/podsecuritypolicyreviews'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -480,9 +439,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/podsecuritypolicyreviews', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -491,7 +450,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicyReview',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -501,15 +460,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySelfSubjectReview
@@ -517,7 +472,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -527,15 +482,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySelfSubjectReview
@@ -544,7 +495,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -565,12 +516,11 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/podsecuritypolicyselfsubjectreviews'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -589,9 +539,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/podsecuritypolicyselfsubjectreviews', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -600,7 +550,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicySelfSubjectReview',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -610,15 +560,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySubjectReview
@@ -626,7 +572,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -636,15 +582,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySubjectReview
@@ -653,7 +595,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -674,12 +616,11 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/podsecuritypolicysubjectreviews'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -698,9 +639,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/podsecuritypolicysubjectreviews', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -709,7 +650,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicySubjectReview',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -719,15 +660,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_security_context_constraints(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_security_context_constraints(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1SecurityContextConstraints body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1SecurityContextConstraints
@@ -735,7 +672,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_security_context_constraints_with_http_info(body, **kwargs)
         else:
             (data) = self.create_security_context_constraints_with_http_info(body, **kwargs)
@@ -745,15 +682,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         create SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_security_context_constraints_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_security_context_constraints_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1SecurityContextConstraints body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1SecurityContextConstraints
@@ -762,7 +695,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -783,12 +716,11 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -807,9 +739,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/securitycontextconstraints', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -818,7 +750,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1SecurityContextConstraints',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -828,15 +760,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         delete collection of SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_security_context_constraints(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_security_context_constraints(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -849,7 +777,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_collection_security_context_constraints_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_security_context_constraints_with_http_info(**kwargs)
@@ -859,15 +787,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         delete collection of SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_security_context_constraints_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_security_context_constraints_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -881,7 +805,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -899,24 +823,23 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -933,9 +856,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/securitycontextconstraints', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -944,7 +867,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -954,15 +877,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         delete SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_security_context_constraints(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_security_context_constraints(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the SecurityContextConstraints (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -974,7 +893,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_security_context_constraints_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_security_context_constraints_with_http_info(name, body, **kwargs)
@@ -984,15 +903,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         delete SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_security_context_constraints_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_security_context_constraints_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the SecurityContextConstraints (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1005,7 +920,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1029,20 +944,19 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'grace_period_seconds' in params:
-            query_params['gracePeriodSeconds'] = params['grace_period_seconds']
+            query_params.append(('gracePeriodSeconds', params['grace_period_seconds']))
         if 'orphan_dependents' in params:
-            query_params['orphanDependents'] = params['orphan_dependents']
+            query_params.append(('orphanDependents', params['orphan_dependents']))
         if 'propagation_policy' in params:
-            query_params['propagationPolicy'] = params['propagation_policy']
+            query_params.append(('propagationPolicy', params['propagation_policy']))
 
         header_params = {}
 
@@ -1061,9 +975,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/securitycontextconstraints/{name}', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1072,7 +986,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1082,21 +996,17 @@ class SecurityOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_api_resources(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_api_resources(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.get_api_resources_with_http_info(**kwargs)
         else:
             (data) = self.get_api_resources_with_http_info(**kwargs)
@@ -1106,22 +1016,18 @@ class SecurityOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_api_resources_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_api_resources_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1138,10 +1044,9 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -1158,9 +1063,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1169,7 +1074,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1179,15 +1084,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         list or watch objects of kind SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_security_context_constraints(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_security_context_constraints(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -1200,7 +1101,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_security_context_constraints_with_http_info(**kwargs)
         else:
             (data) = self.list_security_context_constraints_with_http_info(**kwargs)
@@ -1210,15 +1111,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         list or watch objects of kind SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_security_context_constraints_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_security_context_constraints_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -1232,7 +1129,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1250,24 +1147,23 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -1284,9 +1180,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/securitycontextconstraints', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1295,7 +1191,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1SecurityContextConstraintsList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1305,15 +1201,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         partially update the specified SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_security_context_constraints(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_security_context_constraints(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the SecurityContextConstraints (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1322,7 +1214,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_security_context_constraints_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_security_context_constraints_with_http_info(name, body, **kwargs)
@@ -1332,15 +1224,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         partially update the specified SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_security_context_constraints_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_security_context_constraints_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the SecurityContextConstraints (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1350,7 +1238,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1374,14 +1262,13 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1400,9 +1287,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/securitycontextconstraints/{name}', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1411,7 +1298,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1SecurityContextConstraints',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1421,15 +1308,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         read the specified SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_security_context_constraints(name, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_security_context_constraints(name, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the SecurityContextConstraints (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -1439,7 +1322,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_security_context_constraints_with_http_info(name, **kwargs)
         else:
             (data) = self.read_security_context_constraints_with_http_info(name, **kwargs)
@@ -1449,15 +1332,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         read the specified SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_security_context_constraints_with_http_info(name, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_security_context_constraints_with_http_info(name, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the SecurityContextConstraints (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -1468,7 +1347,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1489,18 +1368,17 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'exact' in params:
-            query_params['exact'] = params['exact']
+            query_params.append(('exact', params['exact']))
         if 'export' in params:
-            query_params['export'] = params['export']
+            query_params.append(('export', params['export']))
 
         header_params = {}
 
@@ -1517,9 +1395,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/securitycontextconstraints/{name}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1528,7 +1406,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1SecurityContextConstraints',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1538,15 +1416,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         replace the specified SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_security_context_constraints(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_security_context_constraints(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the SecurityContextConstraints (required)
         :param V1SecurityContextConstraints body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1555,7 +1429,7 @@ class SecurityOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_security_context_constraints_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_security_context_constraints_with_http_info(name, body, **kwargs)
@@ -1565,15 +1439,11 @@ class SecurityOpenshiftIoV1Api(object):
         """
         replace the specified SecurityContextConstraints
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_security_context_constraints_with_http_info(name, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_security_context_constraints_with_http_info(name, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the SecurityContextConstraints (required)
         :param V1SecurityContextConstraints body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1583,7 +1453,7 @@ class SecurityOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1607,14 +1477,13 @@ class SecurityOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/security.openshift.io/v1/securitycontextconstraints/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1633,9 +1502,9 @@ class SecurityOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/security.openshift.io/v1/securitycontextconstraints/{name}', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1644,7 +1513,7 @@ class SecurityOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1SecurityContextConstraints',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

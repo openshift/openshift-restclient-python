@@ -265,12 +265,12 @@
         "maxSurge": {
           "description": "The maximum number of pods that can be scheduled above the desired number of pods. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 25%. Example: when this is set to 30%, the new RC can be scaled up immediately when the rolling update starts, such that the total number of old and new pods do not exceed 130% of desired pods. Once old pods have been killed, new RC can be scaled up further, ensuring that total number of pods running at any time during the update is atmost 130% of desired pods.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "maxUnavailable": {
           "description": "The maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. Defaults to 25%. Example: when this is set to 30%, the old RC can be scaled down to 70% of desired pods immediately when the rolling update starts. Once new pods are ready, old RC can be scaled down further, followed by scaling up the new RC, ensuring that the total number of pods available at all times during the update is at least 70% of desired pods.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         }
       }
     },
@@ -605,12 +605,12 @@
         "maxSurge": {
           "description": "The maximum number of pods that can be scheduled above the desired number of pods. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. By default, a value of 1 is used. Example: when this is set to 30%, the new RC can be scaled up immediately when the rolling update starts, such that the total number of old and new pods do not exceed 130% of desired pods. Once old pods have been killed, new RC can be scaled up further, ensuring that total number of pods running at any time during the update is atmost 130% of desired pods.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "maxUnavailable": {
           "description": "The maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. By default, a fixed value of 1 is used. Example: when this is set to 30%, the old RC can be scaled down to 70% of desired pods immediately when the rolling update starts. Once new pods are ready, old RC can be scaled down further, followed by scaling up the new RC, ensuring that the total number of pods available at all times during the update is at least 70% of desired pods.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         }
       }
     },
@@ -1825,7 +1825,7 @@
         },
         "jenkinsPipelineStrategy": {
           "$ref": "#/definitions/v1.JenkinsPipelineBuildStrategy",
-          "description": "JenkinsPipelineStrategy holds the parameters to the Jenkins Pipeline build strategy. This strategy is in tech preview."
+          "description": "JenkinsPipelineStrategy holds the parameters to the Jenkins Pipeline build strategy."
         },
         "sourceStrategy": {
           "$ref": "#/definitions/v1.SourceBuildStrategy",
@@ -3353,8 +3353,7 @@
         }
       },
       "required": [
-        "spec",
-        "status"
+        "spec"
       ],
       "x-kubernetes-group-version-kind": [
         {
@@ -3537,13 +3536,7 @@
           },
           "type": "array"
         }
-      },
-      "required": [
-        "strategy",
-        "triggers",
-        "replicas",
-        "test"
-      ]
+      }
     },
     "v1.DeploymentConfigStatus": {
       "description": "DeploymentConfigStatus represents the current deployment state.",
@@ -4764,7 +4757,7 @@
         "port": {
           "description": "Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "scheme": {
           "description": "Scheme to use for connecting to the host. Defaults to HTTP.",
@@ -5835,7 +5828,9 @@
           "items": {
             "$ref": "#/definitions/v1.TagReference"
           },
-          "type": "array"
+          "type": "array",
+          "x-kubernetes-patch-merge-key": "name",
+          "x-kubernetes-patch-strategy": "merge"
         }
       }
     },
@@ -5855,7 +5850,9 @@
           "items": {
             "$ref": "#/definitions/v1.NamedTagEventList"
           },
-          "type": "array"
+          "type": "array",
+          "x-kubernetes-patch-merge-key": "tag",
+          "x-kubernetes-patch-strategy": "merge"
         }
       },
       "required": [
@@ -5992,7 +5989,7 @@
       ]
     },
     "v1.JenkinsPipelineBuildStrategy": {
-      "description": "JenkinsPipelineBuildStrategy holds parameters specific to a Jenkins Pipeline build. This strategy is in tech preview.",
+      "description": "JenkinsPipelineBuildStrategy holds parameters specific to a Jenkins Pipeline build.",
       "properties": {
         "env": {
           "description": "env contains additional environment variables you want to pass into a build pipeline.",
@@ -6897,7 +6894,7 @@
         "port": {
           "description": "The port on the given protocol. This can either be a numerical or named port on a pod. If this field is not provided, this matches all port names and numbers.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "protocol": {
           "description": "The protocol (TCP or UDP) which traffic must match. If not specified, this field defaults to TCP.",
@@ -10049,12 +10046,12 @@
         "maxSurge": {
           "description": "MaxSurge is the maximum number of pods that can be scheduled above the original number of pods. Value can be an absolute number (ex: 5) or a percentage of total pods at the start of the update (ex: 10%). Absolute number is calculated from percentage by rounding up.\n\nThis cannot be 0 if MaxUnavailable is 0. By default, 25% is used.\n\nExample: when this is set to 30%, the new RC can be scaled up by 30% immediately when the rolling update starts. Once old pods have been killed, new RC can be scaled up further, ensuring that total number of pods running at any time during the update is atmost 130% of original pods.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "maxUnavailable": {
           "description": "MaxUnavailable is the maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of total pods at the start of update (ex: 10%). Absolute number is calculated from percentage by rounding down.\n\nThis cannot be 0 if MaxSurge is 0. By default, 25% is used.\n\nExample: when this is set to 30%, the old RC can be scaled down by 30% immediately when the rolling update starts. Once new pods are ready, old RC can be scaled down further, followed by scaling up the new RC, ensuring that at least 70% of original number of pods are available at all times during the update.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "post": {
           "$ref": "#/definitions/v1.LifecycleHook",
@@ -10220,7 +10217,7 @@
         "targetPort": {
           "description": "The target port on pods selected by the service this route points to. If this is a string, it will be looked up as a named port in the target endpoints port list. Required",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         }
       },
       "required": [
@@ -11246,7 +11243,7 @@
         "targetPort": {
           "description": "Number or name of the port to access on the pods targeted by the service. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. If this is a string, it will be looked up as a named port in the target Pod's container ports. If this is not specified, the value of the 'port' field is used (an identity map). This field is ignored for services with clusterIP=None, and should be omitted or set equal to the 'port' field. More info: https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         }
       },
       "required": [
@@ -11419,17 +11416,6 @@
         "pullSecret": {
           "$ref": "#/definitions/v1.LocalObjectReference",
           "description": "pullSecret is the name of a Secret that would be used for setting up the authentication for pulling the Docker images from the private Docker registries"
-        },
-        "runtimeArtifacts": {
-          "description": "runtimeArtifacts specifies a list of source/destination pairs that will be copied from the builder to the runtime image. sourcePath can be a file or directory. destinationDir must be a directory. destinationDir can also be empty or equal to \".\", in this case it just refers to the root of WORKDIR. Deprecated: This feature will be removed in a future release. Use ImageSource to copy binary artifacts created from one build into a separate runtime image.",
-          "items": {
-            "$ref": "#/definitions/v1.ImageSourcePath"
-          },
-          "type": "array"
-        },
-        "runtimeImage": {
-          "$ref": "#/definitions/v1.ObjectReference",
-          "description": "runtimeImage is an optional image that is used to run an application without unneeded dependencies installed. The building of the application is still done in the builder image but, post build, you can copy the needed artifacts in the runtime image for use. Deprecated: This feature will be removed in a future release. Use ImageSource to copy binary artifacts created from one build into a separate runtime image."
         },
         "scripts": {
           "description": "scripts is the location of Source scripts",
@@ -11937,7 +11923,7 @@
         "port": {
           "description": "Number or name of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         }
       },
       "required": [
@@ -12108,9 +12094,7 @@
         }
       },
       "required": [
-        "name",
-        "annotations",
-        "generation"
+        "name"
       ]
     },
     "v1.TagReferencePolicy": {
@@ -13823,7 +13807,7 @@
         "servicePort": {
           "description": "Specifies the port of the referenced service.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         }
       },
       "required": [
@@ -14057,7 +14041,7 @@
         "port": {
           "description": "If specified, the port on the given protocol.  This can either be a numerical or named port on a pod.  If this field is not provided, this matches all port names and numbers. If present, only traffic on the specified protocol AND port will be matched.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "protocol": {
           "description": "Optional.  The protocol (TCP or UDP) which traffic must match. If not specified, this field defaults to TCP.",
@@ -14165,12 +14149,12 @@
         "maxUnavailable": {
           "description": "An eviction is allowed if at most \"maxUnavailable\" pods selected by \"selector\" are unavailable after the eviction, i.e. even in absence of the evicted pod. For example, one can prevent all voluntary evictions by specifying 0. This is a mutually exclusive setting with \"minAvailable\".",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "minAvailable": {
           "description": "An eviction is allowed if at least \"minAvailable\" pods selected by \"selector\" will still be available after the eviction, i.e. even in the absence of the evicted pod.  So for example you can prevent all voluntary evictions by specifying \"100%\".",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         },
         "selector": {
           "$ref": "#/definitions/v1.LabelSelector",
@@ -14773,7 +14757,7 @@
         "maxUnavailable": {
           "description": "The maximum number of DaemonSet pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of total number of DaemonSet pods at the start of the update (ex: 10%). Absolute number is calculated from percentage by rounding up. This cannot be 0. Default value is 1. Example: when this is set to 30%, at most 30% of the total number of nodes that should be running the daemon pod (i.e. status.desiredNumberScheduled) can have their pods stopped for an update at any given time. The update starts by stopping at most 30% of those DaemonSet pods and then brings up new DaemonSet pods in their place. Once the new pods are available, it then proceeds onto other DaemonSet pods, thus ensuring that at least 70% of original number of DaemonSet pods are available at all times during the update.",
           "format": "int-or-string",
-          "type": "string"
+          "type": "object"
         }
       }
     },
@@ -33398,9 +33382,9 @@
         ],
         "x-kubernetes-action": "get",
         "x-kubernetes-group-version-kind": {
-          "group": "apps.openshift.io",
+          "group": "extensions",
           "kind": "Scale",
-          "version": "v1"
+          "version": "v1beta1"
         }
       },
       "parameters": [
@@ -33471,9 +33455,9 @@
         ],
         "x-kubernetes-action": "patch",
         "x-kubernetes-group-version-kind": {
-          "group": "apps.openshift.io",
+          "group": "extensions",
           "kind": "Scale",
-          "version": "v1"
+          "version": "v1beta1"
         }
       },
       "put": {
@@ -33516,9 +33500,9 @@
         ],
         "x-kubernetes-action": "put",
         "x-kubernetes-group-version-kind": {
-          "group": "apps.openshift.io",
+          "group": "extensions",
           "kind": "Scale",
-          "version": "v1"
+          "version": "v1beta1"
         }
       }
     },

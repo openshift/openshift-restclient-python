@@ -35,7 +35,9 @@ class TestV1IdentityList(unittest.TestCase):
         """
         Test V1IdentityList
         """
-        model = openshift.client.models.v1_identity_list.V1IdentityList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_identity_list.V1IdentityList()
+        pass
 
 
 if __name__ == '__main__':

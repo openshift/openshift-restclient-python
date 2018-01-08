@@ -35,7 +35,9 @@ class TestV1OAuthAuthorizeToken(unittest.TestCase):
         """
         Test V1OAuthAuthorizeToken
         """
-        model = openshift.client.models.v1_o_auth_authorize_token.V1OAuthAuthorizeToken()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_o_auth_authorize_token.V1OAuthAuthorizeToken()
+        pass
 
 
 if __name__ == '__main__':

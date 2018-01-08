@@ -35,7 +35,9 @@ class TestV1GenericWebHookCause(unittest.TestCase):
         """
         Test V1GenericWebHookCause
         """
-        model = openshift.client.models.v1_generic_web_hook_cause.V1GenericWebHookCause()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_generic_web_hook_cause.V1GenericWebHookCause()
+        pass
 
 
 if __name__ == '__main__':

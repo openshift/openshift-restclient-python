@@ -35,7 +35,9 @@ class TestV1NetNamespaceList(unittest.TestCase):
         """
         Test V1NetNamespaceList
         """
-        model = openshift.client.models.v1_net_namespace_list.V1NetNamespaceList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_net_namespace_list.V1NetNamespaceList()
+        pass
 
 
 if __name__ == '__main__':

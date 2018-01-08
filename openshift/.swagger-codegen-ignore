@@ -71,6 +71,10 @@ client/models/v1_binding.py
 client/models/v1_capabilities.py
 client/models/v1_ceph_fs_volume_source.py
 client/models/v1_cinder_volume_source.py
+client/models/v1_cluster_role.py
+client/models/v1_cluster_role_binding.py
+client/models/v1_cluster_role_binding_list.py
+client/models/v1_cluster_role_list.py
 client/models/v1_component_condition.py
 client/models/v1_component_status.py
 client/models/v1_component_status_list.py
@@ -195,6 +199,7 @@ client/models/v1_pod_status.py
 client/models/v1_pod_template.py
 client/models/v1_pod_template_list.py
 client/models/v1_pod_template_spec.py
+client/models/v1_policy_rule.py
 client/models/v1_portworx_volume_source.py
 client/models/v1_preconditions.py
 client/models/v1_preferred_scheduling_term.py
@@ -214,6 +219,10 @@ client/models/v1_resource_quota_list.py
 client/models/v1_resource_quota_spec.py
 client/models/v1_resource_quota_status.py
 client/models/v1_resource_requirements.py
+client/models/v1_role.py
+client/models/v1_role_binding.py
+client/models/v1_role_binding_list.py
+client/models/v1_role_list.py
 client/models/v1_scale.py
 client/models/v1_scale_io_volume_source.py
 client/models/v1_scale_spec.py
@@ -228,6 +237,8 @@ client/models/v1_secret_volume_source.py
 client/models/v1_security_context.py
 client/models/v1_self_subject_access_review.py
 client/models/v1_self_subject_access_review_spec.py
+client/models/v1_self_subject_rules_review.py
+client/models/v1_self_subject_rules_review_spec.py
 client/models/v1_service.py
 client/models/v1_service_account.py
 client/models/v1_service_account_list.py
@@ -245,6 +256,7 @@ client/models/v1_storage_os_volume_source.py
 client/models/v1_subject_access_review.py
 client/models/v1_subject_access_review_spec.py
 client/models/v1_subject_access_review_status.py
+client/models/v1_subject_rules_review_status.py
 client/models/v1_taint.py
 client/models/v1_tcp_socket_action.py
 client/models/v1_token_review.py
@@ -258,7 +270,6 @@ client/models/v1_volume_projection.py
 client/models/v1_vsphere_virtual_disk_volume_source.py
 client/models/v1_watch_event.py
 client/models/v1_weighted_pod_affinity_term.py
-client/models/v1beta1_api_version.py
 client/models/v1beta1_certificate_signing_request.py
 client/models/v1beta1_certificate_signing_request_condition.py
 client/models/v1beta1_certificate_signing_request_list.py
@@ -332,8 +343,6 @@ client/models/v1beta1_subject_access_review.py
 client/models/v1beta1_subject_access_review_spec.py
 client/models/v1beta1_subject_access_review_status.py
 client/models/v1beta1_supplemental_groups_strategy_options.py
-client/models/v1beta1_third_party_resource.py
-client/models/v1beta1_third_party_resource_list.py
 client/models/v1beta1_token_review.py
 client/models/v1beta1_token_review_spec.py
 client/models/v1beta1_token_review_status.py
@@ -344,6 +353,7 @@ client/models/v2alpha1_cron_job_spec.py
 client/models/v2alpha1_cron_job_status.py
 client/models/v2alpha1_job_template_spec.py
 client/rest.py
+config/kube_config.py
 docs/ApisApi.md
 docs/AppsApi.md
 docs/AppsV1beta1Api.md
@@ -413,6 +423,10 @@ docs/V1Binding.md
 docs/V1Capabilities.md
 docs/V1CephFsVolumeSource.md
 docs/V1CinderVolumeSource.md
+docs/V1ClusterRole.md
+docs/V1ClusterRoleBinding.md
+docs/V1ClusterRoleBindingList.md
+docs/V1ClusterRoleList.md
 docs/V1ComponentCondition.md
 docs/V1ComponentStatus.md
 docs/V1ComponentStatusList.md
@@ -537,6 +551,7 @@ docs/V1PodStatus.md
 docs/V1PodTemplate.md
 docs/V1PodTemplateList.md
 docs/V1PodTemplateSpec.md
+docs/V1PolicyRule.md
 docs/V1PortworxVolumeSource.md
 docs/V1Preconditions.md
 docs/V1PreferredSchedulingTerm.md
@@ -556,6 +571,10 @@ docs/V1ResourceQuotaList.md
 docs/V1ResourceQuotaSpec.md
 docs/V1ResourceQuotaStatus.md
 docs/V1ResourceRequirements.md
+docs/V1Role.md
+docs/V1RoleBinding.md
+docs/V1RoleBindingList.md
+docs/V1RoleList.md
 docs/V1Scale.md
 docs/V1ScaleIoVolumeSource.md
 docs/V1ScaleSpec.md
@@ -570,6 +589,8 @@ docs/V1SecretVolumeSource.md
 docs/V1SecurityContext.md
 docs/V1SelfSubjectAccessReview.md
 docs/V1SelfSubjectAccessReviewSpec.md
+docs/V1SelfSubjectRulesReview.md
+docs/V1SelfSubjectRulesReviewSpec.md
 docs/V1Service.md
 docs/V1ServiceAccount.md
 docs/V1ServiceAccountList.md
@@ -587,6 +608,7 @@ docs/V1StorageOsVolumeSource.md
 docs/V1SubjectAccessReview.md
 docs/V1SubjectAccessReviewSpec.md
 docs/V1SubjectAccessReviewStatus.md
+docs/V1SubjectRulesReviewStatus.md
 docs/V1Taint.md
 docs/V1TcpSocketAction.md
 docs/V1TokenReview.md
@@ -600,7 +622,6 @@ docs/V1VolumeProjection.md
 docs/V1VsphereVirtualDiskVolumeSource.md
 docs/V1WatchEvent.md
 docs/V1WeightedPodAffinityTerm.md
-docs/V1beta1ApiVersion.md
 docs/V1beta1CertificateSigningRequest.md
 docs/V1beta1CertificateSigningRequestCondition.md
 docs/V1beta1CertificateSigningRequestList.md
@@ -674,8 +695,6 @@ docs/V1beta1SubjectAccessReview.md
 docs/V1beta1SubjectAccessReviewSpec.md
 docs/V1beta1SubjectAccessReviewStatus.md
 docs/V1beta1SupplementalGroupsStrategyOptions.md
-docs/V1beta1ThirdPartyResource.md
-docs/V1beta1ThirdPartyResourceList.md
 docs/V1beta1TokenReview.md
 docs/V1beta1TokenReviewSpec.md
 docs/V1beta1TokenReviewStatus.md
@@ -758,6 +777,10 @@ test/test_v1_binding.py
 test/test_v1_capabilities.py
 test/test_v1_ceph_fs_volume_source.py
 test/test_v1_cinder_volume_source.py
+test/test_v1_cluster_role.py
+test/test_v1_cluster_role_binding.py
+test/test_v1_cluster_role_binding_list.py
+test/test_v1_cluster_role_list.py
 test/test_v1_component_condition.py
 test/test_v1_component_status.py
 test/test_v1_component_status_list.py
@@ -882,6 +905,7 @@ test/test_v1_pod_status.py
 test/test_v1_pod_template.py
 test/test_v1_pod_template_list.py
 test/test_v1_pod_template_spec.py
+test/test_v1_policy_rule.py
 test/test_v1_portworx_volume_source.py
 test/test_v1_preconditions.py
 test/test_v1_preferred_scheduling_term.py
@@ -901,6 +925,10 @@ test/test_v1_resource_quota_list.py
 test/test_v1_resource_quota_spec.py
 test/test_v1_resource_quota_status.py
 test/test_v1_resource_requirements.py
+test/test_v1_role.py
+test/test_v1_role_binding.py
+test/test_v1_role_binding_list.py
+test/test_v1_role_list.py
 test/test_v1_scale.py
 test/test_v1_scale_io_volume_source.py
 test/test_v1_scale_spec.py
@@ -915,6 +943,8 @@ test/test_v1_secret_volume_source.py
 test/test_v1_security_context.py
 test/test_v1_self_subject_access_review.py
 test/test_v1_self_subject_access_review_spec.py
+test/test_v1_self_subject_rules_review.py
+test/test_v1_self_subject_rules_review_spec.py
 test/test_v1_service.py
 test/test_v1_service_account.py
 test/test_v1_service_account_list.py
@@ -932,6 +962,7 @@ test/test_v1_storage_os_volume_source.py
 test/test_v1_subject_access_review.py
 test/test_v1_subject_access_review_spec.py
 test/test_v1_subject_access_review_status.py
+test/test_v1_subject_rules_review_status.py
 test/test_v1_taint.py
 test/test_v1_tcp_socket_action.py
 test/test_v1_token_review.py
@@ -945,7 +976,6 @@ test/test_v1_volume_projection.py
 test/test_v1_vsphere_virtual_disk_volume_source.py
 test/test_v1_watch_event.py
 test/test_v1_weighted_pod_affinity_term.py
-test/test_v1beta1_api_version.py
 test/test_v1beta1_certificate_signing_request.py
 test/test_v1beta1_certificate_signing_request_condition.py
 test/test_v1beta1_certificate_signing_request_list.py
@@ -1019,8 +1049,6 @@ test/test_v1beta1_subject_access_review.py
 test/test_v1beta1_subject_access_review_spec.py
 test/test_v1beta1_subject_access_review_status.py
 test/test_v1beta1_supplemental_groups_strategy_options.py
-test/test_v1beta1_third_party_resource.py
-test/test_v1beta1_third_party_resource_list.py
 test/test_v1beta1_token_review.py
 test/test_v1beta1_token_review_spec.py
 test/test_v1beta1_token_review_status.py

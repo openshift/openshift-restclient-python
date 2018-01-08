@@ -35,7 +35,9 @@ class TestV1ImageLayer(unittest.TestCase):
         """
         Test V1ImageLayer
         """
-        model = openshift.client.models.v1_image_layer.V1ImageLayer()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_image_layer.V1ImageLayer()
+        pass
 
 
 if __name__ == '__main__':
