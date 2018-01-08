@@ -43,10 +43,8 @@ class V1RouteStatus(object):
         V1RouteStatus - a model defined in Swagger
         """
 
-        self._ingress = None
+        self._ingress = ingress
         self.discriminator = None
-
-        self.ingress = ingress
 
     @property
     def ingress(self):

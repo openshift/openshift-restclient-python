@@ -35,6 +35,7 @@ class V1OAuthAccessToken(object):
         'authorize_token': 'str',
         'client_name': 'str',
         'expires_in': 'int',
+        'inactivity_timeout_seconds': 'int',
         'kind': 'str',
         'metadata': 'V1ObjectMeta',
         'redirect_uri': 'str',
@@ -49,6 +50,7 @@ class V1OAuthAccessToken(object):
         'authorize_token': 'authorizeToken',
         'client_name': 'clientName',
         'expires_in': 'expiresIn',
+        'inactivity_timeout_seconds': 'inactivityTimeoutSeconds',
         'kind': 'kind',
         'metadata': 'metadata',
         'redirect_uri': 'redirectURI',
@@ -58,7 +60,7 @@ class V1OAuthAccessToken(object):
         'user_uid': 'userUID'
     }
 
-    def __init__(self, api_version=None, authorize_token=None, client_name=None, expires_in=None, kind=None, metadata=None, redirect_uri=None, refresh_token=None, scopes=None, user_name=None, user_uid=None):
+    def __init__(self, api_version=None, authorize_token=None, client_name=None, expires_in=None, inactivity_timeout_seconds=None, kind=None, metadata=None, redirect_uri=None, refresh_token=None, scopes=None, user_name=None, user_uid=None):
         """
         V1OAuthAccessToken - a model defined in Swagger
         """
@@ -67,6 +69,7 @@ class V1OAuthAccessToken(object):
         self._authorize_token = None
         self._client_name = None
         self._expires_in = None
+        self._inactivity_timeout_seconds = None
         self._kind = None
         self._metadata = None
         self._redirect_uri = None
@@ -84,6 +87,8 @@ class V1OAuthAccessToken(object):
           self.client_name = client_name
         if expires_in is not None:
           self.expires_in = expires_in
+        if inactivity_timeout_seconds is not None:
+          self.inactivity_timeout_seconds = inactivity_timeout_seconds
         if kind is not None:
           self.kind = kind
         if metadata is not None:
@@ -190,6 +195,29 @@ class V1OAuthAccessToken(object):
         """
 
         self._expires_in = expires_in
+
+    @property
+    def inactivity_timeout_seconds(self):
+        """
+        Gets the inactivity_timeout_seconds of this V1OAuthAccessToken.
+        InactivityTimeoutSeconds is the value in seconds, from the CreationTimestamp, after which this token can no longer be used. The value is automatically incremented when the token is used.
+
+        :return: The inactivity_timeout_seconds of this V1OAuthAccessToken.
+        :rtype: int
+        """
+        return self._inactivity_timeout_seconds
+
+    @inactivity_timeout_seconds.setter
+    def inactivity_timeout_seconds(self, inactivity_timeout_seconds):
+        """
+        Sets the inactivity_timeout_seconds of this V1OAuthAccessToken.
+        InactivityTimeoutSeconds is the value in seconds, from the CreationTimestamp, after which this token can no longer be used. The value is automatically incremented when the token is used.
+
+        :param inactivity_timeout_seconds: The inactivity_timeout_seconds of this V1OAuthAccessToken.
+        :type: int
+        """
+
+        self._inactivity_timeout_seconds = inactivity_timeout_seconds
 
     @property
     def kind(self):

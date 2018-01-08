@@ -31,6 +31,7 @@ class V1OAuthClient(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'access_token_inactivity_timeout_seconds': 'int',
         'access_token_max_age_seconds': 'int',
         'additional_secrets': 'list[str]',
         'api_version': 'str',
@@ -44,6 +45,7 @@ class V1OAuthClient(object):
     }
 
     attribute_map = {
+        'access_token_inactivity_timeout_seconds': 'accessTokenInactivityTimeoutSeconds',
         'access_token_max_age_seconds': 'accessTokenMaxAgeSeconds',
         'additional_secrets': 'additionalSecrets',
         'api_version': 'apiVersion',
@@ -56,11 +58,12 @@ class V1OAuthClient(object):
         'secret': 'secret'
     }
 
-    def __init__(self, access_token_max_age_seconds=None, additional_secrets=None, api_version=None, grant_method=None, kind=None, metadata=None, redirect_ur_is=None, respond_with_challenges=None, scope_restrictions=None, secret=None):
+    def __init__(self, access_token_inactivity_timeout_seconds=None, access_token_max_age_seconds=None, additional_secrets=None, api_version=None, grant_method=None, kind=None, metadata=None, redirect_ur_is=None, respond_with_challenges=None, scope_restrictions=None, secret=None):
         """
         V1OAuthClient - a model defined in Swagger
         """
 
+        self._access_token_inactivity_timeout_seconds = None
         self._access_token_max_age_seconds = None
         self._additional_secrets = None
         self._api_version = None
@@ -73,6 +76,8 @@ class V1OAuthClient(object):
         self._secret = None
         self.discriminator = None
 
+        if access_token_inactivity_timeout_seconds is not None:
+          self.access_token_inactivity_timeout_seconds = access_token_inactivity_timeout_seconds
         if access_token_max_age_seconds is not None:
           self.access_token_max_age_seconds = access_token_max_age_seconds
         if additional_secrets is not None:
@@ -93,6 +98,29 @@ class V1OAuthClient(object):
           self.scope_restrictions = scope_restrictions
         if secret is not None:
           self.secret = secret
+
+    @property
+    def access_token_inactivity_timeout_seconds(self):
+        """
+        Gets the access_token_inactivity_timeout_seconds of this V1OAuthClient.
+        AccessTokenInactivityTimeoutSeconds overrides the default token inactivity timeout for tokens granted to this client. The value represents the maximum amount of time that can occur between consecutive uses of the token. Tokens become invalid if they are not used within this temporal window. The user will need to acquire a new token to regain access once a token times out. This value needs to be set only if the default set in configuration is not appropriate for this client. Valid values are: - 0: Tokens for this client never time out - X: Tokens time out if there is no activity for X seconds The current minimum allowed value for X is 300 (5 minutes)
+
+        :return: The access_token_inactivity_timeout_seconds of this V1OAuthClient.
+        :rtype: int
+        """
+        return self._access_token_inactivity_timeout_seconds
+
+    @access_token_inactivity_timeout_seconds.setter
+    def access_token_inactivity_timeout_seconds(self, access_token_inactivity_timeout_seconds):
+        """
+        Sets the access_token_inactivity_timeout_seconds of this V1OAuthClient.
+        AccessTokenInactivityTimeoutSeconds overrides the default token inactivity timeout for tokens granted to this client. The value represents the maximum amount of time that can occur between consecutive uses of the token. Tokens become invalid if they are not used within this temporal window. The user will need to acquire a new token to regain access once a token times out. This value needs to be set only if the default set in configuration is not appropriate for this client. Valid values are: - 0: Tokens for this client never time out - X: Tokens time out if there is no activity for X seconds The current minimum allowed value for X is 300 (5 minutes)
+
+        :param access_token_inactivity_timeout_seconds: The access_token_inactivity_timeout_seconds of this V1OAuthClient.
+        :type: int
+        """
+
+        self._access_token_inactivity_timeout_seconds = access_token_inactivity_timeout_seconds
 
     @property
     def access_token_max_age_seconds(self):

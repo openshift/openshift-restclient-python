@@ -76,7 +76,7 @@ class V1DeploymentCondition(object):
     def last_transition_time(self):
         """
         Gets the last_transition_time of this V1DeploymentCondition.
-        The last time the condition transitioned from one status to another.
+        Last time the condition transitioned from one status to another.
 
         :return: The last_transition_time of this V1DeploymentCondition.
         :rtype: datetime
@@ -87,7 +87,7 @@ class V1DeploymentCondition(object):
     def last_transition_time(self, last_transition_time):
         """
         Sets the last_transition_time of this V1DeploymentCondition.
-        The last time the condition transitioned from one status to another.
+        Last time the condition transitioned from one status to another.
 
         :param last_transition_time: The last_transition_time of this V1DeploymentCondition.
         :type: datetime

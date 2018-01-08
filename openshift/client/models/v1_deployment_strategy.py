@@ -31,225 +31,57 @@ class V1DeploymentStrategy(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'active_deadline_seconds': 'int',
-        'annotations': 'dict(str, str)',
-        'custom_params': 'V1CustomDeploymentStrategyParams',
-        'labels': 'dict(str, str)',
-        'recreate_params': 'V1RecreateDeploymentStrategyParams',
-        'resources': 'V1ResourceRequirements',
-        'rolling_params': 'V1RollingDeploymentStrategyParams',
+        'rolling_update': 'V1RollingUpdateDeployment',
         'type': 'str'
     }
 
     attribute_map = {
-        'active_deadline_seconds': 'activeDeadlineSeconds',
-        'annotations': 'annotations',
-        'custom_params': 'customParams',
-        'labels': 'labels',
-        'recreate_params': 'recreateParams',
-        'resources': 'resources',
-        'rolling_params': 'rollingParams',
+        'rolling_update': 'rollingUpdate',
         'type': 'type'
     }
 
-    def __init__(self, active_deadline_seconds=None, annotations=None, custom_params=None, labels=None, recreate_params=None, resources=None, rolling_params=None, type=None):
+    def __init__(self, rolling_update=None, type=None):
         """
         V1DeploymentStrategy - a model defined in Swagger
         """
 
-        self._active_deadline_seconds = None
-        self._annotations = None
-        self._custom_params = None
-        self._labels = None
-        self._recreate_params = None
-        self._resources = None
-        self._rolling_params = None
+        self._rolling_update = None
         self._type = None
         self.discriminator = None
 
-        if active_deadline_seconds is not None:
-          self.active_deadline_seconds = active_deadline_seconds
-        if annotations is not None:
-          self.annotations = annotations
-        if custom_params is not None:
-          self.custom_params = custom_params
-        if labels is not None:
-          self.labels = labels
-        if recreate_params is not None:
-          self.recreate_params = recreate_params
-        if resources is not None:
-          self.resources = resources
-        if rolling_params is not None:
-          self.rolling_params = rolling_params
+        if rolling_update is not None:
+          self.rolling_update = rolling_update
         if type is not None:
           self.type = type
 
     @property
-    def active_deadline_seconds(self):
+    def rolling_update(self):
         """
-        Gets the active_deadline_seconds of this V1DeploymentStrategy.
-        ActiveDeadlineSeconds is the duration in seconds that the deployer pods for this deployment config may be active on a node before the system actively tries to terminate them.
+        Gets the rolling_update of this V1DeploymentStrategy.
+        Rolling update config params. Present only if DeploymentStrategyType = RollingUpdate.
 
-        :return: The active_deadline_seconds of this V1DeploymentStrategy.
-        :rtype: int
+        :return: The rolling_update of this V1DeploymentStrategy.
+        :rtype: V1RollingUpdateDeployment
         """
-        return self._active_deadline_seconds
+        return self._rolling_update
 
-    @active_deadline_seconds.setter
-    def active_deadline_seconds(self, active_deadline_seconds):
+    @rolling_update.setter
+    def rolling_update(self, rolling_update):
         """
-        Sets the active_deadline_seconds of this V1DeploymentStrategy.
-        ActiveDeadlineSeconds is the duration in seconds that the deployer pods for this deployment config may be active on a node before the system actively tries to terminate them.
+        Sets the rolling_update of this V1DeploymentStrategy.
+        Rolling update config params. Present only if DeploymentStrategyType = RollingUpdate.
 
-        :param active_deadline_seconds: The active_deadline_seconds of this V1DeploymentStrategy.
-        :type: int
-        """
-
-        self._active_deadline_seconds = active_deadline_seconds
-
-    @property
-    def annotations(self):
-        """
-        Gets the annotations of this V1DeploymentStrategy.
-        Annotations is a set of key, value pairs added to custom deployer and lifecycle pre/post hook pods.
-
-        :return: The annotations of this V1DeploymentStrategy.
-        :rtype: dict(str, str)
-        """
-        return self._annotations
-
-    @annotations.setter
-    def annotations(self, annotations):
-        """
-        Sets the annotations of this V1DeploymentStrategy.
-        Annotations is a set of key, value pairs added to custom deployer and lifecycle pre/post hook pods.
-
-        :param annotations: The annotations of this V1DeploymentStrategy.
-        :type: dict(str, str)
+        :param rolling_update: The rolling_update of this V1DeploymentStrategy.
+        :type: V1RollingUpdateDeployment
         """
 
-        self._annotations = annotations
-
-    @property
-    def custom_params(self):
-        """
-        Gets the custom_params of this V1DeploymentStrategy.
-        CustomParams are the input to the Custom deployment strategy, and may also be specified for the Recreate and Rolling strategies to customize the execution process that runs the deployment.
-
-        :return: The custom_params of this V1DeploymentStrategy.
-        :rtype: V1CustomDeploymentStrategyParams
-        """
-        return self._custom_params
-
-    @custom_params.setter
-    def custom_params(self, custom_params):
-        """
-        Sets the custom_params of this V1DeploymentStrategy.
-        CustomParams are the input to the Custom deployment strategy, and may also be specified for the Recreate and Rolling strategies to customize the execution process that runs the deployment.
-
-        :param custom_params: The custom_params of this V1DeploymentStrategy.
-        :type: V1CustomDeploymentStrategyParams
-        """
-
-        self._custom_params = custom_params
-
-    @property
-    def labels(self):
-        """
-        Gets the labels of this V1DeploymentStrategy.
-        Labels is a set of key, value pairs added to custom deployer and lifecycle pre/post hook pods.
-
-        :return: The labels of this V1DeploymentStrategy.
-        :rtype: dict(str, str)
-        """
-        return self._labels
-
-    @labels.setter
-    def labels(self, labels):
-        """
-        Sets the labels of this V1DeploymentStrategy.
-        Labels is a set of key, value pairs added to custom deployer and lifecycle pre/post hook pods.
-
-        :param labels: The labels of this V1DeploymentStrategy.
-        :type: dict(str, str)
-        """
-
-        self._labels = labels
-
-    @property
-    def recreate_params(self):
-        """
-        Gets the recreate_params of this V1DeploymentStrategy.
-        RecreateParams are the input to the Recreate deployment strategy.
-
-        :return: The recreate_params of this V1DeploymentStrategy.
-        :rtype: V1RecreateDeploymentStrategyParams
-        """
-        return self._recreate_params
-
-    @recreate_params.setter
-    def recreate_params(self, recreate_params):
-        """
-        Sets the recreate_params of this V1DeploymentStrategy.
-        RecreateParams are the input to the Recreate deployment strategy.
-
-        :param recreate_params: The recreate_params of this V1DeploymentStrategy.
-        :type: V1RecreateDeploymentStrategyParams
-        """
-
-        self._recreate_params = recreate_params
-
-    @property
-    def resources(self):
-        """
-        Gets the resources of this V1DeploymentStrategy.
-        Resources contains resource requirements to execute the deployment and any hooks.
-
-        :return: The resources of this V1DeploymentStrategy.
-        :rtype: V1ResourceRequirements
-        """
-        return self._resources
-
-    @resources.setter
-    def resources(self, resources):
-        """
-        Sets the resources of this V1DeploymentStrategy.
-        Resources contains resource requirements to execute the deployment and any hooks.
-
-        :param resources: The resources of this V1DeploymentStrategy.
-        :type: V1ResourceRequirements
-        """
-
-        self._resources = resources
-
-    @property
-    def rolling_params(self):
-        """
-        Gets the rolling_params of this V1DeploymentStrategy.
-        RollingParams are the input to the Rolling deployment strategy.
-
-        :return: The rolling_params of this V1DeploymentStrategy.
-        :rtype: V1RollingDeploymentStrategyParams
-        """
-        return self._rolling_params
-
-    @rolling_params.setter
-    def rolling_params(self, rolling_params):
-        """
-        Sets the rolling_params of this V1DeploymentStrategy.
-        RollingParams are the input to the Rolling deployment strategy.
-
-        :param rolling_params: The rolling_params of this V1DeploymentStrategy.
-        :type: V1RollingDeploymentStrategyParams
-        """
-
-        self._rolling_params = rolling_params
+        self._rolling_update = rolling_update
 
     @property
     def type(self):
         """
         Gets the type of this V1DeploymentStrategy.
-        Type is the name of a deployment strategy.
+        Type of deployment. Can be \"Recreate\" or \"RollingUpdate\". Default is RollingUpdate.
 
         :return: The type of this V1DeploymentStrategy.
         :rtype: str
@@ -260,7 +92,7 @@ class V1DeploymentStrategy(object):
     def type(self, type):
         """
         Sets the type of this V1DeploymentStrategy.
-        Type is the name of a deployment strategy.
+        Type of deployment. Can be \"Recreate\" or \"RollingUpdate\". Default is RollingUpdate.
 
         :param type: The type of this V1DeploymentStrategy.
         :type: str

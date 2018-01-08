@@ -105,7 +105,7 @@ class V1TagReference(object):
     def _from(self):
         """
         Gets the _from of this V1TagReference.
-        Optional; if specified, a reference to another image that this tag should point to. Valid values are ImageStreamTag, ImageStreamImage, and DockerImage.
+        Optional; if specified, a reference to another image that this tag should point to. Valid values are ImageStreamTag, ImageStreamImage, and DockerImage.  ImageStreamTag references can only reference a tag within this same ImageStream.
 
         :return: The _from of this V1TagReference.
         :rtype: V1ObjectReference
@@ -116,7 +116,7 @@ class V1TagReference(object):
     def _from(self, _from):
         """
         Sets the _from of this V1TagReference.
-        Optional; if specified, a reference to another image that this tag should point to. Valid values are ImageStreamTag, ImageStreamImage, and DockerImage.
+        Optional; if specified, a reference to another image that this tag should point to. Valid values are ImageStreamTag, ImageStreamImage, and DockerImage.  ImageStreamTag references can only reference a tag within this same ImageStream.
 
         :param _from: The _from of this V1TagReference.
         :type: V1ObjectReference
