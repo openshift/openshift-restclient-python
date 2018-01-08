@@ -197,12 +197,6 @@ class BaseObjectHelper(object):
     def patch_object(self, name, namespace, k8s_obj):
         self.logger.debug('Starting patch object')
 
-        if 'status' in self.properties:
-            empty_status = self.properties['status']['class']()
-        else:
-            empty_status = {}
-
-        k8s_obj.status = empty_status
         k8s_obj.metadata.resource_version = None
         self.__remove_creation_timestamps(k8s_obj)
         w, stream = self._create_stream(namespace)
@@ -394,7 +388,7 @@ class BaseObjectHelper(object):
             prop_kind = model_class.swagger_types[prop['name']]
             if prop_kind == 'datetime':
                 prop_kind = 'str'
-            if prop_kind in ('str', 'int', 'bool'):
+            if prop_kind in ('str', 'int', 'bool', 'object'):
                 prop_class = eval(prop_kind)
             elif prop_kind.startswith('list['):
                 prop_class = list
