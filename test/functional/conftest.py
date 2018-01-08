@@ -129,7 +129,7 @@ def ansible_helper(request, auth):
     else:
         helper = OpenShiftAnsibleModuleHelper(api_version, resource, debug=True, reset_logfile=False, **auth)
 
-    helper.api_client.config.debug = True
+    helper.api_client.configuration.debug = True
 
     return helper
 
@@ -185,7 +185,8 @@ def object_name(request):
 
 @pytest.fixture(scope='class')
 def auth(request, kubeconfig, admin_kubeconfig, port):
-    needs_admin = request.node.cls.tasks.get('admin')
+    # needs_admin = request.node.cls.tasks.get('admin')
+    needs_admin = True
     config = admin_kubeconfig if needs_admin else kubeconfig
     if config is not None:
         return {

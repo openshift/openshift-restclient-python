@@ -15,7 +15,7 @@
 import sys
 
 # Kubernetes branch to get the OpenAPI spec from.
-KUBERNETES_BRANCH = "master"
+KUBERNETES_BRANCH = "release-3.7"
 
 # Spec version will be set in downloaded spec and all
 # generated code will refer to it.
@@ -23,8 +23,8 @@ SPEC_VERSION = "v3.7.0"
 
 # client version for packaging and releasing. It can
 # be different than SPEC_VERSION.
-CLIENT_VERSION = "0.3.4"
-KUBERNETES_CLIENT_VERSION = "3.0.0"
+CLIENT_VERSION = "0.4.0"
+KUBERNETES_CLIENT_VERSION = "4.0.0"
 
 # Name of the release package
 PACKAGE_NAME = "openshift"

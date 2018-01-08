@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from kubernetes import config
 from kubernetes.client import models as k8s_models
 from kubernetes.client import apis as k8s_apis
-from kubernetes.client import ApiClient, ConfigurationObject
+from kubernetes.client import ApiClient, Configuration
 
 from . import VERSION_RX
 from .base import BaseObjectHelper
@@ -19,7 +19,7 @@ class KubernetesObjectHelper(BaseObjectHelper):
             return config.new_client_from_config(config_file, context)
         except IOError:
             if not config_file:
-                return ApiClient(config=ConfigurationObject())
+                return ApiClient(configuration=Configuration())
             else:
                 raise
 

@@ -601,7 +601,7 @@ class AnsibleMixin(object):
         """
         Convert a list of properties to an argument_spec dictionary
 
-        :param properties: List of properties from self.properties_from_model_obj()
+        :param properties: List of properties from self.properties_from_model_class()
         :param prefix: String to prefix to argument names.
         :param path: List of property names providing the recursive path through the model to the property
         :param alternate_prefix: a more minimal version of prefix
@@ -693,7 +693,7 @@ class AnsibleMixin(object):
                     }
                     args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
                 else:
-                    sub_props = self.properties_from_model_obj(prop_attributes['class']())
+                    sub_props = self.properties_from_model_class(prop_attributes['class'])
                     args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
             else:
                 # Adds a primitive property

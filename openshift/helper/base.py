@@ -83,7 +83,7 @@ class BaseObjectHelper(object):
         self.api_version = api_version
         self.kind = kind
         self.model = self.get_model(api_version, kind)
-        self.properties = self.properties_from_model_obj(self.model())
+        self.properties = self.properties_from_model_class(self.model)
         self.base_model_name = self.get_base_model_name(self.model.__name__)
         self.base_model_name_snake = self.get_base_model_name_snake(self.base_model_name)
 
@@ -109,9 +109,9 @@ class BaseObjectHelper(object):
         for key in auth_keys:
             if auth.get(key, None) is not None:
                 if key == 'api_key':
-                    self.api_client.config.api_key = {'authorization': auth[key]}
+                    self.api_client.configuration.api_key = {'authorization': auth[key]}
                 else:
-                    setattr(self.api_client.config, key, auth[key])
+                    setattr(self.api_client.configuration, key, auth[key])
 
     @staticmethod
     def enable_debug(to_file=True, filename='KubeObjHelper.log', reset_logfile=True):
@@ -187,7 +187,7 @@ class BaseObjectHelper(object):
                 k8s_obj = get_method(name, namespace)
         except ApiException as exc:
             if exc.status != 404:
-                if self.base_model_name == 'Project'and exc.status == 403:
+                if self.base_model_name == 'Project' and exc.status == 403:
                     pass
                 else:
                     msg = json.loads(exc.body).get('message', exc.reason) if exc.body.startswith('{') else exc.body
@@ -210,7 +210,7 @@ class BaseObjectHelper(object):
         self.__remove_creation_timestamps(k8s_obj)
         w, stream = self._create_stream(namespace)
         return_obj = None
-        self.logger.debug("Patching object: {0}".format(k8s_obj.to_str()))
+        self.logger.debug("Patching object: {}".format(k8s_obj.to_str()))
         try:
             patch_method = self.lookup_method('patch', namespace)
             if namespace:
@@ -375,28 +375,26 @@ class BaseObjectHelper(object):
         return match, diffs
 
     @classmethod
-    def properties_from_model_obj(cls, model_obj):
+    def properties_from_model_class(cls, model_class):
         """
         Introspect an object, and return a dict of 'name:dict of properties' pairs. The properties include: class,
         and immutable (a bool).
 
-        :param model_obj: An object instantiated from openshift.client.models
+        :param model_class: An object instantiated from openshift.client.models
         :return: dict
         """
-        model_class = type(model_obj)
-
         # Create a list of model properties. Each property is represented as a dict of key:value pairs
         #  If a property does not have a setter, it's considered to be immutable
         properties = [
             {'name': x,
              'immutable': False if getattr(getattr(model_class, x), 'setter', None) else True
              }
-            for x in dir(model_class) if isinstance(getattr(model_class, x), property)
+            for x in model_class.attribute_map.keys() if isinstance(getattr(model_class, x), property)
         ]
 
         result = {}
         for prop in properties:
-            prop_kind = model_obj.swagger_types[prop['name']]
+            prop_kind = model_class.swagger_types[prop['name']]
             if prop_kind == 'datetime':
                 prop_kind = 'str'
             if prop_kind in ('str', 'int', 'bool'):
