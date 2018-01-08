@@ -12,6 +12,7 @@ DEFAULT_CODEGEN_IGNORE_LINES = {
   "client/api_client.py",
   "client/configuration.py",
   "client/rest.py",
+  "config/kube_config.py",
 }
 
 
@@ -138,8 +139,8 @@ def openshift_main():
     pool = urllib3.PoolManager()
     reader = codecs.getreader('utf-8')
     spec_url = 'https://raw.githubusercontent.com/openshift/origin/' \
-               '%s/api/swagger-spec/openshift-openapi-spec.json' % sys.argv[1]
-    output_path = sys.argv[2]
+               '%s/api/swagger-spec/openshift-openapi-spec.json' % sys.argv[2]
+    output_path = sys.argv[3]
     print("writing to {}".format(output_path))
 
     with pool.request('GET', spec_url, preload_content=False) as response:
@@ -147,7 +148,7 @@ def openshift_main():
             print("Error downloading spec file. Reason: %s" % response.reason)
             return 1
         in_spec = json.load(reader(response), object_pairs_hook=OrderedDict)
-        out_spec = process_swagger(process_openshift_swagger(in_spec, output_path))
+        out_spec = process_swagger(process_openshift_swagger(in_spec, output_path), sys.argv[1])
         update_codegen_ignore(out_spec, output_path)
         with open(output_path, 'w') as out:
             json.dump(out_spec, out, sort_keys=True, indent=2,
