@@ -1,12 +1,16 @@
 from __future__ import absolute_import
 
 # import apis into api package
+from .admissionregistration_v1beta1_api import AdmissionregistrationV1beta1Api
 from .apps_openshift_io_api import AppsOpenshiftIoApi
 from .apps_openshift_io_v1_api import AppsOpenshiftIoV1Api
+from .apps_v1_api import AppsV1Api
 from .authorization_openshift_io_api import AuthorizationOpenshiftIoApi
 from .authorization_openshift_io_v1_api import AuthorizationOpenshiftIoV1Api
 from .build_openshift_io_api import BuildOpenshiftIoApi
 from .build_openshift_io_v1_api import BuildOpenshiftIoV1Api
+from .events_api import EventsApi
+from .events_v1beta1_api import EventsV1beta1Api
 from .image_openshift_io_api import ImageOpenshiftIoApi
 from .image_openshift_io_v1_api import ImageOpenshiftIoV1Api
 from .network_openshift_io_api import NetworkOpenshiftIoApi

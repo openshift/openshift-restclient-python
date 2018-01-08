@@ -32,27 +32,32 @@ class V1WebHookTrigger(object):
     """
     swagger_types = {
         'allow_env': 'bool',
-        'secret': 'str'
+        'secret': 'str',
+        'secret_reference': 'V1SecretLocalReference'
     }
 
     attribute_map = {
         'allow_env': 'allowEnv',
-        'secret': 'secret'
+        'secret': 'secret',
+        'secret_reference': 'secretReference'
     }
 
-    def __init__(self, allow_env=None, secret=None):
+    def __init__(self, allow_env=None, secret=None, secret_reference=None):
         """
         V1WebHookTrigger - a model defined in Swagger
         """
 
         self._allow_env = None
         self._secret = None
+        self._secret_reference = None
         self.discriminator = None
 
         if allow_env is not None:
           self.allow_env = allow_env
         if secret is not None:
           self.secret = secret
+        if secret_reference is not None:
+          self.secret_reference = secret_reference
 
     @property
     def allow_env(self):
@@ -81,7 +86,7 @@ class V1WebHookTrigger(object):
     def secret(self):
         """
         Gets the secret of this V1WebHookTrigger.
-        secret used to validate requests.
+        secret used to validate requests. Deprecated: use SecretReference instead.
 
         :return: The secret of this V1WebHookTrigger.
         :rtype: str
@@ -92,13 +97,36 @@ class V1WebHookTrigger(object):
     def secret(self, secret):
         """
         Sets the secret of this V1WebHookTrigger.
-        secret used to validate requests.
+        secret used to validate requests. Deprecated: use SecretReference instead.
 
         :param secret: The secret of this V1WebHookTrigger.
         :type: str
         """
 
         self._secret = secret
+
+    @property
+    def secret_reference(self):
+        """
+        Gets the secret_reference of this V1WebHookTrigger.
+        secretReference is a reference to a secret in the same namespace, containing the value to be validated when the webhook is invoked. The secret being referenced must contain a key named \"WebHookSecretKey\", the value of which will be checked against the value supplied in the webhook invocation.
+
+        :return: The secret_reference of this V1WebHookTrigger.
+        :rtype: V1SecretLocalReference
+        """
+        return self._secret_reference
+
+    @secret_reference.setter
+    def secret_reference(self, secret_reference):
+        """
+        Sets the secret_reference of this V1WebHookTrigger.
+        secretReference is a reference to a secret in the same namespace, containing the value to be validated when the webhook is invoked. The secret being referenced must contain a key named \"WebHookSecretKey\", the value of which will be checked against the value supplied in the webhook invocation.
+
+        :param secret_reference: The secret_reference of this V1WebHookTrigger.
+        :type: V1SecretLocalReference
+        """
+
+        self._secret_reference = secret_reference
 
     def to_dict(self):
         """

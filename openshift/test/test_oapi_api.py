@@ -111,14 +111,6 @@ class TestOapiApi(unittest.TestCase):
         """
         pass
 
-    def test_create_deployment_config_rollback_for_all_namespaces(self):
-        """
-        Test case for create_deployment_config_rollback_for_all_namespaces
-
-        
-        """
-        pass
-
     def test_create_egress_network_policy_for_all_namespaces(self):
         """
         Test case for create_egress_network_policy_for_all_namespaces
@@ -258,14 +250,6 @@ class TestOapiApi(unittest.TestCase):
     def test_create_namespaced_deployment_config_instantiate(self):
         """
         Test case for create_namespaced_deployment_config_instantiate
-
-        
-        """
-        pass
-
-    def test_create_namespaced_deployment_config_rollback(self):
-        """
-        Test case for create_namespaced_deployment_config_rollback
 
         
         """
