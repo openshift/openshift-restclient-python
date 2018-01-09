@@ -172,8 +172,6 @@ class V1BuildConfigSpec(object):
         :param node_selector: The node_selector of this V1BuildConfigSpec.
         :type: dict(str, str)
         """
-        if node_selector is None:
-            raise ValueError("Invalid value for `node_selector`, must not be `None`")
 
         self._node_selector = node_selector
 

@@ -43,8 +43,10 @@ class V1RouteStatus(object):
         V1RouteStatus - a model defined in Swagger
         """
 
-        self._ingress = ingress
+        self._ingress = None
         self.discriminator = None
+
+        self.ingress = ingress
 
     @property
     def ingress(self):
@@ -66,8 +68,6 @@ class V1RouteStatus(object):
         :param ingress: The ingress of this V1RouteStatus.
         :type: list[V1RouteIngress]
         """
-        if ingress is None:
-            raise ValueError("Invalid value for `ingress`, must not be `None`")
 
         self._ingress = ingress
 
