@@ -28,7 +28,8 @@ def test_watch(monkeypatch):
                     metadata=k8s_models.V1ObjectMeta(
                         name=name,
                         resource_version=1
-                    )
+                    ),
+                    spec=models.V1DeploymentConfigSpec()
                 ).to_dict()
             })
 
