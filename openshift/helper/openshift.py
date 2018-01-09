@@ -12,7 +12,7 @@ from . import VERSION_RX
 from .. import config
 from ..client import models as openshift_models
 from ..client import apis as openshift_apis
-from ..client import ApiClient, ConfigurationObject
+from ..client import ApiClient, Configuration
 from .base import BaseObjectHelper
 from .exceptions import OpenShiftException
 
@@ -25,7 +25,7 @@ class OpenShiftObjectHelper(BaseObjectHelper):
             return config.new_client_from_config(config_file, context)
         except IOError:
             if not config_file:
-                return ApiClient(config=ConfigurationObject())
+                return ApiClient(configuration=Configuration())
             else:
                 raise
 

@@ -35,7 +35,9 @@ class TestV1RepositoryImportStatus(unittest.TestCase):
         """
         Test V1RepositoryImportStatus
         """
-        model = openshift.client.models.v1_repository_import_status.V1RepositoryImportStatus()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_repository_import_status.V1RepositoryImportStatus()
+        pass
 
 
 if __name__ == '__main__':

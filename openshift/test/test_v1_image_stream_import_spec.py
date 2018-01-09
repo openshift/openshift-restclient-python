@@ -35,7 +35,9 @@ class TestV1ImageStreamImportSpec(unittest.TestCase):
         """
         Test V1ImageStreamImportSpec
         """
-        model = openshift.client.models.v1_image_stream_import_spec.V1ImageStreamImportSpec()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_image_stream_import_spec.V1ImageStreamImportSpec()
+        pass
 
 
 if __name__ == '__main__':

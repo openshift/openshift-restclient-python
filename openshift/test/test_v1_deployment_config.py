@@ -35,7 +35,9 @@ class TestV1DeploymentConfig(unittest.TestCase):
         """
         Test V1DeploymentConfig
         """
-        model = openshift.client.models.v1_deployment_config.V1DeploymentConfig()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_deployment_config.V1DeploymentConfig()
+        pass
 
 
 if __name__ == '__main__':

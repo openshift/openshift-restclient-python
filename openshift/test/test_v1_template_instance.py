@@ -35,7 +35,9 @@ class TestV1TemplateInstance(unittest.TestCase):
         """
         Test V1TemplateInstance
         """
-        model = openshift.client.models.v1_template_instance.V1TemplateInstance()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_template_instance.V1TemplateInstance()
+        pass
 
 
 if __name__ == '__main__':

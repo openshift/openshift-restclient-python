@@ -35,7 +35,9 @@ class TestV1RepositoryImportSpec(unittest.TestCase):
         """
         Test V1RepositoryImportSpec
         """
-        model = openshift.client.models.v1_repository_import_spec.V1RepositoryImportSpec()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_repository_import_spec.V1RepositoryImportSpec()
+        pass
 
 
 if __name__ == '__main__':

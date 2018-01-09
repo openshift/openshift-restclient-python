@@ -35,7 +35,9 @@ class TestV1BuildTriggerPolicy(unittest.TestCase):
         """
         Test V1BuildTriggerPolicy
         """
-        model = openshift.client.models.v1_build_trigger_policy.V1BuildTriggerPolicy()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_build_trigger_policy.V1BuildTriggerPolicy()
+        pass
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ class TestV1ImageLookupPolicy(unittest.TestCase):
         """
         Test V1ImageLookupPolicy
         """
-        model = openshift.client.models.v1_image_lookup_policy.V1ImageLookupPolicy()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_image_lookup_policy.V1ImageLookupPolicy()
+        pass
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ class TestV1RunAsUserStrategyOptions(unittest.TestCase):
         """
         Test V1RunAsUserStrategyOptions
         """
-        model = openshift.client.models.v1_run_as_user_strategy_options.V1RunAsUserStrategyOptions()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_run_as_user_strategy_options.V1RunAsUserStrategyOptions()
+        pass
 
 
 if __name__ == '__main__':

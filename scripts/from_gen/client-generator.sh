@@ -66,6 +66,7 @@ kubeclient::generator::generate_client() {
         -e CLEANUP_DIRS="${CLEANUP_DIRS_STRING}" \
         -e KUBERNETES_BRANCH="${KUBERNETES_BRANCH}" \
         -e CLIENT_VERSION="${CLIENT_VERSION}" \
+        -e CLIENT_LANGUAGE="${CLIENT_LANGUAGE}" \
         -e PACKAGE_NAME="${PACKAGE_NAME}" \
         -e SWAGGER_CODEGEN_COMMIT="${SWAGGER_CODEGEN_COMMIT}" \
         -v "${output_dir}:/output_dir:Z" \

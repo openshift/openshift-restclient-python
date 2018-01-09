@@ -35,7 +35,9 @@ class TestV1TagImportPolicy(unittest.TestCase):
         """
         Test V1TagImportPolicy
         """
-        model = openshift.client.models.v1_tag_import_policy.V1TagImportPolicy()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_tag_import_policy.V1TagImportPolicy()
+        pass
 
 
 if __name__ == '__main__':

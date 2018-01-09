@@ -44,7 +44,7 @@ popd > /dev/null
 source "${SCRIPT_ROOT}/client-generator.sh"
 source "${SETTING_FILE}"
 
-SWAGGER_CODEGEN_COMMIT=v2.2.2; \
+SWAGGER_CODEGEN_COMMIT=d2b91073e1fc499fea67141ff4c17740d25f8e83; \
 CLIENT_LANGUAGE=python; \
 CLEANUP_DIRS=(client/apis client/models docs test); \
 kubeclient::generator::generate_client "${OUTPUT_DIR}"
@@ -53,9 +53,4 @@ echo "--- Patching generated code..."
 find "${OUTPUT_DIR}/test" -type f -name \*.py -exec sed -i 's/\bclient/openshift.client/g' {} +
 find "${OUTPUT_DIR}" -path "${OUTPUT_DIR}/base" -prune -o -type f -a -name \*.md -exec sed -i 's/\bclient/openshift.client/g' {} +
 find "${OUTPUT_DIR}" -path "${OUTPUT_DIR}/base" -prune -o -type f -a -name \*.md -exec sed -i 's/openshift.client-python/client-python/g' {} +
-sed -i'' "/^configuration = Configuration()$/d" "${OUTPUT_DIR}/client/__init__.py"
-sed -i'' "/^from .configuration import Configuration$/d" "${OUTPUT_DIR}/client/__init__.py"
-sed -i '${/^$/d;}' "${OUTPUT_DIR}/client/__init__.py"
-echo "from .configuration import Configuration, ConfigurationObject, configuration" >> "${OUTPUT_DIR}/client/__init__.py"
 echo "---Done."
-

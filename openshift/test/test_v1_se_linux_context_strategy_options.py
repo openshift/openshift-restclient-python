@@ -35,7 +35,9 @@ class TestV1SELinuxContextStrategyOptions(unittest.TestCase):
         """
         Test V1SELinuxContextStrategyOptions
         """
-        model = openshift.client.models.v1_se_linux_context_strategy_options.V1SELinuxContextStrategyOptions()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_se_linux_context_strategy_options.V1SELinuxContextStrategyOptions()
+        pass
 
 
 if __name__ == '__main__':

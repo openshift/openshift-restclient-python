@@ -35,7 +35,9 @@ class TestV1StageInfo(unittest.TestCase):
         """
         Test V1StageInfo
         """
-        model = openshift.client.models.v1_stage_info.V1StageInfo()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_stage_info.V1StageInfo()
+        pass
 
 
 if __name__ == '__main__':

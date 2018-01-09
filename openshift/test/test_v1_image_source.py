@@ -35,7 +35,9 @@ class TestV1ImageSource(unittest.TestCase):
         """
         Test V1ImageSource
         """
-        model = openshift.client.models.v1_image_source.V1ImageSource()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_image_source.V1ImageSource()
+        pass
 
 
 if __name__ == '__main__':

@@ -74,10 +74,9 @@ sed -i'' "s/^PACKAGE_NAME = .*/PACKAGE_NAME = \\\"${PACKAGE_NAME}\\\"/" "${SCRIP
 sed -i'' "s/^kubernetes ~= .*/kubernetes ~= ${KUBERNETES_CLIENT_VERSION}/" "${SCRIPT_ROOT}/../requirements.txt"
 sed -i'' "s,^DEVELOPMENT_STATUS = .*,DEVELOPMENT_STATUS = \\\"${DEVELOPMENT_STATUS}\\\"," "${SCRIPT_ROOT}/../setup.py"
 sed -i'' "/^configuration = Configuration()$/d" "${CLIENT_ROOT}/client/__init__.py"
-sed -i'' "/^from .configuration import Configuration$/d" "${CLIENT_ROOT}/client/__init__.py"
 sed -i '${/^$/d;}' "${CLIENT_ROOT}/client/__init__.py"
 sed -i'' "s/^Version:.*/Version:    ${CLIENT_VERSION}/" "${SCRIPT_ROOT}/../python-openshift.spec"
-echo "from kubernetes.client.configuration import Configuration, ConfigurationObject, configuration" >> "${CLIENT_ROOT}/client/__init__.py"
+echo "from kubernetes.client.configuration import Configuration" >> "${CLIENT_ROOT}/client/__init__.py"
 
 
 echo "--- Patching to use k8s client-python where possible"
@@ -92,6 +91,10 @@ find "${CLIENT_ROOT}/client/apis" -type f -name \*.py -exec sed -i "s/auth_setti
 
 echo "--- Post processing of generated packages"
 python "${SCRIPT_ROOT}/update_generated.py"
-
+# These values are required, but are allowed to be nil
+# When deserialization occurs, nil values and not present values are identical
+# So we need to remove these guards to prevent errors when instantiating these models
+sed -i'' '/.*if node_selector is None:/,+1 d' "${CLIENT_ROOT}/client/models/v1_build_config_spec.py"
+sed -i'' '/.*if ingress is None:/,+1 d' "${CLIENT_ROOT}/client/models/v1_route_status.py"
 
 echo "---Done."

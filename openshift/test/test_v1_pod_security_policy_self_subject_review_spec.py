@@ -35,7 +35,9 @@ class TestV1PodSecurityPolicySelfSubjectReviewSpec(unittest.TestCase):
         """
         Test V1PodSecurityPolicySelfSubjectReviewSpec
         """
-        model = openshift.client.models.v1_pod_security_policy_self_subject_review_spec.V1PodSecurityPolicySelfSubjectReviewSpec()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_pod_security_policy_self_subject_review_spec.V1PodSecurityPolicySelfSubjectReviewSpec()
+        pass
 
 
 if __name__ == '__main__':

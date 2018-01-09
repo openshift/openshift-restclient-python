@@ -35,7 +35,9 @@ class TestV1ExecNewPodHook(unittest.TestCase):
         """
         Test V1ExecNewPodHook
         """
-        model = openshift.client.models.v1_exec_new_pod_hook.V1ExecNewPodHook()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_exec_new_pod_hook.V1ExecNewPodHook()
+        pass
 
 
 if __name__ == '__main__':

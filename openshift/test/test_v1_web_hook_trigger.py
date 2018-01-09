@@ -35,7 +35,9 @@ class TestV1WebHookTrigger(unittest.TestCase):
         """
         Test V1WebHookTrigger
         """
-        model = openshift.client.models.v1_web_hook_trigger.V1WebHookTrigger()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_web_hook_trigger.V1WebHookTrigger()
+        pass
 
 
 if __name__ == '__main__':

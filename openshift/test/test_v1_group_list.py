@@ -35,7 +35,9 @@ class TestV1GroupList(unittest.TestCase):
         """
         Test V1GroupList
         """
-        model = openshift.client.models.v1_group_list.V1GroupList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_group_list.V1GroupList()
+        pass
 
 
 if __name__ == '__main__':

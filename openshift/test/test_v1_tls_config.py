@@ -35,7 +35,9 @@ class TestV1TLSConfig(unittest.TestCase):
         """
         Test V1TLSConfig
         """
-        model = openshift.client.models.v1_tls_config.V1TLSConfig()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_tls_config.V1TLSConfig()
+        pass
 
 
 if __name__ == '__main__':

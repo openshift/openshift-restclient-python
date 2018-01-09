@@ -35,7 +35,9 @@ class TestV1ClusterNetworkEntry(unittest.TestCase):
         """
         Test V1ClusterNetworkEntry
         """
-        model = openshift.client.models.v1_cluster_network_entry.V1ClusterNetworkEntry()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_cluster_network_entry.V1ClusterNetworkEntry()
+        pass
 
 
 if __name__ == '__main__':

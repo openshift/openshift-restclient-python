@@ -35,7 +35,9 @@ class TestV1RouteTargetReference(unittest.TestCase):
         """
         Test V1RouteTargetReference
         """
-        model = openshift.client.models.v1_route_target_reference.V1RouteTargetReference()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_route_target_reference.V1RouteTargetReference()
+        pass
 
 
 if __name__ == '__main__':

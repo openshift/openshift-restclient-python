@@ -35,7 +35,9 @@ class TestV1Parameter(unittest.TestCase):
         """
         Test V1Parameter
         """
-        model = openshift.client.models.v1_parameter.V1Parameter()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_parameter.V1Parameter()
+        pass
 
 
 if __name__ == '__main__':

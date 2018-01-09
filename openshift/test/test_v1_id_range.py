@@ -35,7 +35,9 @@ class TestV1IDRange(unittest.TestCase):
         """
         Test V1IDRange
         """
-        model = openshift.client.models.v1_id_range.V1IDRange()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_id_range.V1IDRange()
+        pass
 
 
 if __name__ == '__main__':

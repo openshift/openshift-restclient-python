@@ -35,7 +35,9 @@ class TestV1SourceRevision(unittest.TestCase):
         """
         Test V1SourceRevision
         """
-        model = openshift.client.models.v1_source_revision.V1SourceRevision()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_source_revision.V1SourceRevision()
+        pass
 
 
 if __name__ == '__main__':

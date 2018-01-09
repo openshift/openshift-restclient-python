@@ -469,7 +469,7 @@ class AnsibleMixin(object):
         if not request_value:
             return
 
-        sample_obj = self.model_class_from_name(obj_class)()
+        model_class = self.model_class_from_name(obj_class)
 
         # Try to determine the unique key for the array
         key_names = [
@@ -478,7 +478,7 @@ class AnsibleMixin(object):
         ]
         key_name = None
         for key in key_names:
-            if hasattr(sample_obj, key):
+            if hasattr(model_class, key):
                 key_name = key
                 break
 
@@ -510,7 +510,7 @@ class AnsibleMixin(object):
                         found = True
                         for key, value in item.items():
                             snake_key = self.attribute_to_snake(key)
-                            item_kind = sample_obj.swagger_types.get(snake_key)
+                            item_kind = model_class.swagger_types.get(snake_key)
                             if item_kind and item_kind in PRIMITIVES or type(value).__name__ in PRIMITIVES:
                                 setattr(obj, snake_key, value)
                             elif item_kind and item_kind.startswith('list['):
@@ -551,7 +551,7 @@ class AnsibleMixin(object):
                                     )
                 if not found:
                     # Requested item not found. Adding.
-                    obj = self.__update_object_properties(self.model_class_from_name(obj_class)(), item)
+                    obj = self.model_class_from_name(obj_class)(**item)
                     src_value.append(obj)
         else:
             # There isn't a key, or we don't know what it is, so check for all properties to match
@@ -569,45 +569,45 @@ class AnsibleMixin(object):
                         found = True
                         break
                 if not found:
-                    obj = self.__update_object_properties(self.model_class_from_name(obj_class)(), item)
+                    obj = self.model_class_from_name(obj_class)(**item)
                     src_value.append(obj)
 
-    def __update_object_properties(self, obj, item):
-        """ Recursively update an object's properties. Returns a pointer to the object. """
+    def __update_object_properties(self, obj_class, item):
+        """ Recursively update an class's properties. Returns a pointer to the class. """
 
         for key, value in item.items():
             snake_key = self.attribute_to_snake(key)
             try:
-                kind = obj.swagger_types[snake_key]
+                kind = obj_class.swagger_types[snake_key]
             except (AttributeError,KeyError):
-                possible_matches = ', '.join(list(obj.swagger_types.keys()))
-                class_snake_name = self.get_base_model_name_snake(type(obj).__name__)
+                possible_matches = ', '.join(list(obj_class.swagger_types.keys()))
+                class_snake_name = self.get_base_model_name_snake(obj_class.__name__)
                 raise self.get_exception_class()(
                     "Unable to find '{0}' in {1}. Valid property names include: {2}".format(snake_key,
                                                                                             class_snake_name,
                                                                                             possible_matches)
                 )
             if kind in PRIMITIVES or kind.startswith('list[') or kind.startswith('dict('):
-                self.__set_obj_attribute(obj, [snake_key], value, snake_key)
+                self.__set_obj_attribute(obj_class, [snake_key], value, snake_key)
             else:
                 # kind is an object, hopefully
-                if not getattr(obj, snake_key):
-                    setattr(obj, snake_key, self.model_class_from_name(kind)())
-                self.__update_object_properties(getattr(obj, snake_key), value)
+                if not getattr(obj_class, snake_key):
+                    setattr(obj_class, snake_key, self.model_class_from_name(kind)())
+                self.__update_object_properties(getattr(obj_class, snake_key), value)
 
-        return obj
+        return obj_class
 
     def __transform_properties(self, properties, prefix='', path=None, alternate_prefix=''):
         """
         Convert a list of properties to an argument_spec dictionary
 
-        :param properties: List of properties from self.properties_from_model_obj()
+        :param properties: List of properties from self.properties_from_model_class()
         :param prefix: String to prefix to argument names.
         :param path: List of property names providing the recursive path through the model to the property
         :param alternate_prefix: a more minimal version of prefix
         :return: dict
         """
-        primitive_types = list(PRIMITIVES) + ['list', 'dict']
+        primitive_types = list(PRIMITIVES) + ['list', 'dict', 'object']
         args = {}
 
         if path is None:
@@ -693,7 +693,7 @@ class AnsibleMixin(object):
                     }
                     args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
                 else:
-                    sub_props = self.properties_from_model_obj(prop_attributes['class']())
+                    sub_props = self.properties_from_model_class(prop_attributes['class'])
                     args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
             else:
                 # Adds a primitive property

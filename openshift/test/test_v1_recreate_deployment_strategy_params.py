@@ -35,7 +35,9 @@ class TestV1RecreateDeploymentStrategyParams(unittest.TestCase):
         """
         Test V1RecreateDeploymentStrategyParams
         """
-        model = openshift.client.models.v1_recreate_deployment_strategy_params.V1RecreateDeploymentStrategyParams()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_recreate_deployment_strategy_params.V1RecreateDeploymentStrategyParams()
+        pass
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ class TestV1EgressNetworkPolicyRule(unittest.TestCase):
         """
         Test V1EgressNetworkPolicyRule
         """
-        model = openshift.client.models.v1_egress_network_policy_rule.V1EgressNetworkPolicyRule()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_egress_network_policy_rule.V1EgressNetworkPolicyRule()
+        pass
 
 
 if __name__ == '__main__':

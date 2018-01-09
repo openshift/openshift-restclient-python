@@ -35,7 +35,9 @@ class TestV1SecretSpec(unittest.TestCase):
         """
         Test V1SecretSpec
         """
-        model = openshift.client.models.v1_secret_spec.V1SecretSpec()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_secret_spec.V1SecretSpec()
+        pass
 
 
 if __name__ == '__main__':

@@ -35,7 +35,9 @@ class TestV1ImageLabel(unittest.TestCase):
         """
         Test V1ImageLabel
         """
-        model = openshift.client.models.v1_image_label.V1ImageLabel()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_image_label.V1ImageLabel()
+        pass
 
 
 if __name__ == '__main__':

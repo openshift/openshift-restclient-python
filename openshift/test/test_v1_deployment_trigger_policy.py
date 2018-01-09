@@ -35,7 +35,9 @@ class TestV1DeploymentTriggerPolicy(unittest.TestCase):
         """
         Test V1DeploymentTriggerPolicy
         """
-        model = openshift.client.models.v1_deployment_trigger_policy.V1DeploymentTriggerPolicy()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_deployment_trigger_policy.V1DeploymentTriggerPolicy()
+        pass
 
 
 if __name__ == '__main__':

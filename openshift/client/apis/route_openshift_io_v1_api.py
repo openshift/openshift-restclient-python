@@ -20,7 +20,6 @@ import re
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from kubernetes.client.configuration import Configuration
 from ..api_client import ApiClient
 
 
@@ -32,27 +31,19 @@ class RouteOpenshiftIoV1Api(object):
     """
 
     def __init__(self, api_client=None):
-        config = Configuration()
-        if api_client:
-            self.api_client = api_client
-        else:
-            if not config.api_client:
-                config.api_client = ApiClient()
-            self.api_client = config.api_client
+        if api_client is None:
+            api_client = ApiClient()
+        self.api_client = api_client
 
     def create_namespaced_route(self, namespace, body, **kwargs):
         """
         create a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_route(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_route(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -61,7 +52,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_namespaced_route_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_route_with_http_info(namespace, body, **kwargs)
@@ -71,15 +62,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         create a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_namespaced_route_with_http_info(namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_namespaced_route_with_http_info(namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -89,7 +76,7 @@ class RouteOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -113,14 +100,13 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -139,9 +125,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -150,7 +136,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -160,15 +146,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         create a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_route_for_all_namespaces(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_route_for_all_namespaces(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1Route body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Route
@@ -176,7 +158,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.create_route_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_route_for_all_namespaces_with_http_info(body, **kwargs)
@@ -186,15 +168,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         create a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.create_route_for_all_namespaces_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.create_route_for_all_namespaces_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param V1Route body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Route
@@ -203,7 +181,7 @@ class RouteOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -224,12 +202,11 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/routes'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -248,9 +225,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/routes', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -259,7 +236,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -269,20 +246,18 @@ class RouteOpenshiftIoV1Api(object):
         """
         delete collection of Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_namespaced_route(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_namespaced_route(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
+        :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param int limit: limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
         :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
@@ -291,7 +266,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_collection_namespaced_route_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_route_with_http_info(namespace, **kwargs)
@@ -301,20 +276,18 @@ class RouteOpenshiftIoV1Api(object):
         """
         delete collection of Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_collection_namespaced_route_with_http_info(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_collection_namespaced_route_with_http_info(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
+        :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param int limit: limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
         :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
@@ -323,8 +296,8 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -345,26 +318,29 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
+        if '_continue' in params:
+            query_params.append(('continue', params['_continue']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
+        if 'limit' in params:
+            query_params.append(('limit', params['limit']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -381,9 +357,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -392,7 +368,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -402,28 +378,24 @@ class RouteOpenshiftIoV1Api(object):
         """
         delete a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_namespaced_route(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_namespaced_route(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
         :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
-        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
         :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_namespaced_route_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_route_with_http_info(name, namespace, body, **kwargs)
@@ -433,29 +405,25 @@ class RouteOpenshiftIoV1Api(object):
         """
         delete a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_namespaced_route_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_namespaced_route_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param int grace_period_seconds: The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.
         :param bool orphan_dependents: Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.
-        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy.
+        :param str propagation_policy: Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.
         :return: V1Status
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -482,22 +450,21 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'grace_period_seconds' in params:
-            query_params['gracePeriodSeconds'] = params['grace_period_seconds']
+            query_params.append(('gracePeriodSeconds', params['grace_period_seconds']))
         if 'orphan_dependents' in params:
-            query_params['orphanDependents'] = params['orphan_dependents']
+            query_params.append(('orphanDependents', params['orphan_dependents']))
         if 'propagation_policy' in params:
-            query_params['propagationPolicy'] = params['propagation_policy']
+            query_params.append(('propagationPolicy', params['propagation_policy']))
 
         header_params = {}
 
@@ -516,9 +483,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -527,7 +494,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -537,21 +504,17 @@ class RouteOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_api_resources(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_api_resources(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.get_api_resources_with_http_info(**kwargs)
         else:
             (data) = self.get_api_resources_with_http_info(**kwargs)
@@ -561,22 +524,18 @@ class RouteOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_api_resources_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_api_resources_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -593,10 +552,9 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -613,9 +571,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['application/json', 'application/yaml', 'application/vnd.kubernetes.protobuf'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -624,7 +582,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -634,20 +592,18 @@ class RouteOpenshiftIoV1Api(object):
         """
         list or watch objects of kind Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_namespaced_route(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_namespaced_route(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
+        :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param int limit: limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
         :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
@@ -656,7 +612,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_namespaced_route_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_route_with_http_info(namespace, **kwargs)
@@ -666,20 +622,18 @@ class RouteOpenshiftIoV1Api(object):
         """
         list or watch objects of kind Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_namespaced_route_with_http_info(namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_namespaced_route_with_http_info(namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
+        :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param int limit: limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
         :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
@@ -688,8 +642,8 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['namespace', 'pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -710,26 +664,29 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes'.replace('{format}', 'json')
         path_params = {}
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
+        if '_continue' in params:
+            query_params.append(('continue', params['_continue']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
+        if 'limit' in params:
+            query_params.append(('limit', params['limit']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -746,9 +703,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -757,7 +714,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1RouteList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -767,19 +724,17 @@ class RouteOpenshiftIoV1Api(object):
         """
         list or watch objects of kind Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_route_for_all_namespaces(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_route_for_all_namespaces(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
+        :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param int limit: limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
         :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
@@ -788,7 +743,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.list_route_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_route_for_all_namespaces_with_http_info(**kwargs)
@@ -798,19 +753,17 @@ class RouteOpenshiftIoV1Api(object):
         """
         list or watch objects of kind Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.list_route_for_all_namespaces_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.list_route_for_all_namespaces_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str pretty: If 'true', then the output is pretty printed.
+        :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
         :param str label_selector: A selector to restrict the list of returned objects by their labels. Defaults to everything.
+        :param int limit: limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.
         :param str resource_version: When specified with a watch call, shows changes that occur after that particular version of a resource. Defaults to changes from the beginning of history. When specified for list: - if unset, then the result is returned from remote storage based on quorum-read flag; - if it's 0, then we simply return what we currently have in cache, no guarantee; - if set to non zero, then the result is at least as fresh as given rv.
         :param int timeout_seconds: Timeout for the list/watch call.
         :param bool watch: Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.
@@ -819,8 +772,8 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
 
-        all_params = ['pretty', 'field_selector', 'include_uninitialized', 'label_selector', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('callback')
+        all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -838,24 +791,27 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/routes'.replace('{format}', 'json')
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
+        if '_continue' in params:
+            query_params.append(('continue', params['_continue']))
         if 'field_selector' in params:
-            query_params['fieldSelector'] = params['field_selector']
+            query_params.append(('fieldSelector', params['field_selector']))
         if 'include_uninitialized' in params:
-            query_params['includeUninitialized'] = params['include_uninitialized']
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
         if 'label_selector' in params:
-            query_params['labelSelector'] = params['label_selector']
+            query_params.append(('labelSelector', params['label_selector']))
+        if 'limit' in params:
+            query_params.append(('limit', params['limit']))
         if 'resource_version' in params:
-            query_params['resourceVersion'] = params['resource_version']
+            query_params.append(('resourceVersion', params['resource_version']))
         if 'timeout_seconds' in params:
-            query_params['timeoutSeconds'] = params['timeout_seconds']
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if 'watch' in params:
-            query_params['watch'] = params['watch']
+            query_params.append(('watch', params['watch']))
 
         header_params = {}
 
@@ -872,9 +828,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/routes', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -883,7 +839,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1RouteList',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -893,15 +849,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         partially update the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_route(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_route(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -911,7 +863,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_namespaced_route_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_route_with_http_info(name, namespace, body, **kwargs)
@@ -921,15 +873,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         partially update the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_route_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_route_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -940,7 +888,7 @@ class RouteOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -967,16 +915,15 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -995,9 +942,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1006,7 +953,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1016,15 +963,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         partially update status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_route_status(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_route_status(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -1034,7 +977,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.patch_namespaced_route_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_route_status_with_http_info(name, namespace, body, **kwargs)
@@ -1044,15 +987,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         partially update status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.patch_namespaced_route_status_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.patch_namespaced_route_status_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -1063,7 +1002,7 @@ class RouteOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1090,16 +1029,15 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1118,9 +1056,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1129,7 +1067,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1139,15 +1077,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         read the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_route(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_route(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1158,7 +1092,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_namespaced_route_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_route_with_http_info(name, namespace, **kwargs)
@@ -1168,15 +1102,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         read the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_route_with_http_info(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_route_with_http_info(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1188,7 +1118,7 @@ class RouteOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1212,20 +1142,19 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
         if 'exact' in params:
-            query_params['exact'] = params['exact']
+            query_params.append(('exact', params['exact']))
         if 'export' in params:
-            query_params['export'] = params['export']
+            query_params.append(('export', params['export']))
 
         header_params = {}
 
@@ -1242,9 +1171,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1253,7 +1182,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1263,15 +1192,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         read status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_route_status(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_route_status(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1280,7 +1205,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.read_namespaced_route_status_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_route_status_with_http_info(name, namespace, **kwargs)
@@ -1290,15 +1215,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         read status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.read_namespaced_route_status_with_http_info(name, namespace, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.read_namespaced_route_status_with_http_info(name, namespace, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1308,7 +1229,7 @@ class RouteOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1332,16 +1253,15 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1358,9 +1278,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1369,7 +1289,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1379,15 +1299,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         replace the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_route(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_route(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
@@ -1397,7 +1313,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_namespaced_route_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_route_with_http_info(name, namespace, body, **kwargs)
@@ -1407,15 +1323,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         replace the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_route_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_route_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
@@ -1426,7 +1338,7 @@ class RouteOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1453,16 +1365,15 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1481,9 +1392,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1492,7 +1403,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1502,15 +1413,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         replace status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_route_status(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_route_status(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
@@ -1520,7 +1427,7 @@ class RouteOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.replace_namespaced_route_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_route_status_with_http_info(name, namespace, body, **kwargs)
@@ -1530,15 +1437,11 @@ class RouteOpenshiftIoV1Api(object):
         """
         replace status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.replace_namespaced_route_status_with_http_info(name, namespace, body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.replace_namespaced_route_status_with_http_info(name, namespace, body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
@@ -1549,7 +1452,7 @@ class RouteOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1576,16 +1479,15 @@ class RouteOpenshiftIoV1Api(object):
 
         collection_formats = {}
 
-        resource_path = '/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status'.replace('{format}', 'json')
         path_params = {}
         if 'name' in params:
             path_params['name'] = params['name']
         if 'namespace' in params:
             path_params['namespace'] = params['namespace']
 
-        query_params = {}
+        query_params = []
         if 'pretty' in params:
-            query_params['pretty'] = params['pretty']
+            query_params.append(('pretty', params['pretty']))
 
         header_params = {}
 
@@ -1604,9 +1506,9 @@ class RouteOpenshiftIoV1Api(object):
             select_header_content_type(['*/*'])
 
         # Authentication setting
-        auth_settings = ['Oauth2Implicit', 'Oauth2AccessToken', 'BearerToken']
+        auth_settings = ['BearerToken', 'Oauth2AccessToken', 'Oauth2Implicit']
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/apis/route.openshift.io/v1/namespaces/{namespace}/routes/{name}/status', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -1615,7 +1517,7 @@ class RouteOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

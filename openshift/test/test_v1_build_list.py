@@ -35,7 +35,9 @@ class TestV1BuildList(unittest.TestCase):
         """
         Test V1BuildList
         """
-        model = openshift.client.models.v1_build_list.V1BuildList()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_build_list.V1BuildList()
+        pass
 
 
 if __name__ == '__main__':

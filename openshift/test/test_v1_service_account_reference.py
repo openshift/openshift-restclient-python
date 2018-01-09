@@ -35,7 +35,9 @@ class TestV1ServiceAccountReference(unittest.TestCase):
         """
         Test V1ServiceAccountReference
         """
-        model = openshift.client.models.v1_service_account_reference.V1ServiceAccountReference()
+        # FIXME: construct object with mandatory attributes with example values
+        #model = openshift.client.models.v1_service_account_reference.V1ServiceAccountReference()
+        pass
 
 
 if __name__ == '__main__':
