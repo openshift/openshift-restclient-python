@@ -68,8 +68,6 @@ class V1RouteStatus(object):
         :param ingress: The ingress of this V1RouteStatus.
         :type: list[V1RouteIngress]
         """
-        if ingress is None:
-            raise ValueError("Invalid value for `ingress`, must not be `None`")
 
         self._ingress = ingress
 

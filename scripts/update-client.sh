@@ -91,6 +91,10 @@ find "${CLIENT_ROOT}/client/apis" -type f -name \*.py -exec sed -i "s/auth_setti
 
 echo "--- Post processing of generated packages"
 python "${SCRIPT_ROOT}/update_generated.py"
-
+# These values are required, but are allowed to be nil
+# When deserialization occurs, nil values and not present values are identical
+# So we need to remove these guards to prevent errors when instantiating these models
+sed -i'' '/.*if node_selector is None:/,+1 d' "${CLIENT_ROOT}/client/models/v1_build_config_spec.py"
+sed -i'' '/.*if ingress is None:/,+1 d' "${CLIENT_ROOT}/client/models/v1_route_status.py"
 
 echo "---Done."

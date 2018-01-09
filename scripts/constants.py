@@ -15,7 +15,7 @@
 import sys
 
 # Kubernetes branch to get the OpenAPI spec from.
-KUBERNETES_BRANCH = "release-3.7"
+KUBERNETES_BRANCH = "master"
 
 # Spec version will be set in downloaded spec and all
 # generated code will refer to it.

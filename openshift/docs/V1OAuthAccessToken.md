@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **authorize_token** | **str** | AuthorizeToken contains the token that authorized this token | [optional] 
 **openshift.client_name** | **str** | ClientName references the openshift.client that created this token. | [optional] 
 **expires_in** | **int** | ExpiresIn is the seconds from CreationTime before this token expires. | [optional] 
+**inactivity_timeout_seconds** | **int** | InactivityTimeoutSeconds is the value in seconds, from the CreationTimestamp, after which this token can no longer be used. The value is automatically incremented when the token is used. | [optional] 
 **kind** | **str** | Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the openshift.client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds | [optional] 
 **metadata** | [**V1ObjectMeta**](V1ObjectMeta.md) | Standard object&#39;s metadata. | [optional] 
 **redirect_uri** | **str** | RedirectURI is the redirection associated with the token. | [optional] 

@@ -60,13 +60,13 @@ openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Configure OAuth2 access token for authorization: Oauth2Implicit
 openshift.client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # create an instance of the API class
-api_instance = openshift.client.ApisApi()
+api_instance = openshift.client.AdmissionregistrationApi()
 
 try:
-    api_response = api_instance.get_api_versions()
+    api_response = api_instance.get_api_group()
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling ApisApi->get_api_versions: %s\n" % e)
+    print("Exception when calling AdmissionregistrationApi->get_api_group: %s\n" % e)
 
 ```
 
@@ -76,6 +76,32 @@ All URIs are relative to *https://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AdmissionregistrationApi* | [**get_api_group**](docs/AdmissionregistrationApi.md#get_api_group) | **GET** /apis/admissionregistration.k8s.io/ | 
+*AdmissionregistrationV1beta1Api* | [**create_mutating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#create_mutating_webhook_configuration) | **POST** /apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations | 
+*AdmissionregistrationV1beta1Api* | [**create_validating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#create_validating_webhook_configuration) | **POST** /apis/admissionregistration.k8s.io/v1beta1/validatingwebhookconfigurations | 
+*AdmissionregistrationV1beta1Api* | [**delete_collection_mutating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#delete_collection_mutating_webhook_configuration) | **DELETE** /apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations | 
+*AdmissionregistrationV1beta1Api* | [**delete_collection_validating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#delete_collection_validating_webhook_configuration) | **DELETE** /apis/admissionregistration.k8s.io/v1beta1/validatingwebhookconfigurations | 
+*AdmissionregistrationV1beta1Api* | [**delete_mutating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#delete_mutating_webhook_configuration) | **DELETE** /apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations/{name} | 
+*AdmissionregistrationV1beta1Api* | [**delete_validating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#delete_validating_webhook_configuration) | **DELETE** /apis/admissionregistration.k8s.io/v1beta1/validatingwebhookconfigurations/{name} | 
+*AdmissionregistrationV1beta1Api* | [**get_api_resources**](docs/AdmissionregistrationV1beta1Api.md#get_api_resources) | **GET** /apis/admissionregistration.k8s.io/v1beta1/ | 
+*AdmissionregistrationV1beta1Api* | [**list_mutating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#list_mutating_webhook_configuration) | **GET** /apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations | 
+*AdmissionregistrationV1beta1Api* | [**list_validating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#list_validating_webhook_configuration) | **GET** /apis/admissionregistration.k8s.io/v1beta1/validatingwebhookconfigurations | 
+*AdmissionregistrationV1beta1Api* | [**patch_mutating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#patch_mutating_webhook_configuration) | **PATCH** /apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations/{name} | 
+*AdmissionregistrationV1beta1Api* | [**patch_validating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#patch_validating_webhook_configuration) | **PATCH** /apis/admissionregistration.k8s.io/v1beta1/validatingwebhookconfigurations/{name} | 
+*AdmissionregistrationV1beta1Api* | [**read_mutating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#read_mutating_webhook_configuration) | **GET** /apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations/{name} | 
+*AdmissionregistrationV1beta1Api* | [**read_validating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#read_validating_webhook_configuration) | **GET** /apis/admissionregistration.k8s.io/v1beta1/validatingwebhookconfigurations/{name} | 
+*AdmissionregistrationV1beta1Api* | [**replace_mutating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#replace_mutating_webhook_configuration) | **PUT** /apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations/{name} | 
+*AdmissionregistrationV1beta1Api* | [**replace_validating_webhook_configuration**](docs/AdmissionregistrationV1beta1Api.md#replace_validating_webhook_configuration) | **PUT** /apis/admissionregistration.k8s.io/v1beta1/validatingwebhookconfigurations/{name} | 
+*ApiregistrationApi* | [**get_api_group**](docs/ApiregistrationApi.md#get_api_group) | **GET** /apis/apiregistration.k8s.io/ | 
+*ApiregistrationV1beta1Api* | [**create_api_service**](docs/ApiregistrationV1beta1Api.md#create_api_service) | **POST** /apis/apiregistration.k8s.io/v1beta1/apiservices | 
+*ApiregistrationV1beta1Api* | [**delete_api_service**](docs/ApiregistrationV1beta1Api.md#delete_api_service) | **DELETE** /apis/apiregistration.k8s.io/v1beta1/apiservices/{name} | 
+*ApiregistrationV1beta1Api* | [**delete_collection_api_service**](docs/ApiregistrationV1beta1Api.md#delete_collection_api_service) | **DELETE** /apis/apiregistration.k8s.io/v1beta1/apiservices | 
+*ApiregistrationV1beta1Api* | [**get_api_resources**](docs/ApiregistrationV1beta1Api.md#get_api_resources) | **GET** /apis/apiregistration.k8s.io/v1beta1/ | 
+*ApiregistrationV1beta1Api* | [**list_api_service**](docs/ApiregistrationV1beta1Api.md#list_api_service) | **GET** /apis/apiregistration.k8s.io/v1beta1/apiservices | 
+*ApiregistrationV1beta1Api* | [**patch_api_service**](docs/ApiregistrationV1beta1Api.md#patch_api_service) | **PATCH** /apis/apiregistration.k8s.io/v1beta1/apiservices/{name} | 
+*ApiregistrationV1beta1Api* | [**read_api_service**](docs/ApiregistrationV1beta1Api.md#read_api_service) | **GET** /apis/apiregistration.k8s.io/v1beta1/apiservices/{name} | 
+*ApiregistrationV1beta1Api* | [**replace_api_service**](docs/ApiregistrationV1beta1Api.md#replace_api_service) | **PUT** /apis/apiregistration.k8s.io/v1beta1/apiservices/{name} | 
+*ApiregistrationV1beta1Api* | [**replace_api_service_status**](docs/ApiregistrationV1beta1Api.md#replace_api_service_status) | **PUT** /apis/apiregistration.k8s.io/v1beta1/apiservices/{name}/status | 
 *ApisApi* | [**get_api_versions**](docs/ApisApi.md#get_api_versions) | **GET** /apis/ | 
 *AppsApi* | [**get_api_group**](docs/AppsApi.md#get_api_group) | **GET** /apis/apps/ | 
 *AppsOpenshiftIoApi* | [**get_api_group**](docs/AppsOpenshiftIoApi.md#get_api_group) | **GET** /apis/apps.openshift.io/ | 
@@ -98,6 +124,73 @@ Class | Method | HTTP request | Description
 *AppsOpenshiftIoV1Api* | [**replace_namespaced_deployment_config**](docs/AppsOpenshiftIoV1Api.md#replace_namespaced_deployment_config) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name} | 
 *AppsOpenshiftIoV1Api* | [**replace_namespaced_deployment_config_scale**](docs/AppsOpenshiftIoV1Api.md#replace_namespaced_deployment_config_scale) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/scale | 
 *AppsOpenshiftIoV1Api* | [**replace_namespaced_deployment_config_status**](docs/AppsOpenshiftIoV1Api.md#replace_namespaced_deployment_config_status) | **PUT** /apis/apps.openshift.io/v1/namespaces/{namespace}/deploymentconfigs/{name}/status | 
+*AppsV1Api* | [**create_controller_revision_for_all_namespaces**](docs/AppsV1Api.md#create_controller_revision_for_all_namespaces) | **POST** /apis/apps/v1/controllerrevisions | 
+*AppsV1Api* | [**create_daemon_set_for_all_namespaces**](docs/AppsV1Api.md#create_daemon_set_for_all_namespaces) | **POST** /apis/apps/v1/daemonsets | 
+*AppsV1Api* | [**create_deployment_for_all_namespaces**](docs/AppsV1Api.md#create_deployment_for_all_namespaces) | **POST** /apis/apps/v1/deployments | 
+*AppsV1Api* | [**create_namespaced_controller_revision**](docs/AppsV1Api.md#create_namespaced_controller_revision) | **POST** /apis/apps/v1/namespaces/{namespace}/controllerrevisions | 
+*AppsV1Api* | [**create_namespaced_daemon_set**](docs/AppsV1Api.md#create_namespaced_daemon_set) | **POST** /apis/apps/v1/namespaces/{namespace}/daemonsets | 
+*AppsV1Api* | [**create_namespaced_deployment**](docs/AppsV1Api.md#create_namespaced_deployment) | **POST** /apis/apps/v1/namespaces/{namespace}/deployments | 
+*AppsV1Api* | [**create_namespaced_replica_set**](docs/AppsV1Api.md#create_namespaced_replica_set) | **POST** /apis/apps/v1/namespaces/{namespace}/replicasets | 
+*AppsV1Api* | [**create_namespaced_stateful_set**](docs/AppsV1Api.md#create_namespaced_stateful_set) | **POST** /apis/apps/v1/namespaces/{namespace}/statefulsets | 
+*AppsV1Api* | [**create_replica_set_for_all_namespaces**](docs/AppsV1Api.md#create_replica_set_for_all_namespaces) | **POST** /apis/apps/v1/replicasets | 
+*AppsV1Api* | [**create_stateful_set_for_all_namespaces**](docs/AppsV1Api.md#create_stateful_set_for_all_namespaces) | **POST** /apis/apps/v1/statefulsets | 
+*AppsV1Api* | [**delete_collection_namespaced_controller_revision**](docs/AppsV1Api.md#delete_collection_namespaced_controller_revision) | **DELETE** /apis/apps/v1/namespaces/{namespace}/controllerrevisions | 
+*AppsV1Api* | [**delete_collection_namespaced_daemon_set**](docs/AppsV1Api.md#delete_collection_namespaced_daemon_set) | **DELETE** /apis/apps/v1/namespaces/{namespace}/daemonsets | 
+*AppsV1Api* | [**delete_collection_namespaced_deployment**](docs/AppsV1Api.md#delete_collection_namespaced_deployment) | **DELETE** /apis/apps/v1/namespaces/{namespace}/deployments | 
+*AppsV1Api* | [**delete_collection_namespaced_replica_set**](docs/AppsV1Api.md#delete_collection_namespaced_replica_set) | **DELETE** /apis/apps/v1/namespaces/{namespace}/replicasets | 
+*AppsV1Api* | [**delete_collection_namespaced_stateful_set**](docs/AppsV1Api.md#delete_collection_namespaced_stateful_set) | **DELETE** /apis/apps/v1/namespaces/{namespace}/statefulsets | 
+*AppsV1Api* | [**delete_namespaced_controller_revision**](docs/AppsV1Api.md#delete_namespaced_controller_revision) | **DELETE** /apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1Api* | [**delete_namespaced_daemon_set**](docs/AppsV1Api.md#delete_namespaced_daemon_set) | **DELETE** /apis/apps/v1/namespaces/{namespace}/daemonsets/{name} | 
+*AppsV1Api* | [**delete_namespaced_deployment**](docs/AppsV1Api.md#delete_namespaced_deployment) | **DELETE** /apis/apps/v1/namespaces/{namespace}/deployments/{name} | 
+*AppsV1Api* | [**delete_namespaced_replica_set**](docs/AppsV1Api.md#delete_namespaced_replica_set) | **DELETE** /apis/apps/v1/namespaces/{namespace}/replicasets/{name} | 
+*AppsV1Api* | [**delete_namespaced_stateful_set**](docs/AppsV1Api.md#delete_namespaced_stateful_set) | **DELETE** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1Api* | [**get_api_resources**](docs/AppsV1Api.md#get_api_resources) | **GET** /apis/apps/v1/ | 
+*AppsV1Api* | [**list_controller_revision_for_all_namespaces**](docs/AppsV1Api.md#list_controller_revision_for_all_namespaces) | **GET** /apis/apps/v1/controllerrevisions | 
+*AppsV1Api* | [**list_daemon_set_for_all_namespaces**](docs/AppsV1Api.md#list_daemon_set_for_all_namespaces) | **GET** /apis/apps/v1/daemonsets | 
+*AppsV1Api* | [**list_deployment_for_all_namespaces**](docs/AppsV1Api.md#list_deployment_for_all_namespaces) | **GET** /apis/apps/v1/deployments | 
+*AppsV1Api* | [**list_namespaced_controller_revision**](docs/AppsV1Api.md#list_namespaced_controller_revision) | **GET** /apis/apps/v1/namespaces/{namespace}/controllerrevisions | 
+*AppsV1Api* | [**list_namespaced_daemon_set**](docs/AppsV1Api.md#list_namespaced_daemon_set) | **GET** /apis/apps/v1/namespaces/{namespace}/daemonsets | 
+*AppsV1Api* | [**list_namespaced_deployment**](docs/AppsV1Api.md#list_namespaced_deployment) | **GET** /apis/apps/v1/namespaces/{namespace}/deployments | 
+*AppsV1Api* | [**list_namespaced_replica_set**](docs/AppsV1Api.md#list_namespaced_replica_set) | **GET** /apis/apps/v1/namespaces/{namespace}/replicasets | 
+*AppsV1Api* | [**list_namespaced_stateful_set**](docs/AppsV1Api.md#list_namespaced_stateful_set) | **GET** /apis/apps/v1/namespaces/{namespace}/statefulsets | 
+*AppsV1Api* | [**list_replica_set_for_all_namespaces**](docs/AppsV1Api.md#list_replica_set_for_all_namespaces) | **GET** /apis/apps/v1/replicasets | 
+*AppsV1Api* | [**list_stateful_set_for_all_namespaces**](docs/AppsV1Api.md#list_stateful_set_for_all_namespaces) | **GET** /apis/apps/v1/statefulsets | 
+*AppsV1Api* | [**patch_namespaced_controller_revision**](docs/AppsV1Api.md#patch_namespaced_controller_revision) | **PATCH** /apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1Api* | [**patch_namespaced_daemon_set**](docs/AppsV1Api.md#patch_namespaced_daemon_set) | **PATCH** /apis/apps/v1/namespaces/{namespace}/daemonsets/{name} | 
+*AppsV1Api* | [**patch_namespaced_daemon_set_status**](docs/AppsV1Api.md#patch_namespaced_daemon_set_status) | **PATCH** /apis/apps/v1/namespaces/{namespace}/daemonsets/{name}/status | 
+*AppsV1Api* | [**patch_namespaced_deployment**](docs/AppsV1Api.md#patch_namespaced_deployment) | **PATCH** /apis/apps/v1/namespaces/{namespace}/deployments/{name} | 
+*AppsV1Api* | [**patch_namespaced_deployment_scale**](docs/AppsV1Api.md#patch_namespaced_deployment_scale) | **PATCH** /apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale | 
+*AppsV1Api* | [**patch_namespaced_deployment_status**](docs/AppsV1Api.md#patch_namespaced_deployment_status) | **PATCH** /apis/apps/v1/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1Api* | [**patch_namespaced_replica_set**](docs/AppsV1Api.md#patch_namespaced_replica_set) | **PATCH** /apis/apps/v1/namespaces/{namespace}/replicasets/{name} | 
+*AppsV1Api* | [**patch_namespaced_replica_set_scale**](docs/AppsV1Api.md#patch_namespaced_replica_set_scale) | **PATCH** /apis/apps/v1/namespaces/{namespace}/replicasets/{name}/scale | 
+*AppsV1Api* | [**patch_namespaced_replica_set_status**](docs/AppsV1Api.md#patch_namespaced_replica_set_status) | **PATCH** /apis/apps/v1/namespaces/{namespace}/replicasets/{name}/status | 
+*AppsV1Api* | [**patch_namespaced_stateful_set**](docs/AppsV1Api.md#patch_namespaced_stateful_set) | **PATCH** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1Api* | [**patch_namespaced_stateful_set_scale**](docs/AppsV1Api.md#patch_namespaced_stateful_set_scale) | **PATCH** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/scale | 
+*AppsV1Api* | [**patch_namespaced_stateful_set_status**](docs/AppsV1Api.md#patch_namespaced_stateful_set_status) | **PATCH** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/status | 
+*AppsV1Api* | [**read_namespaced_controller_revision**](docs/AppsV1Api.md#read_namespaced_controller_revision) | **GET** /apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1Api* | [**read_namespaced_daemon_set**](docs/AppsV1Api.md#read_namespaced_daemon_set) | **GET** /apis/apps/v1/namespaces/{namespace}/daemonsets/{name} | 
+*AppsV1Api* | [**read_namespaced_daemon_set_status**](docs/AppsV1Api.md#read_namespaced_daemon_set_status) | **GET** /apis/apps/v1/namespaces/{namespace}/daemonsets/{name}/status | 
+*AppsV1Api* | [**read_namespaced_deployment**](docs/AppsV1Api.md#read_namespaced_deployment) | **GET** /apis/apps/v1/namespaces/{namespace}/deployments/{name} | 
+*AppsV1Api* | [**read_namespaced_deployment_scale**](docs/AppsV1Api.md#read_namespaced_deployment_scale) | **GET** /apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale | 
+*AppsV1Api* | [**read_namespaced_deployment_status**](docs/AppsV1Api.md#read_namespaced_deployment_status) | **GET** /apis/apps/v1/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1Api* | [**read_namespaced_replica_set**](docs/AppsV1Api.md#read_namespaced_replica_set) | **GET** /apis/apps/v1/namespaces/{namespace}/replicasets/{name} | 
+*AppsV1Api* | [**read_namespaced_replica_set_scale**](docs/AppsV1Api.md#read_namespaced_replica_set_scale) | **GET** /apis/apps/v1/namespaces/{namespace}/replicasets/{name}/scale | 
+*AppsV1Api* | [**read_namespaced_replica_set_status**](docs/AppsV1Api.md#read_namespaced_replica_set_status) | **GET** /apis/apps/v1/namespaces/{namespace}/replicasets/{name}/status | 
+*AppsV1Api* | [**read_namespaced_stateful_set**](docs/AppsV1Api.md#read_namespaced_stateful_set) | **GET** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1Api* | [**read_namespaced_stateful_set_scale**](docs/AppsV1Api.md#read_namespaced_stateful_set_scale) | **GET** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/scale | 
+*AppsV1Api* | [**read_namespaced_stateful_set_status**](docs/AppsV1Api.md#read_namespaced_stateful_set_status) | **GET** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/status | 
+*AppsV1Api* | [**replace_namespaced_controller_revision**](docs/AppsV1Api.md#replace_namespaced_controller_revision) | **PUT** /apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1Api* | [**replace_namespaced_daemon_set**](docs/AppsV1Api.md#replace_namespaced_daemon_set) | **PUT** /apis/apps/v1/namespaces/{namespace}/daemonsets/{name} | 
+*AppsV1Api* | [**replace_namespaced_daemon_set_status**](docs/AppsV1Api.md#replace_namespaced_daemon_set_status) | **PUT** /apis/apps/v1/namespaces/{namespace}/daemonsets/{name}/status | 
+*AppsV1Api* | [**replace_namespaced_deployment**](docs/AppsV1Api.md#replace_namespaced_deployment) | **PUT** /apis/apps/v1/namespaces/{namespace}/deployments/{name} | 
+*AppsV1Api* | [**replace_namespaced_deployment_scale**](docs/AppsV1Api.md#replace_namespaced_deployment_scale) | **PUT** /apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale | 
+*AppsV1Api* | [**replace_namespaced_deployment_status**](docs/AppsV1Api.md#replace_namespaced_deployment_status) | **PUT** /apis/apps/v1/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1Api* | [**replace_namespaced_replica_set**](docs/AppsV1Api.md#replace_namespaced_replica_set) | **PUT** /apis/apps/v1/namespaces/{namespace}/replicasets/{name} | 
+*AppsV1Api* | [**replace_namespaced_replica_set_scale**](docs/AppsV1Api.md#replace_namespaced_replica_set_scale) | **PUT** /apis/apps/v1/namespaces/{namespace}/replicasets/{name}/scale | 
+*AppsV1Api* | [**replace_namespaced_replica_set_status**](docs/AppsV1Api.md#replace_namespaced_replica_set_status) | **PUT** /apis/apps/v1/namespaces/{namespace}/replicasets/{name}/status | 
+*AppsV1Api* | [**replace_namespaced_stateful_set**](docs/AppsV1Api.md#replace_namespaced_stateful_set) | **PUT** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1Api* | [**replace_namespaced_stateful_set_scale**](docs/AppsV1Api.md#replace_namespaced_stateful_set_scale) | **PUT** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/scale | 
+*AppsV1Api* | [**replace_namespaced_stateful_set_status**](docs/AppsV1Api.md#replace_namespaced_stateful_set_status) | **PUT** /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/status | 
 *AppsV1beta1Api* | [**create_controller_revision_for_all_namespaces**](docs/AppsV1beta1Api.md#create_controller_revision_for_all_namespaces) | **POST** /apis/apps/v1beta1/controllerrevisions | 
 *AppsV1beta1Api* | [**create_deployment_for_all_namespaces**](docs/AppsV1beta1Api.md#create_deployment_for_all_namespaces) | **POST** /apis/apps/v1beta1/deployments | 
 *AppsV1beta1Api* | [**create_namespaced_controller_revision**](docs/AppsV1beta1Api.md#create_namespaced_controller_revision) | **POST** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions | 
@@ -123,19 +216,89 @@ Class | Method | HTTP request | Description
 *AppsV1beta1Api* | [**patch_namespaced_deployment_scale**](docs/AppsV1beta1Api.md#patch_namespaced_deployment_scale) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
 *AppsV1beta1Api* | [**patch_namespaced_deployment_status**](docs/AppsV1beta1Api.md#patch_namespaced_deployment_status) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
 *AppsV1beta1Api* | [**patch_namespaced_stateful_set**](docs/AppsV1beta1Api.md#patch_namespaced_stateful_set) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1beta1Api* | [**patch_namespaced_stateful_set_scale**](docs/AppsV1beta1Api.md#patch_namespaced_stateful_set_scale) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/scale | 
 *AppsV1beta1Api* | [**patch_namespaced_stateful_set_status**](docs/AppsV1beta1Api.md#patch_namespaced_stateful_set_status) | **PATCH** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/status | 
 *AppsV1beta1Api* | [**read_namespaced_controller_revision**](docs/AppsV1beta1Api.md#read_namespaced_controller_revision) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions/{name} | 
 *AppsV1beta1Api* | [**read_namespaced_deployment**](docs/AppsV1beta1Api.md#read_namespaced_deployment) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name} | 
 *AppsV1beta1Api* | [**read_namespaced_deployment_scale**](docs/AppsV1beta1Api.md#read_namespaced_deployment_scale) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
 *AppsV1beta1Api* | [**read_namespaced_deployment_status**](docs/AppsV1beta1Api.md#read_namespaced_deployment_status) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
 *AppsV1beta1Api* | [**read_namespaced_stateful_set**](docs/AppsV1beta1Api.md#read_namespaced_stateful_set) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1beta1Api* | [**read_namespaced_stateful_set_scale**](docs/AppsV1beta1Api.md#read_namespaced_stateful_set_scale) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/scale | 
 *AppsV1beta1Api* | [**read_namespaced_stateful_set_status**](docs/AppsV1beta1Api.md#read_namespaced_stateful_set_status) | **GET** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/status | 
 *AppsV1beta1Api* | [**replace_namespaced_controller_revision**](docs/AppsV1beta1Api.md#replace_namespaced_controller_revision) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/controllerrevisions/{name} | 
 *AppsV1beta1Api* | [**replace_namespaced_deployment**](docs/AppsV1beta1Api.md#replace_namespaced_deployment) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name} | 
 *AppsV1beta1Api* | [**replace_namespaced_deployment_scale**](docs/AppsV1beta1Api.md#replace_namespaced_deployment_scale) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/scale | 
 *AppsV1beta1Api* | [**replace_namespaced_deployment_status**](docs/AppsV1beta1Api.md#replace_namespaced_deployment_status) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/status | 
 *AppsV1beta1Api* | [**replace_namespaced_stateful_set**](docs/AppsV1beta1Api.md#replace_namespaced_stateful_set) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1beta1Api* | [**replace_namespaced_stateful_set_scale**](docs/AppsV1beta1Api.md#replace_namespaced_stateful_set_scale) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/scale | 
 *AppsV1beta1Api* | [**replace_namespaced_stateful_set_status**](docs/AppsV1beta1Api.md#replace_namespaced_stateful_set_status) | **PUT** /apis/apps/v1beta1/namespaces/{namespace}/statefulsets/{name}/status | 
+*AppsV1beta2Api* | [**create_controller_revision_for_all_namespaces**](docs/AppsV1beta2Api.md#create_controller_revision_for_all_namespaces) | **POST** /apis/apps/v1beta2/controllerrevisions | 
+*AppsV1beta2Api* | [**create_daemon_set_for_all_namespaces**](docs/AppsV1beta2Api.md#create_daemon_set_for_all_namespaces) | **POST** /apis/apps/v1beta2/daemonsets | 
+*AppsV1beta2Api* | [**create_deployment_for_all_namespaces**](docs/AppsV1beta2Api.md#create_deployment_for_all_namespaces) | **POST** /apis/apps/v1beta2/deployments | 
+*AppsV1beta2Api* | [**create_namespaced_controller_revision**](docs/AppsV1beta2Api.md#create_namespaced_controller_revision) | **POST** /apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions | 
+*AppsV1beta2Api* | [**create_namespaced_daemon_set**](docs/AppsV1beta2Api.md#create_namespaced_daemon_set) | **POST** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets | 
+*AppsV1beta2Api* | [**create_namespaced_deployment**](docs/AppsV1beta2Api.md#create_namespaced_deployment) | **POST** /apis/apps/v1beta2/namespaces/{namespace}/deployments | 
+*AppsV1beta2Api* | [**create_namespaced_replica_set**](docs/AppsV1beta2Api.md#create_namespaced_replica_set) | **POST** /apis/apps/v1beta2/namespaces/{namespace}/replicasets | 
+*AppsV1beta2Api* | [**create_namespaced_stateful_set**](docs/AppsV1beta2Api.md#create_namespaced_stateful_set) | **POST** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets | 
+*AppsV1beta2Api* | [**create_replica_set_for_all_namespaces**](docs/AppsV1beta2Api.md#create_replica_set_for_all_namespaces) | **POST** /apis/apps/v1beta2/replicasets | 
+*AppsV1beta2Api* | [**create_stateful_set_for_all_namespaces**](docs/AppsV1beta2Api.md#create_stateful_set_for_all_namespaces) | **POST** /apis/apps/v1beta2/statefulsets | 
+*AppsV1beta2Api* | [**delete_collection_namespaced_controller_revision**](docs/AppsV1beta2Api.md#delete_collection_namespaced_controller_revision) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions | 
+*AppsV1beta2Api* | [**delete_collection_namespaced_daemon_set**](docs/AppsV1beta2Api.md#delete_collection_namespaced_daemon_set) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets | 
+*AppsV1beta2Api* | [**delete_collection_namespaced_deployment**](docs/AppsV1beta2Api.md#delete_collection_namespaced_deployment) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/deployments | 
+*AppsV1beta2Api* | [**delete_collection_namespaced_replica_set**](docs/AppsV1beta2Api.md#delete_collection_namespaced_replica_set) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/replicasets | 
+*AppsV1beta2Api* | [**delete_collection_namespaced_stateful_set**](docs/AppsV1beta2Api.md#delete_collection_namespaced_stateful_set) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets | 
+*AppsV1beta2Api* | [**delete_namespaced_controller_revision**](docs/AppsV1beta2Api.md#delete_namespaced_controller_revision) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1beta2Api* | [**delete_namespaced_daemon_set**](docs/AppsV1beta2Api.md#delete_namespaced_daemon_set) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name} | 
+*AppsV1beta2Api* | [**delete_namespaced_deployment**](docs/AppsV1beta2Api.md#delete_namespaced_deployment) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name} | 
+*AppsV1beta2Api* | [**delete_namespaced_replica_set**](docs/AppsV1beta2Api.md#delete_namespaced_replica_set) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name} | 
+*AppsV1beta2Api* | [**delete_namespaced_stateful_set**](docs/AppsV1beta2Api.md#delete_namespaced_stateful_set) | **DELETE** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1beta2Api* | [**get_api_resources**](docs/AppsV1beta2Api.md#get_api_resources) | **GET** /apis/apps/v1beta2/ | 
+*AppsV1beta2Api* | [**list_controller_revision_for_all_namespaces**](docs/AppsV1beta2Api.md#list_controller_revision_for_all_namespaces) | **GET** /apis/apps/v1beta2/controllerrevisions | 
+*AppsV1beta2Api* | [**list_daemon_set_for_all_namespaces**](docs/AppsV1beta2Api.md#list_daemon_set_for_all_namespaces) | **GET** /apis/apps/v1beta2/daemonsets | 
+*AppsV1beta2Api* | [**list_deployment_for_all_namespaces**](docs/AppsV1beta2Api.md#list_deployment_for_all_namespaces) | **GET** /apis/apps/v1beta2/deployments | 
+*AppsV1beta2Api* | [**list_namespaced_controller_revision**](docs/AppsV1beta2Api.md#list_namespaced_controller_revision) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions | 
+*AppsV1beta2Api* | [**list_namespaced_daemon_set**](docs/AppsV1beta2Api.md#list_namespaced_daemon_set) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets | 
+*AppsV1beta2Api* | [**list_namespaced_deployment**](docs/AppsV1beta2Api.md#list_namespaced_deployment) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/deployments | 
+*AppsV1beta2Api* | [**list_namespaced_replica_set**](docs/AppsV1beta2Api.md#list_namespaced_replica_set) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/replicasets | 
+*AppsV1beta2Api* | [**list_namespaced_stateful_set**](docs/AppsV1beta2Api.md#list_namespaced_stateful_set) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets | 
+*AppsV1beta2Api* | [**list_replica_set_for_all_namespaces**](docs/AppsV1beta2Api.md#list_replica_set_for_all_namespaces) | **GET** /apis/apps/v1beta2/replicasets | 
+*AppsV1beta2Api* | [**list_stateful_set_for_all_namespaces**](docs/AppsV1beta2Api.md#list_stateful_set_for_all_namespaces) | **GET** /apis/apps/v1beta2/statefulsets | 
+*AppsV1beta2Api* | [**patch_namespaced_controller_revision**](docs/AppsV1beta2Api.md#patch_namespaced_controller_revision) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1beta2Api* | [**patch_namespaced_daemon_set**](docs/AppsV1beta2Api.md#patch_namespaced_daemon_set) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name} | 
+*AppsV1beta2Api* | [**patch_namespaced_daemon_set_status**](docs/AppsV1beta2Api.md#patch_namespaced_daemon_set_status) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status | 
+*AppsV1beta2Api* | [**patch_namespaced_deployment**](docs/AppsV1beta2Api.md#patch_namespaced_deployment) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name} | 
+*AppsV1beta2Api* | [**patch_namespaced_deployment_scale**](docs/AppsV1beta2Api.md#patch_namespaced_deployment_scale) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale | 
+*AppsV1beta2Api* | [**patch_namespaced_deployment_status**](docs/AppsV1beta2Api.md#patch_namespaced_deployment_status) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1beta2Api* | [**patch_namespaced_replica_set**](docs/AppsV1beta2Api.md#patch_namespaced_replica_set) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name} | 
+*AppsV1beta2Api* | [**patch_namespaced_replica_set_scale**](docs/AppsV1beta2Api.md#patch_namespaced_replica_set_scale) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale | 
+*AppsV1beta2Api* | [**patch_namespaced_replica_set_status**](docs/AppsV1beta2Api.md#patch_namespaced_replica_set_status) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status | 
+*AppsV1beta2Api* | [**patch_namespaced_stateful_set**](docs/AppsV1beta2Api.md#patch_namespaced_stateful_set) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1beta2Api* | [**patch_namespaced_stateful_set_scale**](docs/AppsV1beta2Api.md#patch_namespaced_stateful_set_scale) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale | 
+*AppsV1beta2Api* | [**patch_namespaced_stateful_set_status**](docs/AppsV1beta2Api.md#patch_namespaced_stateful_set_status) | **PATCH** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status | 
+*AppsV1beta2Api* | [**read_namespaced_controller_revision**](docs/AppsV1beta2Api.md#read_namespaced_controller_revision) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1beta2Api* | [**read_namespaced_daemon_set**](docs/AppsV1beta2Api.md#read_namespaced_daemon_set) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name} | 
+*AppsV1beta2Api* | [**read_namespaced_daemon_set_status**](docs/AppsV1beta2Api.md#read_namespaced_daemon_set_status) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status | 
+*AppsV1beta2Api* | [**read_namespaced_deployment**](docs/AppsV1beta2Api.md#read_namespaced_deployment) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name} | 
+*AppsV1beta2Api* | [**read_namespaced_deployment_scale**](docs/AppsV1beta2Api.md#read_namespaced_deployment_scale) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale | 
+*AppsV1beta2Api* | [**read_namespaced_deployment_status**](docs/AppsV1beta2Api.md#read_namespaced_deployment_status) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1beta2Api* | [**read_namespaced_replica_set**](docs/AppsV1beta2Api.md#read_namespaced_replica_set) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name} | 
+*AppsV1beta2Api* | [**read_namespaced_replica_set_scale**](docs/AppsV1beta2Api.md#read_namespaced_replica_set_scale) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale | 
+*AppsV1beta2Api* | [**read_namespaced_replica_set_status**](docs/AppsV1beta2Api.md#read_namespaced_replica_set_status) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status | 
+*AppsV1beta2Api* | [**read_namespaced_stateful_set**](docs/AppsV1beta2Api.md#read_namespaced_stateful_set) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1beta2Api* | [**read_namespaced_stateful_set_scale**](docs/AppsV1beta2Api.md#read_namespaced_stateful_set_scale) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale | 
+*AppsV1beta2Api* | [**read_namespaced_stateful_set_status**](docs/AppsV1beta2Api.md#read_namespaced_stateful_set_status) | **GET** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status | 
+*AppsV1beta2Api* | [**replace_namespaced_controller_revision**](docs/AppsV1beta2Api.md#replace_namespaced_controller_revision) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/controllerrevisions/{name} | 
+*AppsV1beta2Api* | [**replace_namespaced_daemon_set**](docs/AppsV1beta2Api.md#replace_namespaced_daemon_set) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name} | 
+*AppsV1beta2Api* | [**replace_namespaced_daemon_set_status**](docs/AppsV1beta2Api.md#replace_namespaced_daemon_set_status) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/daemonsets/{name}/status | 
+*AppsV1beta2Api* | [**replace_namespaced_deployment**](docs/AppsV1beta2Api.md#replace_namespaced_deployment) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name} | 
+*AppsV1beta2Api* | [**replace_namespaced_deployment_scale**](docs/AppsV1beta2Api.md#replace_namespaced_deployment_scale) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/scale | 
+*AppsV1beta2Api* | [**replace_namespaced_deployment_status**](docs/AppsV1beta2Api.md#replace_namespaced_deployment_status) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/deployments/{name}/status | 
+*AppsV1beta2Api* | [**replace_namespaced_replica_set**](docs/AppsV1beta2Api.md#replace_namespaced_replica_set) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name} | 
+*AppsV1beta2Api* | [**replace_namespaced_replica_set_scale**](docs/AppsV1beta2Api.md#replace_namespaced_replica_set_scale) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/scale | 
+*AppsV1beta2Api* | [**replace_namespaced_replica_set_status**](docs/AppsV1beta2Api.md#replace_namespaced_replica_set_status) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/replicasets/{name}/status | 
+*AppsV1beta2Api* | [**replace_namespaced_stateful_set**](docs/AppsV1beta2Api.md#replace_namespaced_stateful_set) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name} | 
+*AppsV1beta2Api* | [**replace_namespaced_stateful_set_scale**](docs/AppsV1beta2Api.md#replace_namespaced_stateful_set_scale) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/scale | 
+*AppsV1beta2Api* | [**replace_namespaced_stateful_set_status**](docs/AppsV1beta2Api.md#replace_namespaced_stateful_set_status) | **PUT** /apis/apps/v1beta2/namespaces/{namespace}/statefulsets/{name}/status | 
 *AuthenticationApi* | [**get_api_group**](docs/AuthenticationApi.md#get_api_group) | **GET** /apis/authentication.k8s.io/ | 
 *AuthenticationV1Api* | [**create_token_review**](docs/AuthenticationV1Api.md#create_token_review) | **POST** /apis/authentication.k8s.io/v1/tokenreviews | 
 *AuthenticationV1Api* | [**get_api_resources**](docs/AuthenticationV1Api.md#get_api_resources) | **GET** /apis/authentication.k8s.io/v1/ | 
@@ -194,11 +357,13 @@ Class | Method | HTTP request | Description
 *AuthorizationV1Api* | [**create_local_subject_access_review_for_all_namespaces**](docs/AuthorizationV1Api.md#create_local_subject_access_review_for_all_namespaces) | **POST** /apis/authorization.k8s.io/v1/localsubjectaccessreviews | 
 *AuthorizationV1Api* | [**create_namespaced_local_subject_access_review**](docs/AuthorizationV1Api.md#create_namespaced_local_subject_access_review) | **POST** /apis/authorization.k8s.io/v1/namespaces/{namespace}/localsubjectaccessreviews | 
 *AuthorizationV1Api* | [**create_self_subject_access_review**](docs/AuthorizationV1Api.md#create_self_subject_access_review) | **POST** /apis/authorization.k8s.io/v1/selfsubjectaccessreviews | 
+*AuthorizationV1Api* | [**create_self_subject_rules_review**](docs/AuthorizationV1Api.md#create_self_subject_rules_review) | **POST** /apis/authorization.k8s.io/v1/selfsubjectrulesreviews | 
 *AuthorizationV1Api* | [**create_subject_access_review**](docs/AuthorizationV1Api.md#create_subject_access_review) | **POST** /apis/authorization.k8s.io/v1/subjectaccessreviews | 
 *AuthorizationV1Api* | [**get_api_resources**](docs/AuthorizationV1Api.md#get_api_resources) | **GET** /apis/authorization.k8s.io/v1/ | 
 *AuthorizationV1beta1Api* | [**create_local_subject_access_review_for_all_namespaces**](docs/AuthorizationV1beta1Api.md#create_local_subject_access_review_for_all_namespaces) | **POST** /apis/authorization.k8s.io/v1beta1/localsubjectaccessreviews | 
 *AuthorizationV1beta1Api* | [**create_namespaced_local_subject_access_review**](docs/AuthorizationV1beta1Api.md#create_namespaced_local_subject_access_review) | **POST** /apis/authorization.k8s.io/v1beta1/namespaces/{namespace}/localsubjectaccessreviews | 
 *AuthorizationV1beta1Api* | [**create_self_subject_access_review**](docs/AuthorizationV1beta1Api.md#create_self_subject_access_review) | **POST** /apis/authorization.k8s.io/v1beta1/selfsubjectaccessreviews | 
+*AuthorizationV1beta1Api* | [**create_self_subject_rules_review**](docs/AuthorizationV1beta1Api.md#create_self_subject_rules_review) | **POST** /apis/authorization.k8s.io/v1beta1/selfsubjectrulesreviews | 
 *AuthorizationV1beta1Api* | [**create_subject_access_review**](docs/AuthorizationV1beta1Api.md#create_subject_access_review) | **POST** /apis/authorization.k8s.io/v1beta1/subjectaccessreviews | 
 *AuthorizationV1beta1Api* | [**get_api_resources**](docs/AuthorizationV1beta1Api.md#get_api_resources) | **GET** /apis/authorization.k8s.io/v1beta1/ | 
 *AutoscalingApi* | [**get_api_group**](docs/AutoscalingApi.md#get_api_group) | **GET** /apis/autoscaling/ | 
@@ -215,6 +380,19 @@ Class | Method | HTTP request | Description
 *AutoscalingV1Api* | [**read_namespaced_horizontal_pod_autoscaler_status**](docs/AutoscalingV1Api.md#read_namespaced_horizontal_pod_autoscaler_status) | **GET** /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
 *AutoscalingV1Api* | [**replace_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV1Api.md#replace_namespaced_horizontal_pod_autoscaler) | **PUT** /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
 *AutoscalingV1Api* | [**replace_namespaced_horizontal_pod_autoscaler_status**](docs/AutoscalingV1Api.md#replace_namespaced_horizontal_pod_autoscaler_status) | **PUT** /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
+*AutoscalingV2beta1Api* | [**create_horizontal_pod_autoscaler_for_all_namespaces**](docs/AutoscalingV2beta1Api.md#create_horizontal_pod_autoscaler_for_all_namespaces) | **POST** /apis/autoscaling/v2beta1/horizontalpodautoscalers | 
+*AutoscalingV2beta1Api* | [**create_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV2beta1Api.md#create_namespaced_horizontal_pod_autoscaler) | **POST** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers | 
+*AutoscalingV2beta1Api* | [**delete_collection_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV2beta1Api.md#delete_collection_namespaced_horizontal_pod_autoscaler) | **DELETE** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers | 
+*AutoscalingV2beta1Api* | [**delete_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV2beta1Api.md#delete_namespaced_horizontal_pod_autoscaler) | **DELETE** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
+*AutoscalingV2beta1Api* | [**get_api_resources**](docs/AutoscalingV2beta1Api.md#get_api_resources) | **GET** /apis/autoscaling/v2beta1/ | 
+*AutoscalingV2beta1Api* | [**list_horizontal_pod_autoscaler_for_all_namespaces**](docs/AutoscalingV2beta1Api.md#list_horizontal_pod_autoscaler_for_all_namespaces) | **GET** /apis/autoscaling/v2beta1/horizontalpodautoscalers | 
+*AutoscalingV2beta1Api* | [**list_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV2beta1Api.md#list_namespaced_horizontal_pod_autoscaler) | **GET** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers | 
+*AutoscalingV2beta1Api* | [**patch_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV2beta1Api.md#patch_namespaced_horizontal_pod_autoscaler) | **PATCH** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
+*AutoscalingV2beta1Api* | [**patch_namespaced_horizontal_pod_autoscaler_status**](docs/AutoscalingV2beta1Api.md#patch_namespaced_horizontal_pod_autoscaler_status) | **PATCH** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
+*AutoscalingV2beta1Api* | [**read_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV2beta1Api.md#read_namespaced_horizontal_pod_autoscaler) | **GET** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
+*AutoscalingV2beta1Api* | [**read_namespaced_horizontal_pod_autoscaler_status**](docs/AutoscalingV2beta1Api.md#read_namespaced_horizontal_pod_autoscaler_status) | **GET** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
+*AutoscalingV2beta1Api* | [**replace_namespaced_horizontal_pod_autoscaler**](docs/AutoscalingV2beta1Api.md#replace_namespaced_horizontal_pod_autoscaler) | **PUT** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name} | 
+*AutoscalingV2beta1Api* | [**replace_namespaced_horizontal_pod_autoscaler_status**](docs/AutoscalingV2beta1Api.md#replace_namespaced_horizontal_pod_autoscaler_status) | **PUT** /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status | 
 *BatchApi* | [**get_api_group**](docs/BatchApi.md#get_api_group) | **GET** /apis/batch/ | 
 *BatchV1Api* | [**create_job_for_all_namespaces**](docs/BatchV1Api.md#create_job_for_all_namespaces) | **POST** /apis/batch/v1/jobs | 
 *BatchV1Api* | [**create_namespaced_job**](docs/BatchV1Api.md#create_namespaced_job) | **POST** /apis/batch/v1/namespaces/{namespace}/jobs | 
@@ -229,31 +407,32 @@ Class | Method | HTTP request | Description
 *BatchV1Api* | [**read_namespaced_job_status**](docs/BatchV1Api.md#read_namespaced_job_status) | **GET** /apis/batch/v1/namespaces/{namespace}/jobs/{name}/status | 
 *BatchV1Api* | [**replace_namespaced_job**](docs/BatchV1Api.md#replace_namespaced_job) | **PUT** /apis/batch/v1/namespaces/{namespace}/jobs/{name} | 
 *BatchV1Api* | [**replace_namespaced_job_status**](docs/BatchV1Api.md#replace_namespaced_job_status) | **PUT** /apis/batch/v1/namespaces/{namespace}/jobs/{name}/status | 
+*BatchV1beta1Api* | [**create_cron_job_for_all_namespaces**](docs/BatchV1beta1Api.md#create_cron_job_for_all_namespaces) | **POST** /apis/batch/v1beta1/cronjobs | 
+*BatchV1beta1Api* | [**create_namespaced_cron_job**](docs/BatchV1beta1Api.md#create_namespaced_cron_job) | **POST** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs | 
+*BatchV1beta1Api* | [**delete_collection_namespaced_cron_job**](docs/BatchV1beta1Api.md#delete_collection_namespaced_cron_job) | **DELETE** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs | 
+*BatchV1beta1Api* | [**delete_namespaced_cron_job**](docs/BatchV1beta1Api.md#delete_namespaced_cron_job) | **DELETE** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name} | 
+*BatchV1beta1Api* | [**get_api_resources**](docs/BatchV1beta1Api.md#get_api_resources) | **GET** /apis/batch/v1beta1/ | 
+*BatchV1beta1Api* | [**list_cron_job_for_all_namespaces**](docs/BatchV1beta1Api.md#list_cron_job_for_all_namespaces) | **GET** /apis/batch/v1beta1/cronjobs | 
+*BatchV1beta1Api* | [**list_namespaced_cron_job**](docs/BatchV1beta1Api.md#list_namespaced_cron_job) | **GET** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs | 
+*BatchV1beta1Api* | [**patch_namespaced_cron_job**](docs/BatchV1beta1Api.md#patch_namespaced_cron_job) | **PATCH** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name} | 
+*BatchV1beta1Api* | [**patch_namespaced_cron_job_status**](docs/BatchV1beta1Api.md#patch_namespaced_cron_job_status) | **PATCH** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name}/status | 
+*BatchV1beta1Api* | [**read_namespaced_cron_job**](docs/BatchV1beta1Api.md#read_namespaced_cron_job) | **GET** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name} | 
+*BatchV1beta1Api* | [**read_namespaced_cron_job_status**](docs/BatchV1beta1Api.md#read_namespaced_cron_job_status) | **GET** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name}/status | 
+*BatchV1beta1Api* | [**replace_namespaced_cron_job**](docs/BatchV1beta1Api.md#replace_namespaced_cron_job) | **PUT** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name} | 
+*BatchV1beta1Api* | [**replace_namespaced_cron_job_status**](docs/BatchV1beta1Api.md#replace_namespaced_cron_job_status) | **PUT** /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name}/status | 
 *BatchV2alpha1Api* | [**create_cron_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#create_cron_job_for_all_namespaces) | **POST** /apis/batch/v2alpha1/cronjobs | 
 *BatchV2alpha1Api* | [**create_namespaced_cron_job**](docs/BatchV2alpha1Api.md#create_namespaced_cron_job) | **POST** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs | 
-*BatchV2alpha1Api* | [**create_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#create_namespaced_scheduled_job) | **POST** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs | 
-*BatchV2alpha1Api* | [**create_scheduled_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#create_scheduled_job_for_all_namespaces) | **POST** /apis/batch/v2alpha1/scheduledjobs | 
 *BatchV2alpha1Api* | [**delete_collection_namespaced_cron_job**](docs/BatchV2alpha1Api.md#delete_collection_namespaced_cron_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs | 
-*BatchV2alpha1Api* | [**delete_collection_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#delete_collection_namespaced_scheduled_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs | 
 *BatchV2alpha1Api* | [**delete_namespaced_cron_job**](docs/BatchV2alpha1Api.md#delete_namespaced_cron_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name} | 
-*BatchV2alpha1Api* | [**delete_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#delete_namespaced_scheduled_job) | **DELETE** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name} | 
 *BatchV2alpha1Api* | [**get_api_resources**](docs/BatchV2alpha1Api.md#get_api_resources) | **GET** /apis/batch/v2alpha1/ | 
 *BatchV2alpha1Api* | [**list_cron_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#list_cron_job_for_all_namespaces) | **GET** /apis/batch/v2alpha1/cronjobs | 
 *BatchV2alpha1Api* | [**list_namespaced_cron_job**](docs/BatchV2alpha1Api.md#list_namespaced_cron_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs | 
-*BatchV2alpha1Api* | [**list_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#list_namespaced_scheduled_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs | 
-*BatchV2alpha1Api* | [**list_scheduled_job_for_all_namespaces**](docs/BatchV2alpha1Api.md#list_scheduled_job_for_all_namespaces) | **GET** /apis/batch/v2alpha1/scheduledjobs | 
 *BatchV2alpha1Api* | [**patch_namespaced_cron_job**](docs/BatchV2alpha1Api.md#patch_namespaced_cron_job) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name} | 
 *BatchV2alpha1Api* | [**patch_namespaced_cron_job_status**](docs/BatchV2alpha1Api.md#patch_namespaced_cron_job_status) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name}/status | 
-*BatchV2alpha1Api* | [**patch_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#patch_namespaced_scheduled_job) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name} | 
-*BatchV2alpha1Api* | [**patch_namespaced_scheduled_job_status**](docs/BatchV2alpha1Api.md#patch_namespaced_scheduled_job_status) | **PATCH** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name}/status | 
 *BatchV2alpha1Api* | [**read_namespaced_cron_job**](docs/BatchV2alpha1Api.md#read_namespaced_cron_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name} | 
 *BatchV2alpha1Api* | [**read_namespaced_cron_job_status**](docs/BatchV2alpha1Api.md#read_namespaced_cron_job_status) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name}/status | 
-*BatchV2alpha1Api* | [**read_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#read_namespaced_scheduled_job) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name} | 
-*BatchV2alpha1Api* | [**read_namespaced_scheduled_job_status**](docs/BatchV2alpha1Api.md#read_namespaced_scheduled_job_status) | **GET** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name}/status | 
 *BatchV2alpha1Api* | [**replace_namespaced_cron_job**](docs/BatchV2alpha1Api.md#replace_namespaced_cron_job) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name} | 
 *BatchV2alpha1Api* | [**replace_namespaced_cron_job_status**](docs/BatchV2alpha1Api.md#replace_namespaced_cron_job_status) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/cronjobs/{name}/status | 
-*BatchV2alpha1Api* | [**replace_namespaced_scheduled_job**](docs/BatchV2alpha1Api.md#replace_namespaced_scheduled_job) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name} | 
-*BatchV2alpha1Api* | [**replace_namespaced_scheduled_job_status**](docs/BatchV2alpha1Api.md#replace_namespaced_scheduled_job_status) | **PUT** /apis/batch/v2alpha1/namespaces/{namespace}/scheduledjobs/{name}/status | 
 *BuildOpenshiftIoApi* | [**get_api_group**](docs/BuildOpenshiftIoApi.md#get_api_group) | **GET** /apis/build.openshift.io/ | 
 *BuildOpenshiftIoV1Api* | [**connect_post_namespaced_build_config_instantiatebinary**](docs/BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_config_instantiatebinary) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/instantiatebinary | 
 *BuildOpenshiftIoV1Api* | [**connect_post_namespaced_build_config_webhooks**](docs/BuildOpenshiftIoV1Api.md#connect_post_namespaced_build_config_webhooks) | **POST** /apis/build.openshift.io/v1/namespaces/{namespace}/buildconfigs/{name}/webhooks | 
@@ -563,6 +742,17 @@ Class | Method | HTTP request | Description
 *CustomObjectsApi* | [**list_namespaced_custom_object**](docs/CustomObjectsApi.md#list_namespaced_custom_object) | **GET** /apis/{group}/{version}/namespaces/{namespace}/{plural} | 
 *CustomObjectsApi* | [**replace_cluster_custom_object**](docs/CustomObjectsApi.md#replace_cluster_custom_object) | **PUT** /apis/{group}/{version}/{plural}/{name} | 
 *CustomObjectsApi* | [**replace_namespaced_custom_object**](docs/CustomObjectsApi.md#replace_namespaced_custom_object) | **PUT** /apis/{group}/{version}/namespaces/{namespace}/{plural}/{name} | 
+*EventsApi* | [**get_api_group**](docs/EventsApi.md#get_api_group) | **GET** /apis/events.k8s.io/ | 
+*EventsV1beta1Api* | [**create_event_for_all_namespaces**](docs/EventsV1beta1Api.md#create_event_for_all_namespaces) | **POST** /apis/events.k8s.io/v1beta1/events | 
+*EventsV1beta1Api* | [**create_namespaced_event**](docs/EventsV1beta1Api.md#create_namespaced_event) | **POST** /apis/events.k8s.io/v1beta1/namespaces/{namespace}/events | 
+*EventsV1beta1Api* | [**delete_collection_namespaced_event**](docs/EventsV1beta1Api.md#delete_collection_namespaced_event) | **DELETE** /apis/events.k8s.io/v1beta1/namespaces/{namespace}/events | 
+*EventsV1beta1Api* | [**delete_namespaced_event**](docs/EventsV1beta1Api.md#delete_namespaced_event) | **DELETE** /apis/events.k8s.io/v1beta1/namespaces/{namespace}/events/{name} | 
+*EventsV1beta1Api* | [**get_api_resources**](docs/EventsV1beta1Api.md#get_api_resources) | **GET** /apis/events.k8s.io/v1beta1/ | 
+*EventsV1beta1Api* | [**list_event_for_all_namespaces**](docs/EventsV1beta1Api.md#list_event_for_all_namespaces) | **GET** /apis/events.k8s.io/v1beta1/events | 
+*EventsV1beta1Api* | [**list_namespaced_event**](docs/EventsV1beta1Api.md#list_namespaced_event) | **GET** /apis/events.k8s.io/v1beta1/namespaces/{namespace}/events | 
+*EventsV1beta1Api* | [**patch_namespaced_event**](docs/EventsV1beta1Api.md#patch_namespaced_event) | **PATCH** /apis/events.k8s.io/v1beta1/namespaces/{namespace}/events/{name} | 
+*EventsV1beta1Api* | [**read_namespaced_event**](docs/EventsV1beta1Api.md#read_namespaced_event) | **GET** /apis/events.k8s.io/v1beta1/namespaces/{namespace}/events/{name} | 
+*EventsV1beta1Api* | [**replace_namespaced_event**](docs/EventsV1beta1Api.md#replace_namespaced_event) | **PUT** /apis/events.k8s.io/v1beta1/namespaces/{namespace}/events/{name} | 
 *ExtensionsApi* | [**get_api_group**](docs/ExtensionsApi.md#get_api_group) | **GET** /apis/extensions/ | 
 *ExtensionsV1beta1Api* | [**create_daemon_set_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_daemon_set_for_all_namespaces) | **POST** /apis/extensions/v1beta1/daemonsets | 
 *ExtensionsV1beta1Api* | [**create_deployment_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_deployment_for_all_namespaces) | **POST** /apis/extensions/v1beta1/deployments | 
@@ -576,21 +766,18 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**create_network_policy_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_network_policy_for_all_namespaces) | **POST** /apis/extensions/v1beta1/networkpolicies | 
 *ExtensionsV1beta1Api* | [**create_pod_security_policy**](docs/ExtensionsV1beta1Api.md#create_pod_security_policy) | **POST** /apis/extensions/v1beta1/podsecuritypolicies | 
 *ExtensionsV1beta1Api* | [**create_replica_set_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#create_replica_set_for_all_namespaces) | **POST** /apis/extensions/v1beta1/replicasets | 
-*ExtensionsV1beta1Api* | [**create_third_party_resource**](docs/ExtensionsV1beta1Api.md#create_third_party_resource) | **POST** /apis/extensions/v1beta1/thirdpartyresources | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_daemon_set) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_deployment) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/deployments | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_ingress) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_network_policy) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies | 
 *ExtensionsV1beta1Api* | [**delete_collection_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#delete_collection_namespaced_replica_set) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets | 
 *ExtensionsV1beta1Api* | [**delete_collection_pod_security_policy**](docs/ExtensionsV1beta1Api.md#delete_collection_pod_security_policy) | **DELETE** /apis/extensions/v1beta1/podsecuritypolicies | 
-*ExtensionsV1beta1Api* | [**delete_collection_third_party_resource**](docs/ExtensionsV1beta1Api.md#delete_collection_third_party_resource) | **DELETE** /apis/extensions/v1beta1/thirdpartyresources | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#delete_namespaced_daemon_set) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets/{name} | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#delete_namespaced_deployment) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name} | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_ingress**](docs/ExtensionsV1beta1Api.md#delete_namespaced_ingress) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/ingresses/{name} | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_network_policy**](docs/ExtensionsV1beta1Api.md#delete_namespaced_network_policy) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/networkpolicies/{name} | 
 *ExtensionsV1beta1Api* | [**delete_namespaced_replica_set**](docs/ExtensionsV1beta1Api.md#delete_namespaced_replica_set) | **DELETE** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name} | 
 *ExtensionsV1beta1Api* | [**delete_pod_security_policy**](docs/ExtensionsV1beta1Api.md#delete_pod_security_policy) | **DELETE** /apis/extensions/v1beta1/podsecuritypolicies/{name} | 
-*ExtensionsV1beta1Api* | [**delete_third_party_resource**](docs/ExtensionsV1beta1Api.md#delete_third_party_resource) | **DELETE** /apis/extensions/v1beta1/thirdpartyresources/{name} | 
 *ExtensionsV1beta1Api* | [**get_api_resources**](docs/ExtensionsV1beta1Api.md#get_api_resources) | **GET** /apis/extensions/v1beta1/ | 
 *ExtensionsV1beta1Api* | [**list_daemon_set_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_daemon_set_for_all_namespaces) | **GET** /apis/extensions/v1beta1/daemonsets | 
 *ExtensionsV1beta1Api* | [**list_deployment_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_deployment_for_all_namespaces) | **GET** /apis/extensions/v1beta1/deployments | 
@@ -603,7 +790,6 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**list_network_policy_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_network_policy_for_all_namespaces) | **GET** /apis/extensions/v1beta1/networkpolicies | 
 *ExtensionsV1beta1Api* | [**list_pod_security_policy**](docs/ExtensionsV1beta1Api.md#list_pod_security_policy) | **GET** /apis/extensions/v1beta1/podsecuritypolicies | 
 *ExtensionsV1beta1Api* | [**list_replica_set_for_all_namespaces**](docs/ExtensionsV1beta1Api.md#list_replica_set_for_all_namespaces) | **GET** /apis/extensions/v1beta1/replicasets | 
-*ExtensionsV1beta1Api* | [**list_third_party_resource**](docs/ExtensionsV1beta1Api.md#list_third_party_resource) | **GET** /apis/extensions/v1beta1/thirdpartyresources | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#patch_namespaced_daemon_set) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets/{name} | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_daemon_set_status**](docs/ExtensionsV1beta1Api.md#patch_namespaced_daemon_set_status) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets/{name}/status | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#patch_namespaced_deployment) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name} | 
@@ -617,7 +803,6 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**patch_namespaced_replica_set_status**](docs/ExtensionsV1beta1Api.md#patch_namespaced_replica_set_status) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name}/status | 
 *ExtensionsV1beta1Api* | [**patch_namespaced_replication_controller_dummy_scale**](docs/ExtensionsV1beta1Api.md#patch_namespaced_replication_controller_dummy_scale) | **PATCH** /apis/extensions/v1beta1/namespaces/{namespace}/replicationcontrollers/{name}/scale | 
 *ExtensionsV1beta1Api* | [**patch_pod_security_policy**](docs/ExtensionsV1beta1Api.md#patch_pod_security_policy) | **PATCH** /apis/extensions/v1beta1/podsecuritypolicies/{name} | 
-*ExtensionsV1beta1Api* | [**patch_third_party_resource**](docs/ExtensionsV1beta1Api.md#patch_third_party_resource) | **PATCH** /apis/extensions/v1beta1/thirdpartyresources/{name} | 
 *ExtensionsV1beta1Api* | [**read_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#read_namespaced_daemon_set) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets/{name} | 
 *ExtensionsV1beta1Api* | [**read_namespaced_daemon_set_status**](docs/ExtensionsV1beta1Api.md#read_namespaced_daemon_set_status) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets/{name}/status | 
 *ExtensionsV1beta1Api* | [**read_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#read_namespaced_deployment) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name} | 
@@ -631,7 +816,6 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**read_namespaced_replica_set_status**](docs/ExtensionsV1beta1Api.md#read_namespaced_replica_set_status) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name}/status | 
 *ExtensionsV1beta1Api* | [**read_namespaced_replication_controller_dummy_scale**](docs/ExtensionsV1beta1Api.md#read_namespaced_replication_controller_dummy_scale) | **GET** /apis/extensions/v1beta1/namespaces/{namespace}/replicationcontrollers/{name}/scale | 
 *ExtensionsV1beta1Api* | [**read_pod_security_policy**](docs/ExtensionsV1beta1Api.md#read_pod_security_policy) | **GET** /apis/extensions/v1beta1/podsecuritypolicies/{name} | 
-*ExtensionsV1beta1Api* | [**read_third_party_resource**](docs/ExtensionsV1beta1Api.md#read_third_party_resource) | **GET** /apis/extensions/v1beta1/thirdpartyresources/{name} | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_daemon_set**](docs/ExtensionsV1beta1Api.md#replace_namespaced_daemon_set) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets/{name} | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_daemon_set_status**](docs/ExtensionsV1beta1Api.md#replace_namespaced_daemon_set_status) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/daemonsets/{name}/status | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_deployment**](docs/ExtensionsV1beta1Api.md#replace_namespaced_deployment) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name} | 
@@ -645,7 +829,6 @@ Class | Method | HTTP request | Description
 *ExtensionsV1beta1Api* | [**replace_namespaced_replica_set_status**](docs/ExtensionsV1beta1Api.md#replace_namespaced_replica_set_status) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/replicasets/{name}/status | 
 *ExtensionsV1beta1Api* | [**replace_namespaced_replication_controller_dummy_scale**](docs/ExtensionsV1beta1Api.md#replace_namespaced_replication_controller_dummy_scale) | **PUT** /apis/extensions/v1beta1/namespaces/{namespace}/replicationcontrollers/{name}/scale | 
 *ExtensionsV1beta1Api* | [**replace_pod_security_policy**](docs/ExtensionsV1beta1Api.md#replace_pod_security_policy) | **PUT** /apis/extensions/v1beta1/podsecuritypolicies/{name} | 
-*ExtensionsV1beta1Api* | [**replace_third_party_resource**](docs/ExtensionsV1beta1Api.md#replace_third_party_resource) | **PUT** /apis/extensions/v1beta1/thirdpartyresources/{name} | 
 *ImageOpenshiftIoApi* | [**get_api_group**](docs/ImageOpenshiftIoApi.md#get_api_group) | **GET** /apis/image.openshift.io/ | 
 *ImageOpenshiftIoV1Api* | [**create_image**](docs/ImageOpenshiftIoV1Api.md#create_image) | **POST** /apis/image.openshift.io/v1/images | 
 *ImageOpenshiftIoV1Api* | [**create_image_signature**](docs/ImageOpenshiftIoV1Api.md#create_image_signature) | **POST** /apis/image.openshift.io/v1/imagesignatures | 
@@ -736,7 +919,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**create_cluster_role**](docs/OapiApi.md#create_cluster_role) | **POST** /oapi/v1/clusterroles | 
 *OapiApi* | [**create_cluster_role_binding**](docs/OapiApi.md#create_cluster_role_binding) | **POST** /oapi/v1/clusterrolebindings | 
 *OapiApi* | [**create_deployment_config_for_all_namespaces**](docs/OapiApi.md#create_deployment_config_for_all_namespaces) | **POST** /oapi/v1/deploymentconfigs | 
-*OapiApi* | [**create_deployment_config_rollback_for_all_namespaces**](docs/OapiApi.md#create_deployment_config_rollback_for_all_namespaces) | **POST** /oapi/v1/deploymentconfigrollbacks | 
 *OapiApi* | [**create_egress_network_policy_for_all_namespaces**](docs/OapiApi.md#create_egress_network_policy_for_all_namespaces) | **POST** /oapi/v1/egressnetworkpolicies | 
 *OapiApi* | [**create_group**](docs/OapiApi.md#create_group) | **POST** /oapi/v1/groups | 
 *OapiApi* | [**create_host_subnet**](docs/OapiApi.md#create_host_subnet) | **POST** /oapi/v1/hostsubnets | 
@@ -755,7 +937,6 @@ Class | Method | HTTP request | Description
 *OapiApi* | [**create_namespaced_build_config_instantiate**](docs/OapiApi.md#create_namespaced_build_config_instantiate) | **POST** /oapi/v1/namespaces/{namespace}/buildconfigs/{name}/instantiate | 
 *OapiApi* | [**create_namespaced_deployment_config**](docs/OapiApi.md#create_namespaced_deployment_config) | **POST** /oapi/v1/namespaces/{namespace}/deploymentconfigs | 
 *OapiApi* | [**create_namespaced_deployment_config_instantiate**](docs/OapiApi.md#create_namespaced_deployment_config_instantiate) | **POST** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/instantiate | 
-*OapiApi* | [**create_namespaced_deployment_config_rollback**](docs/OapiApi.md#create_namespaced_deployment_config_rollback) | **POST** /oapi/v1/namespaces/{namespace}/deploymentconfigrollbacks | 
 *OapiApi* | [**create_namespaced_deployment_config_rollback_rollback**](docs/OapiApi.md#create_namespaced_deployment_config_rollback_rollback) | **POST** /oapi/v1/namespaces/{namespace}/deploymentconfigs/{name}/rollback | 
 *OapiApi* | [**create_namespaced_egress_network_policy**](docs/OapiApi.md#create_namespaced_egress_network_policy) | **POST** /oapi/v1/namespaces/{namespace}/egressnetworkpolicies | 
 *OapiApi* | [**create_namespaced_image_stream**](docs/OapiApi.md#create_namespaced_image_stream) | **POST** /oapi/v1/namespaces/{namespace}/imagestreams | 
@@ -1061,6 +1242,39 @@ Class | Method | HTTP request | Description
 *QuotaOpenshiftIoV1Api* | [**replace_cluster_resource_quota**](docs/QuotaOpenshiftIoV1Api.md#replace_cluster_resource_quota) | **PUT** /apis/quota.openshift.io/v1/clusterresourcequotas/{name} | 
 *QuotaOpenshiftIoV1Api* | [**replace_cluster_resource_quota_status**](docs/QuotaOpenshiftIoV1Api.md#replace_cluster_resource_quota_status) | **PUT** /apis/quota.openshift.io/v1/clusterresourcequotas/{name}/status | 
 *RbacAuthorizationApi* | [**get_api_group**](docs/RbacAuthorizationApi.md#get_api_group) | **GET** /apis/rbac.authorization.k8s.io/ | 
+*RbacAuthorizationV1Api* | [**create_cluster_role**](docs/RbacAuthorizationV1Api.md#create_cluster_role) | **POST** /apis/rbac.authorization.k8s.io/v1/clusterroles | 
+*RbacAuthorizationV1Api* | [**create_cluster_role_binding**](docs/RbacAuthorizationV1Api.md#create_cluster_role_binding) | **POST** /apis/rbac.authorization.k8s.io/v1/clusterrolebindings | 
+*RbacAuthorizationV1Api* | [**create_namespaced_role**](docs/RbacAuthorizationV1Api.md#create_namespaced_role) | **POST** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles | 
+*RbacAuthorizationV1Api* | [**create_namespaced_role_binding**](docs/RbacAuthorizationV1Api.md#create_namespaced_role_binding) | **POST** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings | 
+*RbacAuthorizationV1Api* | [**create_role_binding_for_all_namespaces**](docs/RbacAuthorizationV1Api.md#create_role_binding_for_all_namespaces) | **POST** /apis/rbac.authorization.k8s.io/v1/rolebindings | 
+*RbacAuthorizationV1Api* | [**create_role_for_all_namespaces**](docs/RbacAuthorizationV1Api.md#create_role_for_all_namespaces) | **POST** /apis/rbac.authorization.k8s.io/v1/roles | 
+*RbacAuthorizationV1Api* | [**delete_cluster_role**](docs/RbacAuthorizationV1Api.md#delete_cluster_role) | **DELETE** /apis/rbac.authorization.k8s.io/v1/clusterroles/{name} | 
+*RbacAuthorizationV1Api* | [**delete_cluster_role_binding**](docs/RbacAuthorizationV1Api.md#delete_cluster_role_binding) | **DELETE** /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name} | 
+*RbacAuthorizationV1Api* | [**delete_collection_cluster_role**](docs/RbacAuthorizationV1Api.md#delete_collection_cluster_role) | **DELETE** /apis/rbac.authorization.k8s.io/v1/clusterroles | 
+*RbacAuthorizationV1Api* | [**delete_collection_cluster_role_binding**](docs/RbacAuthorizationV1Api.md#delete_collection_cluster_role_binding) | **DELETE** /apis/rbac.authorization.k8s.io/v1/clusterrolebindings | 
+*RbacAuthorizationV1Api* | [**delete_collection_namespaced_role**](docs/RbacAuthorizationV1Api.md#delete_collection_namespaced_role) | **DELETE** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles | 
+*RbacAuthorizationV1Api* | [**delete_collection_namespaced_role_binding**](docs/RbacAuthorizationV1Api.md#delete_collection_namespaced_role_binding) | **DELETE** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings | 
+*RbacAuthorizationV1Api* | [**delete_namespaced_role**](docs/RbacAuthorizationV1Api.md#delete_namespaced_role) | **DELETE** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name} | 
+*RbacAuthorizationV1Api* | [**delete_namespaced_role_binding**](docs/RbacAuthorizationV1Api.md#delete_namespaced_role_binding) | **DELETE** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name} | 
+*RbacAuthorizationV1Api* | [**get_api_resources**](docs/RbacAuthorizationV1Api.md#get_api_resources) | **GET** /apis/rbac.authorization.k8s.io/v1/ | 
+*RbacAuthorizationV1Api* | [**list_cluster_role**](docs/RbacAuthorizationV1Api.md#list_cluster_role) | **GET** /apis/rbac.authorization.k8s.io/v1/clusterroles | 
+*RbacAuthorizationV1Api* | [**list_cluster_role_binding**](docs/RbacAuthorizationV1Api.md#list_cluster_role_binding) | **GET** /apis/rbac.authorization.k8s.io/v1/clusterrolebindings | 
+*RbacAuthorizationV1Api* | [**list_namespaced_role**](docs/RbacAuthorizationV1Api.md#list_namespaced_role) | **GET** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles | 
+*RbacAuthorizationV1Api* | [**list_namespaced_role_binding**](docs/RbacAuthorizationV1Api.md#list_namespaced_role_binding) | **GET** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings | 
+*RbacAuthorizationV1Api* | [**list_role_binding_for_all_namespaces**](docs/RbacAuthorizationV1Api.md#list_role_binding_for_all_namespaces) | **GET** /apis/rbac.authorization.k8s.io/v1/rolebindings | 
+*RbacAuthorizationV1Api* | [**list_role_for_all_namespaces**](docs/RbacAuthorizationV1Api.md#list_role_for_all_namespaces) | **GET** /apis/rbac.authorization.k8s.io/v1/roles | 
+*RbacAuthorizationV1Api* | [**patch_cluster_role**](docs/RbacAuthorizationV1Api.md#patch_cluster_role) | **PATCH** /apis/rbac.authorization.k8s.io/v1/clusterroles/{name} | 
+*RbacAuthorizationV1Api* | [**patch_cluster_role_binding**](docs/RbacAuthorizationV1Api.md#patch_cluster_role_binding) | **PATCH** /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name} | 
+*RbacAuthorizationV1Api* | [**patch_namespaced_role**](docs/RbacAuthorizationV1Api.md#patch_namespaced_role) | **PATCH** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name} | 
+*RbacAuthorizationV1Api* | [**patch_namespaced_role_binding**](docs/RbacAuthorizationV1Api.md#patch_namespaced_role_binding) | **PATCH** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name} | 
+*RbacAuthorizationV1Api* | [**read_cluster_role**](docs/RbacAuthorizationV1Api.md#read_cluster_role) | **GET** /apis/rbac.authorization.k8s.io/v1/clusterroles/{name} | 
+*RbacAuthorizationV1Api* | [**read_cluster_role_binding**](docs/RbacAuthorizationV1Api.md#read_cluster_role_binding) | **GET** /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name} | 
+*RbacAuthorizationV1Api* | [**read_namespaced_role**](docs/RbacAuthorizationV1Api.md#read_namespaced_role) | **GET** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name} | 
+*RbacAuthorizationV1Api* | [**read_namespaced_role_binding**](docs/RbacAuthorizationV1Api.md#read_namespaced_role_binding) | **GET** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name} | 
+*RbacAuthorizationV1Api* | [**replace_cluster_role**](docs/RbacAuthorizationV1Api.md#replace_cluster_role) | **PUT** /apis/rbac.authorization.k8s.io/v1/clusterroles/{name} | 
+*RbacAuthorizationV1Api* | [**replace_cluster_role_binding**](docs/RbacAuthorizationV1Api.md#replace_cluster_role_binding) | **PUT** /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name} | 
+*RbacAuthorizationV1Api* | [**replace_namespaced_role**](docs/RbacAuthorizationV1Api.md#replace_namespaced_role) | **PUT** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name} | 
+*RbacAuthorizationV1Api* | [**replace_namespaced_role_binding**](docs/RbacAuthorizationV1Api.md#replace_namespaced_role_binding) | **PUT** /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name} | 
 *RbacAuthorizationV1beta1Api* | [**create_cluster_role**](docs/RbacAuthorizationV1beta1Api.md#create_cluster_role) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/clusterroles | 
 *RbacAuthorizationV1beta1Api* | [**create_cluster_role_binding**](docs/RbacAuthorizationV1beta1Api.md#create_cluster_role_binding) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/clusterrolebindings | 
 *RbacAuthorizationV1beta1Api* | [**create_namespaced_role**](docs/RbacAuthorizationV1beta1Api.md#create_namespaced_role) | **POST** /apis/rbac.authorization.k8s.io/v1beta1/namespaces/{namespace}/roles | 
@@ -1204,6 +1418,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdmissionregistrationV1beta1ServiceReference](docs/AdmissionregistrationV1beta1ServiceReference.md)
+ - [ApiregistrationV1beta1ServiceReference](docs/ApiregistrationV1beta1ServiceReference.md)
  - [AppsV1beta1Deployment](docs/AppsV1beta1Deployment.md)
  - [AppsV1beta1DeploymentCondition](docs/AppsV1beta1DeploymentCondition.md)
  - [AppsV1beta1DeploymentList](docs/AppsV1beta1DeploymentList.md)
@@ -1236,11 +1452,13 @@ Class | Method | HTTP request | Description
  - [V1APIVersions](docs/V1APIVersions.md)
  - [V1AWSElasticBlockStoreVolumeSource](docs/V1AWSElasticBlockStoreVolumeSource.md)
  - [V1Affinity](docs/V1Affinity.md)
+ - [V1AggregationRule](docs/V1AggregationRule.md)
  - [V1AllowedFlexVolume](docs/V1AllowedFlexVolume.md)
  - [V1AppliedClusterResourceQuota](docs/V1AppliedClusterResourceQuota.md)
  - [V1AppliedClusterResourceQuotaList](docs/V1AppliedClusterResourceQuotaList.md)
  - [V1AttachedVolume](docs/V1AttachedVolume.md)
  - [V1AzureDiskVolumeSource](docs/V1AzureDiskVolumeSource.md)
+ - [V1AzureFilePersistentVolumeSource](docs/V1AzureFilePersistentVolumeSource.md)
  - [V1AzureFileVolumeSource](docs/V1AzureFileVolumeSource.md)
  - [V1BinaryBuildSource](docs/V1BinaryBuildSource.md)
  - [V1Binding](docs/V1Binding.md)
@@ -1266,9 +1484,12 @@ Class | Method | HTTP request | Description
  - [V1BuildStrategy](docs/V1BuildStrategy.md)
  - [V1BuildTriggerCause](docs/V1BuildTriggerCause.md)
  - [V1BuildTriggerPolicy](docs/V1BuildTriggerPolicy.md)
+ - [V1CSIPersistentVolumeSource](docs/V1CSIPersistentVolumeSource.md)
  - [V1Capabilities](docs/V1Capabilities.md)
+ - [V1CephFSPersistentVolumeSource](docs/V1CephFSPersistentVolumeSource.md)
  - [V1CephFSVolumeSource](docs/V1CephFSVolumeSource.md)
  - [V1CinderVolumeSource](docs/V1CinderVolumeSource.md)
+ - [V1ClientIPConfig](docs/V1ClientIPConfig.md)
  - [V1ClusterNetwork](docs/V1ClusterNetwork.md)
  - [V1ClusterNetworkEntry](docs/V1ClusterNetworkEntry.md)
  - [V1ClusterNetworkList](docs/V1ClusterNetworkList.md)
@@ -1299,11 +1520,20 @@ Class | Method | HTTP request | Description
  - [V1ContainerStateTerminated](docs/V1ContainerStateTerminated.md)
  - [V1ContainerStateWaiting](docs/V1ContainerStateWaiting.md)
  - [V1ContainerStatus](docs/V1ContainerStatus.md)
+ - [V1ControllerRevision](docs/V1ControllerRevision.md)
+ - [V1ControllerRevisionList](docs/V1ControllerRevisionList.md)
  - [V1CrossVersionObjectReference](docs/V1CrossVersionObjectReference.md)
  - [V1CustomBuildStrategy](docs/V1CustomBuildStrategy.md)
  - [V1CustomDeploymentStrategyParams](docs/V1CustomDeploymentStrategyParams.md)
  - [V1DaemonEndpoint](docs/V1DaemonEndpoint.md)
+ - [V1DaemonSet](docs/V1DaemonSet.md)
+ - [V1DaemonSetCondition](docs/V1DaemonSetCondition.md)
+ - [V1DaemonSetList](docs/V1DaemonSetList.md)
+ - [V1DaemonSetSpec](docs/V1DaemonSetSpec.md)
+ - [V1DaemonSetStatus](docs/V1DaemonSetStatus.md)
+ - [V1DaemonSetUpdateStrategy](docs/V1DaemonSetUpdateStrategy.md)
  - [V1DeleteOptions](docs/V1DeleteOptions.md)
+ - [V1Deployment](docs/V1Deployment.md)
  - [V1DeploymentCause](docs/V1DeploymentCause.md)
  - [V1DeploymentCauseImageTrigger](docs/V1DeploymentCauseImageTrigger.md)
  - [V1DeploymentCondition](docs/V1DeploymentCondition.md)
@@ -1314,8 +1544,11 @@ Class | Method | HTTP request | Description
  - [V1DeploymentConfigSpec](docs/V1DeploymentConfigSpec.md)
  - [V1DeploymentConfigStatus](docs/V1DeploymentConfigStatus.md)
  - [V1DeploymentDetails](docs/V1DeploymentDetails.md)
+ - [V1DeploymentList](docs/V1DeploymentList.md)
  - [V1DeploymentLog](docs/V1DeploymentLog.md)
  - [V1DeploymentRequest](docs/V1DeploymentRequest.md)
+ - [V1DeploymentSpec](docs/V1DeploymentSpec.md)
+ - [V1DeploymentStatus](docs/V1DeploymentStatus.md)
  - [V1DeploymentStrategy](docs/V1DeploymentStrategy.md)
  - [V1DeploymentTriggerImageChangeParams](docs/V1DeploymentTriggerImageChangeParams.md)
  - [V1DeploymentTriggerPolicy](docs/V1DeploymentTriggerPolicy.md)
@@ -1340,6 +1573,7 @@ Class | Method | HTTP request | Description
  - [V1EnvVarSource](docs/V1EnvVarSource.md)
  - [V1Event](docs/V1Event.md)
  - [V1EventList](docs/V1EventList.md)
+ - [V1EventSeries](docs/V1EventSeries.md)
  - [V1EventSource](docs/V1EventSource.md)
  - [V1ExecAction](docs/V1ExecAction.md)
  - [V1ExecNewPodHook](docs/V1ExecNewPodHook.md)
@@ -1371,6 +1605,8 @@ Class | Method | HTTP request | Description
  - [V1HostSubnet](docs/V1HostSubnet.md)
  - [V1HostSubnetList](docs/V1HostSubnetList.md)
  - [V1IDRange](docs/V1IDRange.md)
+ - [V1IPBlock](docs/V1IPBlock.md)
+ - [V1ISCSIPersistentVolumeSource](docs/V1ISCSIPersistentVolumeSource.md)
  - [V1ISCSIVolumeSource](docs/V1ISCSIVolumeSource.md)
  - [V1Identity](docs/V1Identity.md)
  - [V1IdentityList](docs/V1IdentityList.md)
@@ -1430,6 +1666,7 @@ Class | Method | HTTP request | Description
  - [V1NetNamespace](docs/V1NetNamespace.md)
  - [V1NetNamespaceList](docs/V1NetNamespaceList.md)
  - [V1NetworkPolicy](docs/V1NetworkPolicy.md)
+ - [V1NetworkPolicyEgressRule](docs/V1NetworkPolicyEgressRule.md)
  - [V1NetworkPolicyIngressRule](docs/V1NetworkPolicyIngressRule.md)
  - [V1NetworkPolicyList](docs/V1NetworkPolicyList.md)
  - [V1NetworkPolicyPeer](docs/V1NetworkPolicyPeer.md)
@@ -1439,6 +1676,7 @@ Class | Method | HTTP request | Description
  - [V1NodeAddress](docs/V1NodeAddress.md)
  - [V1NodeAffinity](docs/V1NodeAffinity.md)
  - [V1NodeCondition](docs/V1NodeCondition.md)
+ - [V1NodeConfigSource](docs/V1NodeConfigSource.md)
  - [V1NodeDaemonEndpoints](docs/V1NodeDaemonEndpoints.md)
  - [V1NodeList](docs/V1NodeList.md)
  - [V1NodeSelector](docs/V1NodeSelector.md)
@@ -1448,6 +1686,7 @@ Class | Method | HTTP request | Description
  - [V1NodeStatus](docs/V1NodeStatus.md)
  - [V1NodeSystemInfo](docs/V1NodeSystemInfo.md)
  - [V1NonResourceAttributes](docs/V1NonResourceAttributes.md)
+ - [V1NonResourceRule](docs/V1NonResourceRule.md)
  - [V1OAuthAccessToken](docs/V1OAuthAccessToken.md)
  - [V1OAuthAccessTokenList](docs/V1OAuthAccessTokenList.md)
  - [V1OAuthAuthorizeToken](docs/V1OAuthAuthorizeToken.md)
@@ -1463,6 +1702,7 @@ Class | Method | HTTP request | Description
  - [V1Parameter](docs/V1Parameter.md)
  - [V1PersistentVolume](docs/V1PersistentVolume.md)
  - [V1PersistentVolumeClaim](docs/V1PersistentVolumeClaim.md)
+ - [V1PersistentVolumeClaimCondition](docs/V1PersistentVolumeClaimCondition.md)
  - [V1PersistentVolumeClaimList](docs/V1PersistentVolumeClaimList.md)
  - [V1PersistentVolumeClaimSpec](docs/V1PersistentVolumeClaimSpec.md)
  - [V1PersistentVolumeClaimStatus](docs/V1PersistentVolumeClaimStatus.md)
@@ -1476,6 +1716,8 @@ Class | Method | HTTP request | Description
  - [V1PodAffinityTerm](docs/V1PodAffinityTerm.md)
  - [V1PodAntiAffinity](docs/V1PodAntiAffinity.md)
  - [V1PodCondition](docs/V1PodCondition.md)
+ - [V1PodDNSConfig](docs/V1PodDNSConfig.md)
+ - [V1PodDNSConfigOption](docs/V1PodDNSConfigOption.md)
  - [V1PodList](docs/V1PodList.md)
  - [V1PodSecurityContext](docs/V1PodSecurityContext.md)
  - [V1PodSecurityPolicyReview](docs/V1PodSecurityPolicyReview.md)
@@ -1503,8 +1745,14 @@ Class | Method | HTTP request | Description
  - [V1ProjectStatus](docs/V1ProjectStatus.md)
  - [V1ProjectedVolumeSource](docs/V1ProjectedVolumeSource.md)
  - [V1QuobyteVolumeSource](docs/V1QuobyteVolumeSource.md)
+ - [V1RBDPersistentVolumeSource](docs/V1RBDPersistentVolumeSource.md)
  - [V1RBDVolumeSource](docs/V1RBDVolumeSource.md)
  - [V1RecreateDeploymentStrategyParams](docs/V1RecreateDeploymentStrategyParams.md)
+ - [V1ReplicaSet](docs/V1ReplicaSet.md)
+ - [V1ReplicaSetCondition](docs/V1ReplicaSetCondition.md)
+ - [V1ReplicaSetList](docs/V1ReplicaSetList.md)
+ - [V1ReplicaSetSpec](docs/V1ReplicaSetSpec.md)
+ - [V1ReplicaSetStatus](docs/V1ReplicaSetStatus.md)
  - [V1ReplicationController](docs/V1ReplicationController.md)
  - [V1ReplicationControllerCondition](docs/V1ReplicationControllerCondition.md)
  - [V1ReplicationControllerList](docs/V1ReplicationControllerList.md)
@@ -1521,6 +1769,7 @@ Class | Method | HTTP request | Description
  - [V1ResourceQuotaStatus](docs/V1ResourceQuotaStatus.md)
  - [V1ResourceQuotaStatusByNamespace](docs/V1ResourceQuotaStatusByNamespace.md)
  - [V1ResourceRequirements](docs/V1ResourceRequirements.md)
+ - [V1ResourceRule](docs/V1ResourceRule.md)
  - [V1Role](docs/V1Role.md)
  - [V1RoleBinding](docs/V1RoleBinding.md)
  - [V1RoleBindingList](docs/V1RoleBindingList.md)
@@ -1528,7 +1777,11 @@ Class | Method | HTTP request | Description
  - [V1RoleBindingRestrictionList](docs/V1RoleBindingRestrictionList.md)
  - [V1RoleBindingRestrictionSpec](docs/V1RoleBindingRestrictionSpec.md)
  - [V1RoleList](docs/V1RoleList.md)
+ - [V1RoleRef](docs/V1RoleRef.md)
  - [V1RollingDeploymentStrategyParams](docs/V1RollingDeploymentStrategyParams.md)
+ - [V1RollingUpdateDaemonSet](docs/V1RollingUpdateDaemonSet.md)
+ - [V1RollingUpdateDeployment](docs/V1RollingUpdateDeployment.md)
+ - [V1RollingUpdateStatefulSetStrategy](docs/V1RollingUpdateStatefulSetStrategy.md)
  - [V1Route](docs/V1Route.md)
  - [V1RouteIngress](docs/V1RouteIngress.md)
  - [V1RouteIngressCondition](docs/V1RouteIngressCondition.md)
@@ -1541,6 +1794,7 @@ Class | Method | HTTP request | Description
  - [V1SELinuxContextStrategyOptions](docs/V1SELinuxContextStrategyOptions.md)
  - [V1SELinuxOptions](docs/V1SELinuxOptions.md)
  - [V1Scale](docs/V1Scale.md)
+ - [V1ScaleIOPersistentVolumeSource](docs/V1ScaleIOPersistentVolumeSource.md)
  - [V1ScaleIOVolumeSource](docs/V1ScaleIOVolumeSource.md)
  - [V1ScaleSpec](docs/V1ScaleSpec.md)
  - [V1ScaleStatus](docs/V1ScaleStatus.md)
@@ -1550,7 +1804,9 @@ Class | Method | HTTP request | Description
  - [V1SecretEnvSource](docs/V1SecretEnvSource.md)
  - [V1SecretKeySelector](docs/V1SecretKeySelector.md)
  - [V1SecretList](docs/V1SecretList.md)
+ - [V1SecretLocalReference](docs/V1SecretLocalReference.md)
  - [V1SecretProjection](docs/V1SecretProjection.md)
+ - [V1SecretReference](docs/V1SecretReference.md)
  - [V1SecretSpec](docs/V1SecretSpec.md)
  - [V1SecretVolumeSource](docs/V1SecretVolumeSource.md)
  - [V1SecurityContext](docs/V1SecurityContext.md)
@@ -1571,6 +1827,7 @@ Class | Method | HTTP request | Description
  - [V1ServicePort](docs/V1ServicePort.md)
  - [V1ServiceSpec](docs/V1ServiceSpec.md)
  - [V1ServiceStatus](docs/V1ServiceStatus.md)
+ - [V1SessionAffinityConfig](docs/V1SessionAffinityConfig.md)
  - [V1SignatureCondition](docs/V1SignatureCondition.md)
  - [V1SignatureIssuer](docs/V1SignatureIssuer.md)
  - [V1SignatureSubject](docs/V1SignatureSubject.md)
@@ -1579,6 +1836,12 @@ Class | Method | HTTP request | Description
  - [V1SourceRevision](docs/V1SourceRevision.md)
  - [V1SourceStrategyOptions](docs/V1SourceStrategyOptions.md)
  - [V1StageInfo](docs/V1StageInfo.md)
+ - [V1StatefulSet](docs/V1StatefulSet.md)
+ - [V1StatefulSetCondition](docs/V1StatefulSetCondition.md)
+ - [V1StatefulSetList](docs/V1StatefulSetList.md)
+ - [V1StatefulSetSpec](docs/V1StatefulSetSpec.md)
+ - [V1StatefulSetStatus](docs/V1StatefulSetStatus.md)
+ - [V1StatefulSetUpdateStrategy](docs/V1StatefulSetUpdateStrategy.md)
  - [V1Status](docs/V1Status.md)
  - [V1StatusCause](docs/V1StatusCause.md)
  - [V1StatusDetails](docs/V1StatusDetails.md)
@@ -1587,6 +1850,7 @@ Class | Method | HTTP request | Description
  - [V1StorageClassList](docs/V1StorageClassList.md)
  - [V1StorageOSPersistentVolumeSource](docs/V1StorageOSPersistentVolumeSource.md)
  - [V1StorageOSVolumeSource](docs/V1StorageOSVolumeSource.md)
+ - [V1Subject](docs/V1Subject.md)
  - [V1SubjectAccessReview](docs/V1SubjectAccessReview.md)
  - [V1SubjectAccessReviewSpec](docs/V1SubjectAccessReviewSpec.md)
  - [V1SubjectAccessReviewStatus](docs/V1SubjectAccessReviewStatus.md)
@@ -1622,13 +1886,21 @@ Class | Method | HTTP request | Description
  - [V1UserList](docs/V1UserList.md)
  - [V1UserRestriction](docs/V1UserRestriction.md)
  - [V1Volume](docs/V1Volume.md)
+ - [V1VolumeDevice](docs/V1VolumeDevice.md)
  - [V1VolumeMount](docs/V1VolumeMount.md)
  - [V1VolumeProjection](docs/V1VolumeProjection.md)
  - [V1VsphereVirtualDiskVolumeSource](docs/V1VsphereVirtualDiskVolumeSource.md)
  - [V1WatchEvent](docs/V1WatchEvent.md)
  - [V1WebHookTrigger](docs/V1WebHookTrigger.md)
  - [V1WeightedPodAffinityTerm](docs/V1WeightedPodAffinityTerm.md)
- - [V1beta1APIVersion](docs/V1beta1APIVersion.md)
+ - [V1beta1APIService](docs/V1beta1APIService.md)
+ - [V1beta1APIServiceCondition](docs/V1beta1APIServiceCondition.md)
+ - [V1beta1APIServiceList](docs/V1beta1APIServiceList.md)
+ - [V1beta1APIServiceSpec](docs/V1beta1APIServiceSpec.md)
+ - [V1beta1APIServiceStatus](docs/V1beta1APIServiceStatus.md)
+ - [V1beta1AggregationRule](docs/V1beta1AggregationRule.md)
+ - [V1beta1AllowedFlexVolume](docs/V1beta1AllowedFlexVolume.md)
+ - [V1beta1AllowedHostPath](docs/V1beta1AllowedHostPath.md)
  - [V1beta1CertificateSigningRequest](docs/V1beta1CertificateSigningRequest.md)
  - [V1beta1CertificateSigningRequestCondition](docs/V1beta1CertificateSigningRequestCondition.md)
  - [V1beta1CertificateSigningRequestList](docs/V1beta1CertificateSigningRequestList.md)
@@ -1640,17 +1912,26 @@ Class | Method | HTTP request | Description
  - [V1beta1ClusterRoleList](docs/V1beta1ClusterRoleList.md)
  - [V1beta1ControllerRevision](docs/V1beta1ControllerRevision.md)
  - [V1beta1ControllerRevisionList](docs/V1beta1ControllerRevisionList.md)
+ - [V1beta1CronJob](docs/V1beta1CronJob.md)
+ - [V1beta1CronJobList](docs/V1beta1CronJobList.md)
+ - [V1beta1CronJobSpec](docs/V1beta1CronJobSpec.md)
+ - [V1beta1CronJobStatus](docs/V1beta1CronJobStatus.md)
  - [V1beta1DaemonSet](docs/V1beta1DaemonSet.md)
+ - [V1beta1DaemonSetCondition](docs/V1beta1DaemonSetCondition.md)
  - [V1beta1DaemonSetList](docs/V1beta1DaemonSetList.md)
  - [V1beta1DaemonSetSpec](docs/V1beta1DaemonSetSpec.md)
  - [V1beta1DaemonSetStatus](docs/V1beta1DaemonSetStatus.md)
  - [V1beta1DaemonSetUpdateStrategy](docs/V1beta1DaemonSetUpdateStrategy.md)
+ - [V1beta1Event](docs/V1beta1Event.md)
+ - [V1beta1EventList](docs/V1beta1EventList.md)
+ - [V1beta1EventSeries](docs/V1beta1EventSeries.md)
  - [V1beta1Eviction](docs/V1beta1Eviction.md)
  - [V1beta1FSGroupStrategyOptions](docs/V1beta1FSGroupStrategyOptions.md)
  - [V1beta1HTTPIngressPath](docs/V1beta1HTTPIngressPath.md)
  - [V1beta1HTTPIngressRuleValue](docs/V1beta1HTTPIngressRuleValue.md)
  - [V1beta1HostPortRange](docs/V1beta1HostPortRange.md)
  - [V1beta1IDRange](docs/V1beta1IDRange.md)
+ - [V1beta1IPBlock](docs/V1beta1IPBlock.md)
  - [V1beta1Ingress](docs/V1beta1Ingress.md)
  - [V1beta1IngressBackend](docs/V1beta1IngressBackend.md)
  - [V1beta1IngressList](docs/V1beta1IngressList.md)
@@ -1658,14 +1939,19 @@ Class | Method | HTTP request | Description
  - [V1beta1IngressSpec](docs/V1beta1IngressSpec.md)
  - [V1beta1IngressStatus](docs/V1beta1IngressStatus.md)
  - [V1beta1IngressTLS](docs/V1beta1IngressTLS.md)
+ - [V1beta1JobTemplateSpec](docs/V1beta1JobTemplateSpec.md)
  - [V1beta1LocalSubjectAccessReview](docs/V1beta1LocalSubjectAccessReview.md)
+ - [V1beta1MutatingWebhookConfiguration](docs/V1beta1MutatingWebhookConfiguration.md)
+ - [V1beta1MutatingWebhookConfigurationList](docs/V1beta1MutatingWebhookConfigurationList.md)
  - [V1beta1NetworkPolicy](docs/V1beta1NetworkPolicy.md)
+ - [V1beta1NetworkPolicyEgressRule](docs/V1beta1NetworkPolicyEgressRule.md)
  - [V1beta1NetworkPolicyIngressRule](docs/V1beta1NetworkPolicyIngressRule.md)
  - [V1beta1NetworkPolicyList](docs/V1beta1NetworkPolicyList.md)
  - [V1beta1NetworkPolicyPeer](docs/V1beta1NetworkPolicyPeer.md)
  - [V1beta1NetworkPolicyPort](docs/V1beta1NetworkPolicyPort.md)
  - [V1beta1NetworkPolicySpec](docs/V1beta1NetworkPolicySpec.md)
  - [V1beta1NonResourceAttributes](docs/V1beta1NonResourceAttributes.md)
+ - [V1beta1NonResourceRule](docs/V1beta1NonResourceRule.md)
  - [V1beta1PodDisruptionBudget](docs/V1beta1PodDisruptionBudget.md)
  - [V1beta1PodDisruptionBudgetList](docs/V1beta1PodDisruptionBudgetList.md)
  - [V1beta1PodDisruptionBudgetSpec](docs/V1beta1PodDisruptionBudgetSpec.md)
@@ -1680,6 +1966,7 @@ Class | Method | HTTP request | Description
  - [V1beta1ReplicaSetSpec](docs/V1beta1ReplicaSetSpec.md)
  - [V1beta1ReplicaSetStatus](docs/V1beta1ReplicaSetStatus.md)
  - [V1beta1ResourceAttributes](docs/V1beta1ResourceAttributes.md)
+ - [V1beta1ResourceRule](docs/V1beta1ResourceRule.md)
  - [V1beta1Role](docs/V1beta1Role.md)
  - [V1beta1RoleBinding](docs/V1beta1RoleBinding.md)
  - [V1beta1RoleBindingList](docs/V1beta1RoleBindingList.md)
@@ -1687,11 +1974,15 @@ Class | Method | HTTP request | Description
  - [V1beta1RoleRef](docs/V1beta1RoleRef.md)
  - [V1beta1RollingUpdateDaemonSet](docs/V1beta1RollingUpdateDaemonSet.md)
  - [V1beta1RollingUpdateStatefulSetStrategy](docs/V1beta1RollingUpdateStatefulSetStrategy.md)
+ - [V1beta1RuleWithOperations](docs/V1beta1RuleWithOperations.md)
  - [V1beta1RunAsUserStrategyOptions](docs/V1beta1RunAsUserStrategyOptions.md)
  - [V1beta1SELinuxStrategyOptions](docs/V1beta1SELinuxStrategyOptions.md)
  - [V1beta1SelfSubjectAccessReview](docs/V1beta1SelfSubjectAccessReview.md)
  - [V1beta1SelfSubjectAccessReviewSpec](docs/V1beta1SelfSubjectAccessReviewSpec.md)
+ - [V1beta1SelfSubjectRulesReview](docs/V1beta1SelfSubjectRulesReview.md)
+ - [V1beta1SelfSubjectRulesReviewSpec](docs/V1beta1SelfSubjectRulesReviewSpec.md)
  - [V1beta1StatefulSet](docs/V1beta1StatefulSet.md)
+ - [V1beta1StatefulSetCondition](docs/V1beta1StatefulSetCondition.md)
  - [V1beta1StatefulSetList](docs/V1beta1StatefulSetList.md)
  - [V1beta1StatefulSetSpec](docs/V1beta1StatefulSetSpec.md)
  - [V1beta1StatefulSetStatus](docs/V1beta1StatefulSetStatus.md)
@@ -1702,18 +1993,66 @@ Class | Method | HTTP request | Description
  - [V1beta1SubjectAccessReview](docs/V1beta1SubjectAccessReview.md)
  - [V1beta1SubjectAccessReviewSpec](docs/V1beta1SubjectAccessReviewSpec.md)
  - [V1beta1SubjectAccessReviewStatus](docs/V1beta1SubjectAccessReviewStatus.md)
+ - [V1beta1SubjectRulesReviewStatus](docs/V1beta1SubjectRulesReviewStatus.md)
  - [V1beta1SupplementalGroupsStrategyOptions](docs/V1beta1SupplementalGroupsStrategyOptions.md)
- - [V1beta1ThirdPartyResource](docs/V1beta1ThirdPartyResource.md)
- - [V1beta1ThirdPartyResourceList](docs/V1beta1ThirdPartyResourceList.md)
  - [V1beta1TokenReview](docs/V1beta1TokenReview.md)
  - [V1beta1TokenReviewSpec](docs/V1beta1TokenReviewSpec.md)
  - [V1beta1TokenReviewStatus](docs/V1beta1TokenReviewStatus.md)
  - [V1beta1UserInfo](docs/V1beta1UserInfo.md)
+ - [V1beta1ValidatingWebhookConfiguration](docs/V1beta1ValidatingWebhookConfiguration.md)
+ - [V1beta1ValidatingWebhookConfigurationList](docs/V1beta1ValidatingWebhookConfigurationList.md)
+ - [V1beta1Webhook](docs/V1beta1Webhook.md)
+ - [V1beta1WebhookClientConfig](docs/V1beta1WebhookClientConfig.md)
+ - [V1beta2ControllerRevision](docs/V1beta2ControllerRevision.md)
+ - [V1beta2ControllerRevisionList](docs/V1beta2ControllerRevisionList.md)
+ - [V1beta2DaemonSet](docs/V1beta2DaemonSet.md)
+ - [V1beta2DaemonSetCondition](docs/V1beta2DaemonSetCondition.md)
+ - [V1beta2DaemonSetList](docs/V1beta2DaemonSetList.md)
+ - [V1beta2DaemonSetSpec](docs/V1beta2DaemonSetSpec.md)
+ - [V1beta2DaemonSetStatus](docs/V1beta2DaemonSetStatus.md)
+ - [V1beta2DaemonSetUpdateStrategy](docs/V1beta2DaemonSetUpdateStrategy.md)
+ - [V1beta2Deployment](docs/V1beta2Deployment.md)
+ - [V1beta2DeploymentCondition](docs/V1beta2DeploymentCondition.md)
+ - [V1beta2DeploymentList](docs/V1beta2DeploymentList.md)
+ - [V1beta2DeploymentSpec](docs/V1beta2DeploymentSpec.md)
+ - [V1beta2DeploymentStatus](docs/V1beta2DeploymentStatus.md)
+ - [V1beta2DeploymentStrategy](docs/V1beta2DeploymentStrategy.md)
+ - [V1beta2ReplicaSet](docs/V1beta2ReplicaSet.md)
+ - [V1beta2ReplicaSetCondition](docs/V1beta2ReplicaSetCondition.md)
+ - [V1beta2ReplicaSetList](docs/V1beta2ReplicaSetList.md)
+ - [V1beta2ReplicaSetSpec](docs/V1beta2ReplicaSetSpec.md)
+ - [V1beta2ReplicaSetStatus](docs/V1beta2ReplicaSetStatus.md)
+ - [V1beta2RollingUpdateDaemonSet](docs/V1beta2RollingUpdateDaemonSet.md)
+ - [V1beta2RollingUpdateDeployment](docs/V1beta2RollingUpdateDeployment.md)
+ - [V1beta2RollingUpdateStatefulSetStrategy](docs/V1beta2RollingUpdateStatefulSetStrategy.md)
+ - [V1beta2Scale](docs/V1beta2Scale.md)
+ - [V1beta2ScaleSpec](docs/V1beta2ScaleSpec.md)
+ - [V1beta2ScaleStatus](docs/V1beta2ScaleStatus.md)
+ - [V1beta2StatefulSet](docs/V1beta2StatefulSet.md)
+ - [V1beta2StatefulSetCondition](docs/V1beta2StatefulSetCondition.md)
+ - [V1beta2StatefulSetList](docs/V1beta2StatefulSetList.md)
+ - [V1beta2StatefulSetSpec](docs/V1beta2StatefulSetSpec.md)
+ - [V1beta2StatefulSetStatus](docs/V1beta2StatefulSetStatus.md)
+ - [V1beta2StatefulSetUpdateStrategy](docs/V1beta2StatefulSetUpdateStrategy.md)
  - [V2alpha1CronJob](docs/V2alpha1CronJob.md)
  - [V2alpha1CronJobList](docs/V2alpha1CronJobList.md)
  - [V2alpha1CronJobSpec](docs/V2alpha1CronJobSpec.md)
  - [V2alpha1CronJobStatus](docs/V2alpha1CronJobStatus.md)
  - [V2alpha1JobTemplateSpec](docs/V2alpha1JobTemplateSpec.md)
+ - [V2beta1CrossVersionObjectReference](docs/V2beta1CrossVersionObjectReference.md)
+ - [V2beta1HorizontalPodAutoscaler](docs/V2beta1HorizontalPodAutoscaler.md)
+ - [V2beta1HorizontalPodAutoscalerCondition](docs/V2beta1HorizontalPodAutoscalerCondition.md)
+ - [V2beta1HorizontalPodAutoscalerList](docs/V2beta1HorizontalPodAutoscalerList.md)
+ - [V2beta1HorizontalPodAutoscalerSpec](docs/V2beta1HorizontalPodAutoscalerSpec.md)
+ - [V2beta1HorizontalPodAutoscalerStatus](docs/V2beta1HorizontalPodAutoscalerStatus.md)
+ - [V2beta1MetricSpec](docs/V2beta1MetricSpec.md)
+ - [V2beta1MetricStatus](docs/V2beta1MetricStatus.md)
+ - [V2beta1ObjectMetricSource](docs/V2beta1ObjectMetricSource.md)
+ - [V2beta1ObjectMetricStatus](docs/V2beta1ObjectMetricStatus.md)
+ - [V2beta1PodsMetricSource](docs/V2beta1PodsMetricSource.md)
+ - [V2beta1PodsMetricStatus](docs/V2beta1PodsMetricStatus.md)
+ - [V2beta1ResourceMetricSource](docs/V2beta1ResourceMetricSource.md)
+ - [V2beta1ResourceMetricStatus](docs/V2beta1ResourceMetricStatus.md)
 
 
 ## Documentation For Authorization
