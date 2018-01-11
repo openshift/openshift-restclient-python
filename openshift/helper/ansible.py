@@ -597,7 +597,7 @@ class AnsibleMixin(object):
 
         return obj_class
 
-    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix='', parent_property_classes=set()):
+    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix='', parent_property_classes=None):
         """
         Convert a list of properties to an argument_spec dictionary
 
@@ -607,6 +607,7 @@ class AnsibleMixin(object):
         :param alternate_prefix: a more minimal version of prefix
         :return: dict
         """
+        parent_property_classes = parent_property_classes or set()
         primitive_types = list(PRIMITIVES) + ['list', 'dict', 'object']
         args = {}
 
