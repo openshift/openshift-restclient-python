@@ -49,7 +49,7 @@ class DocStringsBase(object):
             raise
 
     @abstractmethod
-    def get_model(self, name):
+    def get_model_class(self, name):
         pass
 
     @abstractproperty
@@ -137,17 +137,18 @@ class DocStringsBase(object):
                 add_option(param_name, param_dict, descr=descr)
             elif param_dict.get('property_path'):
                 # parameter comes from the model
-                obj = self.helper.model()
+                model_class = self.helper.model
                 for path in param_dict['property_path']:
-                    kind = obj.swagger_types[path]
-                    if kind in ('str', 'bool', 'int', 'IntstrIntOrString', 'datetime') or \
+                    path = PYTHON_KEYWORD_MAPPING.get(path, path)
+                    kind = model_class.swagger_types[path]
+                    if kind in ('str', 'bool', 'int', 'IntstrIntOrString', 'datetime', 'object', 'float') or \
                        kind.startswith('dict(') or \
                        kind.startswith('list['):
-                        docs = inspect.getdoc(getattr(type(obj), path))
+                        docs = inspect.getdoc(getattr(model_class, path))
                         string_list = self.__doc_clean_up(docs.split('\n'))
                         add_option(param_name, param_dict, descr=string_list)
                     else:
-                        obj = self.get_model(kind)
+                        model_class = self.get_model_class(kind)
             elif param_dict.get('description'):
                 # parameters is hard-coded in openshift.helper
                 add_option(param_name, param_dict)
@@ -187,27 +188,26 @@ class DocStringsBase(object):
         else:
             doc_string[obj_name]['returned'] = 'on success'
         doc_string[obj_name]['contains'] = CommentedMap()
-        obj = self.helper.model()
-        self.__get_attributes(obj, doc_key=doc_string[obj_name]['contains'])
+        model_class = self.helper.model
+        self.__get_attributes(model_class, doc_key=doc_string[obj_name]['contains'])
         return ruamel.yaml.dump(doc_string, Dumper=ruamel.yaml.RoundTripDumper, width=80)
 
-    def __get_attributes(self, obj, doc_key=None):
+    def __get_attributes(self, model_class, doc_key=None):
         """
-        Recursively inspect the attributes of a given obj
+        Recursively inspect the attributes of a given class
 
-        :param obj: model object
+        :param model_class: model class
         :param doc_key: pointer to the current position in doc_string dict
         :return: None
         """
-        model_class = type(obj)
         model_name = self.helper.get_base_model_name_snake(model_class.__name__)
         for raw_attribute in dir(model_class):
             attribute = PYTHON_KEYWORD_MAPPING.get(raw_attribute, raw_attribute)
             if isinstance(getattr(model_class, raw_attribute), property):
-                kind = obj.swagger_types[raw_attribute]
-                docs = inspect.getdoc(getattr(type(obj), raw_attribute))
+                kind = model_class.swagger_types[raw_attribute]
+                docs = inspect.getdoc(getattr(model_class, raw_attribute))
                 string_list = self.__doc_clean_up(docs.split('\n'))
-                if kind in ('str', 'int', 'bool'):
+                if kind in ('str', 'int', 'bool', 'object', 'float'):
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = kind
@@ -230,14 +230,14 @@ class DocStringsBase(object):
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = 'list'
-                    sub_obj = None
+                    sub_model_class = None
                     try:
-                        sub_obj = self.get_model(class_name)
+                        sub_model_class = self.get_model_class(class_name)
                     except (AttributeError, KubernetesException):
                         pass
-                    if sub_obj:
+                    if sub_model_class:
                         doc_key[attribute]['contains'] = CommentedMap()
-                        self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
+                        self.__get_attributes(sub_model_class, doc_key=doc_key[attribute]['contains'])
                     else:
                         doc_key[attribute]['contains'] = class_name
                 elif kind.startswith('dict('):
@@ -245,14 +245,14 @@ class DocStringsBase(object):
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = 'complex'
-                    sub_obj = None
+                    sub_model_class = None
                     try:
-                        sub_obj = self.get_model(class_name)
+                        sub_model_class = self.get_model_class(class_name)
                     except (AttributeError, KubernetesException):
                         pass
-                    if sub_obj:
+                    if sub_model_class:
                         doc_key[attribute]['contains'] = CommentedMap()
-                        self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
+                        self.__get_attributes(sub_model_class, doc_key=doc_key[attribute]['contains'])
                     else:
                         doc_key[attribute]['contains'] = class_name
                 elif kind == 'datetime':
@@ -264,9 +264,10 @@ class DocStringsBase(object):
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = 'complex'
-                    doc_key[attribute]['contains'] = CommentedMap()
-                    sub_obj = self.get_model(kind)
-                    self.__get_attributes(sub_obj, doc_key=doc_key[attribute]['contains'])
+                    # TODO: Disabled for now because there's a model that self-references
+                    # doc_key[attribute]['contains'] = CommentedMap()
+                    # sub_model_class = self.get_model_class(kind)
+                    # self.__get_attributes(sub_model_class, doc_key=doc_key[attribute]['contains'])
 
     @property
     def examples(self):
@@ -372,12 +373,12 @@ class DocStringsBase(object):
 
 
 class OpenShiftDocStrings(DocStringsBase):
-    def get_model(self, name):
+    def get_model_class(self, name):
         try:
-            model = getattr(openshift_models, name)()
+            model_class = getattr(openshift_models, name)
         except AttributeError:
-            model = getattr(k8s_models, name)()
-        return model
+            model_class = getattr(k8s_models, name)
+        return model_class
 
     @property
     def project_name(self):
@@ -397,8 +398,8 @@ class OpenShiftDocStrings(DocStringsBase):
 
 
 class KubernetesDocStrings(DocStringsBase):
-    def get_model(self, name):
-        return getattr(k8s_models, name)()
+    def get_model_class(self, name):
+        return getattr(k8s_models, name)
 
     @property
     def project_name(self):

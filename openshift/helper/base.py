@@ -388,7 +388,7 @@ class BaseObjectHelper(object):
             prop_kind = model_class.swagger_types[prop['name']]
             if prop_kind == 'datetime':
                 prop_kind = 'str'
-            if prop_kind in ('str', 'int', 'bool', 'object'):
+            if prop_kind in ('str', 'int', 'bool', 'object', 'float'):
                 prop_class = eval(prop_kind)
             elif prop_kind.startswith('list['):
                 prop_class = list

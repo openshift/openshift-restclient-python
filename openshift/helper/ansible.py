@@ -597,7 +597,7 @@ class AnsibleMixin(object):
 
         return obj_class
 
-    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix=''):
+    def __transform_properties(self, properties, prefix='', path=None, alternate_prefix='', parent_property_classes=set()):
         """
         Convert a list of properties to an argument_spec dictionary
 
@@ -663,6 +663,12 @@ class AnsibleMixin(object):
                     args[meta_prefix + 'name'] = {}
                     add_meta('name', meta_prefix, meta_alt_prefix)
             elif prop_attributes['class'].__name__ not in primitive_types and not prop.endswith('params'):
+                # prevents infinite recursion
+                if prop_attributes['class'] in parent_property_classes:
+                    return args
+                else:
+                    property_classes = parent_property_classes.copy()
+                    property_classes.add(prop_attributes['class'])
                 # Adds nested properties recursively
 
                 label = prop
@@ -691,10 +697,10 @@ class AnsibleMixin(object):
                         'class': dict,
                         'immutable': False
                     }
-                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
+                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a, parent_property_classes=property_classes))
                 else:
                     sub_props = self.properties_from_model_class(prop_attributes['class'])
-                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a))
+                    args.update(self.__transform_properties(sub_props, prefix=p, path=paths, alternate_prefix=a, parent_property_classes=property_classes))
             else:
                 # Adds a primitive property
                 arg_prefix = prefix + '_' if prefix else ''
