@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.4.0
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,19 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Tue Jan 16 2018 David Zager <david.j.zager@gmail.com> 0.4.0-4
+- fix linting (fabian@fabianism.us)
+- Fix ansible module generation for 1.8/3.8 (fabian@fabianism.us)
+- Remove old OpenShift versions (david.j.zager@gmail.com)
+- Update watch test (fabian@fabianism.us)
+- fix a few nil value errors (fabian@fabianism.us)
+- regen modules (fabian@fabianism.us)
+- Fixed some errors around object instantiation in the helpers
+  (fabian@fabianism.us)
+- Generated code (david.j.zager@gmail.com)
+- Essentials for updating client-python to 4.0 (david.j.zager@gmail.com)
+- Helper base cleanup (#132) (chousekn@redhat.com)
+
 * Mon Dec 04 2017 Jason Montleon <jmontleo@redhat.com> 0.3.4-3
 - prefix test names with the cluster type (openshift/k8s) to prevent collision
   (fabian@fabianism.us)
