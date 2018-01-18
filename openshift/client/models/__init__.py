@@ -52,6 +52,10 @@ from .v1_cluster_resource_quota_list import V1ClusterResourceQuotaList
 from .v1_cluster_resource_quota_selector import V1ClusterResourceQuotaSelector
 from .v1_cluster_resource_quota_spec import V1ClusterResourceQuotaSpec
 from .v1_cluster_resource_quota_status import V1ClusterResourceQuotaStatus
+from .v1_cluster_role import V1ClusterRole
+from .v1_cluster_role_binding import V1ClusterRoleBinding
+from .v1_cluster_role_binding_list import V1ClusterRoleBindingList
+from .v1_cluster_role_list import V1ClusterRoleList
 from .v1_cluster_role_scope_restriction import V1ClusterRoleScopeRestriction
 from .v1_controller_revision import V1ControllerRevision
 from .v1_controller_revision_list import V1ControllerRevisionList
@@ -132,6 +136,7 @@ from .v1_image_stream_tag_list import V1ImageStreamTagList
 from .v1_jenkins_pipeline_build_strategy import V1JenkinsPipelineBuildStrategy
 from .v1_lifecycle_hook import V1LifecycleHook
 from .v1_local_resource_access_review import V1LocalResourceAccessReview
+from .v1_local_subject_access_review import V1LocalSubjectAccessReview
 from .v1_named_tag_event_list import V1NamedTagEventList
 from .v1_net_namespace import V1NetNamespace
 from .v1_net_namespace_list import V1NetNamespaceList
@@ -154,6 +159,7 @@ from .v1_pod_security_policy_self_subject_review_spec import V1PodSecurityPolicy
 from .v1_pod_security_policy_subject_review import V1PodSecurityPolicySubjectReview
 from .v1_pod_security_policy_subject_review_spec import V1PodSecurityPolicySubjectReviewSpec
 from .v1_pod_security_policy_subject_review_status import V1PodSecurityPolicySubjectReviewStatus
+from .v1_policy_rule import V1PolicyRule
 from .v1_project import V1Project
 from .v1_project_list import V1ProjectList
 from .v1_project_request import V1ProjectRequest
@@ -170,9 +176,13 @@ from .v1_repository_import_spec import V1RepositoryImportSpec
 from .v1_repository_import_status import V1RepositoryImportStatus
 from .v1_resource_access_review import V1ResourceAccessReview
 from .v1_resource_quota_status_by_namespace import V1ResourceQuotaStatusByNamespace
+from .v1_role import V1Role
+from .v1_role_binding import V1RoleBinding
+from .v1_role_binding_list import V1RoleBindingList
 from .v1_role_binding_restriction import V1RoleBindingRestriction
 from .v1_role_binding_restriction_list import V1RoleBindingRestrictionList
 from .v1_role_binding_restriction_spec import V1RoleBindingRestrictionSpec
+from .v1_role_list import V1RoleList
 from .v1_rolling_deployment_strategy_params import V1RollingDeploymentStrategyParams
 from .v1_rolling_update_daemon_set import V1RollingUpdateDaemonSet
 from .v1_rolling_update_deployment import V1RollingUpdateDeployment
@@ -193,6 +203,8 @@ from .v1_secret_local_reference import V1SecretLocalReference
 from .v1_secret_spec import V1SecretSpec
 from .v1_security_context_constraints import V1SecurityContextConstraints
 from .v1_security_context_constraints_list import V1SecurityContextConstraintsList
+from .v1_self_subject_rules_review import V1SelfSubjectRulesReview
+from .v1_self_subject_rules_review_spec import V1SelfSubjectRulesReviewSpec
 from .v1_server_address_by_client_cidr import V1ServerAddressByClientCIDR
 from .v1_service_account_pod_security_policy_review_status import V1ServiceAccountPodSecurityPolicyReviewStatus
 from .v1_service_account_reference import V1ServiceAccountReference
@@ -212,8 +224,10 @@ from .v1_stateful_set_spec import V1StatefulSetSpec
 from .v1_stateful_set_status import V1StatefulSetStatus
 from .v1_stateful_set_update_strategy import V1StatefulSetUpdateStrategy
 from .v1_step_info import V1StepInfo
+from .v1_subject_access_review import V1SubjectAccessReview
 from .v1_subject_rules_review import V1SubjectRulesReview
 from .v1_subject_rules_review_spec import V1SubjectRulesReviewSpec
+from .v1_subject_rules_review_status import V1SubjectRulesReviewStatus
 from .v1_supplemental_groups_strategy_options import V1SupplementalGroupsStrategyOptions
 from .v1_tls_config import V1TLSConfig
 from .v1_tag_event import V1TagEvent

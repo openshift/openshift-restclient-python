@@ -52,6 +52,10 @@ from .models.v1_cluster_resource_quota_list import V1ClusterResourceQuotaList
 from .models.v1_cluster_resource_quota_selector import V1ClusterResourceQuotaSelector
 from .models.v1_cluster_resource_quota_spec import V1ClusterResourceQuotaSpec
 from .models.v1_cluster_resource_quota_status import V1ClusterResourceQuotaStatus
+from .models.v1_cluster_role import V1ClusterRole
+from .models.v1_cluster_role_binding import V1ClusterRoleBinding
+from .models.v1_cluster_role_binding_list import V1ClusterRoleBindingList
+from .models.v1_cluster_role_list import V1ClusterRoleList
 from .models.v1_cluster_role_scope_restriction import V1ClusterRoleScopeRestriction
 from .models.v1_controller_revision import V1ControllerRevision
 from .models.v1_controller_revision_list import V1ControllerRevisionList
@@ -132,6 +136,7 @@ from .models.v1_image_stream_tag_list import V1ImageStreamTagList
 from .models.v1_jenkins_pipeline_build_strategy import V1JenkinsPipelineBuildStrategy
 from .models.v1_lifecycle_hook import V1LifecycleHook
 from .models.v1_local_resource_access_review import V1LocalResourceAccessReview
+from .models.v1_local_subject_access_review import V1LocalSubjectAccessReview
 from .models.v1_named_tag_event_list import V1NamedTagEventList
 from .models.v1_net_namespace import V1NetNamespace
 from .models.v1_net_namespace_list import V1NetNamespaceList
@@ -154,6 +159,7 @@ from .models.v1_pod_security_policy_self_subject_review_spec import V1PodSecurit
 from .models.v1_pod_security_policy_subject_review import V1PodSecurityPolicySubjectReview
 from .models.v1_pod_security_policy_subject_review_spec import V1PodSecurityPolicySubjectReviewSpec
 from .models.v1_pod_security_policy_subject_review_status import V1PodSecurityPolicySubjectReviewStatus
+from .models.v1_policy_rule import V1PolicyRule
 from .models.v1_project import V1Project
 from .models.v1_project_list import V1ProjectList
 from .models.v1_project_request import V1ProjectRequest
@@ -170,9 +176,13 @@ from .models.v1_repository_import_spec import V1RepositoryImportSpec
 from .models.v1_repository_import_status import V1RepositoryImportStatus
 from .models.v1_resource_access_review import V1ResourceAccessReview
 from .models.v1_resource_quota_status_by_namespace import V1ResourceQuotaStatusByNamespace
+from .models.v1_role import V1Role
+from .models.v1_role_binding import V1RoleBinding
+from .models.v1_role_binding_list import V1RoleBindingList
 from .models.v1_role_binding_restriction import V1RoleBindingRestriction
 from .models.v1_role_binding_restriction_list import V1RoleBindingRestrictionList
 from .models.v1_role_binding_restriction_spec import V1RoleBindingRestrictionSpec
+from .models.v1_role_list import V1RoleList
 from .models.v1_rolling_deployment_strategy_params import V1RollingDeploymentStrategyParams
 from .models.v1_rolling_update_daemon_set import V1RollingUpdateDaemonSet
 from .models.v1_rolling_update_deployment import V1RollingUpdateDeployment
@@ -193,6 +203,8 @@ from .models.v1_secret_local_reference import V1SecretLocalReference
 from .models.v1_secret_spec import V1SecretSpec
 from .models.v1_security_context_constraints import V1SecurityContextConstraints
 from .models.v1_security_context_constraints_list import V1SecurityContextConstraintsList
+from .models.v1_self_subject_rules_review import V1SelfSubjectRulesReview
+from .models.v1_self_subject_rules_review_spec import V1SelfSubjectRulesReviewSpec
 from .models.v1_server_address_by_client_cidr import V1ServerAddressByClientCIDR
 from .models.v1_service_account_pod_security_policy_review_status import V1ServiceAccountPodSecurityPolicyReviewStatus
 from .models.v1_service_account_reference import V1ServiceAccountReference
@@ -212,8 +224,10 @@ from .models.v1_stateful_set_spec import V1StatefulSetSpec
 from .models.v1_stateful_set_status import V1StatefulSetStatus
 from .models.v1_stateful_set_update_strategy import V1StatefulSetUpdateStrategy
 from .models.v1_step_info import V1StepInfo
+from .models.v1_subject_access_review import V1SubjectAccessReview
 from .models.v1_subject_rules_review import V1SubjectRulesReview
 from .models.v1_subject_rules_review_spec import V1SubjectRulesReviewSpec
+from .models.v1_subject_rules_review_status import V1SubjectRulesReviewStatus
 from .models.v1_supplemental_groups_strategy_options import V1SupplementalGroupsStrategyOptions
 from .models.v1_tls_config import V1TLSConfig
 from .models.v1_tag_event import V1TagEvent

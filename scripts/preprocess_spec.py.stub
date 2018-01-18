@@ -1,4 +1,7 @@
 import re
+
+import string_utils
+
 VERSION_RX = re.compile(".*V\d((alpha|beta)\d)?")
 
 DEFAULT_CODEGEN_IGNORE_LINES = {
@@ -15,6 +18,10 @@ DEFAULT_CODEGEN_IGNORE_LINES = {
   "config/kube_config.py",
 }
 
+conflicted_modules = set()
+
+def snake_case_model(model):
+    return '_'.join([string_utils.camel_case_to_snake(x) for x in model.split('.')])
 
 def add_missing_openshift_tags_to_operation(op, _, path=None, **kwargs):
     tags = op.get('tags', [])
@@ -38,7 +45,6 @@ def add_missing_openshift_tags_to_operation(op, _, path=None, **kwargs):
 def update_codegen_ignore(spec, output_path):
     import io
     import os
-    import string_utils
     import kubernetes
 
     codegen_ignore_path = os.path.join(os.path.dirname(output_path), '.swagger-codegen-ignore')
@@ -59,8 +65,7 @@ def update_codegen_ignore(spec, output_path):
                     api_modules.add(tag + '_api')
 
     for model in list(spec['definitions'].keys()):
-        module_name = '_'.join([string_utils.camel_case_to_snake(x) for x in model.split('.')])
-        model_modules.add(module_name)
+        model_modules.add(snake_case_model(model))
 
     for api_module in api_modules:
         suffix = api_module.split('_')[-1]
@@ -71,7 +76,7 @@ def update_codegen_ignore(spec, output_path):
             print("Not skipping generation of client/apis/{}.py".format(api_module))
 
     for model_module in model_modules:
-        if model_module in k8s_models:
+        if model_module in k8s_models and model_module not in conflicted_modules:
             ignore_lines.add('client/models/{}.py'.format(model_module))
             print("Skipping generation of client/models/{}.py".format(model_module))
         else:
@@ -108,10 +113,11 @@ def rename_model(spec, old_name, new_name):
                               "#/definitions/" + old_name,
                               "#/definitions/" + new_name)
     if new_name not in spec['definitions']:
-      spec['definitions'][new_name] = spec['definitions'][old_name]
+        spec['definitions'][new_name] = spec['definitions'][old_name]
     else:
-        # Do nothing, if we have a conflict here we should take the openshift version,
+        # If we have a conflict here we should take the openshift version,
         # which is preprocessed first
+        conflicted_modules.add(snake_case_model(new_name))
         print("Deleting {old} instead of renaming to {new}, {new} already exists".format(old=old_name, new=new_name))
     del spec['definitions'][old_name]
 
