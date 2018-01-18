@@ -176,10 +176,10 @@ class DocStringsBase(object):
         :return: string containing formatted YAML
         """
         doc_string = CommentedMap()
-        doc_string['api_version'] = {
-            'type': 'string',
-            'description': 'Requested API version',
-        }
+        doc_string['api_version'] = CommentedMap([
+            ('description', 'Requested API version'),
+            ('type', 'string'),
+        ])
         obj_name = self.helper.base_model_name_snake
         doc_string[obj_name] = CommentedMap()
         doc_string[obj_name]['type'] = 'complex'

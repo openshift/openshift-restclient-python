@@ -81,10 +81,6 @@ client/models/v1_ceph_fs_persistent_volume_source.py
 client/models/v1_ceph_fs_volume_source.py
 client/models/v1_cinder_volume_source.py
 client/models/v1_client_ip_config.py
-client/models/v1_cluster_role.py
-client/models/v1_cluster_role_binding.py
-client/models/v1_cluster_role_binding_list.py
-client/models/v1_cluster_role_list.py
 client/models/v1_component_condition.py
 client/models/v1_component_status.py
 client/models/v1_component_status_list.py
@@ -158,7 +154,6 @@ client/models/v1_list_meta.py
 client/models/v1_load_balancer_ingress.py
 client/models/v1_load_balancer_status.py
 client/models/v1_local_object_reference.py
-client/models/v1_local_subject_access_review.py
 client/models/v1_local_volume_source.py
 client/models/v1_namespace.py
 client/models/v1_namespace_list.py
@@ -214,7 +209,6 @@ client/models/v1_pod_status.py
 client/models/v1_pod_template.py
 client/models/v1_pod_template_list.py
 client/models/v1_pod_template_spec.py
-client/models/v1_policy_rule.py
 client/models/v1_portworx_volume_source.py
 client/models/v1_preconditions.py
 client/models/v1_preferred_scheduling_term.py
@@ -235,10 +229,6 @@ client/models/v1_resource_quota_spec.py
 client/models/v1_resource_quota_status.py
 client/models/v1_resource_requirements.py
 client/models/v1_resource_rule.py
-client/models/v1_role.py
-client/models/v1_role_binding.py
-client/models/v1_role_binding_list.py
-client/models/v1_role_list.py
 client/models/v1_role_ref.py
 client/models/v1_scale.py
 client/models/v1_scale_io_persistent_volume_source.py
@@ -256,8 +246,6 @@ client/models/v1_secret_volume_source.py
 client/models/v1_security_context.py
 client/models/v1_self_subject_access_review.py
 client/models/v1_self_subject_access_review_spec.py
-client/models/v1_self_subject_rules_review.py
-client/models/v1_self_subject_rules_review_spec.py
 client/models/v1_service.py
 client/models/v1_service_account.py
 client/models/v1_service_account_list.py
@@ -274,10 +262,8 @@ client/models/v1_storage_class_list.py
 client/models/v1_storage_os_persistent_volume_source.py
 client/models/v1_storage_os_volume_source.py
 client/models/v1_subject.py
-client/models/v1_subject_access_review.py
 client/models/v1_subject_access_review_spec.py
 client/models/v1_subject_access_review_status.py
-client/models/v1_subject_rules_review_status.py
 client/models/v1_taint.py
 client/models/v1_tcp_socket_action.py
 client/models/v1_token_review.py
@@ -515,10 +501,6 @@ docs/V1CephFsPersistentVolumeSource.md
 docs/V1CephFsVolumeSource.md
 docs/V1CinderVolumeSource.md
 docs/V1ClientIpConfig.md
-docs/V1ClusterRole.md
-docs/V1ClusterRoleBinding.md
-docs/V1ClusterRoleBindingList.md
-docs/V1ClusterRoleList.md
 docs/V1ComponentCondition.md
 docs/V1ComponentStatus.md
 docs/V1ComponentStatusList.md
@@ -592,7 +574,6 @@ docs/V1ListMeta.md
 docs/V1LoadBalancerIngress.md
 docs/V1LoadBalancerStatus.md
 docs/V1LocalObjectReference.md
-docs/V1LocalSubjectAccessReview.md
 docs/V1LocalVolumeSource.md
 docs/V1Namespace.md
 docs/V1NamespaceList.md
@@ -648,7 +629,6 @@ docs/V1PodStatus.md
 docs/V1PodTemplate.md
 docs/V1PodTemplateList.md
 docs/V1PodTemplateSpec.md
-docs/V1PolicyRule.md
 docs/V1PortworxVolumeSource.md
 docs/V1Preconditions.md
 docs/V1PreferredSchedulingTerm.md
@@ -669,10 +649,6 @@ docs/V1ResourceQuotaSpec.md
 docs/V1ResourceQuotaStatus.md
 docs/V1ResourceRequirements.md
 docs/V1ResourceRule.md
-docs/V1Role.md
-docs/V1RoleBinding.md
-docs/V1RoleBindingList.md
-docs/V1RoleList.md
 docs/V1RoleRef.md
 docs/V1Scale.md
 docs/V1ScaleIoPersistentVolumeSource.md
@@ -690,8 +666,6 @@ docs/V1SecretVolumeSource.md
 docs/V1SecurityContext.md
 docs/V1SelfSubjectAccessReview.md
 docs/V1SelfSubjectAccessReviewSpec.md
-docs/V1SelfSubjectRulesReview.md
-docs/V1SelfSubjectRulesReviewSpec.md
 docs/V1Service.md
 docs/V1ServiceAccount.md
 docs/V1ServiceAccountList.md
@@ -708,10 +682,8 @@ docs/V1StorageClassList.md
 docs/V1StorageOsPersistentVolumeSource.md
 docs/V1StorageOsVolumeSource.md
 docs/V1Subject.md
-docs/V1SubjectAccessReview.md
 docs/V1SubjectAccessReviewSpec.md
 docs/V1SubjectAccessReviewStatus.md
-docs/V1SubjectRulesReviewStatus.md
 docs/V1Taint.md
 docs/V1TcpSocketAction.md
 docs/V1TokenReview.md
@@ -951,10 +923,6 @@ test/test_v1_ceph_fs_persistent_volume_source.py
 test/test_v1_ceph_fs_volume_source.py
 test/test_v1_cinder_volume_source.py
 test/test_v1_client_ip_config.py
-test/test_v1_cluster_role.py
-test/test_v1_cluster_role_binding.py
-test/test_v1_cluster_role_binding_list.py
-test/test_v1_cluster_role_list.py
 test/test_v1_component_condition.py
 test/test_v1_component_status.py
 test/test_v1_component_status_list.py
@@ -1028,7 +996,6 @@ test/test_v1_list_meta.py
 test/test_v1_load_balancer_ingress.py
 test/test_v1_load_balancer_status.py
 test/test_v1_local_object_reference.py
-test/test_v1_local_subject_access_review.py
 test/test_v1_local_volume_source.py
 test/test_v1_namespace.py
 test/test_v1_namespace_list.py
@@ -1084,7 +1051,6 @@ test/test_v1_pod_status.py
 test/test_v1_pod_template.py
 test/test_v1_pod_template_list.py
 test/test_v1_pod_template_spec.py
-test/test_v1_policy_rule.py
 test/test_v1_portworx_volume_source.py
 test/test_v1_preconditions.py
 test/test_v1_preferred_scheduling_term.py
@@ -1105,10 +1071,6 @@ test/test_v1_resource_quota_spec.py
 test/test_v1_resource_quota_status.py
 test/test_v1_resource_requirements.py
 test/test_v1_resource_rule.py
-test/test_v1_role.py
-test/test_v1_role_binding.py
-test/test_v1_role_binding_list.py
-test/test_v1_role_list.py
 test/test_v1_role_ref.py
 test/test_v1_scale.py
 test/test_v1_scale_io_persistent_volume_source.py
@@ -1126,8 +1088,6 @@ test/test_v1_secret_volume_source.py
 test/test_v1_security_context.py
 test/test_v1_self_subject_access_review.py
 test/test_v1_self_subject_access_review_spec.py
-test/test_v1_self_subject_rules_review.py
-test/test_v1_self_subject_rules_review_spec.py
 test/test_v1_service.py
 test/test_v1_service_account.py
 test/test_v1_service_account_list.py
@@ -1144,10 +1104,8 @@ test/test_v1_storage_class_list.py
 test/test_v1_storage_os_persistent_volume_source.py
 test/test_v1_storage_os_volume_source.py
 test/test_v1_subject.py
-test/test_v1_subject_access_review.py
 test/test_v1_subject_access_review_spec.py
 test/test_v1_subject_access_review_status.py
-test/test_v1_subject_rules_review_status.py
 test/test_v1_taint.py
 test/test_v1_tcp_socket_action.py
 test/test_v1_token_review.py
