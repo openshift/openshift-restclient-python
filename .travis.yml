@@ -45,7 +45,7 @@ jobs:
       on:
         tags: true
         repo: openshift/openshift-restclient-python
-        condition: "$TRAVIS_TAG =~ ^v[0-9]\.[0-9]\.[0-9](\.([ab]|dev|rc)[0-9])?$"
+        condition: "$TRAVIS_TAG =~ ^v[0-9]\\.[0-9]\\.[0-9](\\.([ab]|dev|rc)[0-9])?$"
   - stage: test-deploy
     script: python -c "import openshift ; print(openshift.__version__)"
     install:
