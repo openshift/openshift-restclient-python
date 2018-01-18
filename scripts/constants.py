@@ -19,11 +19,11 @@ KUBERNETES_BRANCH = "master"
 
 # Spec version will be set in downloaded spec and all
 # generated code will refer to it.
-SPEC_VERSION = "v3.7.0"
+SPEC_VERSION = "v3.8.0"
 
 # client version for packaging and releasing. It can
 # be different than SPEC_VERSION.
-CLIENT_VERSION = "0.4.0"
+CLIENT_VERSION = "0.4.0-alpha.1"
 KUBERNETES_CLIENT_VERSION = "4.0.0"
 
 # Name of the release package

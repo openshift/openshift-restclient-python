@@ -107,7 +107,12 @@ def rename_model(spec, old_name, new_name):
     find_rename_ref_recursive(spec,
                               "#/definitions/" + old_name,
                               "#/definitions/" + new_name)
-    spec['definitions'][new_name] = spec['definitions'][old_name]
+    if new_name not in spec['definitions']:
+      spec['definitions'][new_name] = spec['definitions'][old_name]
+    else:
+        # Do nothing, if we have a conflict here we should take the openshift version,
+        # which is preprocessed first
+        print("Deleting {old} instead of renaming to {new}, {new} already exists".format(old=old_name, new=new_name))
     del spec['definitions'][old_name]
 
 def apply_func_to_openshift_spec_operations(spec, func, **kwargs):
