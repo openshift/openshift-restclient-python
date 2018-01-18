@@ -141,7 +141,7 @@ class DocStringsBase(object):
                 for path in param_dict['property_path']:
                     path = PYTHON_KEYWORD_MAPPING.get(path, path)
                     kind = model_class.swagger_types[path]
-                    if kind in ('str', 'bool', 'int', 'IntstrIntOrString', 'datetime', 'object', 'float') or \
+                    if kind in ('str', 'bool', 'int', 'datetime', 'object', 'float') or \
                        kind.startswith('dict(') or \
                        kind.startswith('list['):
                         docs = inspect.getdoc(getattr(model_class, path))
@@ -256,6 +256,11 @@ class DocStringsBase(object):
                     else:
                         doc_key[attribute]['contains'] = class_name
                 elif kind == 'datetime':
+                    doc_key[attribute] = CommentedMap()
+                    doc_key[attribute]['description'] = string_list
+                    doc_key[attribute]['type'] = 'complex'
+                    doc_key[attribute]['contains'] = CommentedMap()
+                elif kind == 'object':
                     doc_key[attribute] = CommentedMap()
                     doc_key[attribute]['description'] = string_list
                     doc_key[attribute]['type'] = 'complex'
