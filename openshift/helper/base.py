@@ -167,6 +167,11 @@ class BaseObjectHelper(object):
                     port.target_port = int(port.target_port)
                 except ValueError:
                     pass
+        elif obj and obj.kind == "Route" and obj.spec.port:
+            try:
+                obj.spec.port.target_port = int(obj.spec.port.target_port)
+            except ValueError:
+                pass
         return obj
 
     def get_object(self, name=None, namespace=None):

@@ -517,7 +517,7 @@ class AnsibleMixin(object):
                                 obj_type = item_kind.replace('list[', '').replace(']', '')
                                 if getattr(obj, snake_key) is None:
                                     setattr(obj, snake_key, [])
-                                if obj_type not in ('str', 'int', 'bool'):
+                                if obj_type not in ('str', 'int', 'bool', 'object'):
                                     self.__compare_obj_list(getattr(obj, snake_key), value, obj_type, param_name)
                                 else:
                                     # Straight list comparison
@@ -608,7 +608,7 @@ class AnsibleMixin(object):
         :return: dict
         """
         parent_property_classes = parent_property_classes or set()
-        primitive_types = list(PRIMITIVES) + ['list', 'dict', 'object']
+        primitive_types = list(PRIMITIVES) + ['list', 'dict']
         args = {}
 
         if path is None:
@@ -710,7 +710,7 @@ class AnsibleMixin(object):
                 paths.append(prop)
 
                 property_type = prop_attributes['class'].__name__
-                if property_type == 'IntstrIntOrString':
+                if property_type == 'object':
                     property_type = 'str'
 
                 args[arg_prefix + prop] = {
