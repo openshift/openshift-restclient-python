@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.4.0.a1
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,18 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Fri Jan 19 2018 David Zager <david.j.zager@gmail.com> 0.4.0.a1-5
+- Add object to primitives, treat as string for now (fabian@fabianism.us)
+- update version to match new scheme (fabian@fabianism.us)
+- regen modules (fabian@fabianism.us)
+- Don't exclude modules that appear in both k8s and openshift from codegen
+  (fabian@fabianism.us)
+- Prefer openshift models to kubernetes models (fabian@fabianism.us)
+- extra escape characters (fabian@fabianism.us)
+- Update deployment condition to enforce python versioning standards
+  (fabian@fabianism.us)
+- Update releasers (david.j.zager@gmail.com)
+
 * Tue Jan 16 2018 David Zager <david.j.zager@gmail.com> 0.4.0-4
 - fix linting (fabian@fabianism.us)
 - Fix ansible module generation for 1.8/3.8 (fabian@fabianism.us)
