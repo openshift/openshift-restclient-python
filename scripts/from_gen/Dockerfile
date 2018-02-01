@@ -20,6 +20,16 @@ ARG SWAGGER_CODEGEN_USER_ORG=swagger-api
 # Install preprocessing script requirements
 RUN apt-get update && apt-get -y install git python-pip && pip install urllib3 kubernetes python-string-utils
 
+# Install Autorest
+RUN apt-get update && apt-get -qq -y install libunwind8 libicu57 libssl1.0 liblttng-ust0 libcurl3 libuuid1 libkrb5-3 zlib1g
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get update && apt-get -y install \
+    nodejs \
+    libunwind8-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g autorest@preview #TODO-krabhishek8260: Remove preview as soon as the required bits are in release version
+
 # Check out specific commit of swagger-codegen
 RUN mkdir /source && \
     cd /source && \
@@ -31,16 +41,6 @@ RUN mkdir /source && \
 RUN cd /source/swagger-codegen && \
     mvn install -DskipTests -Dmaven.test.skip=true -pl modules/swagger-codegen-maven-plugin -am && \
     cp -r /root/.m2/* /usr/share/maven/ref
-
-# Install Autorest
-RUN apt-get update && apt-get -qq -y install libunwind8 libicu57 libssl1.0 liblttng-ust0 libcurl3 libuuid1 libkrb5-3 zlib1g
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - 
-RUN apt-get update && apt-get -y install \
-    nodejs \
-    libunwind8-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN npm install -g autorest@preview #TODO-krabhishek8260: Remove preview as soon as the required bits are in release version 
 
 # Copy required files
 COPY generate_client_in_container.sh /generate_client.sh

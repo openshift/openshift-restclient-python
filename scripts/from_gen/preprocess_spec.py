@@ -135,7 +135,7 @@ def preserved_primitives_for_language(client_language):
     if client_language == "java":
         return ["intstr.IntOrString", "resource.Quantity"]
     elif client_language == "csharp":
-        return ["intstr.IntOrString", "resource.Quantity"]
+        return ["intstr.IntOrString", "resource.Quantity", "v1.Patch"]
     else:
         return []
 
