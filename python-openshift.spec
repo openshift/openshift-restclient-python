@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.5.0.a1
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,10 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Thu Feb 08 2018 David Zager <david.j.zager@gmail.com> 0.5.0.a1-6
+- Allow beta k8s client (david.j.zager@gmail.com)
+- Update client to use k8s client 5 (david.j.zager@gmail.com)
+
 * Fri Jan 19 2018 David Zager <david.j.zager@gmail.com> 0.4.0.a1-5
 - Add object to primitives, treat as string for now (fabian@fabianism.us)
 - update version to match new scheme (fabian@fabianism.us)
