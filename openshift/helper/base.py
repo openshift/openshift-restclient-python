@@ -82,10 +82,9 @@ class BaseObjectHelper(object):
         """ set Configuration class defaults based on provided auth """
         configuration = Configuration()
         if auth.get('api_key'):
-            configuration.api_key = {'authorization': auth.pop('api_key')}
+            configuration.api_key = {'authorization': "Bearer %s" % auth.pop('api_key')}
         for k, v in auth.items():
             setattr(configuration, k, v)
-
         Configuration.set_default(configuration)
 
     def set_model(self, api_version, kind):
@@ -121,7 +120,7 @@ class BaseObjectHelper(object):
         for key in auth_keys:
             if auth.get(key) is not None:
                 if key == 'api_key':
-                    self.api_client.configuration.api_key = {'authorization': auth[key]}
+                    self.api_client.configuration.api_key = {'authorization': "Bearer %s" % auth.pop('api_key')} 
                 else:
                     setattr(self.api_client.configuration, key, auth[key])
 
