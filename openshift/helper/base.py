@@ -24,6 +24,8 @@ from urllib3.exceptions import MaxRetryError
 from . import VERSION_RX
 from .exceptions import KubernetesException
 
+from kubernetes.client import Configuration
+
 
 @add_metaclass(ABCMeta)
 class BaseObjectHelper(object):
@@ -75,6 +77,17 @@ class BaseObjectHelper(object):
     def get_exception_class():
         pass
 
+    @staticmethod
+    def default_configuration_from_auth(**auth):
+        """ set Configuration class defaults based on provided auth """
+        configuration = Configuration()
+        if auth.get('api_key'):
+            configuration.api_key = {'authorization': auth.pop('api_key')}
+        for k, v in auth.items():
+            setattr(configuration, k, v)
+
+        Configuration.set_default(configuration)
+
     def set_model(self, api_version, kind):
         """ Switch the client's model """
         self.api_version = api_version
@@ -98,13 +111,15 @@ class BaseObjectHelper(object):
         config_file = auth.get('kubeconfig')
         context = auth.get('context')
 
+        self.default_configuration_from_auth(**auth)
+
         self.api_client = self.client_from_config(config_file, context)
 
         if auth.get('host') is not None:
             self.api_client.host = auth['host']
 
         for key in auth_keys:
-            if auth.get(key, None) is not None:
+            if auth.get(key) is not None:
                 if key == 'api_key':
                     self.api_client.configuration.api_key = {'authorization': auth[key]}
                 else:
