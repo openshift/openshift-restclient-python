@@ -17,7 +17,7 @@ class KubernetesObjectHelper(BaseObjectHelper):
         # TODO(fabianvf): probably want to break this branch out or refactor method names
         try:
             return config.new_client_from_config(config_file, context)
-        except IOError:
+        except (IOError, config.ConfigException):
             if not config_file:
                 return ApiClient(configuration=Configuration())
             else:
