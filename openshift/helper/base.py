@@ -411,9 +411,10 @@ class BaseObjectHelper(object):
         return result
 
     def candidate_apis(self):
+        api_match = self.api_version.replace('/', '_').lower()
         return [
             api for api in self.available_apis()
-            if self.api_version in self.attribute_to_snake(api)
+            if api_match in self.attribute_to_snake(api)
             or not VERSION_RX.match(api)
         ]
 
@@ -433,7 +434,6 @@ class BaseObjectHelper(object):
         method = None
         for api in self.candidate_apis():
             api_class = self.api_class_from_name(api)
-
             method = getattr(api_class(self.api_client), method_name, None)
             if method is not None:
                 break
@@ -487,8 +487,13 @@ class BaseObjectHelper(object):
         :param kind: The name of object type (i.e. Service, Route, Container, etc.)
         :return: class
         """
+
+        # Handle API paths. In the case of 'batch/', remove it completely, otherwise, replace '/' with '_'.
+        api = re.sub(r'batch/', '', api_version, count=0, flags=re.IGNORECASE).replace('/', '_')
+
         camel_kind = string_utils.snake_case_to_camel(kind)
-        camel_api_version = string_utils.snake_case_to_camel(api_version)
+        camel_api_version = string_utils.snake_case_to_camel(api)
+
         # capitalize the first letter of the string without lower-casing the remainder
         name = (camel_kind[:1].capitalize() + camel_kind[1:]).replace("Api", "API")
         api = camel_api_version[:1].capitalize() + camel_api_version[1:]
