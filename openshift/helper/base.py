@@ -120,7 +120,7 @@ class BaseObjectHelper(object):
         for key in auth_keys:
             if auth.get(key) is not None:
                 if key == 'api_key':
-                    self.api_client.configuration.api_key = {'authorization': "Bearer %s" % auth.pop('api_key')} 
+                    self.api_client.configuration.api_key = {'authorization': "Bearer %s" % auth.pop('api_key')}
                 else:
                     setattr(self.api_client.configuration, key, auth[key])
 
