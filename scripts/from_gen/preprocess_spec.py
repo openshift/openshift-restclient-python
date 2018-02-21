@@ -18,6 +18,7 @@ import json
 import operator
 import os.path
 import sys
+import argparse
 from collections import OrderedDict
 
 import urllib3
@@ -283,14 +284,23 @@ def write_json(filename, object):
 
 
 def main():
-    if len(sys.argv) != 4:
-        print("Usage:\n\n\tpython preprocess_spec.py client_language kubernetes_branch " \
-              "output_spec_path")
-        return 1
-    client_language = sys.argv[1]
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument(
+        'client_language',
+        help='Client language to setup spec for'
+    )
+    argparser.add_argument(
+        'kubernetes_branch',
+        help='Branch of github.com/kubernetes/kubernetes to get spec from'
+    )
+    argparser.add_argument(
+        'output_spec_path',
+        help='Path to otput spec file to'
+    )
+    args = argparser.parse_args()
+
     spec_url = 'https://raw.githubusercontent.com/kubernetes/kubernetes/' \
-               '%s/api/openapi-spec/swagger.json' % sys.argv[2]
-    output_path = sys.argv[3]
+               '%s/api/openapi-spec/swagger.json' % args.kubernetes_branch
 
     pool = urllib3.PoolManager()
     with pool.request('GET', spec_url, preload_content=False) as response:
@@ -298,9 +308,9 @@ def main():
             print("Error downloading spec file. Reason: %s" % response.reason)
             return 1
         in_spec = json.load(response, object_pairs_hook=OrderedDict)
-        write_json(output_path + ".unprocessed", in_spec)
-        out_spec = process_swagger(in_spec, client_language)
-        write_json(output_path, out_spec)
+        write_json(args.output_spec_path + ".unprocessed", in_spec)
+        out_spec = process_swagger(in_spec, args.client_language)
+        write_json(args.output_spec_path, out_spec)
     return 0
 
 

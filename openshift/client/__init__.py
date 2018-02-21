@@ -14,9 +14,6 @@
 from __future__ import absolute_import
 
 # import models into sdk package
-from .models.admissionregistration_v1beta1_service_reference import AdmissionregistrationV1beta1ServiceReference
-from .models.apiregistration_v1beta1_service_reference import ApiregistrationV1beta1ServiceReference
-from .models.v1_aggregation_rule import V1AggregationRule
 from .models.v1_allowed_flex_volume import V1AllowedFlexVolume
 from .models.v1_applied_cluster_resource_quota import V1AppliedClusterResourceQuota
 from .models.v1_applied_cluster_resource_quota_list import V1AppliedClusterResourceQuotaList
@@ -43,7 +40,6 @@ from .models.v1_build_status_output_to import V1BuildStatusOutputTo
 from .models.v1_build_strategy import V1BuildStrategy
 from .models.v1_build_trigger_cause import V1BuildTriggerCause
 from .models.v1_build_trigger_policy import V1BuildTriggerPolicy
-from .models.v1_csi_persistent_volume_source import V1CSIPersistentVolumeSource
 from .models.v1_cluster_network import V1ClusterNetwork
 from .models.v1_cluster_network_entry import V1ClusterNetworkEntry
 from .models.v1_cluster_network_list import V1ClusterNetworkList
@@ -57,17 +53,8 @@ from .models.v1_cluster_role_binding import V1ClusterRoleBinding
 from .models.v1_cluster_role_binding_list import V1ClusterRoleBindingList
 from .models.v1_cluster_role_list import V1ClusterRoleList
 from .models.v1_cluster_role_scope_restriction import V1ClusterRoleScopeRestriction
-from .models.v1_controller_revision import V1ControllerRevision
-from .models.v1_controller_revision_list import V1ControllerRevisionList
 from .models.v1_custom_build_strategy import V1CustomBuildStrategy
 from .models.v1_custom_deployment_strategy_params import V1CustomDeploymentStrategyParams
-from .models.v1_daemon_set import V1DaemonSet
-from .models.v1_daemon_set_condition import V1DaemonSetCondition
-from .models.v1_daemon_set_list import V1DaemonSetList
-from .models.v1_daemon_set_spec import V1DaemonSetSpec
-from .models.v1_daemon_set_status import V1DaemonSetStatus
-from .models.v1_daemon_set_update_strategy import V1DaemonSetUpdateStrategy
-from .models.v1_deployment import V1Deployment
 from .models.v1_deployment_cause import V1DeploymentCause
 from .models.v1_deployment_cause_image_trigger import V1DeploymentCauseImageTrigger
 from .models.v1_deployment_condition import V1DeploymentCondition
@@ -78,11 +65,8 @@ from .models.v1_deployment_config_rollback_spec import V1DeploymentConfigRollbac
 from .models.v1_deployment_config_spec import V1DeploymentConfigSpec
 from .models.v1_deployment_config_status import V1DeploymentConfigStatus
 from .models.v1_deployment_details import V1DeploymentDetails
-from .models.v1_deployment_list import V1DeploymentList
 from .models.v1_deployment_log import V1DeploymentLog
 from .models.v1_deployment_request import V1DeploymentRequest
-from .models.v1_deployment_spec import V1DeploymentSpec
-from .models.v1_deployment_status import V1DeploymentStatus
 from .models.v1_deployment_strategy import V1DeploymentStrategy
 from .models.v1_deployment_trigger_image_change_params import V1DeploymentTriggerImageChangeParams
 from .models.v1_deployment_trigger_policy import V1DeploymentTriggerPolicy
@@ -93,7 +77,6 @@ from .models.v1_egress_network_policy_list import V1EgressNetworkPolicyList
 from .models.v1_egress_network_policy_peer import V1EgressNetworkPolicyPeer
 from .models.v1_egress_network_policy_rule import V1EgressNetworkPolicyRule
 from .models.v1_egress_network_policy_spec import V1EgressNetworkPolicySpec
-from .models.v1_event_series import V1EventSeries
 from .models.v1_exec_new_pod_hook import V1ExecNewPodHook
 from .models.v1_fs_group_strategy_options import V1FSGroupStrategyOptions
 from .models.v1_generic_web_hook_cause import V1GenericWebHookCause
@@ -107,7 +90,6 @@ from .models.v1_group_restriction import V1GroupRestriction
 from .models.v1_host_subnet import V1HostSubnet
 from .models.v1_host_subnet_list import V1HostSubnetList
 from .models.v1_id_range import V1IDRange
-from .models.v1_iscsi_persistent_volume_source import V1ISCSIPersistentVolumeSource
 from .models.v1_identity import V1Identity
 from .models.v1_identity_list import V1IdentityList
 from .models.v1_image import V1Image
@@ -149,8 +131,6 @@ from .models.v1_o_auth_client_authorization import V1OAuthClientAuthorization
 from .models.v1_o_auth_client_authorization_list import V1OAuthClientAuthorizationList
 from .models.v1_o_auth_client_list import V1OAuthClientList
 from .models.v1_parameter import V1Parameter
-from .models.v1_pod_dns_config import V1PodDNSConfig
-from .models.v1_pod_dns_config_option import V1PodDNSConfigOption
 from .models.v1_pod_security_policy_review import V1PodSecurityPolicyReview
 from .models.v1_pod_security_policy_review_spec import V1PodSecurityPolicyReviewSpec
 from .models.v1_pod_security_policy_review_status import V1PodSecurityPolicyReviewStatus
@@ -165,13 +145,7 @@ from .models.v1_project_list import V1ProjectList
 from .models.v1_project_request import V1ProjectRequest
 from .models.v1_project_spec import V1ProjectSpec
 from .models.v1_project_status import V1ProjectStatus
-from .models.v1_rbd_persistent_volume_source import V1RBDPersistentVolumeSource
 from .models.v1_recreate_deployment_strategy_params import V1RecreateDeploymentStrategyParams
-from .models.v1_replica_set import V1ReplicaSet
-from .models.v1_replica_set_condition import V1ReplicaSetCondition
-from .models.v1_replica_set_list import V1ReplicaSetList
-from .models.v1_replica_set_spec import V1ReplicaSetSpec
-from .models.v1_replica_set_status import V1ReplicaSetStatus
 from .models.v1_repository_import_spec import V1RepositoryImportSpec
 from .models.v1_repository_import_status import V1RepositoryImportStatus
 from .models.v1_resource_access_review import V1ResourceAccessReview
@@ -184,9 +158,6 @@ from .models.v1_role_binding_restriction_list import V1RoleBindingRestrictionLis
 from .models.v1_role_binding_restriction_spec import V1RoleBindingRestrictionSpec
 from .models.v1_role_list import V1RoleList
 from .models.v1_rolling_deployment_strategy_params import V1RollingDeploymentStrategyParams
-from .models.v1_rolling_update_daemon_set import V1RollingUpdateDaemonSet
-from .models.v1_rolling_update_deployment import V1RollingUpdateDeployment
-from .models.v1_rolling_update_stateful_set_strategy import V1RollingUpdateStatefulSetStrategy
 from .models.v1_route import V1Route
 from .models.v1_route_ingress import V1RouteIngress
 from .models.v1_route_ingress_condition import V1RouteIngressCondition
@@ -217,12 +188,6 @@ from .models.v1_source_control_user import V1SourceControlUser
 from .models.v1_source_revision import V1SourceRevision
 from .models.v1_source_strategy_options import V1SourceStrategyOptions
 from .models.v1_stage_info import V1StageInfo
-from .models.v1_stateful_set import V1StatefulSet
-from .models.v1_stateful_set_condition import V1StatefulSetCondition
-from .models.v1_stateful_set_list import V1StatefulSetList
-from .models.v1_stateful_set_spec import V1StatefulSetSpec
-from .models.v1_stateful_set_status import V1StatefulSetStatus
-from .models.v1_stateful_set_update_strategy import V1StatefulSetUpdateStrategy
 from .models.v1_step_info import V1StepInfo
 from .models.v1_subject_access_review import V1SubjectAccessReview
 from .models.v1_subject_rules_review import V1SubjectRulesReview
@@ -249,37 +214,16 @@ from .models.v1_user import V1User
 from .models.v1_user_identity_mapping import V1UserIdentityMapping
 from .models.v1_user_list import V1UserList
 from .models.v1_user_restriction import V1UserRestriction
-from .models.v1_volume_device import V1VolumeDevice
 from .models.v1_web_hook_trigger import V1WebHookTrigger
-from .models.v1beta1_aggregation_rule import V1beta1AggregationRule
-from .models.v1beta1_allowed_flex_volume import V1beta1AllowedFlexVolume
-from .models.v1beta1_daemon_set_condition import V1beta1DaemonSetCondition
-from .models.v1beta1_event import V1beta1Event
-from .models.v1beta1_event_list import V1beta1EventList
-from .models.v1beta1_event_series import V1beta1EventSeries
 from .models.v1beta1_ingress_tls import V1beta1IngressTLS
-from .models.v1beta1_mutating_webhook_configuration import V1beta1MutatingWebhookConfiguration
-from .models.v1beta1_mutating_webhook_configuration_list import V1beta1MutatingWebhookConfigurationList
-from .models.v1beta1_rule_with_operations import V1beta1RuleWithOperations
-from .models.v1beta1_stateful_set_condition import V1beta1StatefulSetCondition
-from .models.v1beta1_validating_webhook_configuration import V1beta1ValidatingWebhookConfiguration
-from .models.v1beta1_validating_webhook_configuration_list import V1beta1ValidatingWebhookConfigurationList
-from .models.v1beta1_webhook import V1beta1Webhook
-from .models.v1beta1_webhook_client_config import V1beta1WebhookClientConfig
-from .models.v1beta2_daemon_set_condition import V1beta2DaemonSetCondition
-from .models.v1beta2_stateful_set_condition import V1beta2StatefulSetCondition
 
 # import apis into sdk package
-from .apis.admissionregistration_v1beta1_api import AdmissionregistrationV1beta1Api
 from .apis.apps_openshift_io_api import AppsOpenshiftIoApi
 from .apis.apps_openshift_io_v1_api import AppsOpenshiftIoV1Api
-from .apis.apps_v1_api import AppsV1Api
 from .apis.authorization_openshift_io_api import AuthorizationOpenshiftIoApi
 from .apis.authorization_openshift_io_v1_api import AuthorizationOpenshiftIoV1Api
 from .apis.build_openshift_io_api import BuildOpenshiftIoApi
 from .apis.build_openshift_io_v1_api import BuildOpenshiftIoV1Api
-from .apis.events_api import EventsApi
-from .apis.events_v1beta1_api import EventsV1beta1Api
 from .apis.image_openshift_io_api import ImageOpenshiftIoApi
 from .apis.image_openshift_io_v1_api import ImageOpenshiftIoV1Api
 from .apis.network_openshift_io_api import NetworkOpenshiftIoApi
