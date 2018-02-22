@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.5.0
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,14 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Thu Feb 22 2018 David Zager <david.j.zager@gmail.com> 0.5.0-7
+- Update client for release k8s-client 5.0 (david.j.zager@gmail.com)
+- Lint fix (chousekn@redhat.com)
+- Add 'Bearer' to auth header (chousekn@redhat.com)
+- All objects will now be instantiated with the proper configuration
+  (fabian@fabianism.us)
+- Restore API and model matching (chousekn@redhat.com)
+
 * Thu Feb 08 2018 David Zager <david.j.zager@gmail.com> 0.5.0.a1-6
 - Allow beta k8s client (david.j.zager@gmail.com)
 - Update client to use k8s client 5 (david.j.zager@gmail.com)
