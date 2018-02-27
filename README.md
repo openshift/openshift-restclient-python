@@ -112,6 +112,29 @@ for project in project_list.items:
 
 All OpenShift API and Model documentation can be found in the [Generated client's README file](openshift/README.md)
 
+## Compatibility
+
+We are downstream of the [kubernetes python client](github.com/kubernetes-client/python). We maintain compatibility for API version `n-2` - so if you are connecting to a version 3.6 OpenShift cluster, the list of supported python client versions would be `[0.3.x, 0.4.x, 0.5.x]`.
+
+#### Compatibility matrix
+
+| openshift python | kubernetes python | Kubernetes 1.5 | Kubernetes 1.6 | Kubernetes 1.7 | Kubernetes 1.8 | Kubernetes 1.9 |
+|------------------|-------------------|----------------|----------------|----------------|----------------|----------------|
+|  openshift 0.3   |  kubernetes 3.0   | +              | +              | ✓              | -              | -              |
+|  openshift 0.4   |  kubernetes 4.0   | +*             | +              | +              | ✓              | -              |
+|  openshift 0.5   |  kubernetes 5.0   | +*             | +*             | +              | +              | ✓              |
+|  openshift HEAD  |  kubernetes HEAD  | +*             | +*             | +              | +              | ✓              |
+
+Key:
+
+* `✓` Exactly the same features / API objects in both openshift-restclient-python and the OpenShift
+  version.
+* `+` openshift-restclient-python has features or api objects that may not be present in the
+  OpenShift cluster, but everything they have in common will work.
+* `-` The OpenShift cluster has features the openshift-restclient-python library can't use
+  (additional API objects, etc).
+* `*` This client/server combination may work, but is not officially supported. 
+
 ## Community, Support, Discussion
 
 If you have any problem with the package or any suggestions, please file an [issue](https://github.com/openshift/openshift-restclient-python/issues).
@@ -124,7 +147,7 @@ Participation in the Kubernetes community is governed by the [CNCF Code of Condu
 Updating the generated client requires the following tools:
 
 - tox
-- maven3
+- docker
 
 To apply the updates:
 
