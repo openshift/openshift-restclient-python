@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.5.0
-Release:    7%{?dist}
+Release:    8%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,11 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Tue Feb 27 2018 David Zager <david.j.zager@gmail.com> 0.5.0-8
+- Bug 1546843- RuntimeRawExtension objects will now deserialize
+  (fabian@fabianism.us)
+- Add compatiblity matrix (fabian@fabianism.us)
+
 * Thu Feb 22 2018 David Zager <david.j.zager@gmail.com> 0.5.0-7
 - Update client for release k8s-client 5.0 (david.j.zager@gmail.com)
 - Lint fix (chousekn@redhat.com)
