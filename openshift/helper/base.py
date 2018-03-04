@@ -175,7 +175,7 @@ class BaseObjectHelper(object):
         return method is not None
 
     def fix_serialization(self, obj):
-        if obj and obj.kind == "Service" and obj.spec.type != "ExternalName":
+        if obj and obj.kind == "Service" and obj.spec.ports:
             for port in obj.spec.ports:
                 try:
                     port.target_port = int(port.target_port)
