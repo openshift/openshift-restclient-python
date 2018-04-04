@@ -425,10 +425,17 @@ class BaseObjectHelper(object):
         return result
 
     def candidate_apis(self):
-        api_match = self.api_version.replace('/', '_').lower()
+        search_strings = [self.api_version.replace('/', '_').lower(), self.api_version.split('/')[-1].lower()]
+
+        def match(api):
+            for term in search_strings:
+                if term in self.attribute_to_snake(api):
+                    return True
+            return False
+
         return [
             api for api in self.available_apis()
-            if api_match in self.attribute_to_snake(api)
+            if match(api)
             or not VERSION_RX.match(api)
         ]
 
@@ -503,22 +510,26 @@ class BaseObjectHelper(object):
         """
 
         # Handle API paths. In the case of 'batch/', remove it completely, otherwise, replace '/' with '_'.
-        api = re.sub(r'batch/', '', api_version, count=0, flags=re.IGNORECASE).replace('/', '_')
+        apis =  [self.api_version.replace('/', '_').lower(), self.api_version.split('/')[-1].lower()]
 
         camel_kind = string_utils.snake_case_to_camel(kind)
-        camel_api_version = string_utils.snake_case_to_camel(api)
+        camel_api_versions = list(map(string_utils.snake_case_to_camel, apis))
 
         # capitalize the first letter of the string without lower-casing the remainder
         name = (camel_kind[:1].capitalize() + camel_kind[1:]).replace("Api", "API")
-        api = camel_api_version[:1].capitalize() + camel_api_version[1:]
+        apis = [api[:1].capitalize() + api[1:] for api in camel_api_versions]
 
-        model_name = api + name
-        try:
-            model = self.model_class_from_name(model_name)
-        except AttributeError:
+        model_names = [api + name for api in apis]
+        model = None
+        for model_name in model_names:
+            try:
+                model = self.model_class_from_name(model_name)
+            except AttributeError:
+                pass
+        if not model:
             raise self.get_exception_class()(
-                "Error: {} was not found in client.models. "
-                "Did you specify the correct Kind and API Version?".format(model_name)
+                "Error: None of {} were found in client.models. "
+                "Did you specify the correct Kind and API Version?".format(model_names)
             )
         return model
 
