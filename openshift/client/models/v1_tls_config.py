@@ -3,10 +3,10 @@
 """
     OpenShift API (with Kubernetes)
 
-    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information. 
+    OpenShift provides builds, application lifecycle, image content management, and administrative policy on top of Kubernetes. The API allows consistent management of those objects.  All API operations are authenticated via an Authorization bearer token that is provided for service accounts as a generated secret (in JWT form) or via the native OAuth endpoint located at /oauth/authorize. Core infrastructure components may use client certificates that require no authentication.  All API operations return a 'resourceVersion' string that represents the version of the object in the underlying storage. The standard LIST operation performs a snapshot read of the underlying objects, returning a resourceVersion representing a consistent version of the listed objects. The WATCH operation allows all updates to a set of objects after the provided resourceVersion to be observed by a client. By listing and beginning a watch from the returned resourceVersion, clients may observe a consistent view of the state of one or more objects. Note that WATCH always returns the update after the provided resourceVersion. Watch may be extended a limited time in the past - using etcd 2 the watch window is 1000 events (which on a large cluster may only be a few tens of seconds) so clients must explicitly handle the \"watch to old error\" by re-listing.  Objects are divided into two rough categories - those that have a lifecycle and must reflect the state of the cluster, and those that have no state. Objects with lifecycle typically have three main sections:  * 'metadata' common to all objects * a 'spec' that represents the desired state * a 'status' that represents how much of the desired state is reflected on   the cluster at the current time  Objects that have no state have 'metadata' but may lack a 'spec' or 'status' section.  Objects are divided into those that are namespace scoped (only exist inside of a namespace) and those that are cluster scoped (exist outside of a namespace). A namespace scoped resource will be deleted when the namespace is deleted and cannot be created if the namespace has not yet been created or is in the process of deletion. Cluster scoped resources are typically only accessible to admins - resources like nodes, persistent volumes, and cluster policy.  All objects have a schema that is a combination of the 'kind' and 'apiVersion' fields. This schema is additive only for any given version - no backwards incompatible changes are allowed without incrementing the apiVersion. The server will return and accept a number of standard responses that share a common schema - for instance, the common error type is 'metav1.Status' (described below) and will be returned on any error from the API server.  The API is available in multiple serialization formats - the default is JSON (Accept: application/json and Content-Type: application/json) but clients may also use YAML (application/yaml) or the native Protobuf schema (application/vnd.kubernetes.protobuf). Note that the format of the WATCH API call is slightly different - for JSON it returns newline delimited objects while for Protobuf it returns length-delimited frames (4 bytes in network-order) that contain a 'versioned.Watch' Protobuf object.  See the OpenShift documentation at https://docs.openshift.org for more information.
 
     OpenAPI spec version: latest
-    
+
     Generated by: https://github.com/swagger-api/swagger-codegen.git
 """
 
@@ -33,7 +33,7 @@ class V1TLSConfig(object):
     swagger_types = {
         'ca_certificate': 'str',
         'certificate': 'str',
-        'destination_ca_certificate': 'str',
+        'destination_c_a_certificate': 'str',
         'insecure_edge_termination_policy': 'str',
         'key': 'str',
         'termination': 'str'
@@ -42,20 +42,20 @@ class V1TLSConfig(object):
     attribute_map = {
         'ca_certificate': 'caCertificate',
         'certificate': 'certificate',
-        'destination_ca_certificate': 'destinationCACertificate',
+        'destination_c_a_certificate': 'destinationCACertificate',
         'insecure_edge_termination_policy': 'insecureEdgeTerminationPolicy',
         'key': 'key',
         'termination': 'termination'
     }
 
-    def __init__(self, ca_certificate=None, certificate=None, destination_ca_certificate=None, insecure_edge_termination_policy=None, key=None, termination=None):
+    def __init__(self, ca_certificate=None, certificate=None, destination_c_a_certificate=None, insecure_edge_termination_policy=None, key=None, termination=None):
         """
         V1TLSConfig - a model defined in Swagger
         """
 
         self._ca_certificate = None
         self._certificate = None
-        self._destination_ca_certificate = None
+        self._destination_c_a_certificate = None
         self._insecure_edge_termination_policy = None
         self._key = None
         self._termination = None
@@ -65,8 +65,8 @@ class V1TLSConfig(object):
           self.ca_certificate = ca_certificate
         if certificate is not None:
           self.certificate = certificate
-        if destination_ca_certificate is not None:
-          self.destination_ca_certificate = destination_ca_certificate
+        if destination_c_a_certificate is not None:
+          self.destination_c_a_certificate = destination_c_a_certificate
         if insecure_edge_termination_policy is not None:
           self.insecure_edge_termination_policy = insecure_edge_termination_policy
         if key is not None:
@@ -120,27 +120,27 @@ class V1TLSConfig(object):
         self._certificate = certificate
 
     @property
-    def destination_ca_certificate(self):
+    def destination_c_a_certificate(self):
         """
-        Gets the destination_ca_certificate of this V1TLSConfig.
+        Gets the destination_c_a_certificate of this V1TLSConfig.
         destinationCACertificate provides the contents of the ca certificate of the final destination.  When using reencrypt termination this file should be provided in order to have routers use it for health checks on the secure connection. If this field is not specified, the router may provide its own destination CA and perform hostname validation using the short service name (service.namespace.svc), which allows infrastructure generated certificates to automatically verify.
 
-        :return: The destination_ca_certificate of this V1TLSConfig.
+        :return: The destination_c_a_certificate of this V1TLSConfig.
         :rtype: str
         """
-        return self._destination_ca_certificate
+        return self._destination_c_a_certificate
 
-    @destination_ca_certificate.setter
-    def destination_ca_certificate(self, destination_ca_certificate):
+    @destination_c_a_certificate.setter
+    def destination_c_a_certificate(self, destination_c_a_certificate):
         """
-        Sets the destination_ca_certificate of this V1TLSConfig.
+        Sets the destination_c_a_certificate of this V1TLSConfig.
         destinationCACertificate provides the contents of the ca certificate of the final destination.  When using reencrypt termination this file should be provided in order to have routers use it for health checks on the secure connection. If this field is not specified, the router may provide its own destination CA and perform hostname validation using the short service name (service.namespace.svc), which allows infrastructure generated certificates to automatically verify.
 
-        :param destination_ca_certificate: The destination_ca_certificate of this V1TLSConfig.
+        :param destination_c_a_certificate: The destination_c_a_certificate of this V1TLSConfig.
         :type: str
         """
 
-        self._destination_ca_certificate = destination_ca_certificate
+        self._destination_c_a_certificate = destination_c_a_certificate
 
     @property
     def insecure_edge_termination_policy(self):
