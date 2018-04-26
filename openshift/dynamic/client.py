@@ -79,25 +79,25 @@ class DynamicClient(object):
             )
         return resources
 
-    def list(self, resource, namespace=None):
+    def list(self, resource, namespace=None, label_selector=None, field_selector=None):
         path_params = {}
         if resource.namespaced and namespace:
             resource_path = resource.urls['namespaced_base']
             path_params['namespace'] = namespace
         else:
             resource_path = resource.urls['base']
-        return ResourceInstance(resource, self.request('get', resource_path, path_params=path_params))
+        return ResourceInstance(resource, self.request('get', resource_path, path_params=path_params, label_selector=label_selector, field_selector=field_selector))
 
-    def get(self, resource, name=None, namespace=None):
+    def get(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
         if name is None:
-            return self.list(resource, namespace=namespace)
+            return self.list(resource, namespace=namespace, label_selector=label_selector, field_selector=field_selector)
         path_params = {'name': name}
         if resource.namespaced and namespace:
             resource_path = resource.urls['namespaced_full']
             path_params['namespace'] = namespace
         else:
             resource_path = resource.urls['full']
-        return ResourceInstance(resource, self.request('get', resource_path, path_params=path_params))
+        return ResourceInstance(resource, self.request('get', resource_path, path_params=path_params, label_selector=label_selector, field_selector=field_selector))
 
     def create(self, resource, body, namespace=None):
         path_params = {}
@@ -112,14 +112,18 @@ class DynamicClient(object):
             resource_path = resource.urls['base']
         return ResourceInstance(resource, self.request('post', resource_path, path_params=path_params, body=body))
 
-    def delete(self, resource, name, namespace=None):
-        path_params = {'name': name}
+    def delete(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
+        if not (name or label_selector or field_selector):
+            raise Exception("At least one of name|label_selector|field_selector is required")
+        path_params = {}
+        if name:
+            path_params['name'] = name
         if resource.namespaced and namespace:
             resource_path = resource.urls['namespaced_full']
             path_params['namespace'] = namespace
         else:
             resource_path = resource.urls['full']
-        return ResourceInstance(resource, self.request('delete', resource_path, path_params=path_params))
+        return ResourceInstance(resource, self.request('delete', resource_path, path_params=path_params, label_selector=label_selector, field_selector=field_selector))
 
     def replace(self, resource, body, name=None, namespace=None):
         if name is None:
@@ -161,9 +165,13 @@ class DynamicClient(object):
             path = '/' + path
 
         path_params = params.get('path_params', {})
-        query_params = []
+        query_params = params.get('query_params', [])
         if 'pretty' in params:
             query_params.append(('pretty', params['pretty']))
+        if params.get('label_selector'):
+            query_params.append(('labelSelector', params['label_selector']))
+        if params.get('field_selector'):
+            query_params.append(('fieldSelector', params['field_selector']))
         header_params = {}
         form_params = []
         local_var_files = {}
