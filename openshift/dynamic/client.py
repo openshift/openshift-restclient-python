@@ -25,7 +25,7 @@ class DynamicClient(object):
     def default_groups(self):
         groups = {}
         groups['api'] = { '': {
-            'v1': self.get_resources_for_apiversion('api', '', 'v1', True)
+            'v1': self.get_resources_for_api_version('api', '', 'v1', True)
         }}
 
         try:
@@ -36,7 +36,7 @@ class DynamicClient(object):
 
         if is_openshift:
             groups['oapi'] = { '': {
-                'v1': self.get_resources_for_apiversion('oapi', '', 'v1', True)
+                'v1': self.get_resources_for_api_version('oapi', '', 'v1', True)
             }}
         return groups
 
@@ -53,11 +53,11 @@ class DynamicClient(object):
             for version_raw in group['versions']:
                 version = version_raw['version']
                 preferred = version_raw == group['preferredVersion']
-                new_group[version] = self.get_resources_for_apiversion(prefix, group['name'], version, preferred)
+                new_group[version] = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
             groups[prefix][group['name']] = new_group
         return groups
 
-    def get_resources_for_apiversion(self, prefix, group, version, preferred):
+    def get_resources_for_api_version(self, prefix, group, version, preferred):
         """ returns a dictionary of resources associated with provided groupVersion"""
 
         resources = {}
@@ -72,7 +72,7 @@ class DynamicClient(object):
             resources[resource['kind']] = Resource(
                 prefix=prefix,
                 group=group,
-                apiversion=version,
+                api_version=version,
                 client=self,
                 preferred=preferred,
                 **resource
@@ -207,16 +207,16 @@ class DynamicClient(object):
 
 class Resource(object):
 
-    def __init__(self, prefix=None, group=None, apiversion=None, kind=None,
+    def __init__(self, prefix=None, group=None, api_version=None, kind=None,
                  namespaced=False, verbs=None, name=None, preferred=False, client=None,
                  singularName=None, shortNames=None, categories=None, **kwargs):
 
-        if None in (apiversion, kind, prefix):
-            raise Exception("At least prefix, kind, and apiversion must be provided")
+        if None in (api_version, kind, prefix):
+            raise Exception("At least prefix, kind, and api_version must be provided")
 
         self.prefix = prefix
         self.group = group
-        self.apiversion = apiversion
+        self.api_version = api_version
         self.kind = kind
         self.namespaced = namespaced
         self.verbs = verbs
@@ -229,19 +229,18 @@ class Resource(object):
 
         self.extra_args = kwargs
 
-    def __repr__(self):
+    @property
+    def group_version(self):
         if self.group:
-            groupversion = '{}/{}'.format(self.group, self.apiversion)
-        else:
-            groupversion = self.apiversion
-        return '<{}({}.{}>)'.format(self.__class__.__name__, groupversion, self.kind)
+            return '{}/{}'.format(self.group, self.api_version)
+        return self.api_version
+
+    def __repr__(self):
+        return '<{}({}.{}>)'.format(self.__class__.__name__, self.group_version, self.kind)
 
     @property
     def urls(self):
-        if self.group:
-            full_prefix = '{}/{}/{}'.format(self.prefix, self.group, self.apiversion)
-        else:
-            full_prefix = '{}/{}'.format(self.prefix, self.apiversion)
+        full_prefix = '{}/{}'.format(self.prefix, self.group_version)
         return {
             'base': '/{}/{}'.format(full_prefix, self.name),
             'namespaced_base': '/{}/namespaces/{{namespace}}/{}'.format(full_prefix, self.name),
@@ -259,6 +258,10 @@ class ResourceContainer(object):
 
     def get(self, **kwargs):
         results = self.search(**kwargs)
+        if len(results) > 1 and kwargs.get('api_version'):
+            results = [
+                result for result in results if result.group_version == kwargs['api_version']
+            ]
         if len(results) == 1:
             return results[0]
         elif not results:
