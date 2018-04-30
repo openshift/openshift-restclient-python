@@ -30,14 +30,12 @@ class DynamicClient(object):
 
         try:
             self.request('get', '/version/openshift')
-            is_openshift = True
-        except ApiException:
-            is_openshift = False
-
-        if is_openshift:
             groups['oapi'] = { '': {
                 'v1': self.get_resources_for_api_version('oapi', '', 'v1', True)
             }}
+        except ApiException:
+            pass
+
         return groups
 
     def parse_api_groups(self):
@@ -79,85 +77,50 @@ class DynamicClient(object):
             )
         return resources
 
-    def list(self, resource, namespace=None, label_selector=None, field_selector=None):
-        path_params = {}
-        if resource.namespaced and namespace:
-            resource_path = resource.urls['namespaced_base']
-            path_params['namespace'] = namespace
-        else:
-            resource_path = resource.urls['base']
-        return ResourceInstance(resource, self.request('get', resource_path, path_params=path_params, label_selector=label_selector, field_selector=field_selector))
-
     def get(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
-        if name is None:
-            return self.list(resource, namespace=namespace, label_selector=label_selector, field_selector=field_selector)
-        path_params = {'name': name}
-        if resource.namespaced and namespace:
-            resource_path = resource.urls['namespaced_full']
-            path_params['namespace'] = namespace
-        else:
-            resource_path = resource.urls['full']
-        return ResourceInstance(resource, self.request('get', resource_path, path_params=path_params, label_selector=label_selector, field_selector=field_selector))
+        path = resource.path(name=name, namespace=namespace)
+        return ResourceInstance(resource, self.request('get', path, label_selector=label_selector, field_selector=field_selector))
 
     def create(self, resource, body, namespace=None):
-        path_params = {}
-        if resource.namespaced and namespace:
-            resource_path = resource.urls['namespaced_base']
-            path_params['namespace'] = namespace
-        elif resource.namespaced and not namespace:
-            if body.get('metadata') and body['metadata'].get('namespace'):
-                resource_path = resource.urls['namespaced_base']
-                path_params['namespace'] = body['metadata']['namespace']
-        else:
-            resource_path = resource.urls['base']
-        return ResourceInstance(resource, self.request('post', resource_path, path_params=path_params, body=body))
+        if resource.namespaced:
+            namespace = namespace or body.get('metadata', {}).get('namespace')
+            if not namespace:
+                raise Exception("Namespace is required to create {}.{}".format(resource.group_verion, resource.kind))
+        path = resource.path(namespace=namespace)
+        return ResourceInstance(resource, self.request('post', path, body=body))
 
     def delete(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
         if not (name or label_selector or field_selector):
             raise Exception("At least one of name|label_selector|field_selector is required")
-        path_params = {}
-        if name:
-            path_params['name'] = name
-        if resource.namespaced and namespace:
-            resource_path = resource.urls['namespaced_full']
-            path_params['namespace'] = namespace
-        else:
-            resource_path = resource.urls['full']
-        return ResourceInstance(resource, self.request('delete', resource_path, path_params=path_params, label_selector=label_selector, field_selector=field_selector))
+        path = resource.path(name=name, namespace=namespace)
+        return ResourceInstance(resource, self.request('delete', path, label_selector=label_selector, field_selector=field_selector))
 
     def replace(self, resource, body, name=None, namespace=None):
-        if name is None:
-            name = body['metadata']['name']
-        path_params = {'name': name}
-        if resource.namespaced and namespace:
-            resource_path = resource.urls['namespaced_full']
-            path_params['namespace'] = namespace
-        elif resource.namespaced and not namespace:
-            if body.get('metadata') and body['metadata'].get('namespace'):
-                resource_path = resource.urls['namespaced_full']
-                path_params['namespace'] = body['metadata']['namespace']
-        else:
-            resource_path = resource.urls['full']
-
-        return ResourceInstance(resource, self.request('put', resource_path, path_params=path_params, body=body))
+        name = name or body.get('metadata', {}).get('name')
+        if not name:
+            raise Exception("name is required to replace {}.{}".format(resource.group_verion, resource.kind))
+        if resource.namespaced:
+            namespace = namespace or body.get('metadata', {}).get('namespace')
+            if not namespace:
+                raise Exception("namespace is required to replace {}.{}".format(resource.group_verion, resource.kind))
+        path = resource.path(name=name, namespace=namespace)
+        return ResourceInstance(resource, self.request('put', path, body=body))
 
     def update(self, resource, body, name=None, namespace=None):
-        if name is None:
-            name = body['metadata']['name']
-        path_params = {'name': name}
-        if resource.namespaced and namespace:
-            resource_path = resource.urls['namespaced_full']
-            path_params['namespace'] = namespace
-        elif resource.namespaced and not namespace:
-            if body.get('metadata') and body['metadata'].get('namespace'):
-                resource_path = resource.urls['namespaced_full']
-                path_params['namespace'] = body['metadata']['namespace']
-        else:
-            resource_path = resource.urls['full']
+        name = name or body.get('metadata', {}).get('name')
+        if not name:
+            raise Exception("name is required to update {}.{}".format(resource.group_verion, resource.kind))
+        if resource.namespaced:
+            namespace = namespace or body.get('metadata', {}).get('namespace')
+            if not namespace:
+                raise Exception("namespace is required to update {}.{}".format(resource.group_verion, resource.kind))
+
+        path = resource.path(name=name, namespace=namespace)
+
         content_type = self.client.\
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
-        return ResourceInstance(resource, self.request('patch', resource_path, path_params=path_params, body=body, content_type=content_type))
+        return ResourceInstance(resource, self.request('patch', path, body=body, content_type=content_type))
 
     def request(self, method, path, body=None, **params):
 
@@ -247,6 +210,19 @@ class Resource(object):
             'full': '/{}/{}/{{name}}'.format(full_prefix, self.name),
             'namespaced_full': '/{}/namespaces/{{namespace}}/{}/{{name}}'.format(full_prefix, self.name)
         }
+
+    def path(self, name=None, namespace=None):
+        url_type = []
+        path_params = {}
+        if self.namespaced and namespace:
+            url_type.append('namespaced')
+            path_params['namespace'] = namespace
+        if name:
+            url_type.append('full')
+            path_params['name'] = name
+        else:
+            url_type.append('base')
+        return self.urls['_'.join(url_type)].format(**path_params)
 
     def __getattr__(self, name):
         return partial(getattr(self.client, name), self)
