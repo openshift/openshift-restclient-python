@@ -16,11 +16,23 @@ class DynamicClient(object):
 
     def __init__(self, client):
         self.client = client
+        self._load_server_info()
         self.__resources = ResourceContainer(self.parse_api_groups())
+
+    def _load_server_info(self):
+        self.__version = {'kubernetes': self.request('get', '/version')}
+        try:
+            self.__version['openshift'] = self.request('get', '/version/openshift')
+        except ApiException:
+            pass
 
     @property
     def resources(self):
         return self.__resources
+
+    @property
+    def version(self):
+        return self.__version
 
     def default_groups(self):
         groups = {}
@@ -28,13 +40,10 @@ class DynamicClient(object):
             'v1': self.get_resources_for_api_version('api', '', 'v1', True)
         }}
 
-        try:
-            self.request('get', '/version/openshift')
+        if self.version.get('openshift'):
             groups['oapi'] = { '': {
                 'v1': self.get_resources_for_api_version('oapi', '', 'v1', True)
             }}
-        except ApiException:
-            pass
 
         return groups
 
@@ -77,21 +86,27 @@ class DynamicClient(object):
             )
         return resources
 
+    def ensure_namespace(self, resource, namespace, body):
+        namespace = namespace or body.get('metadata', {}).get('namespace')
+        if not namespace:
+            raise Exception("Namespace is required to create {}.{}".format(resource.group_verion, resource.kind))
+        return namespace
+
     def get(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
         path = resource.path(name=name, namespace=namespace)
         return ResourceInstance(resource, self.request('get', path, label_selector=label_selector, field_selector=field_selector))
 
     def create(self, resource, body, namespace=None):
         if resource.namespaced:
-            namespace = namespace or body.get('metadata', {}).get('namespace')
-            if not namespace:
-                raise Exception("Namespace is required to create {}.{}".format(resource.group_verion, resource.kind))
+            namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(namespace=namespace)
         return ResourceInstance(resource, self.request('post', path, body=body))
 
     def delete(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
         if not (name or label_selector or field_selector):
             raise Exception("At least one of name|label_selector|field_selector is required")
+        if resource.namespaced and not (label_selector or field_selector or namespace):
+            raise Exception("At least one of namespace|label_selector|field_selector is required")
         path = resource.path(name=name, namespace=namespace)
         return ResourceInstance(resource, self.request('delete', path, label_selector=label_selector, field_selector=field_selector))
 
@@ -100,9 +115,7 @@ class DynamicClient(object):
         if not name:
             raise Exception("name is required to replace {}.{}".format(resource.group_verion, resource.kind))
         if resource.namespaced:
-            namespace = namespace or body.get('metadata', {}).get('namespace')
-            if not namespace:
-                raise Exception("namespace is required to replace {}.{}".format(resource.group_verion, resource.kind))
+            namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(name=name, namespace=namespace)
         return ResourceInstance(resource, self.request('put', path, body=body))
 
@@ -111,9 +124,7 @@ class DynamicClient(object):
         if not name:
             raise Exception("name is required to update {}.{}".format(resource.group_verion, resource.kind))
         if resource.namespaced:
-            namespace = namespace or body.get('metadata', {}).get('namespace')
-            if not namespace:
-                raise Exception("namespace is required to update {}.{}".format(resource.group_verion, resource.kind))
+            namespace = self.ensure_namespace(resource, namespace, body)
 
         path = resource.path(name=name, namespace=namespace)
 
@@ -231,6 +242,10 @@ class Resource(object):
 class ResourceContainer(object):
     def __init__(self, resources):
         self.__resources = resources
+
+    @property
+    def api_groups(self):
+        return self.__resources['apis'].keys()
 
     def get(self, **kwargs):
         results = self.search(**kwargs)
