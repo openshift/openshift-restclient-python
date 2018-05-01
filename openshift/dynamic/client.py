@@ -412,9 +412,6 @@ class ResourceInstance(object):
     def __getattr__(self, name):
         return getattr(self.attributes, name)
 
-    def __setattr__(self, name, value):
-        self.attributes[name] = value
-
     def __getitem__(self, name):
         return self.attributes[name]
 
