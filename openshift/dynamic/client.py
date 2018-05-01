@@ -20,9 +20,9 @@ class DynamicClient(object):
         self.__resources = ResourceContainer(self.parse_api_groups())
 
     def _load_server_info(self):
-        self.__version = {'kubernetes': self.request('get', '/version')}
+        self.__version = {'kubernetes': self.json(self.request('get', '/version'))}
         try:
-            self.__version['openshift'] = self.request('get', '/version/openshift')
+            self.__version['openshift'] = self.json(self.request('get', '/version/openshift'))
         except ApiException:
             pass
 
@@ -50,7 +50,7 @@ class DynamicClient(object):
     def parse_api_groups(self):
         ""
         prefix = 'apis'
-        groups_response = self.request('GET', '/{}'.format(prefix))['groups']
+        groups_response = self.json(self.request('GET', '/{}'.format(prefix)))['groups']
 
         groups = self.default_groups()
         groups[prefix] = {}
@@ -68,12 +68,18 @@ class DynamicClient(object):
         """ returns a dictionary of resources associated with provided groupVersion"""
 
         resources = {}
+        subresources = {}
 
         path = '/'.join(filter(None, [prefix, group, version]))
-        resources_response = self.request('GET', path)['resources']
+        resources_response = self.json(self.request('GET', path))['resources']
 
-        # TODO: Filter out subresources for now
-        resources_raw = filter(lambda resource: '/' not in resource['name'], resources_response)
+        resources_raw = list(filter(lambda resource: '/' not in resource['name'], resources_response))
+        subresources_raw = list(filter(lambda resource: '/' in resource['name'], resources_response))
+        for subresource in subresources_raw:
+            resource, name = subresource['name'].split('/')
+            if not subresources.get(resource):
+                subresources[resource] = {}
+            subresources[resource][name] = subresource
 
         for resource in resources_raw:
             resources[resource['kind']] = Resource(
@@ -82,6 +88,7 @@ class DynamicClient(object):
                 api_version=version,
                 client=self,
                 preferred=preferred,
+                subresources=subresources.get(resource['name']),
                 **resource
             )
         return resources
@@ -94,13 +101,13 @@ class DynamicClient(object):
 
     def get(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
         path = resource.path(name=name, namespace=namespace)
-        return ResourceInstance(resource, self.request('get', path, label_selector=label_selector, field_selector=field_selector))
+        return self.serialize(resource, self.request('get', path, label_selector=label_selector, field_selector=field_selector))
 
-    def create(self, resource, body, namespace=None):
+    def create(self, resource, body=None, namespace=None):
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(namespace=namespace)
-        return ResourceInstance(resource, self.request('post', path, body=body))
+        return self.serialize(resource, self.request('post', path, body=body))
 
     def delete(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
         if not (name or label_selector or field_selector):
@@ -108,16 +115,16 @@ class DynamicClient(object):
         if resource.namespaced and not (label_selector or field_selector or namespace):
             raise Exception("At least one of namespace|label_selector|field_selector is required")
         path = resource.path(name=name, namespace=namespace)
-        return ResourceInstance(resource, self.request('delete', path, label_selector=label_selector, field_selector=field_selector))
+        return self.serialize(resource, self.request('delete', path, label_selector=label_selector, field_selector=field_selector))
 
-    def replace(self, resource, body, name=None, namespace=None):
+    def replace(self, resource, body=None, name=None, namespace=None):
         name = name or body.get('metadata', {}).get('name')
         if not name:
             raise Exception("name is required to replace {}.{}".format(resource.group_verion, resource.kind))
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(name=name, namespace=namespace)
-        return ResourceInstance(resource, self.request('put', path, body=body))
+        return self.serialize(resource, self.request('put', path, body=body))
 
     def update(self, resource, body, name=None, namespace=None):
         name = name or body.get('metadata', {}).get('name')
@@ -131,7 +138,16 @@ class DynamicClient(object):
         content_type = self.client.\
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
-        return ResourceInstance(resource, self.request('patch', path, body=body, content_type=content_type))
+        return self.serialize(resource, self.request('patch', path, body=body, content_type=content_type))
+
+    def serialize(self, resource, response):
+        try:
+            return ResourceInstance(resource, self.json(response))
+        except ValueError:
+            return response[0].data
+
+    def json(self, response):
+        return json.loads(response[0].data)
 
     def request(self, method, path, body=None, **params):
 
@@ -165,7 +181,7 @@ class DynamicClient(object):
         # Authentication setting
         auth_settings = ['BearerToken']
 
-        return json.loads(self.client.call_api(
+        return self.client.call_api(
             path,
             method.upper(),
             path_params,
@@ -176,14 +192,14 @@ class DynamicClient(object):
             files=local_var_files,
             auth_settings=auth_settings,
             _preload_content=False
-        )[0].data)
+        )
 
 
 class Resource(object):
 
     def __init__(self, prefix=None, group=None, api_version=None, kind=None,
                  namespaced=False, verbs=None, name=None, preferred=False, client=None,
-                 singularName=None, shortNames=None, categories=None, **kwargs):
+                 singularName=None, shortNames=None, categories=None, subresources=None, **kwargs):
 
         if None in (api_version, kind, prefix):
             raise Exception("At least prefix, kind, and api_version must be provided")
@@ -200,6 +216,9 @@ class Resource(object):
         self.singular_name = singularName
         self.short_names = shortNames
         self.categories = categories
+        self.subresources = {
+            k: Subresource(self, **v) for k, v in (subresources or {}).items()
+        }
 
         self.extra_args = kwargs
 
@@ -210,7 +229,7 @@ class Resource(object):
         return self.api_version
 
     def __repr__(self):
-        return '<{}({}.{}>)'.format(self.__class__.__name__, self.group_version, self.kind)
+        return '<{}({}/{}>)'.format(self.__class__.__name__, self.group_version, self.name)
 
     @property
     def urls(self):
@@ -236,7 +255,35 @@ class Resource(object):
         return self.urls['_'.join(url_type)].format(**path_params)
 
     def __getattr__(self, name):
+        if name in self.subresources:
+            return self.subresources[name]
         return partial(getattr(self.client, name), self)
+
+
+class Subresource(Resource):
+
+    def __init__(self, parent, **kwargs):
+        self.parent = parent
+        self.prefix = parent.prefix
+        self.group = kwargs.pop('group', parent.group)
+        self.api_version = kwargs.pop('apiVersion', parent.api_version)
+        self.kind = kwargs.pop('kind')
+        self.name = kwargs.pop('name')
+        self.subresource = self.name.split('/')[1]
+        self.namespaced = kwargs.pop('namespaced', False)
+        self.verbs = kwargs.pop('verbs', None)
+        self.extra_args = kwargs
+
+    @property
+    def urls(self):
+        full_prefix = '{}/{}'.format(self.prefix, self.group_version)
+        return {
+            'full': '/{}/{}/{{name}}/{}'.format(full_prefix, self.parent.name, self.subresource),
+            'namespaced_full': '/{}/namespaces/{{namespace}}/{}/{{name}}/{}'.format(full_prefix, self.parent.name, self.subresource)
+        }
+
+    def __getattr__(self, name):
+        return partial(getattr(self.parent.client, name), self)
 
 
 class ResourceContainer(object):
@@ -312,7 +359,7 @@ class ResourceField(object):
         return self.__dict__ == other.__dict__
 
     def __getitem__(self, name):
-        return self.__dict__[name]
+        return self.__dict__.get(name)
 
     def __dir__(self):
         return dir(type(self)) + list(self.__dict__.keys())
@@ -375,7 +422,10 @@ def main():
             key = resource.urls['namespaced_full']
         else:
             key = resource.urls['full']
-        ret[key] = {k: v for k, v in resource.__dict__.items() if k != 'client'}
+        ret[key] = {k: v for k, v in resource.__dict__.items() if k not in ('client', 'subresources')}
+        ret[key]['subresources'] = {}
+        for name, value in resource.subresources.items():
+            ret[key]['subresources'][name] = {k: v for k, v in value.__dict__.items() if k != 'parent'}
 
     print(yaml.safe_dump(ret))
     return 0
