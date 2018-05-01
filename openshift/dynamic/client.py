@@ -96,7 +96,7 @@ class DynamicClient(object):
     def ensure_namespace(self, resource, namespace, body):
         namespace = namespace or body.get('metadata', {}).get('namespace')
         if not namespace:
-            raise Exception("Namespace is required to create {}.{}".format(resource.group_verion, resource.kind))
+            raise Exception("Namespace is required to create {}.{}".format(resource.group_version, resource.kind))
         return namespace
 
     def get(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
@@ -120,7 +120,7 @@ class DynamicClient(object):
     def replace(self, resource, body=None, name=None, namespace=None):
         name = name or body.get('metadata', {}).get('name')
         if not name:
-            raise Exception("name is required to replace {}.{}".format(resource.group_verion, resource.kind))
+            raise Exception("name is required to replace {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(name=name, namespace=namespace)
@@ -129,7 +129,7 @@ class DynamicClient(object):
     def update(self, resource, body, name=None, namespace=None):
         name = name or body.get('metadata', {}).get('name')
         if not name:
-            raise Exception("name is required to update {}.{}".format(resource.group_verion, resource.kind))
+            raise Exception("name is required to update {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
 
@@ -265,8 +265,8 @@ class Subresource(Resource):
     def __init__(self, parent, **kwargs):
         self.parent = parent
         self.prefix = parent.prefix
-        self.group = kwargs.pop('group', parent.group)
-        self.api_version = kwargs.pop('apiVersion', parent.api_version)
+        self.group = parent.group
+        self.api_version = parent.api_version
         self.kind = kwargs.pop('kind')
         self.name = kwargs.pop('name')
         self.subresource = self.name.split('/')[1]
@@ -361,6 +361,12 @@ class ResourceField(object):
     def __getitem__(self, name):
         return self.__dict__.get(name)
 
+    def __getattr__(self, name):
+        return self.__dict__.get(name)
+
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+
     def __dir__(self):
         return dir(type(self)) + list(self.__dict__.keys())
 
@@ -405,6 +411,9 @@ class ResourceInstance(object):
 
     def __getattr__(self, name):
         return getattr(self.attributes, name)
+
+    def __setattr__(self, name, value):
+        self.attributes[name] = value
 
     def __getitem__(self, name):
         return self.attributes[name]
