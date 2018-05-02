@@ -12,6 +12,23 @@ from kubernetes.client.api_client import ApiClient
 from kubernetes.client.rest import ApiException
 
 
+def meta_request(func):
+    def inner(self, resource, *args, **kwargs):
+        if not kwargs.pop('serialize', True):
+            return func(self, resource, *args, **kwargs)
+        return serialize(resource, func(self, resource, *args, **kwargs))
+    return inner
+
+def serialize(resource, response):
+    try:
+        return ResourceInstance(resource, load_json(response))
+    except ValueError:
+        return response.data
+
+def load_json(response):
+    return json.loads(response.data)
+
+
 class DynamicClient(object):
 
     def __init__(self, client):
@@ -20,9 +37,9 @@ class DynamicClient(object):
         self.__resources = ResourceContainer(self.parse_api_groups())
 
     def _load_server_info(self):
-        self.__version = {'kubernetes': self.json(self.request('get', '/version'))}
+        self.__version = {'kubernetes': load_json(self.request('get', '/version'))}
         try:
-            self.__version['openshift'] = self.json(self.request('get', '/version/openshift'))
+            self.__version['openshift'] = load_json(self.request('get', '/version/openshift'))
         except ApiException:
             pass
 
@@ -48,9 +65,8 @@ class DynamicClient(object):
         return groups
 
     def parse_api_groups(self):
-        ""
         prefix = 'apis'
-        groups_response = self.json(self.request('GET', '/{}'.format(prefix)))['groups']
+        groups_response = load_json(self.request('GET', '/{}'.format(prefix)))['groups']
 
         groups = self.default_groups()
         groups[prefix] = {}
@@ -71,7 +87,7 @@ class DynamicClient(object):
         subresources = {}
 
         path = '/'.join(filter(None, [prefix, group, version]))
-        resources_response = self.json(self.request('GET', path))['resources']
+        resources_response = load_json(self.request('GET', path))['resources']
 
         resources_raw = list(filter(lambda resource: '/' not in resource['name'], resources_response))
         subresources_raw = list(filter(lambda resource: '/' in resource['name'], resources_response))
@@ -99,55 +115,52 @@ class DynamicClient(object):
             raise Exception("Namespace is required to create {}.{}".format(resource.group_version, resource.kind))
         return namespace
 
-    def get(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
+    @meta_request
+    def get(self, resource, name=None, namespace=None, **kwargs):
         path = resource.path(name=name, namespace=namespace)
-        return self.serialize(resource, self.request('get', path, label_selector=label_selector, field_selector=field_selector))
+        return self.request('get', path, **kwargs)
 
-    def create(self, resource, body=None, namespace=None):
+    @meta_request
+    def create(self, resource, body=None, namespace=None, **kwargs):
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(namespace=namespace)
-        return self.serialize(resource, self.request('post', path, body=body))
+        return self.request('post', path, body=body, **kwargs)
 
-    def delete(self, resource, name=None, namespace=None, label_selector=None, field_selector=None):
+    @meta_request
+    def delete(self, resource, name=None, namespace=None, label_selector=None, field_selector=None, **kwargs):
         if not (name or label_selector or field_selector):
             raise Exception("At least one of name|label_selector|field_selector is required")
         if resource.namespaced and not (label_selector or field_selector or namespace):
             raise Exception("At least one of namespace|label_selector|field_selector is required")
         path = resource.path(name=name, namespace=namespace)
-        return self.serialize(resource, self.request('delete', path, label_selector=label_selector, field_selector=field_selector))
+        return self.request('delete', path, label_selector=label_selector, field_selector=field_selector, **kwargs)
 
-    def replace(self, resource, body=None, name=None, namespace=None):
+    @meta_request
+    def replace(self, resource, body=None, name=None, namespace=None, **kwargs):
         name = name or body.get('metadata', {}).get('name')
         if not name:
             raise Exception("name is required to replace {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(name=name, namespace=namespace)
-        return self.serialize(resource, self.request('put', path, body=body))
+        return self.request('put', path, body=body, **kwargs)
 
-    def update(self, resource, body, name=None, namespace=None):
+    @meta_request
+    def update(self, resource, body, name=None, namespace=None, **kwargs):
         name = name or body.get('metadata', {}).get('name')
         if not name:
             raise Exception("name is required to update {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
 
-        path = resource.path(name=name, namespace=namespace)
+        path = resource.path(name=name, namespace=namespace, **kwargs)
 
         content_type = self.client.\
             select_header_content_type(['application/json-patch+json', 'application/merge-patch+json', 'application/strategic-merge-patch+json'])
 
-        return self.serialize(resource, self.request('patch', path, body=body, content_type=content_type))
+        return self.request('patch', path, body=body, content_type=content_type)
 
-    def serialize(self, resource, response):
-        try:
-            return ResourceInstance(resource, self.json(response))
-        except ValueError:
-            return response[0].data
-
-    def json(self, response):
-        return json.loads(response[0].data)
 
     def request(self, method, path, body=None, **params):
 
@@ -158,11 +171,24 @@ class DynamicClient(object):
         query_params = params.get('query_params', [])
         if 'pretty' in params:
             query_params.append(('pretty', params['pretty']))
-        if params.get('label_selector'):
-            query_params.append(('labelSelector', params['label_selector']))
-        if params.get('field_selector'):
+        if '_continue' in params:
+            query_params.append(('continue', params['_continue']))
+        if 'include_uninitialized' in params:
+            query_params.append(('includeUninitialized', params['include_uninitialized']))
+        if 'field_selector' in params:
             query_params.append(('fieldSelector', params['field_selector']))
-        header_params = {}
+        if 'label_selector' in params:
+            query_params.append(('labelSelector', params['label_selector']))
+        if 'limit' in params:
+            query_params.append(('limit', params['limit']))
+        if 'resource_version' in params:
+            query_params.append(('resourceVersion', params['resource_version']))
+        if 'timeout_seconds' in params:
+            query_params.append(('timeoutSeconds', params['timeout_seconds']))
+        if 'watch' in params:
+            query_params.append(('watch', params['watch']))
+
+        header_params = params.get('header_params', {})
         form_params = []
         local_var_files = {}
         # HTTP header `Accept`
@@ -189,9 +215,11 @@ class DynamicClient(object):
             header_params,
             body=body,
             post_params=form_params,
+            async=params.get('async'),
             files=local_var_files,
             auth_settings=auth_settings,
-            _preload_content=False
+            _preload_content=False,
+            _return_http_data_only=params.get('_return_http_data_only', True)
         )
 
 
