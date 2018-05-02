@@ -33,6 +33,7 @@ class DynamicClient(object):
 
     def __init__(self, client):
         self.client = client
+        self.configuration = client.configuration
         self._load_server_info()
         self.__resources = ResourceContainer(self.parse_api_groups())
 
@@ -147,10 +148,10 @@ class DynamicClient(object):
         return self.request('put', path, body=body, **kwargs)
 
     @meta_request
-    def update(self, resource, body, name=None, namespace=None, **kwargs):
+    def patch(self, resource, body, name=None, namespace=None, **kwargs):
         name = name or body.get('metadata', {}).get('name')
         if not name:
-            raise Exception("name is required to update {}.{}".format(resource.group_version, resource.kind))
+            raise Exception("name is required to patch {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
 
@@ -397,6 +398,10 @@ class ResourceField(object):
 
     def __dir__(self):
         return dir(type(self)) + list(self.__dict__.keys())
+
+    def __iter__(self):
+        for k, v in self.__dict__.items():
+            yield (k, v)
 
 
 class ResourceInstance(object):
