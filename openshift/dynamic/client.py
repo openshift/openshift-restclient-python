@@ -169,23 +169,23 @@ class DynamicClient(object):
 
         path_params = params.get('path_params', {})
         query_params = params.get('query_params', [])
-        if 'pretty' in params:
+        if params.get('pretty'):
             query_params.append(('pretty', params['pretty']))
-        if '_continue' in params:
+        if params.get('_continue'):
             query_params.append(('continue', params['_continue']))
-        if 'include_uninitialized' in params:
+        if params.get('include_uninitialized'):
             query_params.append(('includeUninitialized', params['include_uninitialized']))
-        if 'field_selector' in params:
+        if params.get('field_selector'):
             query_params.append(('fieldSelector', params['field_selector']))
-        if 'label_selector' in params:
+        if params.get('label_selector'):
             query_params.append(('labelSelector', params['label_selector']))
-        if 'limit' in params:
+        if params.get('limit'):
             query_params.append(('limit', params['limit']))
-        if 'resource_version' in params:
+        if params.get('resource_version'):
             query_params.append(('resourceVersion', params['resource_version']))
-        if 'timeout_seconds' in params:
+        if params.get('timeout_seconds'):
             query_params.append(('timeoutSeconds', params['timeout_seconds']))
-        if 'watch' in params:
+        if params.get('watch'):
             query_params.append(('watch', params['watch']))
 
         header_params = params.get('header_params', {})
