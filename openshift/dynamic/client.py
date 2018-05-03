@@ -13,8 +13,18 @@ from kubernetes.client.rest import ApiException
 
 from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception
 
+__all__ = [
+    'DynamicClient',
+    'ResourceInstance',
+    'Resource',
+    'Subresource',
+    'ResourceContainer',
+    'ResourceField',
+]
+
 
 def meta_request(func):
+    """ Handles parsing response structure and translating API Exceptions """
     def inner(self, resource, *args, **kwargs):
         serialize = kwargs.pop('serialize', True)
         try:
@@ -38,6 +48,9 @@ def load_json(response):
 
 
 class DynamicClient(object):
+    """ A kubernetes client that dynamically discovers and interacts with
+        the kubernetes API
+    """
 
     def __init__(self, client):
         self.client = client
@@ -74,6 +87,7 @@ class DynamicClient(object):
         return groups
 
     def parse_api_groups(self):
+        """ Discovers all API groups present in the cluster """
         prefix = 'apis'
         groups_response = load_json(self.request('GET', '/{}'.format(prefix)))['groups']
 
@@ -121,7 +135,7 @@ class DynamicClient(object):
     def ensure_namespace(self, resource, namespace, body):
         namespace = namespace or body.get('metadata', {}).get('namespace')
         if not namespace:
-            raise ValueError("Namespace is required to create {}.{}".format(resource.group_version, resource.kind))
+            raise ValueError("Namespace is required for {}.{}".format(resource.group_version, resource.kind))
         return namespace
 
     @meta_request
@@ -235,6 +249,7 @@ class DynamicClient(object):
 
 
 class Resource(object):
+    """ Represents an API resource type, containing the information required to build urls for requests """
 
     def __init__(self, prefix=None, group=None, api_version=None, kind=None,
                  namespaced=False, verbs=None, name=None, preferred=False, client=None,
@@ -300,6 +315,9 @@ class Resource(object):
 
 
 class Subresource(Resource):
+    """ Represents a subresource of an API resource. This generally includes operations
+        like scale, as well as status objects for an instantiated resource
+    """
 
     def __init__(self, parent, **kwargs):
         self.parent = parent
@@ -326,14 +344,23 @@ class Subresource(Resource):
 
 
 class ResourceContainer(object):
+    """ A convenient container for storing discovered API resources. Allows
+        easy searching and retrieval of specific resources
+    """
+
     def __init__(self, resources):
         self.__resources = resources
 
     @property
     def api_groups(self):
+        """ list available api groups """
         return self.__resources['apis'].keys()
 
     def get(self, **kwargs):
+        """ Same as search, but will throw an error if there are multiple or no
+            results. If there are multiple results and only one is an exact match
+            on api_version, that resource will be returned.
+        """
         results = self.search(**kwargs)
         if len(results) > 1 and kwargs.get('api_version'):
             results = [
@@ -347,6 +374,16 @@ class ResourceContainer(object):
             raise ResourceNotUniqueError('Multiple matches found for {}: {}'.format(kwargs, results))
 
     def search(self, **kwargs):
+        """ Takes keyword arguments and returns matching resources. The search
+            will happen in the following order:
+                prefix: The api prefix for a resource, ie, /api, /oapi, /apis. Can usually be ignored
+                group: The api group of a resource. Will also be extracted from api_version if it is present there
+                api_version: The api version of a resource
+                kind: The kind of the resource
+                arbitrary arguments (see below), in random order
+
+            The arbitrary arguments can be any valid attribute for an openshift.dynamic.Resource object
+        """
         return self.__search(self.__build_search(**kwargs), self.__resources)
 
     def __build_search(self, kind=None, api_version=None, prefix=None, **kwargs):
@@ -387,6 +424,10 @@ class ResourceContainer(object):
 
 
 class ResourceField(object):
+    """ A parsed instance of an API resource attribute. It exists
+        solely to ease interaction with API objects by allowing
+        attributes to be accessed with '.' notation
+    """
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -415,6 +456,10 @@ class ResourceField(object):
 
 
 class ResourceInstance(object):
+    """ A parsed instance of an API resource. It exists solely to
+        ease interaction with API objects by allowing attributes to
+        be accessed with '.' notation.
+    """
 
     def __init__(self, resource, instance):
         self.resource_type = resource
