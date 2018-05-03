@@ -11,12 +11,20 @@ from kubernetes import config
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.rest import ApiException
 
+from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception
+
 
 def meta_request(func):
     def inner(self, resource, *args, **kwargs):
-        if not kwargs.pop('serialize', True):
-            return func(self, resource, *args, **kwargs)
-        return serialize(resource, func(self, resource, *args, **kwargs))
+        serialize = kwargs.pop('serialize', True)
+        try:
+            resp = func(self, resource, *args, **kwargs)
+        except ApiException as e:
+            raise api_exception(e)
+        if serialize:
+            return serialize(resource, resp)
+        return resp
+
     return inner
 
 def serialize(resource, response):
@@ -113,7 +121,7 @@ class DynamicClient(object):
     def ensure_namespace(self, resource, namespace, body):
         namespace = namespace or body.get('metadata', {}).get('namespace')
         if not namespace:
-            raise Exception("Namespace is required to create {}.{}".format(resource.group_version, resource.kind))
+            raise ValueError("Namespace is required to create {}.{}".format(resource.group_version, resource.kind))
         return namespace
 
     @meta_request
@@ -131,27 +139,29 @@ class DynamicClient(object):
     @meta_request
     def delete(self, resource, name=None, namespace=None, label_selector=None, field_selector=None, **kwargs):
         if not (name or label_selector or field_selector):
-            raise Exception("At least one of name|label_selector|field_selector is required")
+            raise ValueError("At least one of name|label_selector|field_selector is required")
         if resource.namespaced and not (label_selector or field_selector or namespace):
-            raise Exception("At least one of namespace|label_selector|field_selector is required")
+            raise ValueError("At least one of namespace|label_selector|field_selector is required")
         path = resource.path(name=name, namespace=namespace)
         return self.request('delete', path, label_selector=label_selector, field_selector=field_selector, **kwargs)
 
     @meta_request
     def replace(self, resource, body=None, name=None, namespace=None, **kwargs):
+        body = body or {}
         name = name or body.get('metadata', {}).get('name')
         if not name:
-            raise Exception("name is required to replace {}.{}".format(resource.group_version, resource.kind))
+            raise ValueError("name is required to replace {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(name=name, namespace=namespace)
         return self.request('put', path, body=body, **kwargs)
 
     @meta_request
-    def patch(self, resource, body, name=None, namespace=None, **kwargs):
+    def patch(self, resource, body=None, name=None, namespace=None, **kwargs):
+        body = body or {}
         name = name or body.get('metadata', {}).get('name')
         if not name:
-            raise Exception("name is required to patch {}.{}".format(resource.group_version, resource.kind))
+            raise ValueError("name is required to patch {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
 
@@ -231,7 +241,7 @@ class Resource(object):
                  singularName=None, shortNames=None, categories=None, subresources=None, **kwargs):
 
         if None in (api_version, kind, prefix):
-            raise Exception("At least prefix, kind, and api_version must be provided")
+            raise ValueError("At least prefix, kind, and api_version must be provided")
 
         self.prefix = prefix
         self.group = group
@@ -332,9 +342,9 @@ class ResourceContainer(object):
         if len(results) == 1:
             return results[0]
         elif not results:
-            raise Exception('No matches found for {}'.format(kwargs))
+            raise ResourceNotFoundError('No matches found for {}'.format(kwargs))
         else:
-            raise Exception('Multiple matches found for {}: {}'.format(kwargs, results))
+            raise ResourceNotUniqueError('Multiple matches found for {}: {}'.format(kwargs, results))
 
     def search(self, **kwargs):
         return self.__search(self.__build_search(**kwargs), self.__resources)
