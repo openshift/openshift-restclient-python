@@ -37,7 +37,7 @@ class DynamicApiError(ApiException):
         self.original_traceback = tb
 
     def __str__(self):
-        error_message = [self.status, "Reason: {}".format(self.reason)]
+        error_message = [str(self.status), "Reason: {}".format(self.reason)]
         if self.headers:
             error_message.append("HTTP response headers: {}".format(self.headers))
 
