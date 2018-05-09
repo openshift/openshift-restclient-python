@@ -26,12 +26,12 @@ __all__ = [
 def meta_request(func):
     """ Handles parsing response structure and translating API Exceptions """
     def inner(self, resource, *args, **kwargs):
-        serialize = kwargs.pop('serialize', True)
+        serialize_response = kwargs.pop('serialize', True)
         try:
             resp = func(self, resource, *args, **kwargs)
         except ApiException as e:
             raise api_exception(e)
-        if serialize:
+        if serialize_response:
             return serialize(resource, resp)
         return resp
 
