@@ -89,7 +89,7 @@ dyn_client = DynamicClient(k8s_client)
 v1_routes = dyn_client.resources.get(api_version='route.openshift.io/v1', kind='Route')
 
 route = """
-apiVersion: v1
+apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: frontend
