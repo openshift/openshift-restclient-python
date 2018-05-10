@@ -38,11 +38,12 @@ docker run -it -v $HOME/.kube/config:/root/.kube/config:z openshift-restclient-p
 ```
 
 There are two ways this project interacts with the OpenShift API. The first, now deprecated, is to use models and functions generated with swagger from the API spec. The second, new approach, is
-to use a single model and client to generically interact with all resources on the server.
+to use a single model and client to generically interact with all resources on the server. The dynamic client also works with
+resources that are defined by aggregated API servers or Custom Resource Definitions.
 
 ### Dynamic client usage
 
-To work with the dynamic client, you will need an instantiated kubernetes client object. For example, the following uses the Kubernetes client to create a new Service object:
+To work with the dynamic client, you will need an instantiated kubernetes client object. For example, the following uses the dynamic client to create a new Service object:
 
 ```python
 import yaml
@@ -106,7 +107,7 @@ resp = v1_routes.create(body=route_data, namespace='default')
 print(resp.metadata)
 ```
 
-And finally, the following uses the OpenShift client to list Projects the user can access:
+And finally, the following uses the dynamic client to list Projects the user can access:
 
 ```python
 from kubernetes import client, config
