@@ -37,6 +37,94 @@ In the case you are using Docker, you will likely need to share your `.kube/conf
 docker run -it -v $HOME/.kube/config:/root/.kube/config:z openshift-restclient-python python
 ```
 
+There are two ways this project interacts with the OpenShift API. The first, now deprecated, is to use models and functions generated with swagger from the API spec. The second, new approach, is
+to use a single model and client to generically interact with all kinds.
+
+### Dynamic client usage
+
+To work with the dynamic client, you will need an instantiated kubernetes client object. For example, the following uses the Kubernetes client to create a new Service object:
+
+```python
+import yaml
+from kubernetes import client, config
+from openshift.dynamic import DynamicClient
+
+k8s_client = config.new_client_from_config()
+dyn_client = DynamicClient(k8s_client)
+
+v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
+
+service = """
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 9376
+"""
+
+service_data = yaml.load(service)
+resp = v1_services.create(body=service_data, namespace='default')
+
+# resp is a ResourceInstance object
+print(resp.metadata)
+```
+
+Now in the following example, we use the dynamic client to create a Route object, and associate it with the new Service:
+
+```python
+import yaml
+from kubernetes import client, config
+from openshift.dynamic import DynamicClient
+
+k8s_client = config.new_client_from_config()
+dyn_client = DynamicClient(k8s_client)
+
+v1_routes = dyn_client.resources.get(api_version='route.openshift.io/v1', kind='Route')
+
+route = """
+apiVersion: v1
+kind: Route
+metadata:
+  name: frontend
+spec:
+  host: www.example.com
+  to:
+    kind: Service
+    name: my-service
+"""
+
+route_data = yaml.load(route)
+resp = v1_routes.create(body=route_data, namespace='default')
+
+# resp is a ResourceInstance object
+print(resp.metadata)
+```
+
+And finally, the following uses the OpenShift client to list Projects the user can access:
+
+```python
+from kubernetes import client, config
+from openshift.dynamic import DynamicClient
+
+k8s_client = config.new_client_from_config()
+dyn_client = DynamicClient(k8s_client)
+
+v1_projects = dyn_client.resources.get(api_version='project.openshift.io/v1', kind='Project')
+
+project_list = v1_projects.get()
+
+for project in project_list.items:
+    print(project.metadata.name)
+```
+
+### DEPRECATED Generated client usage
+
 To work with a K8s object, use the K8s client, and to work with an OpenShift specific object, use the OpenShift client. For example, the following uses the K8s client to create a new Service object:
 
 ```python
@@ -108,9 +196,22 @@ for project in project_list.items:
     print project.metadata.name
 ```
 
-## Documentation
+#### DEPRECATED Documentation
 
 All OpenShift API and Model documentation can be found in the [Generated client's README file](openshift/README.md)
+
+#### DEPRECATED  Update generated client
+
+Updating the generated client requires the following tools:
+
+- tox
+- docker
+
+To apply the updates:
+
+1) Incorporate new changes to update scripts 
+    - [scripts/constants.py](./scripts/constants.py), [scripts/pom.xml](./scripts/pom.xml), [scripts/preprocess_spec.py](./scripts/preprocess_spec.py), and [update-client.sh](./update-client.sh) are the most important
+2) Run tox -e update_client
 
 ## Compatibility
 
@@ -143,66 +244,4 @@ If you have any problem with the package or any suggestions, please file an [iss
 
 Participation in the Kubernetes community is governed by the [CNCF Code of Conduct](https://github.com/cncf/foundation/blob/master/code-of-conduct.md).
 
-## Update generated client
-Updating the generated client requires the following tools:
 
-- tox
-- docker
-
-To apply the updates:
-
-1) Incorporate new changes to update scripts 
-    - [scripts/constants.py](./scripts/constants.py), [scripts/pom.xml](./scripts/pom.xml), [scripts/preprocess_spec.py](./scripts/preprocess_spec.py), and [update-client.sh](./update-client.sh) are the most important
-2) Run tox -e update_client
-
-## Ansible Modules
-
-This repo is home to the tools used to generate the K8s modules for Ansible.
-
-### Using the modules
-
-The modules are currently in pre-release. For convenience there is an Ansible role available at [ansible/ansible-kubernetes-modules](https://github.com/ansible/ansible-kubernetes-modules), which if referenced in a playbook, will provide full access to the latest.
-
-#### Requirements
-
-- Ansible installed [from source](http://docs.ansible.com/ansible/intro_installation.html#running-from-source)
-- OpenShift Rest Client installed on the host where the modules will execute
-
-#### Installation and use
-
-Using the Galaxy client, download and install the role as follows:
-
-```
-$ ansible-galaxy install ansible.kubernetes-modules
-```
-
-Include the role in your playbook, and the modules will be available, allowing tasks from any other play or role to reference them. Here's an example:
-
-```
-- hosts: localhost
-  connection: local
-  gather_facts: no
-  roles:
-    - role: ansible.kubernetes-modules
-    - role: hello-world
-```
-
-The `hello-world` role deploys an application to a locally running OpenShift instance by executing tasks with the modules. It's able to access them because `ansible.ansible-kubernetes-modules` is referenced.  
-
-You'll find the modules in the [library](https://github.com/ansible/ansible-kubernetes-modules/tree/master/library) folder of the role. Each contains documented parameters, and the returned data structure. Not every module contains examples, only those where we have added [test data](./openshift/ansiblegen/examples).
-
-If you find a bug, or have a suggestion, related to the modules, please [file an issue here](https://github.com/openshift/openshift-restclient-python/issues) 
-
-### Generating the modules
-
-After installing the OpenShift client, the modules can be generated by running the following:
-
-```
-$ openshift-ansible-gen modules --output-path /path/to/modules/dir
-```
-
-If `--output-path` is not provided, modules will be written to `./_modules`.
-
-### Common module
-
-Individual modules are generated using the OpenShift Rest Client. However, there is a shared or utility module in the [Ansible repo](https://github.com/ansible/ansible) called, *k8s_common.py*, which imports the client, and performs most of the work. This is currently in a pre-release state as well, and is only available in the `devel` branch of Ansible. For this reason, you'll need to run Ansible from source. For assistnace, see [Running from source](http://docs.ansible.com/ansible/intro_installation.html#running-from-source). 
