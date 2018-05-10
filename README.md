@@ -38,7 +38,7 @@ docker run -it -v $HOME/.kube/config:/root/.kube/config:z openshift-restclient-p
 ```
 
 There are two ways this project interacts with the OpenShift API. The first, now deprecated, is to use models and functions generated with swagger from the API spec. The second, new approach, is
-to use a single model and client to generically interact with all kinds.
+to use a single model and client to generically interact with all resources on the server.
 
 ### Dynamic client usage
 
