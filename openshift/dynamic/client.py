@@ -27,6 +27,8 @@ def meta_request(func):
     """ Handles parsing response structure and translating API Exceptions """
     def inner(self, resource, *args, **kwargs):
         serialize_response = kwargs.pop('serialize', True)
+        if kwargs.get('body') and isinstance(kwargs['body'], ResourceInstance):
+            kwargs['body'] = kwargs['body'].to_dict()
         try:
             resp = func(self, resource, *args, **kwargs)
         except ApiException as e:
