@@ -9,3 +9,4 @@ class Watch(K8sWatch):
         self._raw_return_type = return_type
         self._stop = False
         self._api_client = client.ApiClient()
+        self.resource_version = 0
