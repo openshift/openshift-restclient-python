@@ -27,8 +27,6 @@ def meta_request(func):
     """ Handles parsing response structure and translating API Exceptions """
     def inner(self, resource, *args, **kwargs):
         serialize_response = kwargs.pop('serialize', True)
-        if kwargs.get('body') and isinstance(kwargs['body'], ResourceInstance):
-            kwargs['body'] = kwargs['body'].to_dict()
         try:
             resp = func(self, resource, *args, **kwargs)
         except ApiException as e:
@@ -140,6 +138,11 @@ class DynamicClient(object):
             raise ValueError("Namespace is required for {}.{}".format(resource.group_version, resource.kind))
         return namespace
 
+    def serialize_body(self, body):
+        if isinstance(body, ResourceInstance):
+            return body.to_dict()
+        return body or {}
+
     @meta_request
     def get(self, resource, name=None, namespace=None, **kwargs):
         path = resource.path(name=name, namespace=namespace)
@@ -147,6 +150,7 @@ class DynamicClient(object):
 
     @meta_request
     def create(self, resource, body=None, namespace=None, **kwargs):
+        body = self.serialize_body(body)
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
         path = resource.path(namespace=namespace)
@@ -163,7 +167,7 @@ class DynamicClient(object):
 
     @meta_request
     def replace(self, resource, body=None, name=None, namespace=None, **kwargs):
-        body = body or {}
+        body = self.serialize_body(body)
         name = name or body.get('metadata', {}).get('name')
         if not name:
             raise ValueError("name is required to replace {}.{}".format(resource.group_version, resource.kind))
@@ -174,7 +178,7 @@ class DynamicClient(object):
 
     @meta_request
     def patch(self, resource, body=None, name=None, namespace=None, **kwargs):
-        body = body or {}
+        body = self.serialize_body(body)
         name = name or body.get('metadata', {}).get('name')
         if not name:
             raise ValueError("name is required to patch {}.{}".format(resource.group_version, resource.kind))
