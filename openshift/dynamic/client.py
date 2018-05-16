@@ -168,7 +168,6 @@ class DynamicClient(object):
     @meta_request
     def replace(self, resource, body=None, name=None, namespace=None, **kwargs):
         body = self.serialize_body(body)
-        body = body or {}
         name = name or body.get('metadata', {}).get('name')
         if not name:
             raise ValueError("name is required to replace {}.{}".format(resource.group_version, resource.kind))
