@@ -43,10 +43,10 @@ def serialize(resource, response):
     try:
         return ResourceInstance(resource, load_json(response))
     except ValueError:
-        return response.data
+        return response.data.decode()
 
 def load_json(response):
-    return json.loads(response.data)
+    return json.loads(response.data.decode())
 
 
 class DynamicClient(object):
