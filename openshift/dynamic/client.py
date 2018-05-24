@@ -273,7 +273,7 @@ class Resource(object):
         self.name = name
         self.preferred = preferred
         self.client = client
-        self.singular_name = singularName
+        self.singular_name = singularName or (name[:-1] if name else "")
         self.short_names = shortNames
         self.categories = categories
         self.subresources = {
