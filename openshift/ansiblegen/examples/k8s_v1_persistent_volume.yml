@@ -5,10 +5,10 @@ admin: yes
 tasks:
 - create:
     name: mypv
-    capacity:
+    spec_capacity:
       storage: '1Gi'
-    access_modes:
+    spec_access_modes:
       - ReadWriteOnce
-    persistent_volume_reclaim_policy: Recycle
-    host_path_path: /tmp/test_volume
+    spec_persistent_volume_reclaim_policy: Recycle
+    spec_host_path_path: /tmp/test_volume
   name: Create persitent volume

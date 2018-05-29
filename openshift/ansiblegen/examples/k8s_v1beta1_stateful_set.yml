@@ -10,13 +10,13 @@ tasks:
     labels:
       name: test
     namespace: test
-    service_name: test
-    replicas: 3
+    spec_service_name: test
+    spec_replicas: 3
     spec_template_metadata_labels:
       name: test
     spec_template_metadata_name: test
-    termination_grace_period_seconds: 10
-    containers:
+    spec_template_spec_termination_grace_period_seconds: 10
+    spec_template_spec_containers:
       - name: test
         image: openshift/origin-ruby-sample:v1.0
   name: Create stateful set

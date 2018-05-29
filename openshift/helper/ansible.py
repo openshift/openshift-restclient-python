@@ -619,8 +619,6 @@ class AnsibleMixin(object):
             if prop_alt_prefix != prop_prefix:
                 if prop_alt_prefix:
                     args[prop_prefix + prop_name]['aliases'] = [prop_alt_prefix + prop_name]
-                elif prop_prefix:
-                    args[prop_prefix + prop_name]['aliases'] = [prop_name]
             prop_paths = copy.copy(path)  # copy path from outer scope
             prop_paths.append('metadata')
             prop_paths.append(prop_name)
@@ -725,8 +723,6 @@ class AnsibleMixin(object):
                 # Use the alternate prefix to construct a human-friendly alias
                 if arg_alt_prefix and arg_prefix != arg_alt_prefix:
                     args[arg_prefix + prop]['aliases'] = [arg_alt_prefix + prop]
-                elif arg_prefix:
-                    args[arg_prefix + prop]['aliases'] = [prop]
 
                 if prop == 'type':
                     choices = self.__convert_params_to_choices(properties)

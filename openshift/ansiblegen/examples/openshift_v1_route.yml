@@ -8,19 +8,19 @@ tasks:
 - create:
     name: myroute
     namespace: k8s-project
-    host: www.example.com
+    spec_host: www.example.com
     spec_to_kind: Service
     spec_to_name: service-name
-    tls_termination: edge
-    tls_key: |-
+    spec_tls_termination: edge
+    spec_tls_key: |-
       -----BEGIN PRIVATE KEY-----
       key_file_contents
       -----END PRIVATE KEY-----
-    tls_certificate: |-
+    spec_tls_certificate: |-
       -----BEGIN CERTIFICATE-----
       certificate contents
       -----END CERTIFICATE-----
-    tls_ca_certificate: |-
+    spec_tls_ca_certificate: |-
       -----BEGIN CERTIFICATE-----
       ca_certificate_contents
       -----END CERTIFICATE-----
@@ -29,8 +29,8 @@ tasks:
 - patch:
     name: myroute
     namespace: k8s-project
-    host: www.example.com
-    tls_termination: reencrypt
+    spec_host: www.example.com
+    spec_tls_termination: reencrypt
     spec_to_kind: Service
     spec_to_name: other-service-name
   name: Patch route
@@ -38,11 +38,11 @@ tasks:
 - replace:
     name: myroute
     namespace: k8s-project
-    host: www.example.com
-    path: /foo/bar/baz.html
+    spec_host: www.example.com
+    spec_path: /foo/bar/baz.html
     spec_to_kind: Service
     spec_to_name: whimsy-name
-    tls_termination: edge
+    spec_tls_termination: edge
   name: Replace route
 
 - remove:

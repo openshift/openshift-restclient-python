@@ -7,17 +7,17 @@ tasks:
     namespace: k8s-project
     spec_template_metadata_labels:
       name: frontend
-    containers:
+    spec_template_spec_containers:
     - name: helloworld
       image: openshift/origin-ruby-sample
       ports:
       - container_port: 8080
         protocol: TCP
         name: http-port
-    replicas: 5
-    selector:
+    spec_replicas: 5
+    spec_selector:
       name: frontend
-    triggers:
+    spec_triggers:
     - type: ConfigChange
     - type: ImageChange
       image_change_params:
@@ -35,14 +35,14 @@ tasks:
     namespace: k8s-project
     spec_template_metadata_labels:
       name: frontend
-    containers:
+    spec_template_spec_containers:
     - name: helloworld
       image: "openshift/origin-ruby-sample:v1.0"
       ports:
       - container_port: 9000
         protocol: UDP
         name: udp-port
-    replicas: 3
+    spec_replicas: 3
   name: Patch deployment config
 
 - replace:
@@ -50,17 +50,17 @@ tasks:
     namespace: k8s-project
     spec_template_metadata_labels:
       name: frontend_app
-    containers:
+    spec_template_spec_containers:
     - name: helloworld
       image: openshift/origin-ruby-sample:v2
       ports:
       - container_port: 8888
         protocol: TCP
         name: http-port
-    replicas: 2
-    selector:
+    spec_replicas: 2
+    spec_selector:
       name: frontend_app
-    triggers:
+    spec_triggers:
     - type: ConfigChange
     - type: ImageChange
       image_change_params:
@@ -70,7 +70,7 @@ tasks:
         _from:
           kind: ImageStreamTag
           name: "origin-ruby-sample:v2"
-    strategy_type: Rolling
+    spec_strategy_type: Rolling
   name: Replace deployment config
 
 - remove:
