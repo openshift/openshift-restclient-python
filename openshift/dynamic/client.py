@@ -190,9 +190,9 @@ class DynamicClient(object):
             namespace = self.ensure_namespace(resource, namespace, body)
 
         content_type = kwargs.pop('content_type', 'application/strategic-merge-patch+json')
-        path = resource.path(name=name, namespace=namespace, **kwargs)
+        path = resource.path(name=name, namespace=namespace)
 
-        return self.request('patch', path, body=body, content_type=content_type)
+        return self.request('patch', path, body=body, content_type=content_type, **kwargs)
 
 
     def request(self, method, path, body=None, **params):
