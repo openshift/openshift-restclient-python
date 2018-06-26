@@ -121,6 +121,10 @@ class DynamicClient(object):
             subresources[resource][name] = subresource
 
         for resource in resources_raw:
+            # Prevent duplicate keys
+            for key in ('prefix', 'group', 'api_version', 'client', 'preferred'):
+                resource.pop(key, None)
+
             resources[resource['kind']] = Resource(
                 prefix=prefix,
                 group=group,
@@ -186,9 +190,9 @@ class DynamicClient(object):
             namespace = self.ensure_namespace(resource, namespace, body)
 
         content_type = kwargs.pop('content_type', 'application/strategic-merge-patch+json')
-        path = resource.path(name=name, namespace=namespace, **kwargs)
+        path = resource.path(name=name, namespace=namespace)
 
-        return self.request('patch', path, body=body, content_type=content_type)
+        return self.request('patch', path, body=body, content_type=content_type, **kwargs)
 
 
     def request(self, method, path, body=None, **params):
