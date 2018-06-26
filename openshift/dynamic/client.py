@@ -121,6 +121,10 @@ class DynamicClient(object):
             subresources[resource][name] = subresource
 
         for resource in resources_raw:
+            # Prevent duplicate keys
+            for key in ('prefix', 'group', 'api_version', 'client', 'preferred'):
+                resource.pop(key, None)
+
             resources[resource['kind']] = Resource(
                 prefix=prefix,
                 group=group,
