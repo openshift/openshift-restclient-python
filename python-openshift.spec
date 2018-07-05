@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.6.1
-Release:    8%{?dist}
+Release:    9%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,23 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Thu Jul 05 2018 David Zager <david.j.zager@gmail.com> 0.6.1-9
+- Call functions on resource fields if they don't exist as name (#179)
+  (will@thames.id.au)
+- Release 0.6.1 (fabian@fabianism.us)
+- Fix typo in argument passing for patch in dynamic client. (#176)
+  (fabian@fabianism.us)
+- Prevent duplicate keys when creating resource (#178) (dzager@redhat.com)
+- Allow content type specification in resource.patch (#174) (will@thames.id.au)
+- release 0.6.0 (fabian@fabianism.us)
+- Default singular name to name sans last letter (#173) (fabian@fabianism.us)
+- Serialize body more thoroughly, won't always be passed as kwarg (#172)
+  (fabian@fabianism.us)
+- decode response data for python3 compatibility (#171) (fabian@fabianism.us)
+- add dynamic client (#167) (fabian@fabianism.us)
+- Fixes a bug when running fix_serialization on Kubernetes ExternalName… (#161)
+  (zapur1@users.noreply.github.com)
+
 * Tue Feb 27 2018 David Zager <david.j.zager@gmail.com> 0.5.0-8
 - Bug 1546843- RuntimeRawExtension objects will now deserialize
   (fabian@fabianism.us)
