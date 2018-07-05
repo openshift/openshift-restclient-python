@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.6.1
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Thu Jul 05 2018 David Zager <david.j.zager@gmail.com> 0.6.1-10
+- Install openshift.dynamic in RPM (#180) (dzager@redhat.com)
+
 * Thu Jul 05 2018 David Zager <david.j.zager@gmail.com> 0.6.1-9
 - Call functions on resource fields if they don't exist as name (#179)
   (will@thames.id.au)
