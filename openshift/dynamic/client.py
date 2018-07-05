@@ -449,8 +449,10 @@ class ResourceField(object):
     def __getitem__(self, name):
         return self.__dict__.get(name)
 
+    # Here resource.items will return items if available or resource.__dict__.items function if not
+    # resource.get will call resource.__dict__.get after attempting resource.__dict__.get('get')
     def __getattr__(self, name):
-        return self.__dict__.get(name)
+        return self.__dict__.get(name, getattr(self.__dict__, name, None))
 
     def __setattr__(self, name, value):
         self.__dict__[name] = value
