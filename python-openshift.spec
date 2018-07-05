@@ -81,7 +81,7 @@ Python client for the OpenShift API
 #there is no include in RHEL7 setuptools find_packages
 #the requirements are also done in an non-backwards compatible way
 %if 0%{?rhel}
-sed -i -e "s/find_packages(include='openshift.*')/['openshift', 'openshift.ansiblegen', 'openshift.client', 'openshift.client.apis', 'openshift.client.models', 'openshift.config', 'openshift.docs', 'openshift.helper', 'openshift.test']/g" setup.py
+sed -i -e "s/find_packages(include='openshift.*')/['openshift', 'openshift.ansiblegen', 'openshift.client', 'openshift.client.apis', 'openshift.client.models', 'openshift.config', 'openshift.docs', 'openshift.dynamic', 'openshift.helper', 'openshift.test']/g" setup.py
 sed -i -e '30s/^/REQUIRES = [\n    "certifi",\n    "ipaddress",\n    "oauth2client",\n    "setuptools",\n    "six",\n    "urllib3!=1.21",\n    "python-dateutil",\n    "pyyaml",\n    "websocket-client",\n]\n/g' setup.py
 sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 #sed -i -e '14,21d' setup.py
