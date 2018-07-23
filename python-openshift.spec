@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.6.2
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,10 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Mon Jul 23 2018 David Zager <david.j.zager@gmail.com> 0.6.2-11
+- include version update script (fabian@fabianism.us)
+- Version bump to 0.6.2 (fabian@fabianism.us)
+
 * Thu Jul 05 2018 David Zager <david.j.zager@gmail.com> 0.6.1-10
 - Install openshift.dynamic in RPM (#180) (dzager@redhat.com)
 
