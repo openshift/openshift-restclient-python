@@ -11,7 +11,7 @@ from . import models
 class ApiClient(K8sApiClient):
     def _ApiClient__deserialize(self, data, klass):
         if klass == 'RuntimeRawExtension':
-            data = {'Raw': b64encode(json.dumps(data))}
+            data = {'Raw': b64encode(json.dumps(data).encode())}
         try:
             return super(ApiClient, self).__deserialize(data, klass)
         except AttributeError:
