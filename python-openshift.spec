@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.6.2
-Release:    11%{?dist}
+Release:    12%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,11 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Mon Aug 06 2018 David Zager <david.j.zager@gmail.com> 0.6.2-12
+- Fix decode issue (#192) (lostonamountain@gmail.com)
+- b64encode expects bytes not string (fridolin@redhat.com)
+- Update releasers for 3.11 (david.j.zager@gmail.com)
+
 * Mon Jul 23 2018 David Zager <david.j.zager@gmail.com> 0.6.2-11
 - include version update script (fabian@fabianism.us)
 - Version bump to 0.6.2 (fabian@fabianism.us)
