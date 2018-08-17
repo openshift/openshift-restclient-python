@@ -53,5 +53,7 @@ jobs:
 stages:
 - lint
 - test
-- deploy
-- test-deploy
+- name: deploy
+  if: (tag is present) and (type = push)
+- name: test-deploy
+  if: (tag is present) and (type = push)
