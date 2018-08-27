@@ -248,7 +248,7 @@ class DynamicClient(object):
             header_params,
             body=body,
             post_params=form_params,
-            async=params.get('async'),
+            async_req=params.get('async_req'),
             files=local_var_files,
             auth_settings=auth_settings,
             _preload_content=False,
