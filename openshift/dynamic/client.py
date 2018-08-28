@@ -59,7 +59,7 @@ class DynamicClient(object):
         self.client = client
         self.configuration = client.configuration
         self._load_server_info()
-        self.__discoverer = discoverer or EagerDiscoverer(request_func=self.request)
+        self.__discoverer = discoverer or EagerDiscoverer(self)
 
     def _load_server_info(self):
         self.__version = {'kubernetes': load_json(self.request('get', '/version'))}
@@ -308,8 +308,8 @@ class Discoverer(object):
 
 class LazyDiscoverer(Discoverer):
 
-    def __init__(self, request_func):
-        self.request = request_func
+    def __init__(self, client):
+        self.client = client
         #todo
 
 
@@ -318,8 +318,8 @@ class EagerDiscoverer(Discoverer):
         easy searching and retrieval of specific resources
     """
 
-    def __init__(self, request_func):
-        self.request = request_func
+    def __init__(self, client):
+        self.client = client
         self.discover()
 
     def discover(self):
@@ -329,7 +329,7 @@ class EagerDiscoverer(Discoverer):
     def parse_api_groups(self):
         """ Discovers all API groups present in the cluster """
         prefix = 'apis'
-        groups_response = load_json(self.request('GET', '/{}'.format(prefix)))['groups']
+        groups_response = load_json(self.client.request('GET', '/{}'.format(prefix)))['groups']
 
         groups = self.default_groups()
         groups[prefix] = {}
@@ -350,7 +350,7 @@ class EagerDiscoverer(Discoverer):
         subresources = {}
 
         path = '/'.join(filter(None, [prefix, group, version]))
-        resources_response = load_json(self.request('GET', path))['resources']
+        resources_response = load_json(self.client.request('GET', path))['resources']
 
         resources_raw = list(filter(lambda resource: '/' not in resource['name'], resources_response))
         subresources_raw = list(filter(lambda resource: '/' in resource['name'], resources_response))
