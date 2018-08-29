@@ -39,11 +39,11 @@ class TemplateOpenshiftIoApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_processed_template_v1(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_processed_template_v1(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -52,7 +52,7 @@ class TemplateOpenshiftIoApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_processed_template_v1_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_processed_template_v1_with_http_info(namespace, body, **kwargs)
@@ -62,11 +62,11 @@ class TemplateOpenshiftIoApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_processed_template_v1_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_processed_template_v1_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -76,7 +76,7 @@ class TemplateOpenshiftIoApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -136,7 +136,7 @@ class TemplateOpenshiftIoApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -146,11 +146,11 @@ class TemplateOpenshiftIoApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_processed_template_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_processed_template_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Template
@@ -158,7 +158,7 @@ class TemplateOpenshiftIoApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_processed_template_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_processed_template_for_all_namespaces_with_http_info(body, **kwargs)
@@ -168,11 +168,11 @@ class TemplateOpenshiftIoApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_processed_template_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_processed_template_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Template
@@ -181,7 +181,7 @@ class TemplateOpenshiftIoApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -236,7 +236,7 @@ class TemplateOpenshiftIoApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

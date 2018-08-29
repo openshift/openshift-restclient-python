@@ -39,11 +39,11 @@ class OapiApi(object):
         """
         connect POST requests to instantiatebinary of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.connect_post_namespaced_build_config_instantiatebinary(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.connect_post_namespaced_build_config_instantiatebinary(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BinaryBuildRequestOptions (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str as_file: asFile determines if the binary should be created as a file within the source rather than extracted as an archive
@@ -58,7 +58,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.connect_post_namespaced_build_config_instantiatebinary_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.connect_post_namespaced_build_config_instantiatebinary_with_http_info(name, namespace, **kwargs)
@@ -68,11 +68,11 @@ class OapiApi(object):
         """
         connect POST requests to instantiatebinary of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.connect_post_namespaced_build_config_instantiatebinary_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.connect_post_namespaced_build_config_instantiatebinary_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BinaryBuildRequestOptions (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str as_file: asFile determines if the binary should be created as a file within the source rather than extracted as an archive
@@ -88,7 +88,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'as_file', 'revision_author_email', 'revision_author_name', 'revision_commit', 'revision_committer_email', 'revision_committer_name', 'revision_message']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -160,7 +160,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Build',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -170,11 +170,11 @@ class OapiApi(object):
         """
         connect POST requests to webhooks of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.connect_post_namespaced_build_config_webhooks(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.connect_post_namespaced_build_config_webhooks(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str path: Path is the URL path to use for the current proxy request to pod.
@@ -183,7 +183,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.connect_post_namespaced_build_config_webhooks_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.connect_post_namespaced_build_config_webhooks_with_http_info(name, namespace, **kwargs)
@@ -193,11 +193,11 @@ class OapiApi(object):
         """
         connect POST requests to webhooks of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str path: Path is the URL path to use for the current proxy request to pod.
@@ -207,7 +207,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'path']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -267,7 +267,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='str',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -277,11 +277,11 @@ class OapiApi(object):
         """
         connect POST requests to webhooks of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_path(name, namespace, path, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_path(name, namespace, path, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str path: path to the resource (required)
@@ -291,7 +291,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.connect_post_namespaced_build_config_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
         else:
             (data) = self.connect_post_namespaced_build_config_webhooks_with_path_with_http_info(name, namespace, path, **kwargs)
@@ -301,11 +301,11 @@ class OapiApi(object):
         """
         connect POST requests to webhooks of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_path_with_http_info(name, namespace, path, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.connect_post_namespaced_build_config_webhooks_with_path_with_http_info(name, namespace, path, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str path: path to the resource (required)
@@ -316,7 +316,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'path', 'path2']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -381,7 +381,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='str',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -391,11 +391,11 @@ class OapiApi(object):
         """
         create a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_build_config_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_build_config_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1BuildConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1BuildConfig
@@ -403,7 +403,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_build_config_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_build_config_for_all_namespaces_with_http_info(body, **kwargs)
@@ -413,11 +413,11 @@ class OapiApi(object):
         """
         create a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_build_config_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_build_config_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1BuildConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1BuildConfig
@@ -426,7 +426,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -481,7 +481,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -491,11 +491,11 @@ class OapiApi(object):
         """
         create a Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_build_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_build_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Build body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Build
@@ -503,7 +503,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_build_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_build_for_all_namespaces_with_http_info(body, **kwargs)
@@ -513,11 +513,11 @@ class OapiApi(object):
         """
         create a Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_build_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_build_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Build body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Build
@@ -526,7 +526,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -581,7 +581,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Build',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -591,11 +591,11 @@ class OapiApi(object):
         """
         create a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_network(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_network(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterNetwork body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterNetwork
@@ -603,7 +603,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_cluster_network_with_http_info(body, **kwargs)
         else:
             (data) = self.create_cluster_network_with_http_info(body, **kwargs)
@@ -613,11 +613,11 @@ class OapiApi(object):
         """
         create a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_network_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_network_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterNetwork body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterNetwork
@@ -626,7 +626,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -681,7 +681,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetwork',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -691,11 +691,11 @@ class OapiApi(object):
         """
         create a ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_resource_quota(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_resource_quota(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterResourceQuota
@@ -703,7 +703,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_cluster_resource_quota_with_http_info(body, **kwargs)
         else:
             (data) = self.create_cluster_resource_quota_with_http_info(body, **kwargs)
@@ -713,11 +713,11 @@ class OapiApi(object):
         """
         create a ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_resource_quota_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_resource_quota_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterResourceQuota
@@ -726,7 +726,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -781,7 +781,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -791,11 +791,11 @@ class OapiApi(object):
         """
         create a ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_role(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_role(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterRole body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterRole
@@ -803,7 +803,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_cluster_role_with_http_info(body, **kwargs)
         else:
             (data) = self.create_cluster_role_with_http_info(body, **kwargs)
@@ -813,11 +813,11 @@ class OapiApi(object):
         """
         create a ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_role_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_role_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterRole body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterRole
@@ -826,7 +826,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -881,7 +881,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRole',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -891,11 +891,11 @@ class OapiApi(object):
         """
         create a ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_role_binding(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_role_binding(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterRoleBinding body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterRoleBinding
@@ -903,7 +903,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_cluster_role_binding_with_http_info(body, **kwargs)
         else:
             (data) = self.create_cluster_role_binding_with_http_info(body, **kwargs)
@@ -913,11 +913,11 @@ class OapiApi(object):
         """
         create a ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_role_binding_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_role_binding_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterRoleBinding body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterRoleBinding
@@ -926,7 +926,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -981,7 +981,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -991,11 +991,11 @@ class OapiApi(object):
         """
         create a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_deployment_config_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_deployment_config_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1DeploymentConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1DeploymentConfig
@@ -1003,7 +1003,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_deployment_config_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_deployment_config_for_all_namespaces_with_http_info(body, **kwargs)
@@ -1013,11 +1013,11 @@ class OapiApi(object):
         """
         create a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_deployment_config_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_deployment_config_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1DeploymentConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1DeploymentConfig
@@ -1026,7 +1026,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1081,7 +1081,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1091,11 +1091,11 @@ class OapiApi(object):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_egress_network_policy_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_egress_network_policy_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1EgressNetworkPolicy body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1EgressNetworkPolicy
@@ -1103,7 +1103,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_egress_network_policy_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_egress_network_policy_for_all_namespaces_with_http_info(body, **kwargs)
@@ -1113,11 +1113,11 @@ class OapiApi(object):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_egress_network_policy_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_egress_network_policy_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1EgressNetworkPolicy body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1EgressNetworkPolicy
@@ -1126,7 +1126,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1181,7 +1181,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1191,11 +1191,11 @@ class OapiApi(object):
         """
         create a Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_group(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_group(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Group body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Group
@@ -1203,7 +1203,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_group_with_http_info(body, **kwargs)
         else:
             (data) = self.create_group_with_http_info(body, **kwargs)
@@ -1213,11 +1213,11 @@ class OapiApi(object):
         """
         create a Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_group_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_group_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Group body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Group
@@ -1226,7 +1226,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1281,7 +1281,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Group',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1291,11 +1291,11 @@ class OapiApi(object):
         """
         create a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_host_subnet(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_host_subnet(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1HostSubnet body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1HostSubnet
@@ -1303,7 +1303,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_host_subnet_with_http_info(body, **kwargs)
         else:
             (data) = self.create_host_subnet_with_http_info(body, **kwargs)
@@ -1313,11 +1313,11 @@ class OapiApi(object):
         """
         create a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_host_subnet_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_host_subnet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1HostSubnet body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1HostSubnet
@@ -1326,7 +1326,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1381,7 +1381,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnet',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1391,11 +1391,11 @@ class OapiApi(object):
         """
         create an Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_identity(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_identity(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Identity body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Identity
@@ -1403,7 +1403,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_identity_with_http_info(body, **kwargs)
         else:
             (data) = self.create_identity_with_http_info(body, **kwargs)
@@ -1413,11 +1413,11 @@ class OapiApi(object):
         """
         create an Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_identity_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_identity_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Identity body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Identity
@@ -1426,7 +1426,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1481,7 +1481,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Identity',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1491,11 +1491,11 @@ class OapiApi(object):
         """
         create an Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Image body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Image
@@ -1503,7 +1503,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_image_with_http_info(body, **kwargs)
         else:
             (data) = self.create_image_with_http_info(body, **kwargs)
@@ -1513,11 +1513,11 @@ class OapiApi(object):
         """
         create an Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Image body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Image
@@ -1526,7 +1526,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1581,7 +1581,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Image',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1591,11 +1591,11 @@ class OapiApi(object):
         """
         create an ImageSignature
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_signature(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_signature(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageSignature body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageSignature
@@ -1603,7 +1603,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_image_signature_with_http_info(body, **kwargs)
         else:
             (data) = self.create_image_signature_with_http_info(body, **kwargs)
@@ -1613,11 +1613,11 @@ class OapiApi(object):
         """
         create an ImageSignature
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_signature_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_signature_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageSignature body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageSignature
@@ -1626,7 +1626,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1681,7 +1681,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageSignature',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1691,11 +1691,11 @@ class OapiApi(object):
         """
         create an ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_stream_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_stream_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageStream body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageStream
@@ -1703,7 +1703,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_image_stream_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_image_stream_for_all_namespaces_with_http_info(body, **kwargs)
@@ -1713,11 +1713,11 @@ class OapiApi(object):
         """
         create an ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_stream_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_stream_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageStream body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageStream
@@ -1726,7 +1726,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1781,7 +1781,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStream',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1791,11 +1791,11 @@ class OapiApi(object):
         """
         create an ImageStreamImport
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_stream_import_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_stream_import_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageStreamImport body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageStreamImport
@@ -1803,7 +1803,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_image_stream_import_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_image_stream_import_for_all_namespaces_with_http_info(body, **kwargs)
@@ -1813,11 +1813,11 @@ class OapiApi(object):
         """
         create an ImageStreamImport
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_stream_import_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_stream_import_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageStreamImport body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageStreamImport
@@ -1826,7 +1826,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1881,7 +1881,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamImport',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1891,11 +1891,11 @@ class OapiApi(object):
         """
         create an ImageStreamMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_stream_mapping_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_stream_mapping_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageStreamMapping body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageStreamMapping
@@ -1903,7 +1903,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_image_stream_mapping_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_image_stream_mapping_for_all_namespaces_with_http_info(body, **kwargs)
@@ -1913,11 +1913,11 @@ class OapiApi(object):
         """
         create an ImageStreamMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_stream_mapping_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_stream_mapping_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageStreamMapping body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageStreamMapping
@@ -1926,7 +1926,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1981,7 +1981,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamMapping',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1991,11 +1991,11 @@ class OapiApi(object):
         """
         create an ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_stream_tag_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_stream_tag_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageStreamTag body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageStreamTag
@@ -2003,7 +2003,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_image_stream_tag_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_image_stream_tag_for_all_namespaces_with_http_info(body, **kwargs)
@@ -2013,11 +2013,11 @@ class OapiApi(object):
         """
         create an ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_image_stream_tag_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_image_stream_tag_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ImageStreamTag body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ImageStreamTag
@@ -2026,7 +2026,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2081,7 +2081,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamTag',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2091,11 +2091,11 @@ class OapiApi(object):
         """
         create a LocalResourceAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_local_resource_access_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_local_resource_access_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1LocalResourceAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1LocalResourceAccessReview
@@ -2103,7 +2103,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_local_resource_access_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_local_resource_access_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -2113,11 +2113,11 @@ class OapiApi(object):
         """
         create a LocalResourceAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_local_resource_access_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_local_resource_access_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1LocalResourceAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1LocalResourceAccessReview
@@ -2126,7 +2126,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2181,7 +2181,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1LocalResourceAccessReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2191,11 +2191,11 @@ class OapiApi(object):
         """
         create a LocalSubjectAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_local_subject_access_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_local_subject_access_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1LocalSubjectAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1LocalSubjectAccessReview
@@ -2203,7 +2203,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_local_subject_access_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_local_subject_access_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -2213,11 +2213,11 @@ class OapiApi(object):
         """
         create a LocalSubjectAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_local_subject_access_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_local_subject_access_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1LocalSubjectAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1LocalSubjectAccessReview
@@ -2226,7 +2226,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2281,7 +2281,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1LocalSubjectAccessReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2291,11 +2291,11 @@ class OapiApi(object):
         """
         create a Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_build(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_build(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Build body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2304,7 +2304,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_build_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_build_with_http_info(namespace, body, **kwargs)
@@ -2314,11 +2314,11 @@ class OapiApi(object):
         """
         create a Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_build_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_build_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Build body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2328,7 +2328,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2388,7 +2388,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Build',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2398,11 +2398,11 @@ class OapiApi(object):
         """
         create clone of a Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_build_clone(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_build_clone(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1BuildRequest body: (required)
@@ -2412,7 +2412,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_build_clone_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_build_clone_with_http_info(name, namespace, body, **kwargs)
@@ -2422,11 +2422,11 @@ class OapiApi(object):
         """
         create clone of a Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_build_clone_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_build_clone_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1BuildRequest body: (required)
@@ -2437,7 +2437,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2502,7 +2502,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildRequest',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2512,11 +2512,11 @@ class OapiApi(object):
         """
         create a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_build_config(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_build_config(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1BuildConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2525,7 +2525,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_build_config_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_build_config_with_http_info(namespace, body, **kwargs)
@@ -2535,11 +2535,11 @@ class OapiApi(object):
         """
         create a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_build_config_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_build_config_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1BuildConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2549,7 +2549,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2609,7 +2609,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2619,11 +2619,11 @@ class OapiApi(object):
         """
         create instantiate of a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_build_config_instantiate(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_build_config_instantiate(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1BuildRequest body: (required)
@@ -2633,7 +2633,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_build_config_instantiate_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_build_config_instantiate_with_http_info(name, namespace, body, **kwargs)
@@ -2643,11 +2643,11 @@ class OapiApi(object):
         """
         create instantiate of a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_build_config_instantiate_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_build_config_instantiate_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1BuildRequest body: (required)
@@ -2658,7 +2658,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2723,7 +2723,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Build',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2733,11 +2733,11 @@ class OapiApi(object):
         """
         create a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2746,7 +2746,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_deployment_config_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_deployment_config_with_http_info(namespace, body, **kwargs)
@@ -2756,11 +2756,11 @@ class OapiApi(object):
         """
         create a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2770,7 +2770,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2830,7 +2830,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2840,11 +2840,11 @@ class OapiApi(object):
         """
         create instantiate of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_instantiate(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_instantiate(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentRequest body: (required)
@@ -2854,7 +2854,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, **kwargs)
@@ -2864,11 +2864,11 @@ class OapiApi(object):
         """
         create instantiate of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentRequest body: (required)
@@ -2879,7 +2879,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2944,7 +2944,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentRequest',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2954,11 +2954,11 @@ class OapiApi(object):
         """
         create rollback of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_rollback_rollback(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_rollback_rollback(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfigRollback (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfigRollback body: (required)
@@ -2968,7 +2968,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_deployment_config_rollback_rollback_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_deployment_config_rollback_rollback_with_http_info(name, namespace, body, **kwargs)
@@ -2978,11 +2978,11 @@ class OapiApi(object):
         """
         create rollback of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_rollback_rollback_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_rollback_rollback_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfigRollback (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfigRollback body: (required)
@@ -2993,7 +2993,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3058,7 +3058,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfigRollback',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3068,11 +3068,11 @@ class OapiApi(object):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_egress_network_policy(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_egress_network_policy(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1EgressNetworkPolicy body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3081,7 +3081,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_egress_network_policy_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_egress_network_policy_with_http_info(namespace, body, **kwargs)
@@ -3091,11 +3091,11 @@ class OapiApi(object):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_egress_network_policy_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_egress_network_policy_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1EgressNetworkPolicy body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3105,7 +3105,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3165,7 +3165,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3175,11 +3175,11 @@ class OapiApi(object):
         """
         create an ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_image_stream(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_image_stream(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStream body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3188,7 +3188,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_image_stream_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_image_stream_with_http_info(namespace, body, **kwargs)
@@ -3198,11 +3198,11 @@ class OapiApi(object):
         """
         create an ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_image_stream_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_image_stream_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStream body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3212,7 +3212,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3272,7 +3272,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStream',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3282,11 +3282,11 @@ class OapiApi(object):
         """
         create an ImageStreamImport
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_image_stream_import(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_image_stream_import(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStreamImport body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3295,7 +3295,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_image_stream_import_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_image_stream_import_with_http_info(namespace, body, **kwargs)
@@ -3305,11 +3305,11 @@ class OapiApi(object):
         """
         create an ImageStreamImport
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_image_stream_import_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_image_stream_import_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStreamImport body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3319,7 +3319,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3379,7 +3379,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamImport',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3389,11 +3389,11 @@ class OapiApi(object):
         """
         create an ImageStreamMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_image_stream_mapping(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_image_stream_mapping(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStreamMapping body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3402,7 +3402,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_image_stream_mapping_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_image_stream_mapping_with_http_info(namespace, body, **kwargs)
@@ -3412,11 +3412,11 @@ class OapiApi(object):
         """
         create an ImageStreamMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_image_stream_mapping_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_image_stream_mapping_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStreamMapping body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3426,7 +3426,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3486,7 +3486,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamMapping',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3496,11 +3496,11 @@ class OapiApi(object):
         """
         create an ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_image_stream_tag(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_image_stream_tag(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStreamTag body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3509,7 +3509,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_image_stream_tag_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_image_stream_tag_with_http_info(namespace, body, **kwargs)
@@ -3519,11 +3519,11 @@ class OapiApi(object):
         """
         create an ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_image_stream_tag_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_image_stream_tag_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStreamTag body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3533,7 +3533,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3593,7 +3593,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamTag',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3603,11 +3603,11 @@ class OapiApi(object):
         """
         create a LocalResourceAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_local_resource_access_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_local_resource_access_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1LocalResourceAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3616,7 +3616,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_local_resource_access_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_local_resource_access_review_with_http_info(namespace, body, **kwargs)
@@ -3626,11 +3626,11 @@ class OapiApi(object):
         """
         create a LocalResourceAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_local_resource_access_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_local_resource_access_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1LocalResourceAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3640,7 +3640,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3700,7 +3700,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1LocalResourceAccessReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3710,11 +3710,11 @@ class OapiApi(object):
         """
         create a LocalSubjectAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_local_subject_access_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_local_subject_access_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1LocalSubjectAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3723,7 +3723,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_local_subject_access_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_local_subject_access_review_with_http_info(namespace, body, **kwargs)
@@ -3733,11 +3733,11 @@ class OapiApi(object):
         """
         create a LocalSubjectAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_local_subject_access_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_local_subject_access_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1LocalSubjectAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3747,7 +3747,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3807,7 +3807,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1LocalSubjectAccessReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3817,11 +3817,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_pod_security_policy_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_pod_security_policy_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3830,7 +3830,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, **kwargs)
@@ -3840,11 +3840,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_pod_security_policy_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3854,7 +3854,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3914,7 +3914,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicyReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3924,11 +3924,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3937,7 +3937,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, **kwargs)
@@ -3947,11 +3947,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_pod_security_policy_self_subject_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3961,7 +3961,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4021,7 +4021,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicySelfSubjectReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4031,11 +4031,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_pod_security_policy_subject_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_pod_security_policy_subject_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4044,7 +4044,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, **kwargs)
@@ -4054,11 +4054,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_pod_security_policy_subject_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4068,7 +4068,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4128,7 +4128,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicySubjectReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4138,11 +4138,11 @@ class OapiApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_processed_template(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_processed_template(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4151,7 +4151,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_processed_template_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_processed_template_with_http_info(namespace, body, **kwargs)
@@ -4161,11 +4161,11 @@ class OapiApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_processed_template_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_processed_template_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4175,7 +4175,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4235,7 +4235,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4245,11 +4245,11 @@ class OapiApi(object):
         """
         create a ResourceAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_resource_access_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_resource_access_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ResourceAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4258,7 +4258,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_resource_access_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_resource_access_review_with_http_info(namespace, body, **kwargs)
@@ -4268,11 +4268,11 @@ class OapiApi(object):
         """
         create a ResourceAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_resource_access_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_resource_access_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ResourceAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4282,7 +4282,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4342,7 +4342,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ResourceAccessReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4352,11 +4352,11 @@ class OapiApi(object):
         """
         create a Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_role(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_role(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Role body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4365,7 +4365,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_role_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_role_with_http_info(namespace, body, **kwargs)
@@ -4375,11 +4375,11 @@ class OapiApi(object):
         """
         create a Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_role_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_role_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Role body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4389,7 +4389,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4449,7 +4449,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Role',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4459,11 +4459,11 @@ class OapiApi(object):
         """
         create a RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_role_binding(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_role_binding(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1RoleBinding body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4472,7 +4472,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_role_binding_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_role_binding_with_http_info(namespace, body, **kwargs)
@@ -4482,11 +4482,11 @@ class OapiApi(object):
         """
         create a RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_role_binding_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_role_binding_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1RoleBinding body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4496,7 +4496,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4556,7 +4556,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4566,11 +4566,11 @@ class OapiApi(object):
         """
         create a RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_role_binding_restriction(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_role_binding_restriction(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1RoleBindingRestriction body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4579,7 +4579,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_role_binding_restriction_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_role_binding_restriction_with_http_info(namespace, body, **kwargs)
@@ -4589,11 +4589,11 @@ class OapiApi(object):
         """
         create a RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_role_binding_restriction_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_role_binding_restriction_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1RoleBindingRestriction body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4603,7 +4603,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4663,7 +4663,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingRestriction',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4673,11 +4673,11 @@ class OapiApi(object):
         """
         create a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_route(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_route(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4686,7 +4686,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_route_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_route_with_http_info(namespace, body, **kwargs)
@@ -4696,11 +4696,11 @@ class OapiApi(object):
         """
         create a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_route_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_route_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4710,7 +4710,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4770,7 +4770,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4780,11 +4780,11 @@ class OapiApi(object):
         """
         create a SelfSubjectRulesReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_self_subject_rules_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_self_subject_rules_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1SelfSubjectRulesReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4793,7 +4793,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_self_subject_rules_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_self_subject_rules_review_with_http_info(namespace, body, **kwargs)
@@ -4803,11 +4803,11 @@ class OapiApi(object):
         """
         create a SelfSubjectRulesReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_self_subject_rules_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_self_subject_rules_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1SelfSubjectRulesReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4817,7 +4817,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4877,7 +4877,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1SelfSubjectRulesReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4887,11 +4887,11 @@ class OapiApi(object):
         """
         create a SubjectAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_subject_access_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_subject_access_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1SubjectAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4900,7 +4900,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_subject_access_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_subject_access_review_with_http_info(namespace, body, **kwargs)
@@ -4910,11 +4910,11 @@ class OapiApi(object):
         """
         create a SubjectAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_subject_access_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_subject_access_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1SubjectAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -4924,7 +4924,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -4984,7 +4984,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1SubjectAccessReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -4994,11 +4994,11 @@ class OapiApi(object):
         """
         create a SubjectRulesReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_subject_rules_review(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_subject_rules_review(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1SubjectRulesReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -5007,7 +5007,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_subject_rules_review_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_subject_rules_review_with_http_info(namespace, body, **kwargs)
@@ -5017,11 +5017,11 @@ class OapiApi(object):
         """
         create a SubjectRulesReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_subject_rules_review_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_subject_rules_review_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1SubjectRulesReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -5031,7 +5031,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5091,7 +5091,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1SubjectRulesReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5101,11 +5101,11 @@ class OapiApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_template(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_template(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -5114,7 +5114,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_template_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_template_with_http_info(namespace, body, **kwargs)
@@ -5124,11 +5124,11 @@ class OapiApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_template_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_template_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -5138,7 +5138,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5198,7 +5198,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5208,11 +5208,11 @@ class OapiApi(object):
         """
         create a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_net_namespace(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_net_namespace(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1NetNamespace body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1NetNamespace
@@ -5220,7 +5220,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_net_namespace_with_http_info(body, **kwargs)
         else:
             (data) = self.create_net_namespace_with_http_info(body, **kwargs)
@@ -5230,11 +5230,11 @@ class OapiApi(object):
         """
         create a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_net_namespace_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_net_namespace_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1NetNamespace body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1NetNamespace
@@ -5243,7 +5243,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5298,7 +5298,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespace',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5308,11 +5308,11 @@ class OapiApi(object):
         """
         create an OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_o_auth_access_token(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_o_auth_access_token(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1OAuthAccessToken body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthAccessToken
@@ -5320,7 +5320,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_o_auth_access_token_with_http_info(body, **kwargs)
         else:
             (data) = self.create_o_auth_access_token_with_http_info(body, **kwargs)
@@ -5330,11 +5330,11 @@ class OapiApi(object):
         """
         create an OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_o_auth_access_token_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_o_auth_access_token_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1OAuthAccessToken body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthAccessToken
@@ -5343,7 +5343,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5398,7 +5398,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAccessToken',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5408,11 +5408,11 @@ class OapiApi(object):
         """
         create an OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_o_auth_authorize_token(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_o_auth_authorize_token(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1OAuthAuthorizeToken body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthAuthorizeToken
@@ -5420,7 +5420,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_o_auth_authorize_token_with_http_info(body, **kwargs)
         else:
             (data) = self.create_o_auth_authorize_token_with_http_info(body, **kwargs)
@@ -5430,11 +5430,11 @@ class OapiApi(object):
         """
         create an OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_o_auth_authorize_token_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_o_auth_authorize_token_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1OAuthAuthorizeToken body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthAuthorizeToken
@@ -5443,7 +5443,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5498,7 +5498,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAuthorizeToken',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5508,11 +5508,11 @@ class OapiApi(object):
         """
         create an OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_o_auth_client(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_o_auth_client(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1OAuthClient body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthClient
@@ -5520,7 +5520,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_o_auth_client_with_http_info(body, **kwargs)
         else:
             (data) = self.create_o_auth_client_with_http_info(body, **kwargs)
@@ -5530,11 +5530,11 @@ class OapiApi(object):
         """
         create an OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_o_auth_client_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_o_auth_client_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1OAuthClient body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthClient
@@ -5543,7 +5543,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5598,7 +5598,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClient',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5608,11 +5608,11 @@ class OapiApi(object):
         """
         create an OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_o_auth_client_authorization(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_o_auth_client_authorization(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1OAuthClientAuthorization body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthClientAuthorization
@@ -5620,7 +5620,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_o_auth_client_authorization_with_http_info(body, **kwargs)
         else:
             (data) = self.create_o_auth_client_authorization_with_http_info(body, **kwargs)
@@ -5630,11 +5630,11 @@ class OapiApi(object):
         """
         create an OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_o_auth_client_authorization_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_o_auth_client_authorization_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1OAuthClientAuthorization body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1OAuthClientAuthorization
@@ -5643,7 +5643,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5698,7 +5698,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClientAuthorization',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5708,11 +5708,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_pod_security_policy_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_pod_security_policy_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicyReview
@@ -5720,7 +5720,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -5730,11 +5730,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicyReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_pod_security_policy_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1PodSecurityPolicyReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicyReview
@@ -5743,7 +5743,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5798,7 +5798,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicyReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5808,11 +5808,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySelfSubjectReview
@@ -5820,7 +5820,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -5830,11 +5830,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicySelfSubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_pod_security_policy_self_subject_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1PodSecurityPolicySelfSubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySelfSubjectReview
@@ -5843,7 +5843,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5898,7 +5898,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicySelfSubjectReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -5908,11 +5908,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySubjectReview
@@ -5920,7 +5920,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -5930,11 +5930,11 @@ class OapiApi(object):
         """
         create a PodSecurityPolicySubjectReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_pod_security_policy_subject_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1PodSecurityPolicySubjectReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1PodSecurityPolicySubjectReview
@@ -5943,7 +5943,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -5998,7 +5998,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1PodSecurityPolicySubjectReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6008,11 +6008,11 @@ class OapiApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_processed_template_for_all_namespaces_v1(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_processed_template_for_all_namespaces_v1(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Template
@@ -6020,7 +6020,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_processed_template_for_all_namespaces_v1_with_http_info(body, **kwargs)
         else:
             (data) = self.create_processed_template_for_all_namespaces_v1_with_http_info(body, **kwargs)
@@ -6030,11 +6030,11 @@ class OapiApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_processed_template_for_all_namespaces_v1_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_processed_template_for_all_namespaces_v1_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Template
@@ -6043,7 +6043,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6098,7 +6098,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6108,11 +6108,11 @@ class OapiApi(object):
         """
         create a Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_project(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_project(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Project body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Project
@@ -6120,7 +6120,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_project_with_http_info(body, **kwargs)
         else:
             (data) = self.create_project_with_http_info(body, **kwargs)
@@ -6130,11 +6130,11 @@ class OapiApi(object):
         """
         create a Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_project_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_project_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Project body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Project
@@ -6143,7 +6143,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6198,7 +6198,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Project',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6208,11 +6208,11 @@ class OapiApi(object):
         """
         create a ProjectRequest
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_project_request(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_project_request(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ProjectRequest body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ProjectRequest
@@ -6220,7 +6220,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_project_request_with_http_info(body, **kwargs)
         else:
             (data) = self.create_project_request_with_http_info(body, **kwargs)
@@ -6230,11 +6230,11 @@ class OapiApi(object):
         """
         create a ProjectRequest
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_project_request_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_project_request_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ProjectRequest body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ProjectRequest
@@ -6243,7 +6243,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6298,7 +6298,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ProjectRequest',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6308,11 +6308,11 @@ class OapiApi(object):
         """
         create a ResourceAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_resource_access_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_resource_access_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ResourceAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ResourceAccessReview
@@ -6320,7 +6320,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_resource_access_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_resource_access_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -6330,11 +6330,11 @@ class OapiApi(object):
         """
         create a ResourceAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_resource_access_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_resource_access_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ResourceAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ResourceAccessReview
@@ -6343,7 +6343,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6398,7 +6398,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ResourceAccessReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6408,11 +6408,11 @@ class OapiApi(object):
         """
         create a RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_role_binding_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_role_binding_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1RoleBinding body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1RoleBinding
@@ -6420,7 +6420,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_role_binding_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_role_binding_for_all_namespaces_with_http_info(body, **kwargs)
@@ -6430,11 +6430,11 @@ class OapiApi(object):
         """
         create a RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_role_binding_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_role_binding_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1RoleBinding body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1RoleBinding
@@ -6443,7 +6443,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6498,7 +6498,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6508,11 +6508,11 @@ class OapiApi(object):
         """
         create a RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_role_binding_restriction_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_role_binding_restriction_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1RoleBindingRestriction body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1RoleBindingRestriction
@@ -6520,7 +6520,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_role_binding_restriction_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_role_binding_restriction_for_all_namespaces_with_http_info(body, **kwargs)
@@ -6530,11 +6530,11 @@ class OapiApi(object):
         """
         create a RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_role_binding_restriction_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_role_binding_restriction_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1RoleBindingRestriction body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1RoleBindingRestriction
@@ -6543,7 +6543,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6598,7 +6598,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingRestriction',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6608,11 +6608,11 @@ class OapiApi(object):
         """
         create a Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_role_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_role_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Role body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Role
@@ -6620,7 +6620,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_role_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_role_for_all_namespaces_with_http_info(body, **kwargs)
@@ -6630,11 +6630,11 @@ class OapiApi(object):
         """
         create a Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_role_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_role_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Role body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Role
@@ -6643,7 +6643,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6698,7 +6698,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Role',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6708,11 +6708,11 @@ class OapiApi(object):
         """
         create a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_route_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_route_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Route body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Route
@@ -6720,7 +6720,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_route_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_route_for_all_namespaces_with_http_info(body, **kwargs)
@@ -6730,11 +6730,11 @@ class OapiApi(object):
         """
         create a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_route_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_route_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Route body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Route
@@ -6743,7 +6743,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6798,7 +6798,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6808,11 +6808,11 @@ class OapiApi(object):
         """
         create a SelfSubjectRulesReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_self_subject_rules_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_self_subject_rules_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1SelfSubjectRulesReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1SelfSubjectRulesReview
@@ -6820,7 +6820,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_self_subject_rules_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_self_subject_rules_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -6830,11 +6830,11 @@ class OapiApi(object):
         """
         create a SelfSubjectRulesReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_self_subject_rules_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_self_subject_rules_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1SelfSubjectRulesReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1SelfSubjectRulesReview
@@ -6843,7 +6843,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6898,7 +6898,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1SelfSubjectRulesReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -6908,11 +6908,11 @@ class OapiApi(object):
         """
         create a SubjectAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_subject_access_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_subject_access_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1SubjectAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1SubjectAccessReview
@@ -6920,7 +6920,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_subject_access_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_subject_access_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -6930,11 +6930,11 @@ class OapiApi(object):
         """
         create a SubjectAccessReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_subject_access_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_subject_access_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1SubjectAccessReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1SubjectAccessReview
@@ -6943,7 +6943,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -6998,7 +6998,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1SubjectAccessReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7008,11 +7008,11 @@ class OapiApi(object):
         """
         create a SubjectRulesReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_subject_rules_review_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_subject_rules_review_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1SubjectRulesReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1SubjectRulesReview
@@ -7020,7 +7020,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_subject_rules_review_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_subject_rules_review_for_all_namespaces_with_http_info(body, **kwargs)
@@ -7030,11 +7030,11 @@ class OapiApi(object):
         """
         create a SubjectRulesReview
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_subject_rules_review_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_subject_rules_review_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1SubjectRulesReview body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1SubjectRulesReview
@@ -7043,7 +7043,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7098,7 +7098,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1SubjectRulesReview',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7108,11 +7108,11 @@ class OapiApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_template_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_template_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Template
@@ -7120,7 +7120,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_template_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_template_for_all_namespaces_with_http_info(body, **kwargs)
@@ -7130,11 +7130,11 @@ class OapiApi(object):
         """
         create a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_template_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_template_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1Template body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Template
@@ -7143,7 +7143,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7198,7 +7198,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7208,11 +7208,11 @@ class OapiApi(object):
         """
         create an User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_user(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_user(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1User body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1User
@@ -7220,7 +7220,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_user_with_http_info(body, **kwargs)
         else:
             (data) = self.create_user_with_http_info(body, **kwargs)
@@ -7230,11 +7230,11 @@ class OapiApi(object):
         """
         create an User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_user_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_user_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1User body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1User
@@ -7243,7 +7243,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7298,7 +7298,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1User',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7308,11 +7308,11 @@ class OapiApi(object):
         """
         create an UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_user_identity_mapping(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_user_identity_mapping(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1UserIdentityMapping body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1UserIdentityMapping
@@ -7320,7 +7320,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_user_identity_mapping_with_http_info(body, **kwargs)
         else:
             (data) = self.create_user_identity_mapping_with_http_info(body, **kwargs)
@@ -7330,11 +7330,11 @@ class OapiApi(object):
         """
         create an UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_user_identity_mapping_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_user_identity_mapping_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1UserIdentityMapping body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1UserIdentityMapping
@@ -7343,7 +7343,7 @@ class OapiApi(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7398,7 +7398,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1UserIdentityMapping',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7408,11 +7408,11 @@ class OapiApi(object):
         """
         delete a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_network(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_network(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -7424,7 +7424,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_cluster_network_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_cluster_network_with_http_info(name, body, **kwargs)
@@ -7434,11 +7434,11 @@ class OapiApi(object):
         """
         delete a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_network_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_network_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -7451,7 +7451,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7517,7 +7517,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7527,11 +7527,11 @@ class OapiApi(object):
         """
         delete a ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_resource_quota(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_resource_quota(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -7543,7 +7543,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_cluster_resource_quota_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_cluster_resource_quota_with_http_info(name, body, **kwargs)
@@ -7553,11 +7553,11 @@ class OapiApi(object):
         """
         delete a ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_resource_quota_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_resource_quota_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -7570,7 +7570,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7636,7 +7636,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7646,11 +7646,11 @@ class OapiApi(object):
         """
         delete a ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_role(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_role(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRole (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -7662,7 +7662,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_cluster_role_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_cluster_role_with_http_info(name, body, **kwargs)
@@ -7672,11 +7672,11 @@ class OapiApi(object):
         """
         delete a ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_role_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_role_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRole (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -7689,7 +7689,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7755,7 +7755,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7765,11 +7765,11 @@ class OapiApi(object):
         """
         delete a ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_role_binding(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_role_binding(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRoleBinding (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -7781,7 +7781,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_cluster_role_binding_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_cluster_role_binding_with_http_info(name, body, **kwargs)
@@ -7791,11 +7791,11 @@ class OapiApi(object):
         """
         delete a ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_role_binding_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_role_binding_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRoleBinding (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -7808,7 +7808,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7874,7 +7874,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -7884,11 +7884,11 @@ class OapiApi(object):
         """
         delete collection of ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_cluster_network(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_cluster_network(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -7903,7 +7903,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_cluster_network_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_cluster_network_with_http_info(**kwargs)
@@ -7913,11 +7913,11 @@ class OapiApi(object):
         """
         delete collection of ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_cluster_network_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_cluster_network_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -7933,7 +7933,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -7999,7 +7999,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -8009,11 +8009,11 @@ class OapiApi(object):
         """
         delete collection of ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_cluster_resource_quota(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_cluster_resource_quota(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8028,7 +8028,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_cluster_resource_quota_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_cluster_resource_quota_with_http_info(**kwargs)
@@ -8038,11 +8038,11 @@ class OapiApi(object):
         """
         delete collection of ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_cluster_resource_quota_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_cluster_resource_quota_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8058,7 +8058,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -8124,7 +8124,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -8134,11 +8134,11 @@ class OapiApi(object):
         """
         delete collection of Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_group(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_group(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8153,7 +8153,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_group_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_group_with_http_info(**kwargs)
@@ -8163,11 +8163,11 @@ class OapiApi(object):
         """
         delete collection of Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_group_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_group_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8183,7 +8183,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -8249,7 +8249,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -8259,11 +8259,11 @@ class OapiApi(object):
         """
         delete collection of HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_host_subnet(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_host_subnet(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8278,7 +8278,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_host_subnet_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_host_subnet_with_http_info(**kwargs)
@@ -8288,11 +8288,11 @@ class OapiApi(object):
         """
         delete collection of HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_host_subnet_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_host_subnet_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8308,7 +8308,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -8374,7 +8374,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -8384,11 +8384,11 @@ class OapiApi(object):
         """
         delete collection of Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_identity(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_identity(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8403,7 +8403,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_identity_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_identity_with_http_info(**kwargs)
@@ -8413,11 +8413,11 @@ class OapiApi(object):
         """
         delete collection of Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_identity_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_identity_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8433,7 +8433,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -8499,7 +8499,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -8509,11 +8509,11 @@ class OapiApi(object):
         """
         delete collection of Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_image(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_image(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8528,7 +8528,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_image_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_image_with_http_info(**kwargs)
@@ -8538,11 +8538,11 @@ class OapiApi(object):
         """
         delete collection of Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_image_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_image_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -8558,7 +8558,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -8624,7 +8624,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -8634,11 +8634,11 @@ class OapiApi(object):
         """
         delete collection of Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_build(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_build(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -8654,7 +8654,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_build_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_build_with_http_info(namespace, **kwargs)
@@ -8664,11 +8664,11 @@ class OapiApi(object):
         """
         delete collection of Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_build_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_build_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -8685,7 +8685,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -8756,7 +8756,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -8766,11 +8766,11 @@ class OapiApi(object):
         """
         delete collection of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_build_config(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_build_config(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -8786,7 +8786,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_build_config_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_build_config_with_http_info(namespace, **kwargs)
@@ -8796,11 +8796,11 @@ class OapiApi(object):
         """
         delete collection of BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_build_config_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_build_config_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -8817,7 +8817,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -8888,7 +8888,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -8898,11 +8898,11 @@ class OapiApi(object):
         """
         delete collection of DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_deployment_config(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_deployment_config(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -8918,7 +8918,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_deployment_config_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_deployment_config_with_http_info(namespace, **kwargs)
@@ -8928,11 +8928,11 @@ class OapiApi(object):
         """
         delete collection of DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_deployment_config_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_deployment_config_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -8949,7 +8949,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -9020,7 +9020,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -9030,11 +9030,11 @@ class OapiApi(object):
         """
         delete collection of EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_egress_network_policy(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_egress_network_policy(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9050,7 +9050,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
@@ -9060,11 +9060,11 @@ class OapiApi(object):
         """
         delete collection of EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9081,7 +9081,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -9152,7 +9152,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -9162,11 +9162,11 @@ class OapiApi(object):
         """
         delete collection of ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_image_stream(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_image_stream(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9182,7 +9182,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_image_stream_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_image_stream_with_http_info(namespace, **kwargs)
@@ -9192,11 +9192,11 @@ class OapiApi(object):
         """
         delete collection of ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_image_stream_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_image_stream_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9213,7 +9213,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -9284,7 +9284,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -9294,11 +9294,11 @@ class OapiApi(object):
         """
         delete collection of RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_role_binding_restriction(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_role_binding_restriction(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9314,7 +9314,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_role_binding_restriction_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_role_binding_restriction_with_http_info(namespace, **kwargs)
@@ -9324,11 +9324,11 @@ class OapiApi(object):
         """
         delete collection of RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_role_binding_restriction_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_role_binding_restriction_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9345,7 +9345,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -9416,7 +9416,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -9426,11 +9426,11 @@ class OapiApi(object):
         """
         delete collection of Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_route(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_route(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9446,7 +9446,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_route_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_route_with_http_info(namespace, **kwargs)
@@ -9456,11 +9456,11 @@ class OapiApi(object):
         """
         delete collection of Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_route_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_route_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9477,7 +9477,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -9548,7 +9548,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -9558,11 +9558,11 @@ class OapiApi(object):
         """
         delete collection of Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_template(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_template(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9578,7 +9578,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_template_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_template_with_http_info(namespace, **kwargs)
@@ -9588,11 +9588,11 @@ class OapiApi(object):
         """
         delete collection of Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_template_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_template_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -9609,7 +9609,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -9680,7 +9680,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -9690,11 +9690,11 @@ class OapiApi(object):
         """
         delete collection of NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_net_namespace(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_net_namespace(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -9709,7 +9709,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_net_namespace_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_net_namespace_with_http_info(**kwargs)
@@ -9719,11 +9719,11 @@ class OapiApi(object):
         """
         delete collection of NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_net_namespace_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_net_namespace_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -9739,7 +9739,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -9805,7 +9805,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -9815,11 +9815,11 @@ class OapiApi(object):
         """
         delete collection of OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_o_auth_access_token(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_o_auth_access_token(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -9834,7 +9834,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_o_auth_access_token_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_o_auth_access_token_with_http_info(**kwargs)
@@ -9844,11 +9844,11 @@ class OapiApi(object):
         """
         delete collection of OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_o_auth_access_token_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_o_auth_access_token_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -9864,7 +9864,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -9930,7 +9930,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -9940,11 +9940,11 @@ class OapiApi(object):
         """
         delete collection of OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_o_auth_authorize_token(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_o_auth_authorize_token(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -9959,7 +9959,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_o_auth_authorize_token_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_o_auth_authorize_token_with_http_info(**kwargs)
@@ -9969,11 +9969,11 @@ class OapiApi(object):
         """
         delete collection of OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_o_auth_authorize_token_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_o_auth_authorize_token_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -9989,7 +9989,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -10055,7 +10055,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -10065,11 +10065,11 @@ class OapiApi(object):
         """
         delete collection of OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_o_auth_client(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_o_auth_client(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -10084,7 +10084,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_o_auth_client_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_o_auth_client_with_http_info(**kwargs)
@@ -10094,11 +10094,11 @@ class OapiApi(object):
         """
         delete collection of OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_o_auth_client_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_o_auth_client_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -10114,7 +10114,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -10180,7 +10180,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -10190,11 +10190,11 @@ class OapiApi(object):
         """
         delete collection of OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_o_auth_client_authorization(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_o_auth_client_authorization(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -10209,7 +10209,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_o_auth_client_authorization_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_o_auth_client_authorization_with_http_info(**kwargs)
@@ -10219,11 +10219,11 @@ class OapiApi(object):
         """
         delete collection of OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_o_auth_client_authorization_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_o_auth_client_authorization_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -10239,7 +10239,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -10305,7 +10305,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -10315,11 +10315,11 @@ class OapiApi(object):
         """
         delete collection of User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_user(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_user(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -10334,7 +10334,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_user_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_user_with_http_info(**kwargs)
@@ -10344,11 +10344,11 @@ class OapiApi(object):
         """
         delete collection of User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_user_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_user_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -10364,7 +10364,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -10430,7 +10430,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -10440,11 +10440,11 @@ class OapiApi(object):
         """
         delete a Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_group(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_group(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Group (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -10456,7 +10456,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_group_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_group_with_http_info(name, body, **kwargs)
@@ -10466,11 +10466,11 @@ class OapiApi(object):
         """
         delete a Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_group_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_group_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Group (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -10483,7 +10483,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -10549,7 +10549,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -10559,11 +10559,11 @@ class OapiApi(object):
         """
         delete a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_host_subnet(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_host_subnet(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -10575,7 +10575,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_host_subnet_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_host_subnet_with_http_info(name, body, **kwargs)
@@ -10585,11 +10585,11 @@ class OapiApi(object):
         """
         delete a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_host_subnet_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_host_subnet_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -10602,7 +10602,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -10668,7 +10668,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -10678,11 +10678,11 @@ class OapiApi(object):
         """
         delete an Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_identity(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_identity(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Identity (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -10694,7 +10694,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_identity_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_identity_with_http_info(name, body, **kwargs)
@@ -10704,11 +10704,11 @@ class OapiApi(object):
         """
         delete an Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_identity_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_identity_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Identity (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -10721,7 +10721,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -10787,7 +10787,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -10797,11 +10797,11 @@ class OapiApi(object):
         """
         delete an Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_image(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_image(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Image (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -10813,7 +10813,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_image_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_image_with_http_info(name, body, **kwargs)
@@ -10823,11 +10823,11 @@ class OapiApi(object):
         """
         delete an Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_image_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_image_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Image (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -10840,7 +10840,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -10906,7 +10906,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -10916,11 +10916,11 @@ class OapiApi(object):
         """
         delete an ImageSignature
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_image_signature(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_image_signature(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageSignature (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Status
@@ -10928,7 +10928,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_image_signature_with_http_info(name, **kwargs)
         else:
             (data) = self.delete_image_signature_with_http_info(name, **kwargs)
@@ -10938,11 +10938,11 @@ class OapiApi(object):
         """
         delete an ImageSignature
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_image_signature_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_image_signature_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageSignature (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Status
@@ -10951,7 +10951,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11006,7 +11006,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -11016,11 +11016,11 @@ class OapiApi(object):
         """
         delete a Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_build(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_build(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11033,7 +11033,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_build_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_build_with_http_info(name, namespace, body, **kwargs)
@@ -11043,11 +11043,11 @@ class OapiApi(object):
         """
         delete a Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_build_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_build_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11061,7 +11061,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11132,7 +11132,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -11142,11 +11142,11 @@ class OapiApi(object):
         """
         delete a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_build_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_build_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11159,7 +11159,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
@@ -11169,11 +11169,11 @@ class OapiApi(object):
         """
         delete a BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_build_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_build_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11187,7 +11187,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11258,7 +11258,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -11268,11 +11268,11 @@ class OapiApi(object):
         """
         delete a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_deployment_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_deployment_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11285,7 +11285,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
@@ -11295,11 +11295,11 @@ class OapiApi(object):
         """
         delete a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_deployment_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_deployment_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11313,7 +11313,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11384,7 +11384,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -11394,11 +11394,11 @@ class OapiApi(object):
         """
         delete an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_egress_network_policy(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_egress_network_policy(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11411,7 +11411,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
@@ -11421,11 +11421,11 @@ class OapiApi(object):
         """
         delete an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11439,7 +11439,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11510,7 +11510,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -11520,11 +11520,11 @@ class OapiApi(object):
         """
         delete an ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_image_stream(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_image_stream(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11537,7 +11537,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_image_stream_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_image_stream_with_http_info(name, namespace, body, **kwargs)
@@ -11547,11 +11547,11 @@ class OapiApi(object):
         """
         delete an ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_image_stream_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_image_stream_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11565,7 +11565,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11636,7 +11636,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -11646,11 +11646,11 @@ class OapiApi(object):
         """
         delete an ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_image_stream_tag(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_image_stream_tag(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamTag (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -11659,7 +11659,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_image_stream_tag_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.delete_namespaced_image_stream_tag_with_http_info(name, namespace, **kwargs)
@@ -11669,11 +11669,11 @@ class OapiApi(object):
         """
         delete an ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_image_stream_tag_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_image_stream_tag_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamTag (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -11683,7 +11683,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11743,7 +11743,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -11753,11 +11753,11 @@ class OapiApi(object):
         """
         delete a Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_role(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_role(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Role (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11770,7 +11770,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_role_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_role_with_http_info(name, namespace, body, **kwargs)
@@ -11780,11 +11780,11 @@ class OapiApi(object):
         """
         delete a Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_role_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_role_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Role (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11798,7 +11798,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11869,7 +11869,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -11879,11 +11879,11 @@ class OapiApi(object):
         """
         delete a RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_role_binding(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_role_binding(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBinding (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11896,7 +11896,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_role_binding_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_role_binding_with_http_info(name, namespace, body, **kwargs)
@@ -11906,11 +11906,11 @@ class OapiApi(object):
         """
         delete a RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_role_binding_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_role_binding_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBinding (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -11924,7 +11924,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -11995,7 +11995,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12005,11 +12005,11 @@ class OapiApi(object):
         """
         delete a RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_role_binding_restriction(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_role_binding_restriction(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBindingRestriction (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -12022,7 +12022,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_role_binding_restriction_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_role_binding_restriction_with_http_info(name, namespace, body, **kwargs)
@@ -12032,11 +12032,11 @@ class OapiApi(object):
         """
         delete a RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_role_binding_restriction_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_role_binding_restriction_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBindingRestriction (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -12050,7 +12050,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -12121,7 +12121,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12131,11 +12131,11 @@ class OapiApi(object):
         """
         delete a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_route(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_route(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -12148,7 +12148,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_route_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_route_with_http_info(name, namespace, body, **kwargs)
@@ -12158,11 +12158,11 @@ class OapiApi(object):
         """
         delete a Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_route_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_route_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -12176,7 +12176,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -12247,7 +12247,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12257,11 +12257,11 @@ class OapiApi(object):
         """
         delete a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_template(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_template(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -12274,7 +12274,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_template_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_template_with_http_info(name, namespace, body, **kwargs)
@@ -12284,11 +12284,11 @@ class OapiApi(object):
         """
         delete a Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_template_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_template_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -12302,7 +12302,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -12373,7 +12373,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12383,11 +12383,11 @@ class OapiApi(object):
         """
         delete a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_net_namespace(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_net_namespace(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12399,7 +12399,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_net_namespace_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_net_namespace_with_http_info(name, body, **kwargs)
@@ -12409,11 +12409,11 @@ class OapiApi(object):
         """
         delete a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_net_namespace_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_net_namespace_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12426,7 +12426,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -12492,7 +12492,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12502,11 +12502,11 @@ class OapiApi(object):
         """
         delete an OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_o_auth_access_token(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_o_auth_access_token(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAccessToken (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12518,7 +12518,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_o_auth_access_token_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_o_auth_access_token_with_http_info(name, body, **kwargs)
@@ -12528,11 +12528,11 @@ class OapiApi(object):
         """
         delete an OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_o_auth_access_token_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_o_auth_access_token_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAccessToken (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12545,7 +12545,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -12611,7 +12611,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12621,11 +12621,11 @@ class OapiApi(object):
         """
         delete an OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_o_auth_authorize_token(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_o_auth_authorize_token(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAuthorizeToken (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12637,7 +12637,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_o_auth_authorize_token_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_o_auth_authorize_token_with_http_info(name, body, **kwargs)
@@ -12647,11 +12647,11 @@ class OapiApi(object):
         """
         delete an OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_o_auth_authorize_token_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_o_auth_authorize_token_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAuthorizeToken (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12664,7 +12664,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -12730,7 +12730,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12740,11 +12740,11 @@ class OapiApi(object):
         """
         delete an OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_o_auth_client(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_o_auth_client(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClient (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12756,7 +12756,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_o_auth_client_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_o_auth_client_with_http_info(name, body, **kwargs)
@@ -12766,11 +12766,11 @@ class OapiApi(object):
         """
         delete an OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_o_auth_client_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_o_auth_client_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClient (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12783,7 +12783,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -12849,7 +12849,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12859,11 +12859,11 @@ class OapiApi(object):
         """
         delete an OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_o_auth_client_authorization(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_o_auth_client_authorization(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClientAuthorization (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12875,7 +12875,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_o_auth_client_authorization_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_o_auth_client_authorization_with_http_info(name, body, **kwargs)
@@ -12885,11 +12885,11 @@ class OapiApi(object):
         """
         delete an OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_o_auth_client_authorization_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_o_auth_client_authorization_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClientAuthorization (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -12902,7 +12902,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -12968,7 +12968,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -12978,11 +12978,11 @@ class OapiApi(object):
         """
         delete a Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_project(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_project(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Project (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Status
@@ -12990,7 +12990,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_project_with_http_info(name, **kwargs)
         else:
             (data) = self.delete_project_with_http_info(name, **kwargs)
@@ -13000,11 +13000,11 @@ class OapiApi(object):
         """
         delete a Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_project_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_project_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Project (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Status
@@ -13013,7 +13013,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13068,7 +13068,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13078,11 +13078,11 @@ class OapiApi(object):
         """
         delete an User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_user(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_user(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the User (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -13094,7 +13094,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_user_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_user_with_http_info(name, body, **kwargs)
@@ -13104,11 +13104,11 @@ class OapiApi(object):
         """
         delete an User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_user_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_user_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the User (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -13121,7 +13121,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13187,7 +13187,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13197,11 +13197,11 @@ class OapiApi(object):
         """
         delete an UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_user_identity_mapping(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_user_identity_mapping(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the UserIdentityMapping (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Status
@@ -13209,7 +13209,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_user_identity_mapping_with_http_info(name, **kwargs)
         else:
             (data) = self.delete_user_identity_mapping_with_http_info(name, **kwargs)
@@ -13219,11 +13219,11 @@ class OapiApi(object):
         """
         delete an UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_user_identity_mapping_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_user_identity_mapping_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the UserIdentityMapping (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Status
@@ -13232,7 +13232,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13287,7 +13287,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13297,17 +13297,17 @@ class OapiApi(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.get_api_resources(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_api_resources(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.get_api_resources_with_http_info(**kwargs)
         else:
             (data) = self.get_api_resources_with_http_info(**kwargs)
@@ -13317,18 +13317,18 @@ class OapiApi(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.get_api_resources_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_api_resources_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13375,7 +13375,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13385,17 +13385,17 @@ class OapiApi(object):
         """
         get available API versions
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.get_legacy_api_versions(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_legacy_api_versions(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :return: V1APIVersions
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.get_legacy_api_versions_with_http_info(**kwargs)
         else:
             (data) = self.get_legacy_api_versions_with_http_info(**kwargs)
@@ -13405,18 +13405,18 @@ class OapiApi(object):
         """
         get available API versions
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.get_legacy_api_versions_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_legacy_api_versions_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :return: V1APIVersions
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13463,7 +13463,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1APIVersions',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13473,11 +13473,11 @@ class OapiApi(object):
         """
         list objects of kind AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_applied_cluster_resource_quota_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_applied_cluster_resource_quota_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -13492,7 +13492,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_applied_cluster_resource_quota_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_applied_cluster_resource_quota_for_all_namespaces_with_http_info(**kwargs)
@@ -13502,11 +13502,11 @@ class OapiApi(object):
         """
         list objects of kind AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_applied_cluster_resource_quota_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_applied_cluster_resource_quota_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
         :param bool include_uninitialized: If true, partially initialized resources are included in the response.
@@ -13522,7 +13522,7 @@ class OapiApi(object):
         """
 
         all_params = ['_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'pretty', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13588,7 +13588,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1AppliedClusterResourceQuotaList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13598,11 +13598,11 @@ class OapiApi(object):
         """
         list or watch objects of kind BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_build_config_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_build_config_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -13617,7 +13617,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_build_config_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_build_config_for_all_namespaces_with_http_info(**kwargs)
@@ -13627,11 +13627,11 @@ class OapiApi(object):
         """
         list or watch objects of kind BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_build_config_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_build_config_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -13647,7 +13647,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13713,7 +13713,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildConfigList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13723,11 +13723,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_build_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_build_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -13742,7 +13742,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_build_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_build_for_all_namespaces_with_http_info(**kwargs)
@@ -13752,11 +13752,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_build_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_build_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -13772,7 +13772,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13838,7 +13838,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13848,11 +13848,11 @@ class OapiApi(object):
         """
         list or watch objects of kind ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_network(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_network(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -13867,7 +13867,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_cluster_network_with_http_info(**kwargs)
         else:
             (data) = self.list_cluster_network_with_http_info(**kwargs)
@@ -13877,11 +13877,11 @@ class OapiApi(object):
         """
         list or watch objects of kind ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_network_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_network_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -13897,7 +13897,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -13963,7 +13963,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetworkList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -13973,11 +13973,11 @@ class OapiApi(object):
         """
         list or watch objects of kind ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_resource_quota(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_resource_quota(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -13992,7 +13992,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_cluster_resource_quota_with_http_info(**kwargs)
         else:
             (data) = self.list_cluster_resource_quota_with_http_info(**kwargs)
@@ -14002,11 +14002,11 @@ class OapiApi(object):
         """
         list or watch objects of kind ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_resource_quota_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_resource_quota_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14022,7 +14022,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -14088,7 +14088,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuotaList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -14098,11 +14098,11 @@ class OapiApi(object):
         """
         list objects of kind ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_role(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_role(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14117,7 +14117,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_cluster_role_with_http_info(**kwargs)
         else:
             (data) = self.list_cluster_role_with_http_info(**kwargs)
@@ -14127,11 +14127,11 @@ class OapiApi(object):
         """
         list objects of kind ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_role_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_role_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14147,7 +14147,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -14213,7 +14213,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRoleList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -14223,11 +14223,11 @@ class OapiApi(object):
         """
         list objects of kind ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_role_binding(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_role_binding(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14242,7 +14242,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_cluster_role_binding_with_http_info(**kwargs)
         else:
             (data) = self.list_cluster_role_binding_with_http_info(**kwargs)
@@ -14252,11 +14252,11 @@ class OapiApi(object):
         """
         list objects of kind ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_role_binding_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_role_binding_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14272,7 +14272,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -14338,7 +14338,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRoleBindingList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -14348,11 +14348,11 @@ class OapiApi(object):
         """
         list or watch objects of kind DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_deployment_config_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_deployment_config_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14367,7 +14367,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_deployment_config_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_deployment_config_for_all_namespaces_with_http_info(**kwargs)
@@ -14377,11 +14377,11 @@ class OapiApi(object):
         """
         list or watch objects of kind DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_deployment_config_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_deployment_config_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14397,7 +14397,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -14463,7 +14463,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfigList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -14473,11 +14473,11 @@ class OapiApi(object):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_egress_network_policy_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_egress_network_policy_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14492,7 +14492,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_egress_network_policy_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_egress_network_policy_for_all_namespaces_with_http_info(**kwargs)
@@ -14502,11 +14502,11 @@ class OapiApi(object):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_egress_network_policy_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_egress_network_policy_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14522,7 +14522,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -14588,7 +14588,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicyList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -14598,11 +14598,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_group(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_group(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14617,7 +14617,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_group_with_http_info(**kwargs)
         else:
             (data) = self.list_group_with_http_info(**kwargs)
@@ -14627,11 +14627,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_group_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_group_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14647,7 +14647,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -14713,7 +14713,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1GroupList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -14723,11 +14723,11 @@ class OapiApi(object):
         """
         list or watch objects of kind HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_host_subnet(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_host_subnet(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14742,7 +14742,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_host_subnet_with_http_info(**kwargs)
         else:
             (data) = self.list_host_subnet_with_http_info(**kwargs)
@@ -14752,11 +14752,11 @@ class OapiApi(object):
         """
         list or watch objects of kind HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_host_subnet_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_host_subnet_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14772,7 +14772,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -14838,7 +14838,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnetList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -14848,11 +14848,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_identity(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_identity(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14867,7 +14867,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_identity_with_http_info(**kwargs)
         else:
             (data) = self.list_identity_with_http_info(**kwargs)
@@ -14877,11 +14877,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_identity_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_identity_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14897,7 +14897,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -14963,7 +14963,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1IdentityList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -14973,11 +14973,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_image(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_image(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -14992,7 +14992,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_image_with_http_info(**kwargs)
         else:
             (data) = self.list_image_with_http_info(**kwargs)
@@ -15002,11 +15002,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_image_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_image_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -15022,7 +15022,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -15088,7 +15088,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -15098,11 +15098,11 @@ class OapiApi(object):
         """
         list or watch objects of kind ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_image_stream_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_image_stream_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -15117,7 +15117,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_image_stream_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_image_stream_for_all_namespaces_with_http_info(**kwargs)
@@ -15127,11 +15127,11 @@ class OapiApi(object):
         """
         list or watch objects of kind ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_image_stream_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_image_stream_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -15147,7 +15147,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -15213,7 +15213,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -15223,11 +15223,11 @@ class OapiApi(object):
         """
         list objects of kind ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_image_stream_tag_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_image_stream_tag_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -15242,7 +15242,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_image_stream_tag_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_image_stream_tag_for_all_namespaces_with_http_info(**kwargs)
@@ -15252,11 +15252,11 @@ class OapiApi(object):
         """
         list objects of kind ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_image_stream_tag_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_image_stream_tag_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -15272,7 +15272,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -15338,7 +15338,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamTagList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -15348,11 +15348,11 @@ class OapiApi(object):
         """
         list objects of kind AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_applied_cluster_resource_quota(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_applied_cluster_resource_quota(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -15368,7 +15368,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_applied_cluster_resource_quota_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_applied_cluster_resource_quota_with_http_info(namespace, **kwargs)
@@ -15378,11 +15378,11 @@ class OapiApi(object):
         """
         list objects of kind AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_applied_cluster_resource_quota_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_applied_cluster_resource_quota_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -15399,7 +15399,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'pretty', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -15470,7 +15470,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1AppliedClusterResourceQuotaList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -15480,11 +15480,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_build(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_build(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -15500,7 +15500,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_build_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_build_with_http_info(namespace, **kwargs)
@@ -15510,11 +15510,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_build_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_build_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -15531,7 +15531,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -15602,7 +15602,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -15612,11 +15612,11 @@ class OapiApi(object):
         """
         list or watch objects of kind BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_build_config(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_build_config(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -15632,7 +15632,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_build_config_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_build_config_with_http_info(namespace, **kwargs)
@@ -15642,11 +15642,11 @@ class OapiApi(object):
         """
         list or watch objects of kind BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_build_config_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_build_config_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -15663,7 +15663,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -15734,7 +15734,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildConfigList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -15744,11 +15744,11 @@ class OapiApi(object):
         """
         list or watch objects of kind DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_deployment_config(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_deployment_config(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -15764,7 +15764,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_deployment_config_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_deployment_config_with_http_info(namespace, **kwargs)
@@ -15774,11 +15774,11 @@ class OapiApi(object):
         """
         list or watch objects of kind DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_deployment_config_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_deployment_config_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -15795,7 +15795,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -15866,7 +15866,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfigList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -15876,11 +15876,11 @@ class OapiApi(object):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_egress_network_policy(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_egress_network_policy(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -15896,7 +15896,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
@@ -15906,11 +15906,11 @@ class OapiApi(object):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_egress_network_policy_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_egress_network_policy_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -15927,7 +15927,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -15998,7 +15998,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicyList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -16008,11 +16008,11 @@ class OapiApi(object):
         """
         list or watch objects of kind ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_image_stream(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_image_stream(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16028,7 +16028,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_image_stream_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_image_stream_with_http_info(namespace, **kwargs)
@@ -16038,11 +16038,11 @@ class OapiApi(object):
         """
         list or watch objects of kind ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_image_stream_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_image_stream_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16059,7 +16059,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -16130,7 +16130,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -16140,11 +16140,11 @@ class OapiApi(object):
         """
         list objects of kind ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_image_stream_tag(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_image_stream_tag(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16160,7 +16160,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_image_stream_tag_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_image_stream_tag_with_http_info(namespace, **kwargs)
@@ -16170,11 +16170,11 @@ class OapiApi(object):
         """
         list objects of kind ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_image_stream_tag_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_image_stream_tag_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16191,7 +16191,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -16262,7 +16262,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamTagList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -16272,11 +16272,11 @@ class OapiApi(object):
         """
         list objects of kind Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_role(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_role(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16292,7 +16292,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_role_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_role_with_http_info(namespace, **kwargs)
@@ -16302,11 +16302,11 @@ class OapiApi(object):
         """
         list objects of kind Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_role_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_role_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16323,7 +16323,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -16394,7 +16394,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -16404,11 +16404,11 @@ class OapiApi(object):
         """
         list objects of kind RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_role_binding(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_role_binding(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16424,7 +16424,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_role_binding_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_role_binding_with_http_info(namespace, **kwargs)
@@ -16434,11 +16434,11 @@ class OapiApi(object):
         """
         list objects of kind RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_role_binding_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_role_binding_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16455,7 +16455,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -16526,7 +16526,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -16536,11 +16536,11 @@ class OapiApi(object):
         """
         list or watch objects of kind RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_role_binding_restriction(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_role_binding_restriction(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16556,7 +16556,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_role_binding_restriction_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_role_binding_restriction_with_http_info(namespace, **kwargs)
@@ -16566,11 +16566,11 @@ class OapiApi(object):
         """
         list or watch objects of kind RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_role_binding_restriction_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_role_binding_restriction_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16587,7 +16587,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -16658,7 +16658,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingRestrictionList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -16668,11 +16668,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_route(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_route(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16688,7 +16688,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_route_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_route_with_http_info(namespace, **kwargs)
@@ -16698,11 +16698,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_route_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_route_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16719,7 +16719,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -16790,7 +16790,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RouteList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -16800,11 +16800,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_template(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_template(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16820,7 +16820,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_template_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_template_with_http_info(namespace, **kwargs)
@@ -16830,11 +16830,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_template_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_template_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -16851,7 +16851,7 @@ class OapiApi(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -16922,7 +16922,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1TemplateList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -16932,11 +16932,11 @@ class OapiApi(object):
         """
         list or watch objects of kind NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_net_namespace(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_net_namespace(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -16951,7 +16951,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_net_namespace_with_http_info(**kwargs)
         else:
             (data) = self.list_net_namespace_with_http_info(**kwargs)
@@ -16961,11 +16961,11 @@ class OapiApi(object):
         """
         list or watch objects of kind NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_net_namespace_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_net_namespace_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -16981,7 +16981,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -17047,7 +17047,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespaceList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -17057,11 +17057,11 @@ class OapiApi(object):
         """
         list or watch objects of kind OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_o_auth_access_token(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_o_auth_access_token(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17076,7 +17076,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_o_auth_access_token_with_http_info(**kwargs)
         else:
             (data) = self.list_o_auth_access_token_with_http_info(**kwargs)
@@ -17086,11 +17086,11 @@ class OapiApi(object):
         """
         list or watch objects of kind OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_o_auth_access_token_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_o_auth_access_token_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17106,7 +17106,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -17172,7 +17172,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAccessTokenList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -17182,11 +17182,11 @@ class OapiApi(object):
         """
         list or watch objects of kind OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_o_auth_authorize_token(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_o_auth_authorize_token(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17201,7 +17201,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_o_auth_authorize_token_with_http_info(**kwargs)
         else:
             (data) = self.list_o_auth_authorize_token_with_http_info(**kwargs)
@@ -17211,11 +17211,11 @@ class OapiApi(object):
         """
         list or watch objects of kind OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_o_auth_authorize_token_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_o_auth_authorize_token_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17231,7 +17231,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -17297,7 +17297,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAuthorizeTokenList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -17307,11 +17307,11 @@ class OapiApi(object):
         """
         list or watch objects of kind OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_o_auth_client(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_o_auth_client(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17326,7 +17326,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_o_auth_client_with_http_info(**kwargs)
         else:
             (data) = self.list_o_auth_client_with_http_info(**kwargs)
@@ -17336,11 +17336,11 @@ class OapiApi(object):
         """
         list or watch objects of kind OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_o_auth_client_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_o_auth_client_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17356,7 +17356,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -17422,7 +17422,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClientList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -17432,11 +17432,11 @@ class OapiApi(object):
         """
         list or watch objects of kind OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_o_auth_client_authorization(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_o_auth_client_authorization(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17451,7 +17451,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_o_auth_client_authorization_with_http_info(**kwargs)
         else:
             (data) = self.list_o_auth_client_authorization_with_http_info(**kwargs)
@@ -17461,11 +17461,11 @@ class OapiApi(object):
         """
         list or watch objects of kind OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_o_auth_client_authorization_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_o_auth_client_authorization_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17481,7 +17481,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -17547,7 +17547,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClientAuthorizationList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -17557,11 +17557,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_project(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_project(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17576,7 +17576,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_project_with_http_info(**kwargs)
         else:
             (data) = self.list_project_with_http_info(**kwargs)
@@ -17586,11 +17586,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_project_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_project_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17606,7 +17606,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -17672,7 +17672,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ProjectList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -17682,11 +17682,11 @@ class OapiApi(object):
         """
         list objects of kind ProjectRequest
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_project_request(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_project_request(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17701,7 +17701,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_project_request_with_http_info(**kwargs)
         else:
             (data) = self.list_project_request_with_http_info(**kwargs)
@@ -17711,11 +17711,11 @@ class OapiApi(object):
         """
         list objects of kind ProjectRequest
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_project_request_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_project_request_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17731,7 +17731,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -17797,7 +17797,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -17807,11 +17807,11 @@ class OapiApi(object):
         """
         list objects of kind RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_role_binding_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_role_binding_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17826,7 +17826,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_role_binding_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_role_binding_for_all_namespaces_with_http_info(**kwargs)
@@ -17836,11 +17836,11 @@ class OapiApi(object):
         """
         list objects of kind RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_role_binding_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_role_binding_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17856,7 +17856,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -17922,7 +17922,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -17932,11 +17932,11 @@ class OapiApi(object):
         """
         list or watch objects of kind RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_role_binding_restriction_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_role_binding_restriction_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17951,7 +17951,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_role_binding_restriction_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_role_binding_restriction_for_all_namespaces_with_http_info(**kwargs)
@@ -17961,11 +17961,11 @@ class OapiApi(object):
         """
         list or watch objects of kind RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_role_binding_restriction_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_role_binding_restriction_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -17981,7 +17981,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18047,7 +18047,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingRestrictionList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18057,11 +18057,11 @@ class OapiApi(object):
         """
         list objects of kind Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_role_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_role_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -18076,7 +18076,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_role_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_role_for_all_namespaces_with_http_info(**kwargs)
@@ -18086,11 +18086,11 @@ class OapiApi(object):
         """
         list objects of kind Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_role_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_role_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -18106,7 +18106,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18172,7 +18172,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18182,11 +18182,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_route_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_route_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -18201,7 +18201,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_route_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_route_for_all_namespaces_with_http_info(**kwargs)
@@ -18211,11 +18211,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_route_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_route_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -18231,7 +18231,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18297,7 +18297,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RouteList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18307,11 +18307,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_template_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_template_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -18326,7 +18326,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_template_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_template_for_all_namespaces_with_http_info(**kwargs)
@@ -18336,11 +18336,11 @@ class OapiApi(object):
         """
         list or watch objects of kind Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_template_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_template_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -18356,7 +18356,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18422,7 +18422,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1TemplateList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18432,11 +18432,11 @@ class OapiApi(object):
         """
         list or watch objects of kind User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_user(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_user(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -18451,7 +18451,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_user_with_http_info(**kwargs)
         else:
             (data) = self.list_user_with_http_info(**kwargs)
@@ -18461,11 +18461,11 @@ class OapiApi(object):
         """
         list or watch objects of kind User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_user_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_user_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -18481,7 +18481,7 @@ class OapiApi(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18547,7 +18547,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1UserList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18557,11 +18557,11 @@ class OapiApi(object):
         """
         partially update the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_network(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_network(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18570,7 +18570,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_cluster_network_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_cluster_network_with_http_info(name, body, **kwargs)
@@ -18580,11 +18580,11 @@ class OapiApi(object):
         """
         partially update the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_network_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_network_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18594,7 +18594,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18654,7 +18654,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetwork',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18664,11 +18664,11 @@ class OapiApi(object):
         """
         partially update the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_resource_quota(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_resource_quota(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18677,7 +18677,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_cluster_resource_quota_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_cluster_resource_quota_with_http_info(name, body, **kwargs)
@@ -18687,11 +18687,11 @@ class OapiApi(object):
         """
         partially update the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_resource_quota_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_resource_quota_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18701,7 +18701,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18761,7 +18761,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18771,11 +18771,11 @@ class OapiApi(object):
         """
         partially update status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_resource_quota_status(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_resource_quota_status(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18784,7 +18784,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_cluster_resource_quota_status_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_cluster_resource_quota_status_with_http_info(name, body, **kwargs)
@@ -18794,11 +18794,11 @@ class OapiApi(object):
         """
         partially update status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_resource_quota_status_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_resource_quota_status_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18808,7 +18808,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18868,7 +18868,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18878,11 +18878,11 @@ class OapiApi(object):
         """
         partially update the specified ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_role(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_role(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRole (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18891,7 +18891,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_cluster_role_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_cluster_role_with_http_info(name, body, **kwargs)
@@ -18901,11 +18901,11 @@ class OapiApi(object):
         """
         partially update the specified ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_role_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_role_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRole (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18915,7 +18915,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -18975,7 +18975,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRole',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -18985,11 +18985,11 @@ class OapiApi(object):
         """
         partially update the specified ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_role_binding(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_role_binding(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRoleBinding (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -18998,7 +18998,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_cluster_role_binding_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_cluster_role_binding_with_http_info(name, body, **kwargs)
@@ -19008,11 +19008,11 @@ class OapiApi(object):
         """
         partially update the specified ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_role_binding_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_role_binding_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRoleBinding (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19022,7 +19022,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19082,7 +19082,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19092,11 +19092,11 @@ class OapiApi(object):
         """
         partially update the specified Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_group(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_group(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Group (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19105,7 +19105,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_group_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_group_with_http_info(name, body, **kwargs)
@@ -19115,11 +19115,11 @@ class OapiApi(object):
         """
         partially update the specified Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_group_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_group_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Group (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19129,7 +19129,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19189,7 +19189,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Group',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19199,11 +19199,11 @@ class OapiApi(object):
         """
         partially update the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_host_subnet(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_host_subnet(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19212,7 +19212,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_host_subnet_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_host_subnet_with_http_info(name, body, **kwargs)
@@ -19222,11 +19222,11 @@ class OapiApi(object):
         """
         partially update the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_host_subnet_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_host_subnet_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19236,7 +19236,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19296,7 +19296,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnet',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19306,11 +19306,11 @@ class OapiApi(object):
         """
         partially update the specified Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_identity(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_identity(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Identity (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19319,7 +19319,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_identity_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_identity_with_http_info(name, body, **kwargs)
@@ -19329,11 +19329,11 @@ class OapiApi(object):
         """
         partially update the specified Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_identity_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_identity_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Identity (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19343,7 +19343,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19403,7 +19403,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Identity',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19413,11 +19413,11 @@ class OapiApi(object):
         """
         partially update the specified Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_image(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_image(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Image (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19426,7 +19426,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_image_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_image_with_http_info(name, body, **kwargs)
@@ -19436,11 +19436,11 @@ class OapiApi(object):
         """
         partially update the specified Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_image_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_image_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Image (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -19450,7 +19450,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19510,7 +19510,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Image',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19520,11 +19520,11 @@ class OapiApi(object):
         """
         partially update the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_build(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_build(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19534,7 +19534,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_build_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_build_with_http_info(name, namespace, body, **kwargs)
@@ -19544,11 +19544,11 @@ class OapiApi(object):
         """
         partially update the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_build_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_build_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19559,7 +19559,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19624,7 +19624,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Build',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19634,11 +19634,11 @@ class OapiApi(object):
         """
         partially update the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_build_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_build_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19648,7 +19648,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
@@ -19658,11 +19658,11 @@ class OapiApi(object):
         """
         partially update the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_build_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_build_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19673,7 +19673,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19738,7 +19738,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19748,11 +19748,11 @@ class OapiApi(object):
         """
         partially update the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19762,7 +19762,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
@@ -19772,11 +19772,11 @@ class OapiApi(object):
         """
         partially update the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19787,7 +19787,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19852,7 +19852,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19862,11 +19862,11 @@ class OapiApi(object):
         """
         partially update scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_scale(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_scale(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19876,7 +19876,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
@@ -19886,11 +19886,11 @@ class OapiApi(object):
         """
         partially update scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19901,7 +19901,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -19966,7 +19966,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='ExtensionsV1beta1Scale',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -19976,11 +19976,11 @@ class OapiApi(object):
         """
         partially update status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_status(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_status(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -19990,7 +19990,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_deployment_config_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_deployment_config_status_with_http_info(name, namespace, body, **kwargs)
@@ -20000,11 +20000,11 @@ class OapiApi(object):
         """
         partially update status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_status_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_status_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20015,7 +20015,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20080,7 +20080,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -20090,11 +20090,11 @@ class OapiApi(object):
         """
         partially update the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_egress_network_policy(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_egress_network_policy(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20104,7 +20104,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
@@ -20114,11 +20114,11 @@ class OapiApi(object):
         """
         partially update the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20129,7 +20129,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20194,7 +20194,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -20204,11 +20204,11 @@ class OapiApi(object):
         """
         partially update the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_image_stream(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_image_stream(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20218,7 +20218,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_image_stream_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_image_stream_with_http_info(name, namespace, body, **kwargs)
@@ -20228,11 +20228,11 @@ class OapiApi(object):
         """
         partially update the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_image_stream_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_image_stream_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20243,7 +20243,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20308,7 +20308,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStream',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -20318,11 +20318,11 @@ class OapiApi(object):
         """
         partially update status of the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_image_stream_status(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_image_stream_status(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20332,7 +20332,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_image_stream_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_image_stream_status_with_http_info(name, namespace, body, **kwargs)
@@ -20342,11 +20342,11 @@ class OapiApi(object):
         """
         partially update status of the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_image_stream_status_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_image_stream_status_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20357,7 +20357,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20422,7 +20422,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStream',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -20432,11 +20432,11 @@ class OapiApi(object):
         """
         partially update the specified ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_image_stream_tag(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_image_stream_tag(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamTag (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20446,7 +20446,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_image_stream_tag_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_image_stream_tag_with_http_info(name, namespace, body, **kwargs)
@@ -20456,11 +20456,11 @@ class OapiApi(object):
         """
         partially update the specified ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_image_stream_tag_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_image_stream_tag_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamTag (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20471,7 +20471,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20536,7 +20536,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamTag',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -20546,11 +20546,11 @@ class OapiApi(object):
         """
         partially update the specified Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_role(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_role(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Role (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20560,7 +20560,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_role_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_role_with_http_info(name, namespace, body, **kwargs)
@@ -20570,11 +20570,11 @@ class OapiApi(object):
         """
         partially update the specified Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_role_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_role_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Role (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20585,7 +20585,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20650,7 +20650,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Role',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -20660,11 +20660,11 @@ class OapiApi(object):
         """
         partially update the specified RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_role_binding(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_role_binding(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBinding (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20674,7 +20674,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_role_binding_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_role_binding_with_http_info(name, namespace, body, **kwargs)
@@ -20684,11 +20684,11 @@ class OapiApi(object):
         """
         partially update the specified RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_role_binding_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_role_binding_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBinding (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20699,7 +20699,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20764,7 +20764,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -20774,11 +20774,11 @@ class OapiApi(object):
         """
         partially update the specified RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_role_binding_restriction(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_role_binding_restriction(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBindingRestriction (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20788,7 +20788,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_role_binding_restriction_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_role_binding_restriction_with_http_info(name, namespace, body, **kwargs)
@@ -20798,11 +20798,11 @@ class OapiApi(object):
         """
         partially update the specified RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_role_binding_restriction_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_role_binding_restriction_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBindingRestriction (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20813,7 +20813,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20878,7 +20878,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingRestriction',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -20888,11 +20888,11 @@ class OapiApi(object):
         """
         partially update the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_route(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_route(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20902,7 +20902,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_route_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_route_with_http_info(name, namespace, body, **kwargs)
@@ -20912,11 +20912,11 @@ class OapiApi(object):
         """
         partially update the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_route_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_route_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -20927,7 +20927,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -20992,7 +20992,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21002,11 +21002,11 @@ class OapiApi(object):
         """
         partially update status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_route_status(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_route_status(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -21016,7 +21016,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_route_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_route_status_with_http_info(name, namespace, body, **kwargs)
@@ -21026,11 +21026,11 @@ class OapiApi(object):
         """
         partially update status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_route_status_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_route_status_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -21041,7 +21041,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21106,7 +21106,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21116,11 +21116,11 @@ class OapiApi(object):
         """
         partially update the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_template(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_template(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -21130,7 +21130,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_template_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_template_with_http_info(name, namespace, body, **kwargs)
@@ -21140,11 +21140,11 @@ class OapiApi(object):
         """
         partially update the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_template_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_template_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -21155,7 +21155,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21220,7 +21220,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21230,11 +21230,11 @@ class OapiApi(object):
         """
         partially update the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_net_namespace(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_net_namespace(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21243,7 +21243,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_net_namespace_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_net_namespace_with_http_info(name, body, **kwargs)
@@ -21253,11 +21253,11 @@ class OapiApi(object):
         """
         partially update the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_net_namespace_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_net_namespace_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21267,7 +21267,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21327,7 +21327,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespace',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21337,11 +21337,11 @@ class OapiApi(object):
         """
         partially update the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_o_auth_access_token(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_o_auth_access_token(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAccessToken (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21350,7 +21350,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_o_auth_access_token_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_o_auth_access_token_with_http_info(name, body, **kwargs)
@@ -21360,11 +21360,11 @@ class OapiApi(object):
         """
         partially update the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_o_auth_access_token_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_o_auth_access_token_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAccessToken (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21374,7 +21374,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21434,7 +21434,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAccessToken',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21444,11 +21444,11 @@ class OapiApi(object):
         """
         partially update the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_o_auth_authorize_token(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_o_auth_authorize_token(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAuthorizeToken (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21457,7 +21457,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_o_auth_authorize_token_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_o_auth_authorize_token_with_http_info(name, body, **kwargs)
@@ -21467,11 +21467,11 @@ class OapiApi(object):
         """
         partially update the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_o_auth_authorize_token_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_o_auth_authorize_token_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAuthorizeToken (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21481,7 +21481,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21541,7 +21541,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAuthorizeToken',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21551,11 +21551,11 @@ class OapiApi(object):
         """
         partially update the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_o_auth_client(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_o_auth_client(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClient (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21564,7 +21564,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_o_auth_client_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_o_auth_client_with_http_info(name, body, **kwargs)
@@ -21574,11 +21574,11 @@ class OapiApi(object):
         """
         partially update the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_o_auth_client_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_o_auth_client_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClient (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21588,7 +21588,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21648,7 +21648,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClient',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21658,11 +21658,11 @@ class OapiApi(object):
         """
         partially update the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_o_auth_client_authorization(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_o_auth_client_authorization(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClientAuthorization (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21671,7 +21671,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_o_auth_client_authorization_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_o_auth_client_authorization_with_http_info(name, body, **kwargs)
@@ -21681,11 +21681,11 @@ class OapiApi(object):
         """
         partially update the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_o_auth_client_authorization_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_o_auth_client_authorization_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClientAuthorization (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21695,7 +21695,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21755,7 +21755,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClientAuthorization',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21765,11 +21765,11 @@ class OapiApi(object):
         """
         partially update the specified Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_project(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_project(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Project (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21778,7 +21778,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_project_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_project_with_http_info(name, body, **kwargs)
@@ -21788,11 +21788,11 @@ class OapiApi(object):
         """
         partially update the specified Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_project_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_project_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Project (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21802,7 +21802,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21862,7 +21862,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Project',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21872,11 +21872,11 @@ class OapiApi(object):
         """
         partially update the specified User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_user(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_user(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the User (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21885,7 +21885,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_user_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_user_with_http_info(name, body, **kwargs)
@@ -21895,11 +21895,11 @@ class OapiApi(object):
         """
         partially update the specified User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_user_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_user_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the User (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21909,7 +21909,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -21969,7 +21969,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1User',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -21979,11 +21979,11 @@ class OapiApi(object):
         """
         partially update the specified UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_user_identity_mapping(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_user_identity_mapping(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the UserIdentityMapping (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -21992,7 +21992,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_user_identity_mapping_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_user_identity_mapping_with_http_info(name, body, **kwargs)
@@ -22002,11 +22002,11 @@ class OapiApi(object):
         """
         partially update the specified UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_user_identity_mapping_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_user_identity_mapping_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the UserIdentityMapping (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -22016,7 +22016,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22076,7 +22076,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1UserIdentityMapping',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22086,11 +22086,11 @@ class OapiApi(object):
         """
         read the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_network(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_network(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22100,7 +22100,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_cluster_network_with_http_info(name, **kwargs)
         else:
             (data) = self.read_cluster_network_with_http_info(name, **kwargs)
@@ -22110,11 +22110,11 @@ class OapiApi(object):
         """
         read the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_network_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_network_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22125,7 +22125,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22184,7 +22184,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetwork',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22194,11 +22194,11 @@ class OapiApi(object):
         """
         read the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_resource_quota(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_resource_quota(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22208,7 +22208,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_cluster_resource_quota_with_http_info(name, **kwargs)
         else:
             (data) = self.read_cluster_resource_quota_with_http_info(name, **kwargs)
@@ -22218,11 +22218,11 @@ class OapiApi(object):
         """
         read the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_resource_quota_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_resource_quota_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22233,7 +22233,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22292,7 +22292,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22302,11 +22302,11 @@ class OapiApi(object):
         """
         read status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_resource_quota_status(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_resource_quota_status(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterResourceQuota
@@ -22314,7 +22314,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_cluster_resource_quota_status_with_http_info(name, **kwargs)
         else:
             (data) = self.read_cluster_resource_quota_status_with_http_info(name, **kwargs)
@@ -22324,11 +22324,11 @@ class OapiApi(object):
         """
         read status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_resource_quota_status_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_resource_quota_status_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterResourceQuota
@@ -22337,7 +22337,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22392,7 +22392,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22402,11 +22402,11 @@ class OapiApi(object):
         """
         read the specified ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_role(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_role(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRole (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterRole
@@ -22414,7 +22414,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_cluster_role_with_http_info(name, **kwargs)
         else:
             (data) = self.read_cluster_role_with_http_info(name, **kwargs)
@@ -22424,11 +22424,11 @@ class OapiApi(object):
         """
         read the specified ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_role_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_role_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRole (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterRole
@@ -22437,7 +22437,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22492,7 +22492,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRole',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22502,11 +22502,11 @@ class OapiApi(object):
         """
         read the specified ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_role_binding(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_role_binding(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRoleBinding (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterRoleBinding
@@ -22514,7 +22514,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_cluster_role_binding_with_http_info(name, **kwargs)
         else:
             (data) = self.read_cluster_role_binding_with_http_info(name, **kwargs)
@@ -22524,11 +22524,11 @@ class OapiApi(object):
         """
         read the specified ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_role_binding_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_role_binding_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRoleBinding (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterRoleBinding
@@ -22537,7 +22537,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22592,7 +22592,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22602,11 +22602,11 @@ class OapiApi(object):
         """
         read the specified Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_group(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_group(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Group (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22616,7 +22616,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_group_with_http_info(name, **kwargs)
         else:
             (data) = self.read_group_with_http_info(name, **kwargs)
@@ -22626,11 +22626,11 @@ class OapiApi(object):
         """
         read the specified Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_group_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_group_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Group (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22641,7 +22641,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22700,7 +22700,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Group',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22710,11 +22710,11 @@ class OapiApi(object):
         """
         read the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_host_subnet(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_host_subnet(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22724,7 +22724,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_host_subnet_with_http_info(name, **kwargs)
         else:
             (data) = self.read_host_subnet_with_http_info(name, **kwargs)
@@ -22734,11 +22734,11 @@ class OapiApi(object):
         """
         read the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_host_subnet_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_host_subnet_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22749,7 +22749,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22808,7 +22808,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnet',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22818,11 +22818,11 @@ class OapiApi(object):
         """
         read the specified Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_identity(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_identity(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Identity (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22832,7 +22832,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_identity_with_http_info(name, **kwargs)
         else:
             (data) = self.read_identity_with_http_info(name, **kwargs)
@@ -22842,11 +22842,11 @@ class OapiApi(object):
         """
         read the specified Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_identity_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_identity_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Identity (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22857,7 +22857,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -22916,7 +22916,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Identity',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -22926,11 +22926,11 @@ class OapiApi(object):
         """
         read the specified Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_image(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_image(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Image (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22940,7 +22940,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_image_with_http_info(name, **kwargs)
         else:
             (data) = self.read_image_with_http_info(name, **kwargs)
@@ -22950,11 +22950,11 @@ class OapiApi(object):
         """
         read the specified Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_image_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_image_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Image (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -22965,7 +22965,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23024,7 +23024,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Image',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23034,11 +23034,11 @@ class OapiApi(object):
         """
         read the specified AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_applied_cluster_resource_quota(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_applied_cluster_resource_quota(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the AppliedClusterResourceQuota (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23047,7 +23047,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_applied_cluster_resource_quota_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_applied_cluster_resource_quota_with_http_info(name, namespace, **kwargs)
@@ -23057,11 +23057,11 @@ class OapiApi(object):
         """
         read the specified AppliedClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_applied_cluster_resource_quota_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_applied_cluster_resource_quota_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the AppliedClusterResourceQuota (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23071,7 +23071,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23131,7 +23131,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1AppliedClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23141,11 +23141,11 @@ class OapiApi(object):
         """
         read the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_build(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_build(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23156,7 +23156,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_build_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_build_with_http_info(name, namespace, **kwargs)
@@ -23166,11 +23166,11 @@ class OapiApi(object):
         """
         read the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_build_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_build_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23182,7 +23182,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23246,7 +23246,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Build',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23256,11 +23256,11 @@ class OapiApi(object):
         """
         read the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_build_config(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_build_config(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23271,7 +23271,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_build_config_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_build_config_with_http_info(name, namespace, **kwargs)
@@ -23281,11 +23281,11 @@ class OapiApi(object):
         """
         read the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_build_config_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_build_config_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23297,7 +23297,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23361,7 +23361,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23371,11 +23371,11 @@ class OapiApi(object):
         """
         read log of the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_build_log(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_build_log(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildLog (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str container: cointainer for which to stream logs. Defaults to only container if there is one container in the pod.
@@ -23393,7 +23393,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_build_log_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_build_log_with_http_info(name, namespace, **kwargs)
@@ -23403,11 +23403,11 @@ class OapiApi(object):
         """
         read log of the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_build_log_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_build_log_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildLog (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str container: cointainer for which to stream logs. Defaults to only container if there is one container in the pod.
@@ -23426,7 +23426,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'container', 'follow', 'limit_bytes', 'nowait', 'pretty', 'previous', 'since_seconds', 'tail_lines', 'timestamps', 'version']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23504,7 +23504,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildLog',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23514,11 +23514,11 @@ class OapiApi(object):
         """
         read the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23529,7 +23529,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_deployment_config_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_deployment_config_with_http_info(name, namespace, **kwargs)
@@ -23539,11 +23539,11 @@ class OapiApi(object):
         """
         read the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23555,7 +23555,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23619,7 +23619,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23629,11 +23629,11 @@ class OapiApi(object):
         """
         read log of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_log(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_log(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentLog (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str container: The container for which to stream logs. Defaults to only container if there is one container in the pod.
@@ -23651,7 +23651,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_deployment_config_log_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_deployment_config_log_with_http_info(name, namespace, **kwargs)
@@ -23661,11 +23661,11 @@ class OapiApi(object):
         """
         read log of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_log_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_log_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentLog (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str container: The container for which to stream logs. Defaults to only container if there is one container in the pod.
@@ -23684,7 +23684,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'container', 'follow', 'limit_bytes', 'nowait', 'pretty', 'previous', 'since_seconds', 'tail_lines', 'timestamps', 'version']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23762,7 +23762,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentLog',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23772,11 +23772,11 @@ class OapiApi(object):
         """
         read scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_scale(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_scale(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23785,7 +23785,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_deployment_config_scale_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_deployment_config_scale_with_http_info(name, namespace, **kwargs)
@@ -23795,11 +23795,11 @@ class OapiApi(object):
         """
         read scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_scale_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_scale_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23809,7 +23809,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23869,7 +23869,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='ExtensionsV1beta1Scale',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23879,11 +23879,11 @@ class OapiApi(object):
         """
         read status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_status(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_status(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23892,7 +23892,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_deployment_config_status_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_deployment_config_status_with_http_info(name, namespace, **kwargs)
@@ -23902,11 +23902,11 @@ class OapiApi(object):
         """
         read status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_status_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_status_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -23916,7 +23916,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -23976,7 +23976,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -23986,11 +23986,11 @@ class OapiApi(object):
         """
         read the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_egress_network_policy(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_egress_network_policy(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24001,7 +24001,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_egress_network_policy_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_egress_network_policy_with_http_info(name, namespace, **kwargs)
@@ -24011,11 +24011,11 @@ class OapiApi(object):
         """
         read the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_egress_network_policy_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_egress_network_policy_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24027,7 +24027,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24091,7 +24091,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -24101,11 +24101,11 @@ class OapiApi(object):
         """
         read the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24116,7 +24116,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_image_stream_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_image_stream_with_http_info(name, namespace, **kwargs)
@@ -24126,11 +24126,11 @@ class OapiApi(object):
         """
         read the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24142,7 +24142,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24206,7 +24206,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStream',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -24216,11 +24216,11 @@ class OapiApi(object):
         """
         read the specified ImageStreamImage
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_image(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_image(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamImage (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24229,7 +24229,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_image_stream_image_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_image_stream_image_with_http_info(name, namespace, **kwargs)
@@ -24239,11 +24239,11 @@ class OapiApi(object):
         """
         read the specified ImageStreamImage
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_image_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_image_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamImage (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24253,7 +24253,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24313,7 +24313,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamImage',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -24323,11 +24323,11 @@ class OapiApi(object):
         """
         read secrets of the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_secrets(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_secrets(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the SecretList (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -24344,7 +24344,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_image_stream_secrets_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_image_stream_secrets_with_http_info(name, namespace, **kwargs)
@@ -24354,11 +24354,11 @@ class OapiApi(object):
         """
         read secrets of the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_secrets_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_secrets_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the SecretList (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -24376,7 +24376,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'pretty', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24452,7 +24452,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1SecretList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -24462,11 +24462,11 @@ class OapiApi(object):
         """
         read status of the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_status(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_status(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24475,7 +24475,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_image_stream_status_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_image_stream_status_with_http_info(name, namespace, **kwargs)
@@ -24485,11 +24485,11 @@ class OapiApi(object):
         """
         read status of the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_status_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_status_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24499,7 +24499,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24559,7 +24559,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStream',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -24569,11 +24569,11 @@ class OapiApi(object):
         """
         read the specified ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_tag(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_tag(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamTag (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24582,7 +24582,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_image_stream_tag_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_image_stream_tag_with_http_info(name, namespace, **kwargs)
@@ -24592,11 +24592,11 @@ class OapiApi(object):
         """
         read the specified ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_image_stream_tag_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_image_stream_tag_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamTag (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24606,7 +24606,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24666,7 +24666,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamTag',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -24676,11 +24676,11 @@ class OapiApi(object):
         """
         read the specified Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_role(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_role(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Role (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24689,7 +24689,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_role_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_role_with_http_info(name, namespace, **kwargs)
@@ -24699,11 +24699,11 @@ class OapiApi(object):
         """
         read the specified Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_role_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_role_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Role (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24713,7 +24713,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24773,7 +24773,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Role',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -24783,11 +24783,11 @@ class OapiApi(object):
         """
         read the specified RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_role_binding(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_role_binding(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBinding (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24796,7 +24796,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_role_binding_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_role_binding_with_http_info(name, namespace, **kwargs)
@@ -24806,11 +24806,11 @@ class OapiApi(object):
         """
         read the specified RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_role_binding_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_role_binding_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBinding (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24820,7 +24820,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24880,7 +24880,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -24890,11 +24890,11 @@ class OapiApi(object):
         """
         read the specified RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_role_binding_restriction(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_role_binding_restriction(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBindingRestriction (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24905,7 +24905,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_role_binding_restriction_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_role_binding_restriction_with_http_info(name, namespace, **kwargs)
@@ -24915,11 +24915,11 @@ class OapiApi(object):
         """
         read the specified RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_role_binding_restriction_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_role_binding_restriction_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBindingRestriction (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -24931,7 +24931,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -24995,7 +24995,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingRestriction',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25005,11 +25005,11 @@ class OapiApi(object):
         """
         read the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_route(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_route(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -25020,7 +25020,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_route_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_route_with_http_info(name, namespace, **kwargs)
@@ -25030,11 +25030,11 @@ class OapiApi(object):
         """
         read the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_route_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_route_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -25046,7 +25046,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25110,7 +25110,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25120,11 +25120,11 @@ class OapiApi(object):
         """
         read status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_route_status(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_route_status(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -25133,7 +25133,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_route_status_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_route_status_with_http_info(name, namespace, **kwargs)
@@ -25143,11 +25143,11 @@ class OapiApi(object):
         """
         read status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_route_status_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_route_status_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -25157,7 +25157,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25217,7 +25217,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25227,11 +25227,11 @@ class OapiApi(object):
         """
         read the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_template(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_template(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -25242,7 +25242,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_template_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_template_with_http_info(name, namespace, **kwargs)
@@ -25252,11 +25252,11 @@ class OapiApi(object):
         """
         read the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_template_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_template_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -25268,7 +25268,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25332,7 +25332,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25342,11 +25342,11 @@ class OapiApi(object):
         """
         read the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_net_namespace(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_net_namespace(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25356,7 +25356,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_net_namespace_with_http_info(name, **kwargs)
         else:
             (data) = self.read_net_namespace_with_http_info(name, **kwargs)
@@ -25366,11 +25366,11 @@ class OapiApi(object):
         """
         read the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_net_namespace_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_net_namespace_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25381,7 +25381,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25440,7 +25440,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespace',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25450,11 +25450,11 @@ class OapiApi(object):
         """
         read the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_o_auth_access_token(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_o_auth_access_token(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAccessToken (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25464,7 +25464,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_o_auth_access_token_with_http_info(name, **kwargs)
         else:
             (data) = self.read_o_auth_access_token_with_http_info(name, **kwargs)
@@ -25474,11 +25474,11 @@ class OapiApi(object):
         """
         read the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_o_auth_access_token_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_o_auth_access_token_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAccessToken (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25489,7 +25489,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25548,7 +25548,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAccessToken',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25558,11 +25558,11 @@ class OapiApi(object):
         """
         read the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_o_auth_authorize_token(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_o_auth_authorize_token(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAuthorizeToken (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25572,7 +25572,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_o_auth_authorize_token_with_http_info(name, **kwargs)
         else:
             (data) = self.read_o_auth_authorize_token_with_http_info(name, **kwargs)
@@ -25582,11 +25582,11 @@ class OapiApi(object):
         """
         read the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_o_auth_authorize_token_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_o_auth_authorize_token_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAuthorizeToken (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25597,7 +25597,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25656,7 +25656,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAuthorizeToken',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25666,11 +25666,11 @@ class OapiApi(object):
         """
         read the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_o_auth_client(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_o_auth_client(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClient (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25680,7 +25680,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_o_auth_client_with_http_info(name, **kwargs)
         else:
             (data) = self.read_o_auth_client_with_http_info(name, **kwargs)
@@ -25690,11 +25690,11 @@ class OapiApi(object):
         """
         read the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_o_auth_client_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_o_auth_client_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClient (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25705,7 +25705,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25764,7 +25764,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClient',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25774,11 +25774,11 @@ class OapiApi(object):
         """
         read the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_o_auth_client_authorization(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_o_auth_client_authorization(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClientAuthorization (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25788,7 +25788,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_o_auth_client_authorization_with_http_info(name, **kwargs)
         else:
             (data) = self.read_o_auth_client_authorization_with_http_info(name, **kwargs)
@@ -25798,11 +25798,11 @@ class OapiApi(object):
         """
         read the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_o_auth_client_authorization_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_o_auth_client_authorization_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClientAuthorization (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25813,7 +25813,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25872,7 +25872,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClientAuthorization',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25882,11 +25882,11 @@ class OapiApi(object):
         """
         read the specified Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_project(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_project(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Project (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Project
@@ -25894,7 +25894,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_project_with_http_info(name, **kwargs)
         else:
             (data) = self.read_project_with_http_info(name, **kwargs)
@@ -25904,11 +25904,11 @@ class OapiApi(object):
         """
         read the specified Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_project_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_project_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Project (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1Project
@@ -25917,7 +25917,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -25972,7 +25972,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Project',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -25982,11 +25982,11 @@ class OapiApi(object):
         """
         read the specified User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_user(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_user(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the User (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -25996,7 +25996,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_user_with_http_info(name, **kwargs)
         else:
             (data) = self.read_user_with_http_info(name, **kwargs)
@@ -26006,11 +26006,11 @@ class OapiApi(object):
         """
         read the specified User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_user_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_user_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the User (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -26021,7 +26021,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26080,7 +26080,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1User',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26090,11 +26090,11 @@ class OapiApi(object):
         """
         read the specified UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_user_identity_mapping(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_user_identity_mapping(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the UserIdentityMapping (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1UserIdentityMapping
@@ -26102,7 +26102,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_user_identity_mapping_with_http_info(name, **kwargs)
         else:
             (data) = self.read_user_identity_mapping_with_http_info(name, **kwargs)
@@ -26112,11 +26112,11 @@ class OapiApi(object):
         """
         read the specified UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_user_identity_mapping_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_user_identity_mapping_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the UserIdentityMapping (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1UserIdentityMapping
@@ -26125,7 +26125,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26180,7 +26180,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1UserIdentityMapping',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26190,11 +26190,11 @@ class OapiApi(object):
         """
         replace the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_network(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_network(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param V1ClusterNetwork body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26203,7 +26203,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_cluster_network_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_cluster_network_with_http_info(name, body, **kwargs)
@@ -26213,11 +26213,11 @@ class OapiApi(object):
         """
         replace the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_network_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_network_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param V1ClusterNetwork body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26227,7 +26227,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26287,7 +26287,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetwork',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26297,11 +26297,11 @@ class OapiApi(object):
         """
         replace the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_resource_quota(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_resource_quota(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26310,7 +26310,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_cluster_resource_quota_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_cluster_resource_quota_with_http_info(name, body, **kwargs)
@@ -26320,11 +26320,11 @@ class OapiApi(object):
         """
         replace the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_resource_quota_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_resource_quota_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26334,7 +26334,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26394,7 +26394,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26404,11 +26404,11 @@ class OapiApi(object):
         """
         replace status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_resource_quota_status(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_resource_quota_status(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26417,7 +26417,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_cluster_resource_quota_status_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_cluster_resource_quota_status_with_http_info(name, body, **kwargs)
@@ -26427,11 +26427,11 @@ class OapiApi(object):
         """
         replace status of the specified ClusterResourceQuota
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_resource_quota_status_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_resource_quota_status_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterResourceQuota (required)
         :param V1ClusterResourceQuota body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26441,7 +26441,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26501,7 +26501,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterResourceQuota',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26511,11 +26511,11 @@ class OapiApi(object):
         """
         replace the specified ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_role(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_role(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRole (required)
         :param V1ClusterRole body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26524,7 +26524,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_cluster_role_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_cluster_role_with_http_info(name, body, **kwargs)
@@ -26534,11 +26534,11 @@ class OapiApi(object):
         """
         replace the specified ClusterRole
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_role_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_role_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRole (required)
         :param V1ClusterRole body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26548,7 +26548,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26608,7 +26608,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRole',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26618,11 +26618,11 @@ class OapiApi(object):
         """
         replace the specified ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_role_binding(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_role_binding(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRoleBinding (required)
         :param V1ClusterRoleBinding body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26631,7 +26631,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_cluster_role_binding_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_cluster_role_binding_with_http_info(name, body, **kwargs)
@@ -26641,11 +26641,11 @@ class OapiApi(object):
         """
         replace the specified ClusterRoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_role_binding_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_role_binding_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterRoleBinding (required)
         :param V1ClusterRoleBinding body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26655,7 +26655,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26715,7 +26715,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ClusterRoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26725,11 +26725,11 @@ class OapiApi(object):
         """
         replace the specified Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_group(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_group(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Group (required)
         :param V1Group body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26738,7 +26738,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_group_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_group_with_http_info(name, body, **kwargs)
@@ -26748,11 +26748,11 @@ class OapiApi(object):
         """
         replace the specified Group
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_group_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_group_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Group (required)
         :param V1Group body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26762,7 +26762,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26822,7 +26822,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Group',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26832,11 +26832,11 @@ class OapiApi(object):
         """
         replace the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_host_subnet(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_host_subnet(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param V1HostSubnet body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26845,7 +26845,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_host_subnet_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_host_subnet_with_http_info(name, body, **kwargs)
@@ -26855,11 +26855,11 @@ class OapiApi(object):
         """
         replace the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_host_subnet_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_host_subnet_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param V1HostSubnet body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26869,7 +26869,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -26929,7 +26929,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnet',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -26939,11 +26939,11 @@ class OapiApi(object):
         """
         replace the specified Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_identity(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_identity(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Identity (required)
         :param V1Identity body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26952,7 +26952,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_identity_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_identity_with_http_info(name, body, **kwargs)
@@ -26962,11 +26962,11 @@ class OapiApi(object):
         """
         replace the specified Identity
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_identity_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_identity_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Identity (required)
         :param V1Identity body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -26976,7 +26976,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27036,7 +27036,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Identity',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27046,11 +27046,11 @@ class OapiApi(object):
         """
         replace the specified Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_image(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_image(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Image (required)
         :param V1Image body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -27059,7 +27059,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_image_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_image_with_http_info(name, body, **kwargs)
@@ -27069,11 +27069,11 @@ class OapiApi(object):
         """
         replace the specified Image
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_image_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_image_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Image (required)
         :param V1Image body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -27083,7 +27083,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27143,7 +27143,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Image',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27153,11 +27153,11 @@ class OapiApi(object):
         """
         replace the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_build(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_build(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Build body: (required)
@@ -27167,7 +27167,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_build_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_build_with_http_info(name, namespace, body, **kwargs)
@@ -27177,11 +27177,11 @@ class OapiApi(object):
         """
         replace the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_build_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_build_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Build body: (required)
@@ -27192,7 +27192,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27257,7 +27257,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Build',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27267,11 +27267,11 @@ class OapiApi(object):
         """
         replace the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_build_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_build_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1BuildConfig body: (required)
@@ -27281,7 +27281,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_build_config_with_http_info(name, namespace, body, **kwargs)
@@ -27291,11 +27291,11 @@ class OapiApi(object):
         """
         replace the specified BuildConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_build_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_build_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the BuildConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1BuildConfig body: (required)
@@ -27306,7 +27306,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27371,7 +27371,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1BuildConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27381,11 +27381,11 @@ class OapiApi(object):
         """
         replace details of the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_build_details(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_build_details(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Build body: (required)
@@ -27395,7 +27395,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_build_details_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_build_details_with_http_info(name, namespace, body, **kwargs)
@@ -27405,11 +27405,11 @@ class OapiApi(object):
         """
         replace details of the specified Build
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_build_details_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_build_details_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Build (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Build body: (required)
@@ -27420,7 +27420,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27485,7 +27485,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Build',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27495,11 +27495,11 @@ class OapiApi(object):
         """
         replace the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
@@ -27509,7 +27509,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
@@ -27519,11 +27519,11 @@ class OapiApi(object):
         """
         replace the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
@@ -27534,7 +27534,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27599,7 +27599,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27609,11 +27609,11 @@ class OapiApi(object):
         """
         replace scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_scale(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_scale(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param ExtensionsV1beta1Scale body: (required)
@@ -27623,7 +27623,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
@@ -27633,11 +27633,11 @@ class OapiApi(object):
         """
         replace scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param ExtensionsV1beta1Scale body: (required)
@@ -27648,7 +27648,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27713,7 +27713,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='ExtensionsV1beta1Scale',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27723,11 +27723,11 @@ class OapiApi(object):
         """
         replace status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_status(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_status(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
@@ -27737,7 +27737,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_deployment_config_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_deployment_config_status_with_http_info(name, namespace, body, **kwargs)
@@ -27747,11 +27747,11 @@ class OapiApi(object):
         """
         replace status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_status_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_status_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
@@ -27762,7 +27762,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27827,7 +27827,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27837,11 +27837,11 @@ class OapiApi(object):
         """
         replace the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_egress_network_policy(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_egress_network_policy(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1EgressNetworkPolicy body: (required)
@@ -27851,7 +27851,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
@@ -27861,11 +27861,11 @@ class OapiApi(object):
         """
         replace the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1EgressNetworkPolicy body: (required)
@@ -27876,7 +27876,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -27941,7 +27941,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -27951,11 +27951,11 @@ class OapiApi(object):
         """
         replace the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_image_stream(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_image_stream(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStream body: (required)
@@ -27965,7 +27965,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_image_stream_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_image_stream_with_http_info(name, namespace, body, **kwargs)
@@ -27975,11 +27975,11 @@ class OapiApi(object):
         """
         replace the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_image_stream_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_image_stream_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStream body: (required)
@@ -27990,7 +27990,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28055,7 +28055,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStream',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28065,11 +28065,11 @@ class OapiApi(object):
         """
         replace status of the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_image_stream_status(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_image_stream_status(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStream body: (required)
@@ -28079,7 +28079,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_image_stream_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_image_stream_status_with_http_info(name, namespace, body, **kwargs)
@@ -28089,11 +28089,11 @@ class OapiApi(object):
         """
         replace status of the specified ImageStream
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_image_stream_status_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_image_stream_status_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStream (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStream body: (required)
@@ -28104,7 +28104,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28169,7 +28169,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStream',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28179,11 +28179,11 @@ class OapiApi(object):
         """
         replace the specified ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_image_stream_tag(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_image_stream_tag(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamTag (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStreamTag body: (required)
@@ -28193,7 +28193,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_image_stream_tag_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_image_stream_tag_with_http_info(name, namespace, body, **kwargs)
@@ -28203,11 +28203,11 @@ class OapiApi(object):
         """
         replace the specified ImageStreamTag
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_image_stream_tag_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_image_stream_tag_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ImageStreamTag (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1ImageStreamTag body: (required)
@@ -28218,7 +28218,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28283,7 +28283,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1ImageStreamTag',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28293,11 +28293,11 @@ class OapiApi(object):
         """
         replace the specified Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_role(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_role(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Role (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Role body: (required)
@@ -28307,7 +28307,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_role_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_role_with_http_info(name, namespace, body, **kwargs)
@@ -28317,11 +28317,11 @@ class OapiApi(object):
         """
         replace the specified Role
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_role_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_role_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Role (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Role body: (required)
@@ -28332,7 +28332,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28397,7 +28397,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Role',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28407,11 +28407,11 @@ class OapiApi(object):
         """
         replace the specified RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_role_binding(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_role_binding(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBinding (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1RoleBinding body: (required)
@@ -28421,7 +28421,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_role_binding_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_role_binding_with_http_info(name, namespace, body, **kwargs)
@@ -28431,11 +28431,11 @@ class OapiApi(object):
         """
         replace the specified RoleBinding
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_role_binding_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_role_binding_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBinding (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1RoleBinding body: (required)
@@ -28446,7 +28446,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28511,7 +28511,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBinding',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28521,11 +28521,11 @@ class OapiApi(object):
         """
         replace the specified RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_role_binding_restriction(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_role_binding_restriction(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBindingRestriction (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1RoleBindingRestriction body: (required)
@@ -28535,7 +28535,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_role_binding_restriction_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_role_binding_restriction_with_http_info(name, namespace, body, **kwargs)
@@ -28545,11 +28545,11 @@ class OapiApi(object):
         """
         replace the specified RoleBindingRestriction
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_role_binding_restriction_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_role_binding_restriction_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the RoleBindingRestriction (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1RoleBindingRestriction body: (required)
@@ -28560,7 +28560,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28625,7 +28625,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1RoleBindingRestriction',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28635,11 +28635,11 @@ class OapiApi(object):
         """
         replace the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_route(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_route(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
@@ -28649,7 +28649,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_route_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_route_with_http_info(name, namespace, body, **kwargs)
@@ -28659,11 +28659,11 @@ class OapiApi(object):
         """
         replace the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_route_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_route_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
@@ -28674,7 +28674,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28739,7 +28739,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28749,11 +28749,11 @@ class OapiApi(object):
         """
         replace status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_route_status(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_route_status(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
@@ -28763,7 +28763,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_route_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_route_status_with_http_info(name, namespace, body, **kwargs)
@@ -28773,11 +28773,11 @@ class OapiApi(object):
         """
         replace status of the specified Route
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_route_status_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_route_status_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Route (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Route body: (required)
@@ -28788,7 +28788,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28853,7 +28853,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Route',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28863,11 +28863,11 @@ class OapiApi(object):
         """
         replace the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_template(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_template(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
@@ -28877,7 +28877,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_template_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_template_with_http_info(name, namespace, body, **kwargs)
@@ -28887,11 +28887,11 @@ class OapiApi(object):
         """
         replace the specified Template
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_template_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_template_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Template (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1Template body: (required)
@@ -28902,7 +28902,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -28967,7 +28967,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Template',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -28977,11 +28977,11 @@ class OapiApi(object):
         """
         replace the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_net_namespace(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_net_namespace(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param V1NetNamespace body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -28990,7 +28990,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_net_namespace_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_net_namespace_with_http_info(name, body, **kwargs)
@@ -29000,11 +29000,11 @@ class OapiApi(object):
         """
         replace the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_net_namespace_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_net_namespace_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param V1NetNamespace body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29014,7 +29014,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -29074,7 +29074,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespace',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -29084,11 +29084,11 @@ class OapiApi(object):
         """
         replace the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_o_auth_access_token(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_o_auth_access_token(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAccessToken (required)
         :param V1OAuthAccessToken body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29097,7 +29097,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_o_auth_access_token_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_o_auth_access_token_with_http_info(name, body, **kwargs)
@@ -29107,11 +29107,11 @@ class OapiApi(object):
         """
         replace the specified OAuthAccessToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_o_auth_access_token_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_o_auth_access_token_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAccessToken (required)
         :param V1OAuthAccessToken body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29121,7 +29121,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -29181,7 +29181,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAccessToken',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -29191,11 +29191,11 @@ class OapiApi(object):
         """
         replace the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_o_auth_authorize_token(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_o_auth_authorize_token(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAuthorizeToken (required)
         :param V1OAuthAuthorizeToken body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29204,7 +29204,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_o_auth_authorize_token_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_o_auth_authorize_token_with_http_info(name, body, **kwargs)
@@ -29214,11 +29214,11 @@ class OapiApi(object):
         """
         replace the specified OAuthAuthorizeToken
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_o_auth_authorize_token_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_o_auth_authorize_token_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthAuthorizeToken (required)
         :param V1OAuthAuthorizeToken body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29228,7 +29228,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -29288,7 +29288,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthAuthorizeToken',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -29298,11 +29298,11 @@ class OapiApi(object):
         """
         replace the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_o_auth_client(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_o_auth_client(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClient (required)
         :param V1OAuthClient body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29311,7 +29311,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_o_auth_client_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_o_auth_client_with_http_info(name, body, **kwargs)
@@ -29321,11 +29321,11 @@ class OapiApi(object):
         """
         replace the specified OAuthClient
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_o_auth_client_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_o_auth_client_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClient (required)
         :param V1OAuthClient body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29335,7 +29335,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -29395,7 +29395,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClient',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -29405,11 +29405,11 @@ class OapiApi(object):
         """
         replace the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_o_auth_client_authorization(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_o_auth_client_authorization(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClientAuthorization (required)
         :param V1OAuthClientAuthorization body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29418,7 +29418,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_o_auth_client_authorization_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_o_auth_client_authorization_with_http_info(name, body, **kwargs)
@@ -29428,11 +29428,11 @@ class OapiApi(object):
         """
         replace the specified OAuthClientAuthorization
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_o_auth_client_authorization_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_o_auth_client_authorization_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the OAuthClientAuthorization (required)
         :param V1OAuthClientAuthorization body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29442,7 +29442,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -29502,7 +29502,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1OAuthClientAuthorization',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -29512,11 +29512,11 @@ class OapiApi(object):
         """
         replace the specified Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_project(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_project(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Project (required)
         :param V1Project body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29525,7 +29525,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_project_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_project_with_http_info(name, body, **kwargs)
@@ -29535,11 +29535,11 @@ class OapiApi(object):
         """
         replace the specified Project
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_project_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_project_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Project (required)
         :param V1Project body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29549,7 +29549,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -29609,7 +29609,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1Project',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -29619,11 +29619,11 @@ class OapiApi(object):
         """
         replace the specified User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_user(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_user(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the User (required)
         :param V1User body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29632,7 +29632,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_user_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_user_with_http_info(name, body, **kwargs)
@@ -29642,11 +29642,11 @@ class OapiApi(object):
         """
         replace the specified User
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_user_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_user_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the User (required)
         :param V1User body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29656,7 +29656,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -29716,7 +29716,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1User',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -29726,11 +29726,11 @@ class OapiApi(object):
         """
         replace the specified UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_user_identity_mapping(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_user_identity_mapping(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the UserIdentityMapping (required)
         :param V1UserIdentityMapping body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29739,7 +29739,7 @@ class OapiApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_user_identity_mapping_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_user_identity_mapping_with_http_info(name, body, **kwargs)
@@ -29749,11 +29749,11 @@ class OapiApi(object):
         """
         replace the specified UserIdentityMapping
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_user_identity_mapping_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_user_identity_mapping_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the UserIdentityMapping (required)
         :param V1UserIdentityMapping body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -29763,7 +29763,7 @@ class OapiApi(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -29823,7 +29823,7 @@ class OapiApi(object):
                                         files=local_var_files,
                                         response_type='V1UserIdentityMapping',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

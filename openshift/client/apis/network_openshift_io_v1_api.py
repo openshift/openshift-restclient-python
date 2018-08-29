@@ -39,11 +39,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_network(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_network(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterNetwork body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterNetwork
@@ -51,7 +51,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_cluster_network_with_http_info(body, **kwargs)
         else:
             (data) = self.create_cluster_network_with_http_info(body, **kwargs)
@@ -61,11 +61,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_cluster_network_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_cluster_network_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1ClusterNetwork body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1ClusterNetwork
@@ -74,7 +74,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -129,7 +129,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetwork',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -139,11 +139,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_egress_network_policy_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_egress_network_policy_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1EgressNetworkPolicy body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1EgressNetworkPolicy
@@ -151,7 +151,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_egress_network_policy_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_egress_network_policy_for_all_namespaces_with_http_info(body, **kwargs)
@@ -161,11 +161,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_egress_network_policy_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_egress_network_policy_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1EgressNetworkPolicy body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1EgressNetworkPolicy
@@ -174,7 +174,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -229,7 +229,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -239,11 +239,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_host_subnet(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_host_subnet(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1HostSubnet body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1HostSubnet
@@ -251,7 +251,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_host_subnet_with_http_info(body, **kwargs)
         else:
             (data) = self.create_host_subnet_with_http_info(body, **kwargs)
@@ -261,11 +261,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_host_subnet_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_host_subnet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1HostSubnet body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1HostSubnet
@@ -274,7 +274,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -329,7 +329,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnet',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -339,11 +339,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_egress_network_policy(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_egress_network_policy(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1EgressNetworkPolicy body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -352,7 +352,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_egress_network_policy_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_egress_network_policy_with_http_info(namespace, body, **kwargs)
@@ -362,11 +362,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_egress_network_policy_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_egress_network_policy_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1EgressNetworkPolicy body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -376,7 +376,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -436,7 +436,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -446,11 +446,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_net_namespace(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_net_namespace(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1NetNamespace body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1NetNamespace
@@ -458,7 +458,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_net_namespace_with_http_info(body, **kwargs)
         else:
             (data) = self.create_net_namespace_with_http_info(body, **kwargs)
@@ -468,11 +468,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         create a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_net_namespace_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_net_namespace_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1NetNamespace body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1NetNamespace
@@ -481,7 +481,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -536,7 +536,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespace',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -546,11 +546,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_network(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_network(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -562,7 +562,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_cluster_network_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_cluster_network_with_http_info(name, body, **kwargs)
@@ -572,11 +572,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete a ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_cluster_network_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_cluster_network_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -589,7 +589,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -655,7 +655,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -665,11 +665,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete collection of ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_cluster_network(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_cluster_network(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -684,7 +684,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_cluster_network_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_cluster_network_with_http_info(**kwargs)
@@ -694,11 +694,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete collection of ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_cluster_network_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_cluster_network_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -714,7 +714,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -780,7 +780,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -790,11 +790,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete collection of HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_host_subnet(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_host_subnet(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -809,7 +809,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_host_subnet_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_host_subnet_with_http_info(**kwargs)
@@ -819,11 +819,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete collection of HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_host_subnet_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_host_subnet_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -839,7 +839,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -905,7 +905,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -915,11 +915,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete collection of EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_egress_network_policy(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_egress_network_policy(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -935,7 +935,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
@@ -945,11 +945,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete collection of EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_egress_network_policy_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -966,7 +966,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1037,7 +1037,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1047,11 +1047,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete collection of NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_net_namespace(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_net_namespace(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1066,7 +1066,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_net_namespace_with_http_info(**kwargs)
         else:
             (data) = self.delete_collection_net_namespace_with_http_info(**kwargs)
@@ -1076,11 +1076,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete collection of NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_net_namespace_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_net_namespace_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1096,7 +1096,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1162,7 +1162,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1172,11 +1172,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_host_subnet(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_host_subnet(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1188,7 +1188,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_host_subnet_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_host_subnet_with_http_info(name, body, **kwargs)
@@ -1198,11 +1198,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete a HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_host_subnet_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_host_subnet_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1215,7 +1215,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1281,7 +1281,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1291,11 +1291,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_egress_network_policy(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_egress_network_policy(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -1308,7 +1308,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
@@ -1318,11 +1318,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete an EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_egress_network_policy_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -1336,7 +1336,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1407,7 +1407,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1417,11 +1417,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_net_namespace(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_net_namespace(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1433,7 +1433,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_net_namespace_with_http_info(name, body, **kwargs)
         else:
             (data) = self.delete_net_namespace_with_http_info(name, body, **kwargs)
@@ -1443,11 +1443,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         delete a NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_net_namespace_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_net_namespace_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param V1DeleteOptions body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1460,7 +1460,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1526,7 +1526,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1536,17 +1536,17 @@ class NetworkOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.get_api_resources(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_api_resources(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.get_api_resources_with_http_info(**kwargs)
         else:
             (data) = self.get_api_resources_with_http_info(**kwargs)
@@ -1556,18 +1556,18 @@ class NetworkOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.get_api_resources_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_api_resources_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1614,7 +1614,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1624,11 +1624,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_network(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_network(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1643,7 +1643,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_cluster_network_with_http_info(**kwargs)
         else:
             (data) = self.list_cluster_network_with_http_info(**kwargs)
@@ -1653,11 +1653,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_cluster_network_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_cluster_network_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1673,7 +1673,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1739,7 +1739,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetworkList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1749,11 +1749,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_egress_network_policy_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_egress_network_policy_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1768,7 +1768,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_egress_network_policy_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_egress_network_policy_for_all_namespaces_with_http_info(**kwargs)
@@ -1778,11 +1778,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_egress_network_policy_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_egress_network_policy_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1798,7 +1798,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1864,7 +1864,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicyList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1874,11 +1874,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_host_subnet(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_host_subnet(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1893,7 +1893,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_host_subnet_with_http_info(**kwargs)
         else:
             (data) = self.list_host_subnet_with_http_info(**kwargs)
@@ -1903,11 +1903,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_host_subnet_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_host_subnet_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -1923,7 +1923,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1989,7 +1989,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnetList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1999,11 +1999,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_egress_network_policy(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_egress_network_policy(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -2019,7 +2019,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_egress_network_policy_with_http_info(namespace, **kwargs)
@@ -2029,11 +2029,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_egress_network_policy_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_egress_network_policy_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -2050,7 +2050,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2121,7 +2121,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicyList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2131,11 +2131,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_net_namespace(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_net_namespace(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -2150,7 +2150,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_net_namespace_with_http_info(**kwargs)
         else:
             (data) = self.list_net_namespace_with_http_info(**kwargs)
@@ -2160,11 +2160,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         list or watch objects of kind NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_net_namespace_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_net_namespace_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -2180,7 +2180,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2246,7 +2246,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespaceList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2256,11 +2256,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         partially update the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_network(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_network(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2269,7 +2269,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_cluster_network_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_cluster_network_with_http_info(name, body, **kwargs)
@@ -2279,11 +2279,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         partially update the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_cluster_network_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_cluster_network_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2293,7 +2293,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2353,7 +2353,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetwork',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2363,11 +2363,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         partially update the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_host_subnet(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_host_subnet(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2376,7 +2376,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_host_subnet_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_host_subnet_with_http_info(name, body, **kwargs)
@@ -2386,11 +2386,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         partially update the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_host_subnet_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_host_subnet_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2400,7 +2400,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2460,7 +2460,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnet',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2470,11 +2470,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         partially update the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_egress_network_policy(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_egress_network_policy(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -2484,7 +2484,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
@@ -2494,11 +2494,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         partially update the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_egress_network_policy_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -2509,7 +2509,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2574,7 +2574,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2584,11 +2584,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         partially update the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_net_namespace(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_net_namespace(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2597,7 +2597,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_net_namespace_with_http_info(name, body, **kwargs)
         else:
             (data) = self.patch_net_namespace_with_http_info(name, body, **kwargs)
@@ -2607,11 +2607,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         partially update the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_net_namespace_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_net_namespace_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param object body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2621,7 +2621,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2681,7 +2681,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespace',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2691,11 +2691,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         read the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_network(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_network(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -2705,7 +2705,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_cluster_network_with_http_info(name, **kwargs)
         else:
             (data) = self.read_cluster_network_with_http_info(name, **kwargs)
@@ -2715,11 +2715,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         read the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_cluster_network_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_cluster_network_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -2730,7 +2730,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2789,7 +2789,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetwork',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2799,11 +2799,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         read the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_host_subnet(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_host_subnet(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -2813,7 +2813,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_host_subnet_with_http_info(name, **kwargs)
         else:
             (data) = self.read_host_subnet_with_http_info(name, **kwargs)
@@ -2823,11 +2823,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         read the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_host_subnet_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_host_subnet_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -2838,7 +2838,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2897,7 +2897,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnet',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2907,11 +2907,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         read the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_egress_network_policy(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_egress_network_policy(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2922,7 +2922,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_egress_network_policy_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_egress_network_policy_with_http_info(name, namespace, **kwargs)
@@ -2932,11 +2932,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         read the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_egress_network_policy_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_egress_network_policy_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -2948,7 +2948,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3012,7 +3012,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3022,11 +3022,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         read the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_net_namespace(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_net_namespace(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -3036,7 +3036,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_net_namespace_with_http_info(name, **kwargs)
         else:
             (data) = self.read_net_namespace_with_http_info(name, **kwargs)
@@ -3046,11 +3046,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         read the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_net_namespace_with_http_info(name, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_net_namespace_with_http_info(name, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param bool exact: Should the export be exact.  Exact export maintains cluster-specific fields like 'Namespace'.
@@ -3061,7 +3061,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3120,7 +3120,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespace',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3130,11 +3130,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         replace the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_network(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_network(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param V1ClusterNetwork body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3143,7 +3143,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_cluster_network_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_cluster_network_with_http_info(name, body, **kwargs)
@@ -3153,11 +3153,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         replace the specified ClusterNetwork
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_cluster_network_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_cluster_network_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the ClusterNetwork (required)
         :param V1ClusterNetwork body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3167,7 +3167,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3227,7 +3227,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1ClusterNetwork',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3237,11 +3237,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         replace the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_host_subnet(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_host_subnet(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param V1HostSubnet body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3250,7 +3250,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_host_subnet_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_host_subnet_with_http_info(name, body, **kwargs)
@@ -3260,11 +3260,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         replace the specified HostSubnet
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_host_subnet_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_host_subnet_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the HostSubnet (required)
         :param V1HostSubnet body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3274,7 +3274,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3334,7 +3334,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1HostSubnet',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3344,11 +3344,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         replace the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_egress_network_policy(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_egress_network_policy(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1EgressNetworkPolicy body: (required)
@@ -3358,7 +3358,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, **kwargs)
@@ -3368,11 +3368,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         replace the specified EgressNetworkPolicy
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_egress_network_policy_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the EgressNetworkPolicy (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1EgressNetworkPolicy body: (required)
@@ -3383,7 +3383,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3448,7 +3448,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1EgressNetworkPolicy',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -3458,11 +3458,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         replace the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_net_namespace(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_net_namespace(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param V1NetNamespace body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3471,7 +3471,7 @@ class NetworkOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_net_namespace_with_http_info(name, body, **kwargs)
         else:
             (data) = self.replace_net_namespace_with_http_info(name, body, **kwargs)
@@ -3481,11 +3481,11 @@ class NetworkOpenshiftIoV1Api(object):
         """
         replace the specified NetNamespace
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_net_namespace_with_http_info(name, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_net_namespace_with_http_info(name, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the NetNamespace (required)
         :param V1NetNamespace body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -3495,7 +3495,7 @@ class NetworkOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -3555,7 +3555,7 @@ class NetworkOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1NetNamespace',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

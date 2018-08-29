@@ -39,11 +39,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         create a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_deployment_config_for_all_namespaces(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_deployment_config_for_all_namespaces(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1DeploymentConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1DeploymentConfig
@@ -51,7 +51,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_deployment_config_for_all_namespaces_with_http_info(body, **kwargs)
         else:
             (data) = self.create_deployment_config_for_all_namespaces_with_http_info(body, **kwargs)
@@ -61,11 +61,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         create a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_deployment_config_for_all_namespaces_with_http_info(body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_deployment_config_for_all_namespaces_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param V1DeploymentConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :return: V1DeploymentConfig
@@ -74,7 +74,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -129,7 +129,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -139,11 +139,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         create a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -152,7 +152,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_deployment_config_with_http_info(namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_deployment_config_with_http_info(namespace, body, **kwargs)
@@ -162,11 +162,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         create a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_with_http_info(namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_with_http_info(namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -176,7 +176,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -236,7 +236,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -246,11 +246,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         create instantiate of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_instantiate(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_instantiate(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentRequest body: (required)
@@ -260,7 +260,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, **kwargs)
@@ -270,11 +270,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         create instantiate of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_instantiate_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentRequest (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentRequest body: (required)
@@ -285,7 +285,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -350,7 +350,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentRequest',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -360,11 +360,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         create rollback of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_rollback(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_rollback(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfigRollback (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfigRollback body: (required)
@@ -374,7 +374,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.create_namespaced_deployment_config_rollback_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.create_namespaced_deployment_config_rollback_with_http_info(name, namespace, body, **kwargs)
@@ -384,11 +384,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         create rollback of a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.create_namespaced_deployment_config_rollback_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_namespaced_deployment_config_rollback_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfigRollback (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfigRollback body: (required)
@@ -399,7 +399,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -464,7 +464,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfigRollback',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -474,11 +474,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         delete collection of DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_deployment_config(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_deployment_config(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -494,7 +494,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_collection_namespaced_deployment_config_with_http_info(namespace, **kwargs)
         else:
             (data) = self.delete_collection_namespaced_deployment_config_with_http_info(namespace, **kwargs)
@@ -504,11 +504,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         delete collection of DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_collection_namespaced_deployment_config_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_collection_namespaced_deployment_config_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -525,7 +525,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -596,7 +596,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -606,11 +606,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         delete a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_deployment_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_deployment_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -623,7 +623,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.delete_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.delete_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
@@ -633,11 +633,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         delete a DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.delete_namespaced_deployment_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_namespaced_deployment_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeleteOptions body: (required)
@@ -651,7 +651,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty', 'grace_period_seconds', 'orphan_dependents', 'propagation_policy']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -722,7 +722,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1Status',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -732,17 +732,17 @@ class AppsOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.get_api_resources(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_api_resources(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.get_api_resources_with_http_info(**kwargs)
         else:
             (data) = self.get_api_resources_with_http_info(**kwargs)
@@ -752,18 +752,18 @@ class AppsOpenshiftIoV1Api(object):
         """
         get available resources
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.get_api_resources_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_api_resources_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :return: V1APIResourceList
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -810,7 +810,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1APIResourceList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -820,11 +820,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         list or watch objects of kind DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_deployment_config_for_all_namespaces(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_deployment_config_for_all_namespaces(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -839,7 +839,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_deployment_config_for_all_namespaces_with_http_info(**kwargs)
         else:
             (data) = self.list_deployment_config_for_all_namespaces_with_http_info(**kwargs)
@@ -849,11 +849,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         list or watch objects of kind DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_deployment_config_for_all_namespaces_with_http_info(async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_deployment_config_for_all_namespaces_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
         :param str field_selector: A selector to restrict the list of returned objects by their fields. Defaults to everything.
@@ -869,7 +869,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -935,7 +935,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfigList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -945,11 +945,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         list or watch objects of kind DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_deployment_config(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_deployment_config(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -965,7 +965,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.list_namespaced_deployment_config_with_http_info(namespace, **kwargs)
         else:
             (data) = self.list_namespaced_deployment_config_with_http_info(namespace, **kwargs)
@@ -975,11 +975,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         list or watch objects of kind DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.list_namespaced_deployment_config_with_http_info(namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.list_namespaced_deployment_config_with_http_info(namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
         :param str _continue: The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server the server will respond with a 410 ResourceExpired error indicating the client must restart their list without the continue field. This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.
@@ -996,7 +996,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['namespace', 'pretty', '_continue', 'field_selector', 'include_uninitialized', 'label_selector', 'limit', 'resource_version', 'timeout_seconds', 'watch']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1067,7 +1067,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfigList',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1077,11 +1077,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         partially update the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -1091,7 +1091,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
@@ -1101,11 +1101,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         partially update the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -1116,7 +1116,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1181,7 +1181,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1191,11 +1191,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         partially update scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_scale(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_scale(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -1205,7 +1205,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
@@ -1215,11 +1215,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         partially update scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_scale_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -1230,7 +1230,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1295,7 +1295,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='ExtensionsV1beta1Scale',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1305,11 +1305,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         partially update status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_status(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_status(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -1319,7 +1319,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.patch_namespaced_deployment_config_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.patch_namespaced_deployment_config_status_with_http_info(name, namespace, body, **kwargs)
@@ -1329,11 +1329,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         partially update status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.patch_namespaced_deployment_config_status_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.patch_namespaced_deployment_config_status_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param object body: (required)
@@ -1344,7 +1344,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1409,7 +1409,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1419,11 +1419,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         read the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1434,7 +1434,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_deployment_config_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_deployment_config_with_http_info(name, namespace, **kwargs)
@@ -1444,11 +1444,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         read the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1460,7 +1460,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty', 'exact', 'export']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1524,7 +1524,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1534,11 +1534,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         read log of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_log(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_log(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentLog (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str container: The container for which to stream logs. Defaults to only container if there is one container in the pod.
@@ -1556,7 +1556,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_deployment_config_log_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_deployment_config_log_with_http_info(name, namespace, **kwargs)
@@ -1566,11 +1566,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         read log of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_log_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_log_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentLog (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str container: The container for which to stream logs. Defaults to only container if there is one container in the pod.
@@ -1589,7 +1589,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'container', 'follow', 'limit_bytes', 'nowait', 'pretty', 'previous', 'since_seconds', 'tail_lines', 'timestamps', 'version']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1667,7 +1667,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentLog',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1677,11 +1677,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         read scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_scale(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_scale(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1690,7 +1690,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_deployment_config_scale_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_deployment_config_scale_with_http_info(name, namespace, **kwargs)
@@ -1700,11 +1700,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         read scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_scale_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_scale_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1714,7 +1714,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1774,7 +1774,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='ExtensionsV1beta1Scale',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1784,11 +1784,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         read status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_status(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_status(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1797,7 +1797,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.read_namespaced_deployment_config_status_with_http_info(name, namespace, **kwargs)
         else:
             (data) = self.read_namespaced_deployment_config_status_with_http_info(name, namespace, **kwargs)
@@ -1807,11 +1807,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         read status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.read_namespaced_deployment_config_status_with_http_info(name, namespace, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.read_namespaced_deployment_config_status_with_http_info(name, namespace, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param str pretty: If 'true', then the output is pretty printed.
@@ -1821,7 +1821,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1881,7 +1881,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -1891,11 +1891,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         replace the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
@@ -1905,7 +1905,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_deployment_config_with_http_info(name, namespace, body, **kwargs)
@@ -1915,11 +1915,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         replace the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
@@ -1930,7 +1930,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -1995,7 +1995,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2005,11 +2005,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         replace scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_scale(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_scale(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param ExtensionsV1beta1Scale body: (required)
@@ -2019,7 +2019,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, **kwargs)
@@ -2029,11 +2029,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         replace scale of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_scale_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the Scale (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param ExtensionsV1beta1Scale body: (required)
@@ -2044,7 +2044,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2109,7 +2109,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='ExtensionsV1beta1Scale',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -2119,11 +2119,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         replace status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_status(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_status(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
@@ -2133,7 +2133,7 @@ class AppsOpenshiftIoV1Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.replace_namespaced_deployment_config_status_with_http_info(name, namespace, body, **kwargs)
         else:
             (data) = self.replace_namespaced_deployment_config_status_with_http_info(name, namespace, body, **kwargs)
@@ -2143,11 +2143,11 @@ class AppsOpenshiftIoV1Api(object):
         """
         replace status of the specified DeploymentConfig
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.replace_namespaced_deployment_config_status_with_http_info(name, namespace, body, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.replace_namespaced_deployment_config_status_with_http_info(name, namespace, body, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param str name: name of the DeploymentConfig (required)
         :param str namespace: object name and auth scope, such as for teams and projects (required)
         :param V1DeploymentConfig body: (required)
@@ -2158,7 +2158,7 @@ class AppsOpenshiftIoV1Api(object):
         """
 
         all_params = ['name', 'namespace', 'body', 'pretty']
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -2223,7 +2223,7 @@ class AppsOpenshiftIoV1Api(object):
                                         files=local_var_files,
                                         response_type='V1DeploymentConfig',
                                         auth_settings=auth_settings,
-                                        async=params.get('async'),
+                                        async_req=params.get('async_req'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

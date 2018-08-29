@@ -123,7 +123,7 @@ class Example(object):
     def dependencies(self, project, auth):
         dependencies = []
         for dependency in self.tasks.get('dependencies', []):
-            resource_name, params = dependency.items()[0]
+            resource_name, params = list(dependency.items())[0]
             api, api_version, kind = resource_name.split('_')
             if api == 'k8s':
                 ansible_helper = KubernetesAnsibleModuleHelper(api_version, kind, debug=True, reset_logfile=False, **auth)
