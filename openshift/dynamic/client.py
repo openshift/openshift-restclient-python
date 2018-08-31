@@ -339,6 +339,20 @@ class Subresource(Resource):
         self.verbs = kwargs.pop('verbs', None)
         self.extra_args = kwargs
 
+    #TODO(fabianvf): Determine proper way to handle differences between resources + subresources
+    def create(self, body=None, name=None, namespace=None, **kwargs):
+        return self.__create(self, body=body, name=name, namespace=namespace, **kwargs)
+
+    @meta_request
+    def __create(self, resource, body=None, name=None, namespace=None, **kwargs):
+        name = name or body.get('metadata', {}).get('name')
+        body = self.parent.client.serialize_body(body)
+        if resource.namespaced:
+            namespace = self.parent.client.ensure_namespace(resource, namespace, body)
+        path = self.path(name=name, namespace=namespace)
+        return self.parent.client.request('post', path, body=body, **kwargs)
+
+
     @property
     def urls(self):
         full_prefix = '{}/{}'.format(self.prefix, self.group_version)
