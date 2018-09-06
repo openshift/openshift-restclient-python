@@ -55,8 +55,17 @@ class DynamicClient(object):
     def __init__(self, client):
         self.client = client
         self.configuration = client.configuration
+        self.set_default_ca_cert()
         self._load_server_info()
         self.__resources = ResourceContainer(self.parse_api_groups())
+
+    def set_default_ca_cert(self):
+        if self.configuration.ssl_ca_cert is None:
+            try:
+                import ssl
+                self.configuration.ssl_ca_cert = ssl.get_default_verify_paths().cafile
+            except Exception:
+                pass
 
     def _load_server_info(self):
         self.__version = {'kubernetes': load_json(self.request('get', '/version'))}
