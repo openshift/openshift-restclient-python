@@ -1,4 +1,4 @@
-coverage
+coverage>=3.7.1
 docker ~= 2.1.0
 flake8
 pytest < 3.3
