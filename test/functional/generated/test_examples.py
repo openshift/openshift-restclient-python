@@ -17,7 +17,7 @@ def get_tasks():
     """ Goes to the examples for the ansible docs and parses out tasks, resources and api versions """
     tasks = []
     example_dir = os.path.normpath(os.path.join(
-        os.path.dirname(__file__), '../../openshift/ansiblegen/examples/')
+        os.path.dirname(__file__), '../../../openshift/ansiblegen/examples/')
     )
     yaml_names = os.listdir(example_dir)
     for yaml_name in yaml_names:
