@@ -10,7 +10,7 @@ python:
 env:
 - TEST_SUITE=unit OPENSHIFT_VERSION=latest
 - TEST_SUITE=unit OPENSHIFT_VERSION=3.10
-- TEST_SUITE=generated-functional OPENSHIFT_VERSION=latest
+- TEST_SUITE=generated-functional OPENSHIFT_VERSION=3.9
 - TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=3.9
 - TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=3.10
 - TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=latest
