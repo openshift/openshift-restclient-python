@@ -1,6 +1,7 @@
 import os
-import yaml
+import copy
 import time
+import yaml
 
 import pytest
 from pytest_bdd import (
@@ -15,11 +16,25 @@ import kubernetes
 from openshift.dynamic import DynamicClient, exceptions
 
 
-def get_definition(group_version, kind, name):
-    filename = '_'.join([group_version, kind, name]).replace('/', '_') + '.yaml'
-    path = os.path.join(os.path.dirname(__file__), 'definitions', filename)
-    with open(path, 'r') as f:
-        return yaml.load(f.read())
+@pytest.fixture
+def object_contains():
+    def inner(obj, subset):
+        obj_copy = copy.deepcopy(obj)
+        obj_copy.update(**subset)
+        return obj_copy == obj
+    return inner
+
+
+@pytest.fixture
+def definition_loader(group_version, kind):
+
+    def inner(name):
+        filename = '_'.join([group_version, kind, name]).replace('/', '_') + '.yaml'
+        path = os.path.join(os.path.dirname(__file__), 'definitions', filename)
+        with open(path, 'r') as f:
+            return yaml.load(f.read())
+
+    return inner
 
 
 @pytest.fixture
@@ -39,31 +54,14 @@ def ensure_resource_not_in_namespace(admin_client, group_version, kind, name, na
 
 
 @given(parsers.parse('<group_version>.<kind> <name> exists in <namespace>'))
-def ensure_resource_in_namespace(admin_client, group_version, kind, name, namespace):
+def ensure_resource_in_namespace(admin_client, group_version, kind, name, namespace, definition_loader):
     """<group_version>.<kind> <name> exists in <namespace>."""
     resource = admin_client.resources.get(api_version=group_version, kind=kind)
     try:
         instance = resource.get(name, namespace)
     except exceptions.NotFoundError:
-        instance = resource.create(body=get_definition(group_version, kind, name), namespace=namespace)
+        instance = resource.create(body=definition_loader(name), namespace=namespace)
     assert instance is not None
-
-
-@then(parsers.parse('<group_version>.<kind> <name> exists in <namespace>'))
-def resource_in_namespace(admin_client, group_version, kind, name, namespace):
-    """<group_version>.<kind> <name> exists in <namespace>."""
-    resource = admin_client.resources.get(api_version=group_version, kind=kind)
-    instance = resource.get(name, namespace)
-    assert instance.metadata.name == name
-    assert instance.metadata.namespace == namespace
-
-
-@then(parsers.parse('<group_version>.<kind> <name> does not exist in <namespace>'))
-def resource_not_in_namespace(admin_client, group_version, kind, name, namespace):
-    """<group_version>.<kind> <name> does not exist in <namespace>."""
-    resource = admin_client.resources.get(api_version=group_version, kind=kind)
-    with pytest.raises(exceptions.NotFoundError):
-        resource.get(name, namespace)
 
 
 
@@ -75,7 +73,7 @@ def perform_action_in_namespace(context, client, action, group_version, kind, na
     resource = client.resources.get(api_version=group_version, kind=kind)
     try:
         if action == 'create':
-            context["instance"] = resource.create(body=get_definition(group_version, kind, name), namespace=namespace)
+            context["instance"] = resource.create(body=definition_loader(name), namespace=namespace)
         elif action == 'delete':
             context["instance"] = resource.delete(name=name, namespace=namespace)
         elif action == 'get':
