@@ -12,6 +12,6 @@ Feature: Create
 
     Scenario Outline: Create a resource again
         Given I have edit permissions in <namespace>
-        And <group_version>.<kind> <name> exists in <namespace>
+        And I have created <group_version>.<kind> <name> in <namespace>
         When I try to create <group_version>.<kind> <name> in <namespace>
         Then It throws a ConflictError

@@ -65,14 +65,25 @@ def ensure_resource_not_in_namespace(admin_client, group_version, kind, name, na
         pass
 
 
+def ensure_resource(resource, body, namespace):
+    try:
+        return resource.create(body=body, namespace=namespace)
+    except exceptions.ConflictError:
+        return resource.get(name=body['metadata']['name'], namespace=namespace)
+    except exceptions.InternalServerError as e:
+        error = yaml.load(e.body)
+        retry_after_seconds = error['details'].get('retryAfterSeconds')
+        if not retry_after_seconds:
+            raise
+        time.sleep(retry_after_seconds)
+        return resource.create(body=body, namespace=namespace)
+
+
 @given(parsers.parse('<group_version>.<kind> <name> exists in <namespace>'))
 def ensure_resource_in_namespace(admin_client, group_version, kind, name, namespace, definition_loader):
     """<group_version>.<kind> <name> exists in <namespace>."""
     resource = admin_client.resources.get(api_version=group_version, kind=kind)
-    try:
-        instance = resource.get(name, namespace)
-    except exceptions.NotFoundError:
-        instance = resource.create(body=definition_loader(name), namespace=namespace)
+    instance = ensure_resource(resource, definition_loader(name), namespace)
     assert instance is not None
 
 
@@ -80,10 +91,7 @@ def ensure_resource_in_namespace(admin_client, group_version, kind, name, namesp
 def ensure_user_resource_in_namespace(client, group_version, kind, name, namespace, definition_loader):
     """<group_version>.<kind> <name> exists in <namespace>."""
     resource = client.resources.get(api_version=group_version, kind=kind)
-    try:
-        instance = resource.get(name, namespace)
-    except exceptions.NotFoundError:
-        instance = resource.create(body=definition_loader(name), namespace=namespace)
+    instance = ensure_resource(resource, definition_loader(name), namespace)
     assert instance is not None
 
 
@@ -135,9 +143,9 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
         }
     }).status.user.username
 
-    v1_namespaces = admin_client.resources.get(api_version='v1', kind="Namespace")
+    v1_projects = admin_client.resources.get(api_version='project.openshift.io/v1', kind="Project")
     try:
-        v1_namespaces.create({"apiVersion": "v1", "kind": "Namespace", "metadata": {"name": namespace}})
+        v1_projects.create({"apiVersion": "project.openshift.io/v1", "kind": "Project", "metadata": {"name": namespace}})
     except exceptions.ConflictError:
         pass
 
@@ -162,8 +170,6 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
     rbs = admin_client.resources.get(kind='RoleBinding', api_version='rbac.authorization.k8s.io/v1')
     try:
         rbs.create(role_binding)
-        # TODO(fabianvf): Determine why this role doesn't take effect immediately
-        time.sleep(5)
     except exceptions.ConflictError:
         pass
 
