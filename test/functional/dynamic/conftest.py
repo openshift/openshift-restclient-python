@@ -18,11 +18,23 @@ from openshift.dynamic import DynamicClient, exceptions
 
 @pytest.fixture
 def object_contains():
-    def inner(obj, subset):
-        obj_copy = copy.deepcopy(obj)
-        obj_copy.update(**subset)
-        return obj_copy == obj
-    return inner
+    def dict_is_subset(obj, subset):
+        return all([mapping.get(type(obj[k]), mapping['default'])(obj[k], v) for (k, v) in subset.items()])
+
+    def list_is_subset(obj, subset):
+        return all([mapping.get(type(obj[i]), mapping['default'])(obj[i], v) for (i, v) in enumerate(subset)])
+
+    def values_match(obj, subset):
+        return obj == subset
+
+    mapping = {
+        dict: dict_is_subset,
+        list: list_is_subset,
+        tuple: list_is_subset,
+        'default': values_match
+    }
+
+    return dict_is_subset
 
 
 @pytest.fixture
@@ -63,6 +75,16 @@ def ensure_resource_in_namespace(admin_client, group_version, kind, name, namesp
         instance = resource.create(body=definition_loader(name), namespace=namespace)
     assert instance is not None
 
+
+@given(parsers.parse('I have created <group_version>.<kind> <name> in <namespace>'))
+def ensure_user_resource_in_namespace(client, group_version, kind, name, namespace, definition_loader):
+    """<group_version>.<kind> <name> exists in <namespace>."""
+    resource = client.resources.get(api_version=group_version, kind=kind)
+    try:
+        instance = resource.get(name, namespace)
+    except exceptions.NotFoundError:
+        instance = resource.create(body=definition_loader(name), namespace=namespace)
+    assert instance is not None
 
 
 @when(parsers.parse('I {action} <group_version>.<kind> <name> in <namespace>'))

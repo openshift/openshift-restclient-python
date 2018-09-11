@@ -25,7 +25,7 @@ def patch_resource_in_namespace(context, client, group_version, kind, name, name
     """I patch <group_version>.<kind> <name> in <namespace> with <update>."""
     patch = definition_loader(update)
     resource = client.resources.get(api_version=group_version, kind=kind)
-    context['instance'] = resource.patch(body=patch, namespace=namespace)
+    context['instance'] = resource.patch(body=patch, name=name, namespace=namespace)
 
 
 @when('I try to patch <group_version>.<kind> <name> in <namespace> with <update>')
@@ -34,7 +34,7 @@ def attempt_patch_resource_in_namespace(context, client, group_version, kind, na
     patch = definition_loader(update)
     resource = client.resources.get(api_version=group_version, kind=kind)
     try:
-        context['instance'] = resource.patch(body=patch, namespace=namespace)
+        context['instance'] = resource.patch(body=patch, name=name, namespace=namespace)
     except Exception as e:
         context['exc'] = e
 

@@ -12,6 +12,6 @@ Feature: Patch
 
     Scenario Outline: Patch a resource that exists
         Given I have edit permissions in <namespace>
-        And <group_version>.<kind> <name> exists in <namespace>
+        And I have created <group_version>.<kind> <name> in <namespace>
         When I patch <group_version>.<kind> <name> in <namespace> with <update>
         Then <group_version>.<kind> <name> in <namespace> should match the content of <update>

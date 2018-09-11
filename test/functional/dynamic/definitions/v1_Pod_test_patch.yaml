@@ -1,6 +1,4 @@
-apiVersion: v1
-kind: Pod
-metadata:
-  name: test
-  labels:
-    hello: world
+spec:
+  containers:
+  - image: busybox:1
+    name: busybox
