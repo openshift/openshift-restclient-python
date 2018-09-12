@@ -11,7 +11,14 @@ from kubernetes import config
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.rest import ApiException
 
-from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception
+from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception, KubernetesValidateMissing
+
+try:
+    import kubernetes_validate
+    HAS_KUBERNETES_VALIDATE = True
+except ImportError:
+    HAS_KUBERNETES_VALIDATE = False
+
 
 __all__ = [
     'DynamicClient',
@@ -254,6 +261,38 @@ class DynamicClient(object):
             _preload_content=False,
             _return_http_data_only=params.get('_return_http_data_only', True)
         )
+
+
+    def validate(self, resource, version=None, strict=False):
+        """validate checks a kubernetes resource definition
+
+        Args:
+            resource (dict): resource definition
+            client (object): openshift dynamic client used to obtain version
+            version (str): version of kubernetes to validate against
+            strict (bool): whether unexpected additional properties should be considered errors
+
+        Returns:
+            warnings (list), errors (list): warnings are missing validations, errors are validation failures
+        """
+        if not HAS_KUBERNETES_VALIDATE:
+            raise KubernetesValidateMissing()
+
+        errors = list()
+        warnings = list()
+        try:
+            if version is None:
+                try:
+                    version = self.version['kubernetes']['gitVersion']
+                except KeyError:
+                    version = kubernetes_validate.latest_version()
+            kubernetes_validate.validate(resource, version, strict)
+        except kubernetes_validate.utils.ValidationError as e:
+            errors.append("resource validation error at %s: %s" % ('.'.join([str(item) for item in e.path]), e.message))
+        except kubernetes_validate.utils.SchemaNotFoundError as e:
+            warnings.append("Could not find schema for object kind %s with API version %s in Kubernetes version %s (possibly Custom Resource?)" %
+                            (e.kind, e.api_version, e.version))
+        return warnings, errors
 
 
 class Resource(object):
