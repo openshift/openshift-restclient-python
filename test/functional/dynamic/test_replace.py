@@ -7,6 +7,8 @@ from pytest_bdd import (
     when,
 )
 
+from openshift.dynamic.exceptions import NotFoundError
+
 
 @scenario('replace.feature', 'Replace a resource that does not exist')
 def test_replace_a_resource_that_does_not_exist():
@@ -25,6 +27,8 @@ def replace_resource_in_namespace(context, client, group_version, kind, name, na
     """I replace <group_version>.<kind> <name> in <namespace> with <update>."""
     replace = definition_loader(update)
     resource = client.resources.get(api_version=group_version, kind=kind)
+    replace['metadata']['resourceVersion'] = resource.get(replace['metadata']['name'], namespace).metadata.resourceVersion
+
     context['instance'] = resource.replace(body=replace, namespace=namespace)
 
 
@@ -33,6 +37,10 @@ def attempt_replace_resource_in_namespace(context, client, group_version, kind, 
     """I try to replace <group_version>.<kind> <name> in <namespace> with <update>."""
     replace = definition_loader(update)
     resource = client.resources.get(api_version=group_version, kind=kind)
+    try:
+        replace['metadata']['resourceVersion'] = resource.get(replace['metadata']['name'], namespace).metadata.resourceVersion
+    except NotFoundError:
+        replace['metadata']['resourceVersion'] = "0"
     try:
         context['instance'] = resource.replace(body=replace, namespace=namespace)
     except Exception as e:

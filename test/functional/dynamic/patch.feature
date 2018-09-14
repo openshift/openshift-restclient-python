@@ -1,8 +1,8 @@
 Feature: Patch
 
     Examples:
-    | group_version | kind | namespace | name | update     |
-    | v1            | Pod  | test      | test | test_patch |
+    | group_version | kind | namespace  | name | update     |
+    | v1            | Pod  | test_patch | test | test_patch |
 
     Scenario Outline: Patch a resource that does not exist
         Given I have edit permissions in <namespace>

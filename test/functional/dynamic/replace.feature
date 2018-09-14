@@ -1,8 +1,8 @@
 Feature: Replace
 
     Examples:
-    | group_version | kind | namespace | name | update       |
-    | v1            | Pod  | test      | test | test_replace |
+    | group_version         | kind   | namespace    | name | update       |
+    | route.openshift.io/v1 | Route  | test-replace | test | test_replace |
 
     Scenario Outline: Replace a resource that does not exist
         Given I have edit permissions in <namespace>
