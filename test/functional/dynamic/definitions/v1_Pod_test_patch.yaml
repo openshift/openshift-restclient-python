@@ -1,0 +1,4 @@
+spec:
+  containers:
+  - image: busybox:1
+    name: busybox
