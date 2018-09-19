@@ -1,3 +1,4 @@
+import json
 import sys
 import traceback
 
@@ -48,6 +49,17 @@ class DynamicApiError(ApiException):
             error_message.append("Original traceback: \n{}".format(self.original_traceback))
 
         return '\n'.join(error_message)
+
+    def summary(self):
+        if self.body:
+            if self.headers and self.headers.get('Content-Type') == 'application/json':
+                message = json.loads(self.body).get('message')
+                if message:
+                    return message
+
+            return self.body
+        else:
+            return "{} Reason: {}".format(self.status, self.reason)
 
 class ResourceNotFoundError(Exception):
     """ Resource was not found in available APIs """
