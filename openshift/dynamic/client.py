@@ -263,12 +263,11 @@ class DynamicClient(object):
         )
 
 
-    def validate(self, resource, version=None, strict=False):
+    def validate(self, definition, version=None, strict=False):
         """validate checks a kubernetes resource definition
 
         Args:
-            resource (dict): resource definition
-            client (object): openshift dynamic client used to obtain version
+            definition (dict): resource definition
             version (str): version of kubernetes to validate against
             strict (bool): whether unexpected additional properties should be considered errors
 
@@ -286,9 +285,9 @@ class DynamicClient(object):
                     version = self.version['kubernetes']['gitVersion']
                 except KeyError:
                     version = kubernetes_validate.latest_version()
-            kubernetes_validate.validate(resource, version, strict)
+            kubernetes_validate.validate(definition, version, strict)
         except kubernetes_validate.utils.ValidationError as e:
-            errors.append("resource validation error at %s: %s" % ('.'.join([str(item) for item in e.path]), e.message))  # noqa: B306
+            errors.append("resource definition validation error at %s: %s" % ('.'.join([str(item) for item in e.path]), e.message))  # noqa: B306
         except kubernetes_validate.utils.SchemaNotFoundError as e:
             warnings.append("Could not find schema for object kind %s with API version %s in Kubernetes version %s (possibly Custom Resource?)" %
                             (e.kind, e.api_version, e.version))
