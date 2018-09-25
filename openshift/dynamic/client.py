@@ -288,7 +288,7 @@ class DynamicClient(object):
                     version = kubernetes_validate.latest_version()
             kubernetes_validate.validate(resource, version, strict)
         except kubernetes_validate.utils.ValidationError as e:
-            errors.append("resource validation error at %s: %s" % ('.'.join([str(item) for item in e.path]), e.message))
+            errors.append("resource validation error at %s: %s" % ('.'.join([str(item) for item in e.path]), e.message))  # noqa: B306
         except kubernetes_validate.utils.SchemaNotFoundError as e:
             warnings.append("Could not find schema for object kind %s with API version %s in Kubernetes version %s (possibly Custom Resource?)" %
                             (e.kind, e.api_version, e.version))
