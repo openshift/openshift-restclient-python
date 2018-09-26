@@ -141,6 +141,7 @@ class DynamicClient(object):
                 subresources=subresources.get(resource['name']),
                 **resource
             )
+            resources['{}List'.format(resource['kind'])] = ResourceList(resources[resource['kind']])
         return resources
 
     def ensure_namespace(self, resource, namespace, body):
@@ -304,6 +305,7 @@ class Resource(object):
         if None in (api_version, kind, prefix):
             raise ValueError("At least prefix, kind, and api_version must be provided")
 
+        self.list_type = False
         self.prefix = prefix
         self.group = group
         self.api_version = api_version
@@ -329,7 +331,7 @@ class Resource(object):
         return self.api_version
 
     def __repr__(self):
-        return '<{}({}/{}>)'.format(self.__class__.__name__, self.group_version, self.name)
+        return '<{}({}/{})>'.format(self.__class__.__name__, self.group_version, self.name)
 
     @property
     def urls(self):
@@ -358,6 +360,42 @@ class Resource(object):
         if name in self.subresources:
             return self.subresources[name]
         return partial(getattr(self.client, name), self)
+
+
+class ResourceList(Resource):
+    """ Represents a list of API objects """
+
+    def __init__(self, resource):
+        self.resource = resource
+        self.list_type = True
+        self.kind = '{}List'.format(resource.kind)
+
+    def get(self, body=None, **kwargs):
+        if body is None:
+            return self.resource.get(**kwargs)
+        namespace = kwargs.pop('namespace', None)
+        return [
+            self.resource.get(name=item['name'], namespace=item.get('namespace', namespace), **kwargs)
+            for item in body['items']
+        ]
+
+    def verb_mapper(self, verb, body=None, **kwargs):
+        return [getattr(self.resource, verb)(body=item, **kwargs) for item in body['items']]
+
+    def create(self, *args, **kwargs):
+        return self.verb_mapper('create', *args, **kwargs)
+
+    def replace(self, *args, **kwargs):
+        return self.verb_mapper('replace', *args, **kwargs)
+
+    def patch(self, *args, **kwargs):
+        return self.verb_mapper('patch', *args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        return self.verb_mapper('delete', *args, **kwargs)
+
+    def __getattr__(self, name):
+        return getattr(self.resource, name)
 
 
 class Subresource(Resource):
@@ -572,18 +610,21 @@ class ResourceInstance(object):
 def main():
     config.load_kube_config()
     client = DynamicClient(ApiClient())
-    ret = {}
+    ret = []
     for resource in client.resources:
-        if resource.namespaced:
-            key = resource.urls['namespaced_full']
+        key = '{}.{}'.format(resource.group_version, resource.kind)
+        item = {}
+        item[key] = {k: v for k, v in resource.__dict__.items() if k not in ('client', 'subresources', 'resource')}
+        if resource.list_type:
+            item[key]["resource"] = '{}.{}'.format(resource.resource.group_version, resource.resource.kind)
         else:
-            key = resource.urls['full']
-        ret[key] = {k: v for k, v in resource.__dict__.items() if k not in ('client', 'subresources')}
-        ret[key]['subresources'] = {}
-        for name, value in resource.subresources.items():
-            ret[key]['subresources'][name] = {k: v for k, v in value.__dict__.items() if k != 'parent'}
+            item[key]['subresources'] = {}
+            for name, value in resource.subresources.items():
+                item[key]['subresources'][name] = {k: v for k, v in value.__dict__.items() if k != 'parent'}
+            item[key]['urls'] = resource.urls
+        ret.append(item)
 
-    print(yaml.safe_dump(ret))
+    print(yaml.safe_dump(sorted(ret, key=lambda x: x.keys()[0].replace('List', '1')), default_flow_style=False))
     return 0
 
 
