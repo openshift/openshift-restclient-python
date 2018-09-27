@@ -66,6 +66,9 @@ class ResourceNotFoundError(Exception):
 class ResourceNotUniqueError(Exception):
     """ Parameters given matched multiple API resources """
 
+class KubernetesValidateMissing(Exception):
+    """ kubernetes-validate is not installed """
+
 # HTTP Errors
 class BadRequestError(DynamicApiError):
     """ 400: StatusBadRequest """
@@ -91,3 +94,4 @@ class ServiceUnavailableError(DynamicApiError):
     """ 503: StatusServiceUnavailable """
 class ServerTimeoutError(DynamicApiError):
     """ 504: StatusServerTimeout """
+
