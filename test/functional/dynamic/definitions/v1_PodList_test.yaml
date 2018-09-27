@@ -1,0 +1,33 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: example-app2
+  spec:
+    containers:
+    - args:
+      - "3600"
+      command:
+      - sleep
+      image: busybox:latest
+      imagePullPolicy: Always
+      name: example-app
+      resources: {}
+    restartPolicy: Always
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: example-app
+  spec:
+    containers:
+    - args:
+      - "3600"
+      command:
+      - sleep
+      image: busybox:latest
+      imagePullPolicy: Always
+      name: example-app
+      resources: {}
+    restartPolicy: Always
+kind: PodList

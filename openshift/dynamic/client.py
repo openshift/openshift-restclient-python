@@ -379,6 +379,13 @@ class ResourceList(Resource):
             for item in body['items']
         ]
 
+    def delete(self, body=None, *args, **kwargs):
+        namespace = kwargs.pop('namespace', None)
+        return [
+            self.resource.delete(name=item['metadata']['name'], namespace=namespace)
+            for item in body['items']
+        ]
+
     def verb_mapper(self, verb, body=None, **kwargs):
         return [getattr(self.resource, verb)(body=item, **kwargs) for item in body['items']]
 
@@ -390,9 +397,6 @@ class ResourceList(Resource):
 
     def patch(self, *args, **kwargs):
         return self.verb_mapper('patch', *args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        return self.verb_mapper('delete', *args, **kwargs)
 
     def __getattr__(self, name):
         return getattr(self.resource, name)

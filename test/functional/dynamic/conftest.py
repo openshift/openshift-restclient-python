@@ -37,15 +37,10 @@ def object_contains():
 
 
 @pytest.fixture
-def definition_loader(group_version, kind):
-
-    def inner(name):
-        filename = '_'.join([group_version, kind, name]).replace('/', '_') + '.yaml'
-        path = os.path.join(os.path.dirname(__file__), 'definitions', filename)
-        with open(path, 'r') as f:
-            return yaml.load(f.read())
-
-    return inner
+def definition(filename):
+    path = os.path.join(os.path.dirname(__file__), filename)
+    with open(path, 'r') as f:
+        return yaml.load(f.read())
 
 
 @pytest.fixture
@@ -72,15 +67,17 @@ def ensure_resource(resource, body, namespace):
         return resource.create(body=body, namespace=namespace)
 
 
-@given(parsers.parse('<group_version>.<kind> <name> does not exist in <namespace>'))
-def ensure_resource_not_in_namespace(admin_client, group_version, kind, name, namespace):
-    """<group_version>.<kind> <name> does not exist in <namespace>."""
-    resource = admin_client.resources.get(api_version=group_version, kind=kind)
+@given(parsers.parse('The content of <filename> does not exist in <namespace>'))
+def ensure_resource_not_in_namespace(admin_client, namespace, definition):
+    """The content of <filename> does not exist in <namespace>."""
+    resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
     try:
-        resource.delete(name, namespace)
+        if resource.list_type:
+            resource.delete(body=definition, namespace=namespace)
+        else:
+            resource.delete(definition['metadata']['name'], namespace)
     except exceptions.NotFoundError:
         pass
-
 
 
 @given(parsers.parse('<group_version>.<kind> <name> exists in <namespace>'))
@@ -91,11 +88,11 @@ def ensure_resource_in_namespace(admin_client, group_version, kind, name, namesp
     assert instance is not None
 
 
-@given(parsers.parse('I have created <group_version>.<kind> <name> in <namespace>'))
-def ensure_user_resource_in_namespace(client, group_version, kind, name, namespace, definition_loader):
-    """<group_version>.<kind> <name> exists in <namespace>."""
-    resource = client.resources.get(api_version=group_version, kind=kind)
-    instance = ensure_resource(resource, definition_loader(name), namespace)
+@given(parsers.parse('I have created <filename> in <namespace>'))
+def ensure_user_resource_in_namespace(client, namespace, definition):
+    """I have created <filename> in <namespace>."""
+    resource = client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    instance = ensure_resource(resource, definition, namespace)
     assert instance is not None
 
 
@@ -218,19 +215,19 @@ def perform_action_in_namespace(context, client, action, group_version, kind, na
             raise
 
 
-@when(parsers.parse('I create <group_version>.<kind> <name> in <namespace>'))
-def create_resource_in_namespace(context, client, group_version, kind, name, namespace, definition_loader):
-    """I create <group_version>_<kind>_<namespace>_<name>.yaml."""
-    resource = client.resources.get(api_version=group_version, kind=kind)
-    context["instance"] = resource.create(body=definition_loader(name), namespace=namespace)
+@when(parsers.parse('I create <filename> in <namespace>'))
+def create_resource_in_namespace(context, client, namespace, definition):
+    """I create <filename> in <namespace>."""
+    resource = client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    context["instance"] = resource.create(body=definition, namespace=namespace)
 
 
-@when(parsers.parse('I try to create <group_version>.<kind> <name> in <namespace>'))
-def attempt_create_resource_in_namespace(context, client, group_version, kind, name, namespace, definition_loader):
-    """I <action> <group_version>_<kind>_<namespace>_<name>.yaml."""
-    resource = client.resources.get(api_version=group_version, kind=kind)
+@when(parsers.parse('I try to create <filename> in <namespace>'))
+def attempt_create_resource_in_namespace(context, client, namespace, definition):
+    """I try to create <filename> in <namespace>."""
+    resource = client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
     try:
-        context["instance"] = resource.create(body=definition_loader(name), namespace=namespace)
+        context["instance"] = resource.create(body=definition, namespace=namespace)
     except Exception as e:
         context['exc'] = e
 
@@ -258,10 +255,18 @@ def resource_not_in_namespace(admin_client, group_version, kind, name, namespace
         resource.get(name, namespace)
 
 
-@then(parsers.parse('<group_version>.<kind> <name> exists in <namespace>'))
-def resource_in_namespace(admin_client, group_version, kind, name, namespace):
-    """<group_version>.<kind> <name> exists in <namespace>."""
-    resource = admin_client.resources.get(api_version=group_version, kind=kind)
-    instance = resource.get(name, namespace)
-    assert instance.metadata.name == name
-    assert instance.metadata.namespace == namespace
+@then(parsers.parse('The contents of <filename> exists in <namespace>'))
+def resource_in_namespace(admin_client, namespace, definition):
+    """The contents of <filename> exists in <namespace>."""
+
+    def assert_resource_exists(resource, resource_definition, namespace):
+        instance = resource.get(resource_definition['metadata']['name'], namespace)
+        assert instance.metadata.name == resource_definition['metadata']['name']
+        assert instance.metadata.namespace == namespace
+
+    resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    if resource.list_type:
+        for item in definition['items']:
+            assert_resource_exists(resource.resource, item, namespace)
+    else:
+        assert_resource_exists(resource, definition, namespace)
