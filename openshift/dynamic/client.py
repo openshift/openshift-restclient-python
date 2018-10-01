@@ -24,6 +24,7 @@ __all__ = [
     'DynamicClient',
     'ResourceInstance',
     'Resource',
+    'ResourceList',
     'Subresource',
     'ResourceContainer',
     'ResourceField',
@@ -305,7 +306,6 @@ class Resource(object):
         if None in (api_version, kind, prefix):
             raise ValueError("At least prefix, kind, and api_version must be provided")
 
-        self.list_type = False
         self.prefix = prefix
         self.group = group
         self.api_version = api_version
@@ -367,7 +367,6 @@ class ResourceList(Resource):
 
     def __init__(self, resource):
         self.resource = resource
-        self.list_type = True
         self.kind = '{}List'.format(resource.kind)
 
     def get(self, body=None, **kwargs):
@@ -375,7 +374,7 @@ class ResourceList(Resource):
             return self.resource.get(**kwargs)
         namespace = kwargs.pop('namespace', None)
         return [
-            self.resource.get(name=item['name'], namespace=item.get('namespace', namespace), **kwargs)
+            self.resource.get(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs)
             for item in body['items']
         ]
 
@@ -619,7 +618,7 @@ def main():
         key = '{}.{}'.format(resource.group_version, resource.kind)
         item = {}
         item[key] = {k: v for k, v in resource.__dict__.items() if k not in ('client', 'subresources', 'resource')}
-        if resource.list_type:
+        if isinstance(resource, ResourceList):
             item[key]["resource"] = '{}.{}'.format(resource.resource.group_version, resource.resource.kind)
         else:
             item[key]['subresources'] = {}

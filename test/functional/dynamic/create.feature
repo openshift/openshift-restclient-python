@@ -10,7 +10,7 @@ Feature: Create
         Given I have edit permissions in <namespace>
         And The content of <filename> does not exist in <namespace>
         When I create <filename> in <namespace>
-        Then The contents of <filename> exists in <namespace>
+        Then The content of <filename> exists in <namespace>
 
     Scenario Outline: Create a resource again
         Given I have edit permissions in <namespace>

@@ -1,17 +1,17 @@
 Feature: Patch
 
     Examples:
-    | group_version | kind | namespace  | name | update     |
-    | v1            | Pod  | test-patch | test | test_patch |
+    | filename                         | namespace | update                             |
+    | definitions/v1_Pod_test.yaml     | test      | definitions/v1_Pod_test_patch.yaml |
 
     Scenario Outline: Patch a resource that does not exist
         Given I have edit permissions in <namespace>
-        And <group_version>.<kind> <name> does not exist in <namespace>
-        When I try to patch <group_version>.<kind> <name> in <namespace> with <update>
+        And The content of <filename> does not exist in <namespace>
+        When I try to patch <filename> with <update> in <namespace>
         Then It throws a NotFoundError
 
     Scenario Outline: Patch a resource that exists
         Given I have edit permissions in <namespace>
-        And I have created <group_version>.<kind> <name> in <namespace>
-        When I patch <group_version>.<kind> <name> in <namespace> with <update>
-        Then <group_version>.<kind> <name> in <namespace> should match the content of <update>
+        And I have created <filename> in <namespace>
+        When I patch <filename> with <update> in <namespace>
+        Then The resources in <filename> in <namespace> should match the content of <update>
