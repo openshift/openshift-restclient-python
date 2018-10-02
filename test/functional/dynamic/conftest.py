@@ -214,9 +214,9 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
 @when(parsers.parse('I {action} <filename> with <update> in <namespace>'))
 def perform_update_action_in_namespace(context, client, action, namespace, definition, update):
 
-    def set_resource_version(r):
+    def set_resource_version(r, resource):
         try:
-            r['metadata']['resourceVersion'] = resource.get(r['metadata']['name'], namespace).metadata.resourceVersion
+            r['metadata']['resourceVersion'] = resource.get(r['metadata']['name'], namespace=namespace).metadata.resourceVersion
         except exceptions.NotFoundError:
             r['metadata']['resourceVersion'] = "0"
         return r
@@ -228,9 +228,9 @@ def perform_update_action_in_namespace(context, client, action, namespace, defin
         if action == 'replace':
             replace = load_definition(update)
             if isinstance(resource, ResourceList):
-                replace['items'] = [set_resource_version(item) for item in replace['items']]
+                replace['items'] = [set_resource_version(item, resource.resource) for item in replace['items']]
             else:
-                replace = set_resource_version(replace)
+                replace = set_resource_version(replace, resource)
             context['instance'] = resource.replace(body=replace, namespace=namespace)
         elif action == 'patch':
             patch = load_definition(update)

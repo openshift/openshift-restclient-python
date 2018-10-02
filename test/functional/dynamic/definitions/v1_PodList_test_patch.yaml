@@ -1,0 +1,15 @@
+apiVersion: v1
+items:
+- metadata:
+    name: example-app2
+  spec:
+    containers:
+    - image: busybox:1
+      name: example-app
+- metadata:
+    name: example-app
+  spec:
+    containers:
+    - image: busybox:2
+      name: example-app
+kind: PodList

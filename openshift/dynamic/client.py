@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import copy
 import json
 from functools import partial
 
@@ -372,21 +373,30 @@ class ResourceList(Resource):
     def get(self, body=None, **kwargs):
         if body is None:
             return self.resource.get(**kwargs)
+        response = copy.deepcopy(body)
         namespace = kwargs.pop('namespace', None)
-        return [
+        response['items'] = [
             self.resource.get(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs)
             for item in body['items']
         ]
+        return ResourceInstance(self, response)
 
     def delete(self, body=None, *args, **kwargs):
+        response = copy.deepcopy(body)
         namespace = kwargs.pop('namespace', None)
-        return [
-            self.resource.delete(name=item['metadata']['name'], namespace=namespace)
+        response['items'] = [
+            self.resource.delete(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs)
             for item in body['items']
         ]
+        return ResourceInstance(self, response)
 
     def verb_mapper(self, verb, body=None, **kwargs):
-        return [getattr(self.resource, verb)(body=item, **kwargs) for item in body['items']]
+        response = copy.deepcopy(body)
+        response['items'] = [
+            getattr(self.resource, verb)(body=item, **kwargs)
+            for item in body['items']
+        ]
+        return ResourceInstance(self, response)
 
     def create(self, *args, **kwargs):
         return self.verb_mapper('create', *args, **kwargs)
@@ -585,6 +595,8 @@ class ResourceInstance(object):
             }
         elif isinstance(field, (list, tuple)):
             return [self.__serialize(item) for item in field]
+        elif isinstance(field, ResourceInstance):
+            return field.to_dict()
         else:
             return field
 
