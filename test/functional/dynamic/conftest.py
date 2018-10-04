@@ -259,7 +259,7 @@ def perform_action_in_namespace(context, client, action, namespace, definition):
                 context['instance'] = resource.delete(name=definition['metadata']['name'], namespace=namespace)
         elif action == 'get':
             if isinstance(resource, ResourceList):
-                context['instance'] = resource.get(body==definition, namespace=namespace)
+                context['instance'] = resource.get(body=definition, namespace=namespace)
             else:
                 context['instance'] = resource.get(name=definition['metadata']['name'], namespace=namespace)
         else:
