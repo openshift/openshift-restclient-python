@@ -127,7 +127,6 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
     ensure_namespace(admin_client, namespace)
 
     k8s_client = kubernetes.config.new_client_from_config(str(kubeconfig))
-    # k8s_client.configuration.verify_ssl = False
     k8s_client.configuration.host = 'https://localhost:{}'.format(port)
 
     v1_tkr = admin_client.resources.get(api_version='authentication.k8s.io/v1', kind='TokenReview')
@@ -166,49 +165,6 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
         pass
 
     return DynamicClient(k8s_client)
-
-
-# @when('I patch <group_version>.<kind> <name> in <namespace> with <update>')
-# def patch_resource_in_namespace(context, client, group_version, kind, name, namespace, update, definition_loader):
-#     """I patch <group_version>.<kind> <name> in <namespace> with <update>."""
-#     patch = definition_loader(update)
-#     resource = client.resources.get(api_version=group_version, kind=kind)
-#     context['instance'] = resource.patch(body=patch, name=name, namespace=namespace)
-
-
-# @when('I try to patch <group_version>.<kind> <name> in <namespace> with <update>')
-# def attempt_patch_resource_in_namespace(context, client, group_version, kind, name, namespace, update, definition_loader):
-#     """I try to patch <group_version>.<kind> <name> in <namespace> with <update>."""
-#     patch = definition_loader(update)
-#     resource = client.resources.get(api_version=group_version, kind=kind)
-#     try:
-#         context['instance'] = resource.patch(body=patch, name=name, namespace=namespace)
-#     except Exception as e:
-#         context['exc'] = e
-
-
-# @when('I try to replace <group_version>.<kind> <name> in <namespace> with <update>')
-# def attempt_replace_resource_in_namespace(context, client, group_version, kind, name, namespace, update, definition_loader):
-#     """I try to replace <group_version>.<kind> <name> in <namespace> with <update>."""
-#     replace = definition_loader(update)
-#     resource = client.resources.get(api_version=group_version, kind=kind)
-#     try:
-#         replace['metadata']['resourceVersion'] = resource.get(replace['metadata']['name'], namespace).metadata.resourceVersion
-#     except exceptions.NotFoundError:
-#         replace['metadata']['resourceVersion'] = "0"
-#     try:
-#         context['instance'] = resource.replace(body=replace, namespace=namespace)
-#     except Exception as e:
-#         context['exc'] = e
-
-
-# @when('I replace <group_version>.<kind> <name> in <namespace> with <update>')
-# def replace_resource_in_namespace(context, client, group_version, kind, name, namespace, update, definition_loader):
-#     """I replace <group_version>.<kind> <name> in <namespace> with <update>."""
-#     resource = client.resources.get(api_version=group_version, kind=kind)
-#     replace['metadata']['resourceVersion'] = resource.get(replace['metadata']['name'], namespace).metadata.resourceVersion
-
-#     context['instance'] = resource.replace(body=replace, namespace=namespace)
 
 
 @when(parsers.parse('I {action} <filename> with <update> in <namespace>'))
