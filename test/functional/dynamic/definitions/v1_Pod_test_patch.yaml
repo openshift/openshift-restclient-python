@@ -1,3 +1,5 @@
+metadata:
+  name: test
 spec:
   containers:
   - image: busybox:1

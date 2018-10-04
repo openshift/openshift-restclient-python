@@ -1,5 +1,4 @@
 import os
-import copy
 import time
 import yaml
 
@@ -13,11 +12,10 @@ from pytest_bdd import (
 
 import kubernetes
 
-from openshift.dynamic import DynamicClient, exceptions
+from openshift.dynamic import DynamicClient, ResourceList, exceptions
 
 
-@pytest.fixture
-def object_contains():
+def object_contains(obj, subset):
     def dict_is_subset(obj, subset):
         return all([mapping.get(type(obj[k]), mapping['default'])(obj[k], v) for (k, v) in subset.items()])
 
@@ -34,19 +32,18 @@ def object_contains():
         'default': values_match
     }
 
-    return dict_is_subset
+    return dict_is_subset(obj, subset)
+
+
+def load_definition(filename):
+    path = os.path.join(os.path.dirname(__file__), filename)
+    with open(path, 'r') as f:
+        return yaml.load(f.read())
 
 
 @pytest.fixture
-def definition_loader(group_version, kind):
-
-    def inner(name):
-        filename = '_'.join([group_version, kind, name]).replace('/', '_') + '.yaml'
-        path = os.path.join(os.path.dirname(__file__), 'definitions', filename)
-        with open(path, 'r') as f:
-            return yaml.load(f.read())
-
-    return inner
+def definition(filename):
+    return load_definition(filename)
 
 
 @pytest.fixture
@@ -55,20 +52,12 @@ def context():
     return state
 
 
-@given(parsers.parse('<group_version>.<kind> <name> does not exist in <namespace>'))
-def ensure_resource_not_in_namespace(admin_client, group_version, kind, name, namespace):
-    """<group_version>.<kind> <name> does not exist in <namespace>."""
-    resource = admin_client.resources.get(api_version=group_version, kind=kind)
-    try:
-        resource.delete(name, namespace)
-    except exceptions.NotFoundError:
-        pass
-
-
 def ensure_resource(resource, body, namespace):
     try:
         return resource.create(body=body, namespace=namespace)
     except exceptions.ConflictError:
+        if isinstance(resource, ResourceList):
+            return resource.get(body=body, namespace=namespace)
         return resource.get(name=body['metadata']['name'], namespace=namespace)
     except exceptions.InternalServerError as e:
         error = yaml.load(e.body)
@@ -77,49 +66,55 @@ def ensure_resource(resource, body, namespace):
             raise
         time.sleep(retry_after_seconds)
         return resource.create(body=body, namespace=namespace)
+    except Exception:
+        #  TODO: Sometimes we hit a timing issue, for now I'll just sleep
+        time.sleep(3)
+        return resource.create(body=body, namespace=namespace)
 
 
-@given(parsers.parse('<group_version>.<kind> <name> exists in <namespace>'))
-def ensure_resource_in_namespace(admin_client, group_version, kind, name, namespace, definition_loader):
-    """<group_version>.<kind> <name> exists in <namespace>."""
-    resource = admin_client.resources.get(api_version=group_version, kind=kind)
-    instance = ensure_resource(resource, definition_loader(name), namespace)
-    assert instance is not None
-
-
-@given(parsers.parse('I have created <group_version>.<kind> <name> in <namespace>'))
-def ensure_user_resource_in_namespace(client, group_version, kind, name, namespace, definition_loader):
-    """<group_version>.<kind> <name> exists in <namespace>."""
-    resource = client.resources.get(api_version=group_version, kind=kind)
-    instance = ensure_resource(resource, definition_loader(name), namespace)
-    assert instance is not None
-
-
-@when(parsers.parse('I {action} <group_version>.<kind> <name> in <namespace>'))
-def perform_action_in_namespace(context, client, action, group_version, kind, name, namespace):
-    """I <action> <group_version>_<kind>_<namespace>_<name>.yaml."""
-    fail = not action.startswith('try to ')
-    action = action.replace('try to ', '')
-    resource = client.resources.get(api_version=group_version, kind=kind)
+@given(parsers.parse('The content of <filename> does not exist in <namespace>'))
+def ensure_resource_not_in_namespace(admin_client, namespace, definition):
+    resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
     try:
-        if action == 'create':
-            context["instance"] = resource.create(body=definition_loader(name), namespace=namespace)
-        elif action == 'delete':
-            context["instance"] = resource.delete(name=name, namespace=namespace)
-        elif action == 'get':
-            context["instance"] = resource.get(name=name, namespace=namespace)
+        if isinstance(resource, ResourceList):
+            resource.delete(body=definition, namespace=namespace)
         else:
-            raise ValueError("Unable to {action} resource!".format(action))
-    except Exception as e:
-        context['exc'] = e
-        if fail:
-            raise
+            resource.delete(definition['metadata']['name'], namespace)
+    except exceptions.NotFoundError:
+        pass
 
 
-@then(parsers.parse('It throws a {error}'))
-def it_throws_an_error(context, error):
-    """It throws an error"""
-    assert isinstance(context['exc'], getattr(exceptions, error))
+@given(parsers.parse('The content of <filename> exists in <namespace>'))
+def ensure_resource_in_namespace(admin_client, namespace, definition):
+    resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    instance = ensure_resource(resource, definition, namespace)
+    assert instance is not None
+
+
+@given(parsers.parse('I have created <filename> in <namespace>'))
+def ensure_user_resource_in_namespace(client, namespace, definition):
+    """I have created <filename> in <namespace>."""
+    resource = client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    instance = ensure_resource(resource, definition, namespace)
+    assert instance is not None
+
+
+def ensure_namespace(admin_client, namespace):
+    v1_projects = admin_client.resources.get(api_version='project.openshift.io/v1', kind="Project")
+    try:
+        project = v1_projects.get(name=namespace)
+    except exceptions.NotFoundError:
+        project = v1_projects.create({"apiVersion": "project.openshift.io/v1", "kind": "Project", "metadata": {"name": namespace}})
+    if project.metadata.DeletionTimestamp:
+        # Wait up to 5 minutes for project to terminate
+        for _ in range(300):
+            try:
+                project = v1_projects.get(name=namespace)
+            except exceptions.NotFoundError:
+                project = v1_projects.create({"apiVersion": "project.openshift.io/v1", "kind": "Project", "metadata": {"name": namespace}})
+                return project
+    return project
+
 
 
 @given(parsers.parse('I have {clusterrole} permissions in <namespace>'))
@@ -129,8 +124,9 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
     if needs_admin:
         return admin_client
 
+    ensure_namespace(admin_client, namespace)
+
     k8s_client = kubernetes.config.new_client_from_config(str(kubeconfig))
-    # k8s_client.configuration.verify_ssl = False
     k8s_client.configuration.host = 'https://localhost:{}'.format(port)
 
     v1_tkr = admin_client.resources.get(api_version='authentication.k8s.io/v1', kind='TokenReview')
@@ -143,11 +139,6 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
         }
     }).status.user.username
 
-    v1_projects = admin_client.resources.get(api_version='project.openshift.io/v1', kind="Project")
-    try:
-        v1_projects.create({"apiVersion": "project.openshift.io/v1", "kind": "Project", "metadata": {"name": namespace}})
-    except exceptions.ConflictError:
-        pass
 
     role_binding = {
         "kind": "RoleBinding",
@@ -174,3 +165,111 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
         pass
 
     return DynamicClient(k8s_client)
+
+
+@when(parsers.parse('I {action} <filename> with <update> in <namespace>'))
+def perform_update_action_in_namespace(context, client, action, namespace, definition, update):
+
+    def set_resource_version(r, resource):
+        try:
+            r['metadata']['resourceVersion'] = resource.get(r['metadata']['name'], namespace=namespace).metadata.resourceVersion
+        except exceptions.NotFoundError:
+            r['metadata']['resourceVersion'] = "0"
+        return r
+
+    fail = not action.startswith('try to ')
+    action = action.replace('try to ', '')
+    resource = client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    try:
+        if action == 'replace':
+            replace = load_definition(update)
+            if isinstance(resource, ResourceList):
+                replace['items'] = [set_resource_version(item, resource.resource) for item in replace['items']]
+            else:
+                replace = set_resource_version(replace, resource)
+            context['instance'] = resource.replace(body=replace, namespace=namespace)
+        elif action == 'patch':
+            patch = load_definition(update)
+            context['instance'] = resource.patch(body=patch, namespace=namespace)
+        else:
+            fail = True
+            raise ValueError('Unable to {action} resource!'.format(action))
+    except Exception as e:
+        context['exc'] = e
+        if fail:
+            raise
+
+
+@when(parsers.parse('I {action} <filename> in <namespace>'))
+def perform_action_in_namespace(context, client, action, namespace, definition):
+    fail = not action.startswith('try to ')
+    action = action.replace('try to ', '')
+    resource = client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    try:
+        if action == 'create':
+            context['instance'] = resource.create(body=definition, namespace=namespace)
+        elif action == 'delete':
+            if isinstance(resource, ResourceList):
+                context['instance'] = resource.delete(body=definition, namespace=namespace)
+            else:
+                context['instance'] = resource.delete(name=definition['metadata']['name'], namespace=namespace)
+        elif action == 'get':
+            if isinstance(resource, ResourceList):
+                context['instance'] = resource.get(body=definition, namespace=namespace)
+            else:
+                context['instance'] = resource.get(name=definition['metadata']['name'], namespace=namespace)
+        else:
+            fail = True
+            raise ValueError('Unable to {action} resource!'.format(action))
+    except Exception as e:
+        context['exc'] = e
+        if fail:
+            raise
+
+
+@then(parsers.parse('It throws a {error}'))
+def it_throws_an_error(context, error):
+    """It throws an error"""
+    assert isinstance(context['exc'], getattr(exceptions, error))
+
+
+@then('The resources in <filename> in <namespace> should match the content of <update>')
+def resource_should_match_update(admin_client, namespace, update, definition):
+    update = load_definition(update)
+    resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    if isinstance(resource, ResourceList):
+        cluster_instance = resource.get(body=definition, namespace=namespace).to_dict()
+    else:
+        cluster_instance = resource.get(name=definition['metadata']['name'], namespace=namespace).to_dict()
+    assert object_contains(cluster_instance, update)
+
+
+@then(parsers.parse('The content of <filename> does not exist in <namespace>'))
+def resource_not_in_namespace(admin_client, namespace, definition):
+
+    def assert_resource_does_not_exist(resource, resource_definition, namespace):
+        with pytest.raises(exceptions.NotFoundError):
+            resource.get(resource_definition['metadata']['name'], namespace)
+
+    resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    if isinstance(resource, ResourceList):
+        for item in definition['items']:
+            assert_resource_does_not_exist(resource.resource, item, namespace)
+    else:
+        assert_resource_does_not_exist(resource, definition, namespace)
+
+
+@then(parsers.parse('The content of <filename> exists in <namespace>'))
+def resource_in_namespace(admin_client, namespace, definition):
+
+    def assert_resource_exists(resource, resource_definition, namespace):
+        instance = resource.get(resource_definition['metadata']['name'], namespace)
+        assert instance.metadata.name == resource_definition['metadata']['name']
+        assert instance.metadata.namespace == namespace
+
+    resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    if isinstance(resource, ResourceList):
+        for item in definition['items']:
+            assert_resource_exists(resource.resource, item, namespace)
+    else:
+        assert_resource_exists(resource, definition, namespace)
