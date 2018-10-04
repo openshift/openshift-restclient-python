@@ -1,17 +1,18 @@
 Feature: Delete
 
     Examples:
-    | group_version | kind | namespace | name |
-    | v1            | Pod  | test      | test |
+    | filename                         | namespace |
+    | definitions/v1_Pod_test.yaml     | test      |
+    | definitions/v1_PodList_test.yaml | test2     |
 
     Scenario Outline: Delete a resource that exists
         Given I have edit permissions in <namespace>
-        And <group_version>.<kind> <name> exists in <namespace>
-        When I delete <group_version>.<kind> <name> in <namespace>
-        Then <group_version>.<kind> <name> does not exist in <namespace>
+        And The content of <filename> exists in <namespace>
+        When I delete <filename> in <namespace>
+        Then The content of <filename> does not exist in <namespace>
 
     Scenario Outline: Delete a resource that does not exist
         Given I have edit permissions in <namespace>
-        And <group_version>.<kind> <name> does not exist in <namespace>
-        When I try to delete <group_version>.<kind> <name> in <namespace>
+        And The content of <filename> does not exist in <namespace>
+        When I try to delete <filename> in <namespace>
         Then It throws a NotFoundError

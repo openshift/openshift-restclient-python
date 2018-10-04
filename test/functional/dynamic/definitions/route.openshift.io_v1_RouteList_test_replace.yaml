@@ -1,0 +1,16 @@
+---
+apiVersion: route.openshift.io/v1
+kind: RouteList
+items:
+- metadata:
+    name: test-route
+  spec:
+    to:
+      name: test3
+      kind: Service
+- metadata:
+    name: test-route2
+  spec:
+    to:
+      name: test4
+      kind: Service
