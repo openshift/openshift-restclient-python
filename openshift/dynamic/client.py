@@ -209,6 +209,20 @@ class DynamicClient(object):
 
         return self.request('patch', path, body=body, content_type=content_type, **kwargs)
 
+    def watch(self, resource, namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None):
+        from kubernetes import watch
+        watcher = watch.Watch()
+        for event in watcher.stream(
+            resource.get,
+            namespace=namespace,
+            field_selector=field_selector,
+            label_selector=label_selector,
+            resource_version=resource_version,
+            serialize=False,
+            timeout_seconds=timeout
+        ):
+            event['object'] = ResourceInstance(resource, event['object'])
+            yield event
 
     def request(self, method, path, body=None, **params):
 
