@@ -124,6 +124,194 @@ for project in project_list.items:
     print(project.metadata.name)
 ```
 
+#### Available methods for resources
+
+The generic Resource class supports the following methods, though every resource kind does not support every method.
+
+
+#### `get(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
+
+Query for a resource in the cluster. Will return a `ResourceInstance` object or raise a `NotFoundError`
+
+```python
+v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
+
+# Gets the specific Service named 'example' from the 'test' namespace
+v1_services.get(name='example', namespace='test')
+
+# Lists all Services in the 'test' namespace
+v1_services.get(namespace='test')
+
+# Lists all Services in the cluster (requires high permission level)
+v1_services.get()
+
+# Gets all Services in the 'test' namespace with the 'app' label set to 'foo'
+v1_services.get(namespace='test', label_selector='app=foo')
+
+# Gets all Services except for those in the 'default' namespace
+v1_services.get(field_selector='metadata.namespace!=default')
+
+```
+
+#### `get(body=None, namespace=None, **kwargs)`
+
+Query for a resource in the cluster. Will return a `ResourceInstance` object or raise a `NotFoundError`
+
+For List kind resources (ie, the resource name ends in `List`), the `get` implementation is slightly different.
+Rather than taking a name, they take a `*List` kind definition and call `get` for each definition in the list.
+
+```python
+v1_service_list = dyn_client.resources.get(api_version='v1', kind='ServiceList')
+
+body = {
+    'kind': 'ServiceList',
+    'apiVersion': 'v1',
+    'items': [
+        'metadata': {'name': 'my-service'},
+        'spec': {
+            'selector': {'app': 'MyApp'},
+            'ports': [{
+                'protocol': 'TCP',
+                'port': '8080',
+                'targetPort': '9376'
+            }]
+        }
+    ],
+    # More definitions would go here
+}
+# Gets the specified Service(s) from the 'test' namespace
+v1_service_list.get(body=body, namespace='test')
+
+# Lists all Services in the 'test' namespace
+v1_service_list.get(namespace='test')
+
+# Lists all Services in the cluster (requires high permission level)
+v1_service_list.get()
+```
+
+#### `create(body=None, namespace=None, **kwargs)`
+
+```python
+v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
+
+body = {
+    'kind': 'Service',
+    'apiVersion': 'v1',
+    'metadata': {'name': 'my-service'},
+    'spec': {
+        'selector': {'app': 'MyApp'},
+        'ports': [{
+            'protocol': 'TCP',
+            'port': '8080',
+            'targetPort': '9376'
+        }]
+    }
+}
+
+# Creates the above service in the 'test' namespace
+v1_services.create(body=body, namespace='test')
+```
+
+The `create` implementation is the same for `*List` kinds, except that each definition in the list will be created separately.
+
+If the resource is namespaced (ie, not cluster-level), then one of `namespace`, `label_selector`, or `field_selector` is required.
+
+If the resource is cluster-level, then one of `name`, `label_selector`, or `field_selector` is required.
+
+#### `delete(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
+
+```python
+v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
+
+# Deletes the specific Service named 'example' from the 'test' namespace
+v1_services.delete(name='my-service', namespace='test')
+
+# Deletes all Services in the 'test' namespace
+v1_services.delete(namespace='test')
+
+# Deletes all Services in the 'test' namespace with the 'app' label set to 'foo'
+v1_services.delete(namespace='test', label_selector='app=foo')
+
+# Deletes all Services except for those in the 'default' namespace
+v1_services.delete(field_selector='metadata.namespace!=default')
+```
+
+#### `delete(body=None, namespace=None, **kwargs)`
+
+For List kind resources (ie, the resource name ends in `List`), the `delete` implementation is slightly different.
+Rather than taking a name, they take a `*List` kind definition and call `delete` for each definition in the list.
+
+```python
+v1_service_list = dyn_client.resources.delete(api_version='v1', kind='ServiceList')
+
+body = {
+    'kind': 'ServiceList',
+    'apiVersion': 'v1',
+    'items': [
+        'metadata': {'name': 'my-service'},
+        'spec': {
+            'selector': {'app': 'MyApp'},
+            'ports': [{
+                'protocol': 'TCP',
+                'port': '8080',
+                'tardeletePort': '9376'
+            }]
+        }
+    ],
+    # More definitions would go here
+}
+# deletes the specified Service(s) from the 'test' namespace
+v1_service_list.delete(body=body, namespace='test')
+
+# Deletes all Services in the 'test' namespace
+v1_service_list.delete(namespace='test')
+```
+
+#### `patch(body=None, namespace=None, **kwargs)`
+
+```python
+v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
+
+body = {
+    'kind': 'Service',
+    'apiVersion': 'v1',
+    'metadata': {'name': 'my-service'},
+    'spec': {
+        'selector': {'app': 'MyApp2'},
+    }
+}
+
+# patchs the above service in the 'test' namespace
+v1_services.patch(body=body, namespace='test')
+```
+
+The `patch` implementation is the same for `*List` kinds, except that each definition in the list will be patched separately.
+
+#### `replace(body=None, namespace=None, **kwargs)`
+
+```python
+v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
+
+body = {
+    'kind': 'Service',
+    'apiVersion': 'v1',
+    'metadata': {'name': 'my-service'},
+    'spec': {
+        'selector': {'app': 'MyApp2'},
+        'ports': [{
+            'protocol': 'TCP',
+            'port': '8080',
+            'targetPort': '9376'
+        }]
+    }
+}
+
+# replaces the above service in the 'test' namespace
+v1_services.replace(body=body, namespace='test')
+```
+
+The `replace` implementation is the same for `*List` kinds, except that each definition in the list will be replaced separately.
+
 ### DEPRECATED Generated client usage
 
 To work with a K8s object, use the K8s client, and to work with an OpenShift specific object, use the OpenShift client. For example, the following uses the K8s client to create a new Service object:
