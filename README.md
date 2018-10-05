@@ -317,7 +317,6 @@ The `replace` implementation is the same for `*List` kinds, except that each def
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
 
-
 # Prints the resource that triggered each event related to Services in the 'test' namespace
 for event in v1_services.watch(namespace='test'):
     print(event['object'])
