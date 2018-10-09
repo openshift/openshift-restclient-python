@@ -3,6 +3,7 @@
 import sys
 import json
 from functools import partial
+from six import PY2
 
 import yaml
 from pprint import pformat
@@ -41,10 +42,14 @@ def serialize(resource, response):
     try:
         return ResourceInstance(resource, load_json(response))
     except ValueError:
-        return response.data.decode()
+        if PY2:
+            return response.data
+        return response.data.decode('utf8')
 
 def load_json(response):
-    return json.loads(response.data.decode())
+    if PY2:
+        return json.loads(response.data)
+    return json.loads(response.data.decode('utf8'))
 
 
 class DynamicClient(object):
