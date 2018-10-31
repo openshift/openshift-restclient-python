@@ -231,23 +231,23 @@ class DynamicClient(object):
 
         path_params = params.get('path_params', {})
         query_params = params.get('query_params', [])
-        if params.get('pretty'):
+        if params.get('pretty') is not None:
             query_params.append(('pretty', params['pretty']))
-        if params.get('_continue'):
+        if params.get('_continue') is not None:
             query_params.append(('continue', params['_continue']))
-        if params.get('include_uninitialized'):
+        if params.get('include_uninitialized') is not None:
             query_params.append(('includeUninitialized', params['include_uninitialized']))
-        if params.get('field_selector'):
+        if params.get('field_selector') is not None:
             query_params.append(('fieldSelector', params['field_selector']))
-        if params.get('label_selector'):
+        if params.get('label_selector') is not None:
             query_params.append(('labelSelector', params['label_selector']))
-        if params.get('limit'):
+        if params.get('limit') is not None:
             query_params.append(('limit', params['limit']))
-        if params.get('resource_version'):
+        if params.get('resource_version') is not None:
             query_params.append(('resourceVersion', params['resource_version']))
-        if params.get('timeout_seconds'):
+        if params.get('timeout_seconds') is not None:
             query_params.append(('timeoutSeconds', params['timeout_seconds']))
-        if params.get('watch'):
+        if params.get('watch') is not None:
             query_params.append(('watch', params['watch']))
 
         header_params = params.get('header_params', {})
