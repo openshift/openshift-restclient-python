@@ -9,7 +9,7 @@ from six import PY2
 import yaml
 from pprint import pformat
 
-from kubernetes import config
+from kubernetes import config, watch
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.rest import ApiException
 
@@ -210,11 +210,36 @@ class DynamicClient(object):
         return self.request('patch', path, body=body, content_type=content_type, **kwargs)
 
     def watch(self, resource, namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None):
-        from kubernetes import watch
+        """
+        Stream events for a resource from the Kubernetes API
+
+        :param resource: The API resource object that will be used to query the API
+        :param namespace: The namespace to query
+        :param name: The name of the resource instance to query
+        :param label_selector: The label selector with which to filter results
+        :param label_selector: The field selector with which to filter results
+        :param resource_version: The version with which to filter results. Only events with
+                                 a resource_version greater than this value will be returned
+        :param timeout: The amount of time in seconds to wait before terminating the stream
+
+        :return: Event object with these keys:
+                   'type': The type of event such as "ADDED", "DELETED", etc.
+                   'raw_object': a dict representing the watched object.
+                   'object': A ResourceInstance wrapping raw_object.
+
+        Example:
+            client = DynamicClient(k8s_client)
+            v1_pods = client.resources.get(api_version='v1', kind='Pod')
+
+            for e in v1_pods.watch(resource_version=0, namespace=default, timeout=5):
+                print(e['type'])
+                print(e['object'].metadata)
+        """
         watcher = watch.Watch()
         for event in watcher.stream(
             resource.get,
             namespace=namespace,
+            name=name,
             field_selector=field_selector,
             label_selector=label_selector,
             resource_version=resource_version,
