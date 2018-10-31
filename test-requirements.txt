@@ -1,6 +1,6 @@
 coverage>=3.7.1
 docker ~= 2.1.0
-flake8
+flake8 < 3.6.0
 pytest < 3.3
 pytest-bdd
 pytest-cov
