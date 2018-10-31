@@ -242,7 +242,7 @@ For List kind resources (ie, the resource name ends in `List`), the `delete` imp
 Rather than taking a name, they take a `*List` kind definition and call `delete` for each definition in the list.
 
 ```python
-v1_service_list = dyn_client.resources.delete(api_version='v1', kind='ServiceList')
+v1_service_list = dyn_client.resources.get(api_version='v1', kind='ServiceList')
 
 body = {
     'kind': 'ServiceList',
