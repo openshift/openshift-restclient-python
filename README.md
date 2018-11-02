@@ -312,6 +312,16 @@ v1_services.replace(body=body, namespace='test')
 
 The `replace` implementation is the same for `*List` kinds, except that each definition in the list will be replaced separately.
 
+#### `watch(namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None)`
+
+```python
+v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
+
+# Prints the resource that triggered each event related to Services in the 'test' namespace
+for event in v1_services.watch(namespace='test'):
+    print(event['object'])
+```
+
 ### DEPRECATED Generated client usage
 
 To work with a K8s object, use the K8s client, and to work with an OpenShift specific object, use the OpenShift client. For example, the following uses the K8s client to create a new Service object:
