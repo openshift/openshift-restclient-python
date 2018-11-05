@@ -2,7 +2,7 @@
 
 ## Problem
    Current merge/patch strategy in the Ansible modules is not sufficient for a variety of reasons.
-   1. There is no way to remove a field from the Ansible module without doing a full replace
+   1. There is no way to remove a field from the Ansible module without doing a full replace on the object
    2. The idempotence of the module is entirely reliant on the idempotence of the server. If a task to create a resource is run twice, two `GET`s and
    two `PATCH`es will be issued, even if there was no content change. This is particularly an issue for the
    Operater use-case, as tasks will be run repeatedly every 8 seconds or so, and the `PATCH` requests are not
@@ -22,12 +22,14 @@
 
    The basic algorithm is as follows:
 
-   1. `GET` the current object
-   2. Pull the `LastAppliedConfiguration` from the object
-   3. If the `LastAppliedConfiguration` does not exist, diff the new object and the existing one and send the resulting patch to the server.
+   Given: a desired definition for an object to apply to the cluster
+
+   1. `GET` the current state of the object from Kubernetes
+   2. Pull the `LastAppliedConfiguration` from the current object
+   3. If the `LastAppliedConfiguration` does not exist, diff the desired definition and the current object and send the resulting patch to the server.
    4. Otherwise, diff the `LastAppliedConfiguration` and the desired definition to compute the deletions. 
-   5. diff the current state of the object and the desired definition to get the delta
-   6. Combine the differences from initial and the delta to a single patch
+   5. diff the current object and the desired definition to get the delta
+   6. Combine the deletions (from step 4) and the delta (from step 5) to a single patch
    7. If the patch is not empty, send it to the server
 
    Much of the complexity comes from diffing complex nested objects, and a variety of patch strategies that may be used (ie, adding vs replacing lists, reordering of lists or keys, deep vs shallow object comparisons)
