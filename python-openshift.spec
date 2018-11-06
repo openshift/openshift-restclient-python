@@ -3,8 +3,8 @@
 %global library openshift
 
 Name:       python-%{library}
-Version:    0.7.0
-Release:    12%{?dist}
+Version:    0.8.0
+Release:    1%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,28 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Tue Nov 06 2018 Jason Montleon <jmontleo@redhat.com> 0.8.0-1
+- Fix tag condition (fabian@fabianism.us)
+- Add watch to dynamic client (#221) (fabian@fabianism.us)
+- Pin flake8 (fabian@fabianism.us)
+- Do not decode response data in Python2 (#225)
+  (16732494+wallecan@users.noreply.github.com)
+- ResourceContainer does not contain delete method (#227)
+  (mosonkonrad@gmail.com)
+- Add basic documentation for dynamic client verbs to README (#222)
+  (fabian@fabianism.us)
+- Add support for *List kinds (#213) (fabian@fabianism.us)
+- Add validate helper function (#199) (will@thames.id.au)
+- DynamicApiError: add a summary method (#211) (pierre-louis@libregerbil.fr)
+- Allow less strict kubernetes version requirements (#207) (will@thames.id.au)
+- Add behavior-based tests for dynamic client (#208) (fabian@fabianism.us)
+- Provide 'append_hash' for ConfigMaps and Secrets (#196) (will@thames.id.au)
+- Allow creates on subresources properly (#201) (fabian@fabianism.us)
+- Rename async to async_req for compatibility with python3 and kubernetes 7
+  (#197) (fabian@fabianism.us)
+- Update kube_config to support concurrent clusters (#193)
+  (tdecacqu@redhat.com)
+
 * Mon Aug 06 2018 David Zager <david.j.zager@gmail.com> 0.6.2-12
 - Fix decode issue (#192) (lostonamountain@gmail.com)
 - b64encode expects bytes not string (fridolin@redhat.com)
