@@ -517,10 +517,14 @@ class ResourceContainer(object):
             on api_version, that resource will be returned.
         """
         results = self.search(**kwargs)
+        # If there are multiple matches, prefer exact matches on api_version
         if len(results) > 1 and kwargs.get('api_version'):
             results = [
                 result for result in results if result.group_version == kwargs['api_version']
             ]
+        # If there are multiple matches, prefer non-List kinds
+        if len(results) > 1 and not all([isinstance(x, ResourceList) for x in results]):
+            results = [result for result in results if not isinstance(result, ResourceList)]
         if len(results) == 1:
             return results[0]
         elif not results:
