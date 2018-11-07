@@ -41,6 +41,18 @@ There are two ways this project interacts with the OpenShift API. The first, now
 to use a single model and client to generically interact with all resources on the server. The dynamic client also works with
 resources that are defined by aggregated API servers or Custom Resource Definitions.
 
+### Kubernetes Config Object and Logging in to Kubernetes Cluster
+
+Kubernetes Configs can be set in the [Config
+class](https://github.com/kubernetes-client/python/blob/master/kubernetes/client/configuration.py)
+or using a helper utility. All of the examples that follow make use of the
+`new_client_from_config()` helper function provided by the [Kubernetes Client
+Config](https://github.com/kubernetes-client/python-base/blob/master/config/kube_config.py)
+that returns an API client to be used with any API object. There are plenty of
+[Kubernetes Client
+examples](https://github.com/kubernetes-client/python/tree/master/examples) to
+examine other ways of accessing Kubernetes Clusters.
+
 ### Dynamic client usage
 
 To work with the dynamic client, you will need an instantiated kubernetes client object. For example, the following uses the dynamic client to create a new Service object:
@@ -107,7 +119,7 @@ resp = v1_routes.create(body=route_data, namespace='default')
 print(resp.metadata)
 ```
 
-And finally, the following uses the dynamic client to list Projects the user can access:
+The following uses the dynamic client to list Projects the user can access:
 
 ```python
 from kubernetes import client, config
@@ -122,6 +134,65 @@ project_list = v1_projects.get()
 
 for project in project_list.items:
     print(project.metadata.name)
+```
+
+In the following example, we first create a Custom
+Resource Definition for an `EtcdCluster`, then create an `EtcdCluster` resource,
+and finally get a list of `EtcdCluster` resources:
+
+```python
+import yaml
+from kubernetes import client, config
+from openshift.dynamic import DynamicClient
+
+k8s_client = config.new_client_from_config()
+dyn_client = DynamicClient(k8s_client)
+
+custom_resources = dyn_client.resources.get(
+  api_version='apiextensions.k8s.io/v1beta1',
+  kind='CustomResourceDefinition'
+)
+
+# Create the Etcd Cluster Definition
+foo_crd = """
+kind: CustomResourceDefinition
+apiVersion: apiextensions.k8s.io/v1beta1
+metadata:
+  name: foos.bar.com
+spec:
+  group: bar.com
+  names:
+    kind: Foo
+    listKind: FooList
+    plural: foos
+    shortNames:
+    - foo
+    singular: foo
+  scope: Namespaced
+  version: v1beta1
+"""
+custom_resources.create(body=yaml.load(foo_crd))
+
+# Notice the re-instantiation of the dynamic client as a new resource has been created.
+# Note: There is a potential race-condition where the newly created resource
+#       may not be found.
+dyn_client = DynamicClient(k8s_client)
+foo_resources = dyn_client.resources.get(api_version='bar.com/v1beta1', kind='Foo')
+
+# Create the Etcd Cluster Resource
+foo_resource_cr = """
+kind: Foo
+apiVersion: bar.com/v1beta1
+metadata:
+  name: example-foo
+  namespace: default
+spec:
+  version: 1
+"""
+foo_resources.create(body=yaml.load(foo_resource_cr))
+
+for item in foo_resources.get().items:
+  print(item.metadata.name)
 ```
 
 #### Available methods for resources
