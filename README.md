@@ -23,6 +23,12 @@ API servers or Custom Resource Definitions.
   * [List Projects](#list-projects)
   * [Custom Resources](#custom-resources)
 * [Available Methods for Resources](#available-methods-for-resources)
+  * [Get](#get)
+  * [Create](#create)
+  * [Delete](#delete)
+  * [Patch](#patch)
+  * [Replace](#replace)
+  * [Watch](#watch)
 * [Community, Support, Discussion](#community-support-discussion)
 * [Code of Conduct](#code-of-conduct)
 
@@ -231,7 +237,9 @@ for item in foo_resources.get().items:
 The generic Resource class supports the following methods, though every resource kind does not support every method.
 
 
-## `get(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
+## Get
+
+`get(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
 
 Query for a resource in the cluster. Will return a `ResourceInstance` object or raise a `NotFoundError`
 
@@ -255,7 +263,7 @@ v1_services.get(field_selector='metadata.namespace!=default')
 
 ```
 
-## `get(body=None, namespace=None, **kwargs)`
+`get(body=None, namespace=None, **kwargs)`
 
 Query for a resource in the cluster. Will return a `ResourceInstance` object or raise a `NotFoundError`
 
@@ -291,7 +299,9 @@ v1_service_list.get(namespace='test')
 v1_service_list.get()
 ```
 
-## `create(body=None, namespace=None, **kwargs)`
+## Create
+
+`create(body=None, namespace=None, **kwargs)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -320,7 +330,9 @@ If the resource is namespaced (ie, not cluster-level), then one of `namespace`, 
 
 If the resource is cluster-level, then one of `name`, `label_selector`, or `field_selector` is required.
 
-## `delete(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
+## Delete
+
+`delete(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -338,7 +350,7 @@ v1_services.delete(namespace='test', label_selector='app=foo')
 v1_services.delete(field_selector='metadata.namespace!=default')
 ```
 
-## `delete(body=None, namespace=None, **kwargs)`
+`delete(body=None, namespace=None, **kwargs)`
 
 For List kind resources (ie, the resource name ends in `List`), the `delete` implementation is slightly different.
 Rather than taking a name, they take a `*List` kind definition and call `delete` for each definition in the list.
@@ -369,7 +381,9 @@ v1_service_list.delete(body=body, namespace='test')
 v1_service_list.delete(namespace='test')
 ```
 
-## `patch(body=None, namespace=None, **kwargs)`
+## Patch
+
+`patch(body=None, namespace=None, **kwargs)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -389,7 +403,9 @@ v1_services.patch(body=body, namespace='test')
 
 The `patch` implementation is the same for `*List` kinds, except that each definition in the list will be patched separately.
 
-## `replace(body=None, namespace=None, **kwargs)`
+## Replace
+
+`replace(body=None, namespace=None, **kwargs)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -414,7 +430,9 @@ v1_services.replace(body=body, namespace='test')
 
 The `replace` implementation is the same for `*List` kinds, except that each definition in the list will be replaced separately.
 
-## `watch(namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None)`
+## Watch
+
+`watch(namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
