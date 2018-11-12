@@ -1,11 +1,38 @@
-# OpenShift python client
+OpenShift python client
+======================
 
 [![Build Status](https://travis-ci.org/openshift/openshift-restclient-python.svg?branch=master)](https://travis-ci.org/openshift/openshift-restclient-python)
 [![Coverage Status](https://coveralls.io/repos/github/openshift/openshift-restclient-python/badge.svg?branch=master)](https://coveralls.io/github/openshift/openshift-restclient-python?branch=master)
 
-Python client for the [OpenShift](http://openshift.redhat.com/) API.
+Python client for the [Kubernetes](https://kubernetes.io/) and [OpenShift](http://openshift.redhat.com/) APIs.
 
-## Installation
+There are two ways this project interacts with the Kubernets and OpenShift APIs.
+The first, **now deprecated**, is to use models and functions generated with
+swagger from the API spec. The second, new approach, is to use a single model
+and client to generically interact with all resources on the server. The
+dynamic client also works with resources that are defined by aggregated
+API servers or Custom Resource Definitions.
+
+# Table of Contents
+
+* [Installation](#installation)
+* [Usage](#usage)
+* [Examples](#examples)
+  * [Create a Service](#create-a-service)
+  * [Create a Route](#create-a-route)
+  * [List Projects](#list-projects)
+  * [Custom Resources](#custom-resources)
+* [Available Methods for Resources](#available-methods-for-resources)
+  * [Get](#get)
+  * [Create](#create)
+  * [Delete](#delete)
+  * [Patch](#patch)
+  * [Replace](#replace)
+  * [Watch](#watch)
+* [Community, Support, Discussion](#community-support-discussion)
+* [Code of Conduct](#code-of-conduct)
+
+# Installation
 
 From source:
 
@@ -27,23 +54,35 @@ Using [Dockerfile](Dockerfile):
 docker build -t openshift-restclient-python -f Dockerfile .
 ```
 
-## Usage and examples
+# Usage
 
-The OpenShift client depends on the [Kubernetes Python client](https://github.com/kubernetes-incubator/client-python.git), and as part of the installation process, the Kubernetes (K8s) client is automatically installed.
+The OpenShift client depends on the [Kubernetes Python
+client](https://github.com/kubernetes-incubator/client-python.git), and as part
+of the installation process, the Kubernetes (K8s) client is automatically
+installed.
 
-In the case you are using Docker, you will likely need to share your `.kube/config` with the `openshift-restclient-python` container:
+In the case you are using Docker, you will likely need to share your
+`.kube/config` with the `openshift-restclient-python` container:
 
 ```
 docker run -it -v $HOME/.kube/config:/root/.kube/config:z openshift-restclient-python python
 ```
 
-There are two ways this project interacts with the OpenShift API. The first, now deprecated, is to use models and functions generated with swagger from the API spec. The second, new approach, is
-to use a single model and client to generically interact with all resources on the server. The dynamic client also works with
-resources that are defined by aggregated API servers or Custom Resource Definitions.
+To work with the dynamic client, you will need an instantiated Kubernetes
+client object. The Kubernetes client object requires a Kubernetes Config
+that can be set in the [Config
+class](https://github.com/kubernetes-client/python/blob/master/kubernetes/client/configuration.py)
+or using a helper utility.  All of the examples that follow make use of the
+`new_client_from_config()` helper utility provided by the [Kubernetes Client
+Config](https://github.com/kubernetes-client/python-base/blob/master/config/kube_config.py)
+that returns an API client to be used with any API object.
+There are plenty of [Kubernetes Client
+examples](https://github.com/kubernetes-client/python/tree/master/examples) to
+examine other ways of accessing Kubernetes Clusters.
 
-### Dynamic client usage
+# Examples
 
-To work with the dynamic client, you will need an instantiated kubernetes client object. For example, the following uses the dynamic client to create a new Service object:
+## Create a Service
 
 ```python
 import yaml
@@ -76,7 +115,10 @@ resp = v1_services.create(body=service_data, namespace='default')
 print(resp.metadata)
 ```
 
-Now in the following example, we use the dynamic client to create a Route object, and associate it with the new Service:
+## Create a Route
+
+Now, we create a Route object, and associate it with the Service from our
+previous example:
 
 ```python
 import yaml
@@ -107,7 +149,9 @@ resp = v1_routes.create(body=route_data, namespace='default')
 print(resp.metadata)
 ```
 
-And finally, the following uses the dynamic client to list Projects the user can access:
+## List Projects
+
+The following uses the dynamic client to list Projects the user can access:
 
 ```python
 from kubernetes import client, config
@@ -124,12 +168,78 @@ for project in project_list.items:
     print(project.metadata.name)
 ```
 
-#### Available methods for resources
+## Custom Resources
+
+In the following example, we first create a Custom
+Resource Definition for `foos.bar.com`, then create an `Foo` resource,
+and finally get a list of `Foo` resources:
+
+```python
+import yaml
+from kubernetes import client, config
+from openshift.dynamic import DynamicClient
+
+k8s_client = config.new_client_from_config()
+dyn_client = DynamicClient(k8s_client)
+
+custom_resources = dyn_client.resources.get(
+  api_version='apiextensions.k8s.io/v1beta1',
+  kind='CustomResourceDefinition'
+)
+
+# Define the Foo Resource
+foo_crd = """
+kind: CustomResourceDefinition
+apiVersion: apiextensions.k8s.io/v1beta1
+metadata:
+  name: foos.bar.com
+spec:
+  group: bar.com
+  names:
+    kind: Foo
+    listKind: FooList
+    plural: foos
+    shortNames:
+    - foo
+    singular: foo
+  scope: Namespaced
+  version: v1beta1
+"""
+custom_resources.create(body=yaml.load(foo_crd))
+
+foo_resources = None
+while not foo_resources:
+  try:
+    # Notice the re-instantiation of the dynamic client as a new resource has been created.
+    dyn_client = DynamicClient(k8s_client)
+    foo_resources = dyn_client.resources.get(api_version='bar.com/v1beta1', kind='Foo')
+  except:
+    pass
+
+# Create the Foo Resource
+foo_resource_cr = """
+kind: Foo
+apiVersion: bar.com/v1beta1
+metadata:
+  name: example-foo
+  namespace: default
+spec:
+  version: 1
+"""
+foo_resources.create(body=yaml.load(foo_resource_cr))
+
+for item in foo_resources.get().items:
+  print(item.metadata.name)
+```
+
+# Available Methods for Resources
 
 The generic Resource class supports the following methods, though every resource kind does not support every method.
 
 
-#### `get(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
+## Get
+
+`get(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
 
 Query for a resource in the cluster. Will return a `ResourceInstance` object or raise a `NotFoundError`
 
@@ -153,7 +263,7 @@ v1_services.get(field_selector='metadata.namespace!=default')
 
 ```
 
-#### `get(body=None, namespace=None, **kwargs)`
+`get(body=None, namespace=None, **kwargs)`
 
 Query for a resource in the cluster. Will return a `ResourceInstance` object or raise a `NotFoundError`
 
@@ -189,7 +299,9 @@ v1_service_list.get(namespace='test')
 v1_service_list.get()
 ```
 
-#### `create(body=None, namespace=None, **kwargs)`
+## Create
+
+`create(body=None, namespace=None, **kwargs)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -218,7 +330,9 @@ If the resource is namespaced (ie, not cluster-level), then one of `namespace`, 
 
 If the resource is cluster-level, then one of `name`, `label_selector`, or `field_selector` is required.
 
-#### `delete(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
+## Delete
+
+`delete(name=None, namespace=None, label_selector=None, field_selector=None, **kwargs)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -236,7 +350,7 @@ v1_services.delete(namespace='test', label_selector='app=foo')
 v1_services.delete(field_selector='metadata.namespace!=default')
 ```
 
-#### `delete(body=None, namespace=None, **kwargs)`
+`delete(body=None, namespace=None, **kwargs)`
 
 For List kind resources (ie, the resource name ends in `List`), the `delete` implementation is slightly different.
 Rather than taking a name, they take a `*List` kind definition and call `delete` for each definition in the list.
@@ -267,7 +381,9 @@ v1_service_list.delete(body=body, namespace='test')
 v1_service_list.delete(namespace='test')
 ```
 
-#### `patch(body=None, namespace=None, **kwargs)`
+## Patch
+
+`patch(body=None, namespace=None, **kwargs)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -287,7 +403,9 @@ v1_services.patch(body=body, namespace='test')
 
 The `patch` implementation is the same for `*List` kinds, except that each definition in the list will be patched separately.
 
-#### `replace(body=None, namespace=None, **kwargs)`
+## Replace
+
+`replace(body=None, namespace=None, **kwargs)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -312,7 +430,9 @@ v1_services.replace(body=body, namespace='test')
 
 The `replace` implementation is the same for `*List` kinds, except that each definition in the list will be replaced separately.
 
-#### `watch(namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None)`
+## Watch
+
+`watch(namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None)`
 
 ```python
 v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
@@ -322,7 +442,7 @@ for event in v1_services.watch(namespace='test'):
     print(event['object'])
 ```
 
-### DEPRECATED Generated client usage
+# DEPRECATED Generated client usage
 
 To work with a K8s object, use the K8s client, and to work with an OpenShift specific object, use the OpenShift client. For example, the following uses the K8s client to create a new Service object:
 
@@ -395,11 +515,11 @@ for project in project_list.items:
     print project.metadata.name
 ```
 
-#### DEPRECATED Documentation
+# DEPRECATED Documentation
 
 All OpenShift API and Model documentation can be found in the [Generated client's README file](openshift/README.md)
 
-#### DEPRECATED  Update generated client
+## DEPRECATED  Update generated client
 
 Updating the generated client requires the following tools:
 
@@ -416,7 +536,7 @@ To apply the updates:
 
 We are downstream of the [kubernetes python client](github.com/kubernetes-client/python). We maintain compatibility for API version `n-2` - so if you are connecting to a version 3.6 OpenShift cluster, the list of supported python client versions would be `[0.3.x, 0.4.x, 0.5.x]`.
 
-#### Compatibility matrix
+### Compatibility matrix
 
 | openshift python | kubernetes python | Kubernetes 1.5 | Kubernetes 1.6 | Kubernetes 1.7 | Kubernetes 1.8 | Kubernetes 1.9 |
 |------------------|-------------------|----------------|----------------|----------------|----------------|----------------|
@@ -435,11 +555,11 @@ Key:
   (additional API objects, etc).
 * `*` This client/server combination may work, but is not officially supported. 
 
-## Community, Support, Discussion
+# Community, Support, Discussion
 
 If you have any problem with the package or any suggestions, please file an [issue](https://github.com/openshift/openshift-restclient-python/issues).
 
-### Code of Conduct
+## Code of Conduct
 
 Participation in the Kubernetes community is governed by the [CNCF Code of Conduct](https://github.com/cncf/foundation/blob/master/code-of-conduct.md).
 
