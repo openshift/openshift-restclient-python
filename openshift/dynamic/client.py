@@ -6,7 +6,7 @@ import copy
 import json
 import base64
 from functools import partial
-from six import PY2
+from six import PY2, PY3
 
 import yaml
 from pprint import pformat
@@ -93,7 +93,10 @@ class DynamicClient(object):
     def __init__(self, client, cache_file=None):
         self.client = client
         self.configuration = client.configuration
-        self.__cache_file = cache_file or '/tmp/osrcp-{0}.json'.format(base64.b64encode(self.configuration.host))
+        default_cache_id = self.configuration.host
+        if PY3:
+            default_cache_id = default_cache_id.encode('utf-8')
+        self.__cache_file = cache_file or '/tmp/osrcp-{0}.json'.format(base64.b64encode(default_cache_id).decode('utf-8'))
         self.__init_cache()
 
     def __init_cache(self, refresh=False):
