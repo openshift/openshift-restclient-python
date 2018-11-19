@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import copy
 import json
+import base64
 from functools import partial
 from six import PY2
 
@@ -32,6 +34,28 @@ __all__ = [
     'ResourceField',
 ]
 
+class CacheEncoder(json.JSONEncoder):
+
+    def default(self, o):
+        return o.to_dict()
+
+def cache_decoder(client):
+
+    class CacheDecoder(json.JSONDecoder):
+        def __init__(self, *args, **kwargs):
+            json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
+
+        def object_hook(self, obj):
+            if '_type' not in obj:
+                return obj
+            _type = obj.pop('_type')
+            if _type == 'Resource':
+                return Resource(client=client, **obj)
+            elif _type == 'ResourceList':
+                return ResourceList(obj['resource'])
+            return obj
+
+    return CacheDecoder
 
 def meta_request(func):
     """ Handles parsing response structure and translating API Exceptions """
@@ -66,18 +90,40 @@ class DynamicClient(object):
         the kubernetes API
     """
 
-    def __init__(self, client):
+    def __init__(self, client, cache_file=None):
         self.client = client
         self.configuration = client.configuration
+        self.__cache_file = cache_file or '/tmp/osrcp-{0}.json'.format(base64.b64encode(self.configuration.host))
+        self.__init_cache()
+
+    def __init_cache(self, refresh=False):
+        if refresh or not os.path.exists(self.__cache_file):
+            self.__cache = {}
+            refresh = True
+        else:
+            with open(self.__cache_file, 'r') as f:
+                self.__cache = json.load(f, cls=cache_decoder(self))
         self._load_server_info()
-        self.__resources = ResourceContainer(self.parse_api_groups())
+        self.__resources = ResourceContainer(self.parse_api_groups(), client=self)
+
+        if refresh:
+            self.__write_cache()
+
+    def __write_cache(self):
+        with open(self.__cache_file, 'w') as f:
+            json.dump(self.__cache, f, cls=CacheEncoder)
+
+    def invalidate_cache(self):
+        self.__init_cache(refresh=True)
 
     def _load_server_info(self):
-        self.__version = {'kubernetes': load_json(self.request('get', '/version'))}
-        try:
-            self.__version['openshift'] = load_json(self.request('get', '/version/openshift'))
-        except ApiException:
-            pass
+        if not self.__cache.get('version'):
+            self.__cache['version'] = {'kubernetes': load_json(self.request('get', '/version'))}
+            try:
+                self.__cache['version']['openshift'] = load_json(self.request('get', '/version/openshift'))
+            except ApiException:
+                pass
+        self.__version = self.__cache['version']
 
     @property
     def resources(self):
@@ -102,20 +148,22 @@ class DynamicClient(object):
 
     def parse_api_groups(self):
         """ Discovers all API groups present in the cluster """
-        prefix = 'apis'
-        groups_response = load_json(self.request('GET', '/{}'.format(prefix)))['groups']
+        if not self.__cache.get('resources'):
+            prefix = 'apis'
+            groups_response = load_json(self.request('GET', '/{}'.format(prefix)))['groups']
 
-        groups = self.default_groups()
-        groups[prefix] = {}
+            groups = self.default_groups()
+            groups[prefix] = {}
 
-        for group in groups_response:
-            new_group = {}
-            for version_raw in group['versions']:
-                version = version_raw['version']
-                preferred = version_raw == group['preferredVersion']
-                new_group[version] = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
-            groups[prefix][group['name']] = new_group
-        return groups
+            for group in groups_response:
+                new_group = {}
+                for version_raw in group['versions']:
+                    version = version_raw['version']
+                    preferred = version_raw == group['preferredVersion']
+                    new_group[version] = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
+                groups[prefix][group['name']] = new_group
+            self.__cache['resources'] = groups
+        return self.__cache['resources']
 
     def get_resources_for_api_version(self, prefix, group, version, preferred):
         """ returns a dictionary of resources associated with provided groupVersion"""
@@ -369,6 +417,24 @@ class Resource(object):
 
         self.extra_args = kwargs
 
+    def to_dict(self):
+        return {
+            '_type': 'Resource',
+            'prefix': self.prefix,
+            'group': self.group,
+            'api_version': self.api_version,
+            'kind': self.kind,
+            'namespaced': self.namespaced,
+            'verbs': self.verbs,
+            'name': self.name,
+            'preferred': self.preferred,
+            'singular_name': self.singular_name,
+            'short_names': self.short_names,
+            'categories': self.categories,
+            'subresources': {k: sr.to_dict() for k, sr in self.subresources.items()},
+            'extra_args': self.extra_args,
+        }
+
     @property
     def group_version(self):
         if self.group:
@@ -454,6 +520,12 @@ class ResourceList(Resource):
     def __getattr__(self, name):
         return getattr(self.resource, name)
 
+    def to_dict(self):
+        return {
+            '_type': 'ResourceList',
+            'resource': self.resource.to_dict(),
+        }
+
 
 class Subresource(Resource):
     """ Represents a subresource of an API resource. This generally includes operations
@@ -497,14 +569,25 @@ class Subresource(Resource):
     def __getattr__(self, name):
         return partial(getattr(self.parent.client, name), self)
 
+    def to_dict(self):
+        return {
+            'kind': self.kind,
+            'name': self.name,
+            'subresource': self.subresource,
+            'namespaced': self.namespaced,
+            'verbs': self.verbs,
+            'extra_args': self.extra_args,
+        }
+
 
 class ResourceContainer(object):
     """ A convenient container for storing discovered API resources. Allows
         easy searching and retrieval of specific resources
     """
 
-    def __init__(self, resources):
+    def __init__(self, resources, client = None):
         self.__resources = resources
+        self.__client = client
 
     @property
     def api_groups(self):
@@ -543,7 +626,11 @@ class ResourceContainer(object):
 
             The arbitrary arguments can be any valid attribute for an openshift.dynamic.Resource object
         """
-        return self.__search(self.__build_search(**kwargs), self.__resources)
+        results = self.__search(self.__build_search(**kwargs), self.__resources)
+        if not results:
+            self.__client.invalidate_cache()
+            results = self.__search(self.__build_search(**kwargs), self.__resources)
+        return results
 
     def __build_search(self, kind=None, api_version=None, prefix=None, **kwargs):
         if api_version and '/' in api_version:
