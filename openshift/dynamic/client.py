@@ -96,6 +96,7 @@ class DynamicClient(object):
         default_cache_id = self.configuration.host
         if PY3:
             default_cache_id = default_cache_id.encode('utf-8')
+        self.__resources = ResourceContainer({}, client=self)
         self.__cache_file = cache_file or '/tmp/osrcp-{0}.json'.format(base64.b64encode(default_cache_id).decode('utf-8'))
         self.__init_cache()
 
@@ -107,7 +108,7 @@ class DynamicClient(object):
             with open(self.__cache_file, 'r') as f:
                 self.__cache = json.load(f, cls=cache_decoder(self))
         self._load_server_info()
-        self.__resources = ResourceContainer(self.parse_api_groups(), client=self)
+        self.__resources.update(self.parse_api_groups())
 
         if refresh:
             self.__write_cache()
@@ -589,9 +590,12 @@ class ResourceContainer(object):
         easy searching and retrieval of specific resources
     """
 
-    def __init__(self, resources, client = None):
+    def __init__(self, resources, client=None):
         self.__resources = resources
         self.__client = client
+
+    def update(self, resources):
+        self.__resources = resources
 
     @property
     def api_groups(self):
