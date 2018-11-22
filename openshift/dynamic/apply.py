@@ -1,30 +1,37 @@
 from copy import deepcopy
-import yaml
+import json
 
 from openshift.dynamic.exceptions import NotFoundError
 
 LAST_APPLIED_CONFIG_ANNOTATION = 'kubectl.kubernetes.io/last-applied-configuration'
 
 def apply(resource, definition):
-    if not 'annotations' in definition['metadata']:
-        definition['metadata']['annotations'] = dict()
-    definition['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION] = definition
+    desired_annotation = dict(
+        metadata=dict(
+            annotations={
+                LAST_APPLIED_CONFIG_ANNOTATION: json.dumps(definition, separators=(',', ':'), indent=None)
+            }
+        )
+    )
     try:
-        actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata']['namespace']).to_dict()
+        actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata']['namespace'])
     except NotFoundError:
-        return resource.create(body=definition)
-    last_applied = actual['metadata']['annotations'].get(LAST_APPLIED_CONFIG_ANNOTATION)
+        return resource.create(body=dict_merge(definition, desired_annotation), namespace=definition['metadata']['namespace'])
+    last_applied = actual.metadata.annotations.get(LAST_APPLIED_CONFIG_ANNOTATION)
+
     if last_applied:
-        last_applied = yaml.load(last_applied)
-        del actual['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION]
+        last_applied = json.loads(last_applied)
+        actual_dict = actual.to_dict()
+        del actual_dict['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION]
+        patch = merge(last_applied, definition, actual_dict)
+        if patch:
+            return resource.patch(body=dict_merge(patch, desired_annotation),
+                                  name=definition['metadata']['name'],
+                                  namespace=definition['metadata']['namespace'])
+        else:
+            return actual
     else:
         return resource.patch(body=definition, name=definition['metadata']['name'], namespace=definition['metadata']['namespace'])
-
-    patch = merge(last_applied, definition, actual)
-    if patch:
-        return resource.patch(body=patch, name=definition['metadata']['name'], namespace=definition['metadata']['namespace'])
-    else:
-        return "No update necessary"
 
 
 # The patch is the difference from actual to desired without deletions, plus deletions
