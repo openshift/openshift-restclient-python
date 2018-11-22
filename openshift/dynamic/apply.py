@@ -27,7 +27,8 @@ def apply(resource, definition):
         if patch:
             return resource.patch(body=dict_merge(patch, desired_annotation),
                                   name=definition['metadata']['name'],
-                                  namespace=definition['metadata']['namespace'])
+                                  namespace=definition['metadata']['namespace'],
+                                  content_type='application/merge-patch+json')
         else:
             return actual
     else:
@@ -83,12 +84,8 @@ def get_delta(actual, desired):
         actual_value = actual.get(k)
         if actual_value is None:
             patch[k] = desired_value
-        elif type(desired_value) != type(actual_value):
-            patch[k] = desired_value
         elif isinstance(desired_value, dict):
             p = get_delta(actual_value, desired_value)
             if p:
                 patch[k] = p
-        elif actual_value != desired_value:
-            patch[k] = desired_value
     return patch

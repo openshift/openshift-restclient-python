@@ -49,6 +49,11 @@ tests = [
             metadata=dict(name="foo"),
             spec=dict(ports=[dict(port=8080, name="http")])
         ),
+        actual = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8080, protocol='TCP', name="http")])
+        ),
         desired = dict(
             kind="Service",
             metadata=dict(name="foo"),
@@ -61,6 +66,11 @@ tests = [
             kind="Service",
             metadata=dict(name="foo"),
             spec=dict(ports=[dict(port=8080, name="http")])
+        ),
+        actual = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8080, protocol='TCP', name="http")])
         ),
         desired = dict(
             kind="Service",
