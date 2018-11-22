@@ -7,73 +7,73 @@ LAST_APPLIED_CONFIG_ANNOTATION = 'kubectl.kubernetes.io/last-applied-configurati
 def apply(resource, definition):
     definition['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION] = definition
     try:
-        current = resource.get(name=definition['metadata']['name'], namespace=definition['metadata']['namespace']).to_dict()
+        actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata']['namespace']).to_dict()
     except NotFoundError:
         return resource.create(body=definition)
-    last_applied = current['metadata']['annotations'].get(LAST_APPLIED_CONFIG_ANNOTATION)
+    last_applied = actual['metadata']['annotations'].get(LAST_APPLIED_CONFIG_ANNOTATION)
     if last_applied:
         last_applied = yaml.load(last_applied)
-        del current['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION]
+        del actual['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION]
     else:
         return resource.patch(body=definition, name=definition['metadata']['name'], namespace=definition['metadata']['namespace'])
 
-    patch = merge(last_applied, definition, current)
+    patch = merge(last_applied, definition, actual)
     if patch:
         return resource.patch(body=patch, name=definition['metadata']['name'], namespace=definition['metadata']['namespace'])
     else:
         return "No update necessary"
 
 
-# The patch is the difference from current to modified without deletions, plus deletions
-# from original to modified. To find it, we compute deletions, which are the deletions from
-# original to modified, and delta, which is the difference from current to modified without
+# The patch is the difference from actual to desired without deletions, plus deletions
+# from last_applied to desired. To find it, we compute deletions, which are the deletions from
+# last_applied to desired, and delta, which is the difference from actual to desired without
 # deletions, and then apply delta to deletions as a patch, which should be strictly additive.
-def merge(original, modified, current):
+def merge(last_applied, desired, actual):
     base = {}
-    deletions = get_deletions(original, modified)
-    delta = get_delta(current, modified)
+    deletions = get_deletions(last_applied, desired)
+    delta = get_delta(actual, desired)
     base.update(deletions)
     base.update(delta)
     return base
 
 
-def get_deletions(original, modified):
+def get_deletions(last_applied, desired):
     patch = {}
-    for k, original_value in original.items():
-        modified_value = modified.get(k)
-        if modified_value is None:
+    for k, last_applied_value in last_applied.items():
+        desired_value = desired.get(k)
+        if desired_value is None:
             patch[k] = None
             continue
-        if type(original_value) != type(modified_value):
+        if type(last_applied_value) != type(desired_value):
             continue
-        if isinstance(original_value, dict):
-            p = get_deletions(original_value, modified_value)
+        if isinstance(last_applied_value, dict):
+            p = get_deletions(last_applied_value, desired_value)
             if p:
                 patch[k] = p
-        elif isinstance(original_value, (list, tuple)):
+        elif isinstance(last_applied_value, (list, tuple)):
             # I have no idea what to do here
             pass
     return patch
 
 
-def get_delta(current, modified):
+def get_delta(actual, desired):
     patch = {}
-    for k, modified_value in modified.items():
-        current_value = current.get(k)
-        if current_value is None:
-            patch[k] = modified_value
+    for k, desired_value in desired.items():
+        actual_value = actual.get(k)
+        if actual_value is None:
+            patch[k] = desired_value
             continue
-        if modified_value == current_value:
+        if desired_value == actual_value:
             continue
-        if type(modified_value) != type(current_value):
-            patch[k] = modified_value
-        elif isinstance(modified_value, dict):
-            p = get_delta(current_value, modified_value)
+        if type(desired_value) != type(actual_value):
+            patch[k] = desired_value
+        elif isinstance(desired_value, dict):
+            p = get_delta(actual_value, desired_value)
             if p:
                 patch[k] = p
-        elif isinstance(current_value, (list, tuple)):
+        elif isinstance(actual_value, (list, tuple)):
             # I have no idea what to do here
-            patch[k] = modified_value
+            patch[k] = desired_value
         else:
-            patch[k] = modified_value
+            patch[k] = desired_value
     return patch
