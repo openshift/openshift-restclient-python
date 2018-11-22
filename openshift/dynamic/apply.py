@@ -1,3 +1,4 @@
+from copy import deepcopy
 import yaml
 
 from openshift.dynamic.exceptions import NotFoundError
@@ -29,12 +30,25 @@ def apply(resource, definition):
 # last_applied to desired, and delta, which is the difference from actual to desired without
 # deletions, and then apply delta to deletions as a patch, which should be strictly additive.
 def merge(last_applied, desired, actual):
-    base = {}
     deletions = get_deletions(last_applied, desired)
     delta = get_delta(actual, desired)
-    base.update(deletions)
-    base.update(delta)
-    return base
+    return dict_merge(deletions, delta)
+
+
+# dict_merge taken from Ansible's module_utils.common.dict_transformations
+def dict_merge(a, b):
+    '''recursively merges dicts. not just simple a['key'] = b['key'], if
+    both a and b have a key whose value is a dict then dict_merge is called
+    on both values and the result stored in the returned dictionary.'''
+    if not isinstance(b, dict):
+        return b
+    result = deepcopy(a)
+    for k, v in b.items():
+        if k in result and isinstance(result[k], dict):
+                result[k] = dict_merge(result[k], v)
+        else:
+            result[k] = deepcopy(v)
+    return result
 
 
 def get_deletions(last_applied, desired):
@@ -43,16 +57,14 @@ def get_deletions(last_applied, desired):
         desired_value = desired.get(k)
         if desired_value is None:
             patch[k] = None
-            continue
-        if type(last_applied_value) != type(desired_value):
-            continue
-        if isinstance(last_applied_value, dict):
+        elif type(last_applied_value) != type(desired_value):
+            patch[k] = desired_value
+        elif isinstance(last_applied_value, dict):
             p = get_deletions(last_applied_value, desired_value)
             if p:
                 patch[k] = p
-        elif isinstance(last_applied_value, (list, tuple)):
-            # I have no idea what to do here
-            pass
+        elif last_applied_value != desired_value:
+            patch[k] = desired_value
     return patch
 
 
@@ -62,18 +74,12 @@ def get_delta(actual, desired):
         actual_value = actual.get(k)
         if actual_value is None:
             patch[k] = desired_value
-            continue
-        if desired_value == actual_value:
-            continue
-        if type(desired_value) != type(actual_value):
+        elif type(desired_value) != type(actual_value):
             patch[k] = desired_value
         elif isinstance(desired_value, dict):
             p = get_delta(actual_value, desired_value)
             if p:
                 patch[k] = p
-        elif isinstance(actual_value, (list, tuple)):
-            # I have no idea what to do here
-            patch[k] = desired_value
-        else:
+        elif actual_value != desired_value:
             patch[k] = desired_value
     return patch
