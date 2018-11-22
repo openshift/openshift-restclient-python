@@ -6,6 +6,8 @@ from openshift.dynamic.exceptions import NotFoundError
 LAST_APPLIED_CONFIG_ANNOTATION = 'kubectl.kubernetes.io/last-applied-configuration'
 
 def apply(resource, definition):
+    if not 'annotations' in definition['metadata']:
+        definition['metadata']['annotations'] = dict()
     definition['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION] = definition
     try:
         actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata']['namespace']).to_dict()
