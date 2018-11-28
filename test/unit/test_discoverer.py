@@ -29,7 +29,9 @@ def mock_namespace():
 
 @pytest.fixture(scope='module')
 def mock_namespace_list(mock_namespace):
-    return ResourceList(mock_namespace)
+    ret = ResourceList(mock_namespace.client, mock_namespace.group, mock_namespace.api_version, mock_namespace.kind)
+    ret._ResourceList__base_resource = mock_namespace
+    return ret
 
 
 @pytest.fixture(scope='function', autouse=True)

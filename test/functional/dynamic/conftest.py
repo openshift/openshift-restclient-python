@@ -171,6 +171,11 @@ def client(clusterrole, namespace, kubeconfig, port, admin_client):
 def perform_update_action_in_namespace(context, client, action, namespace, definition, update):
 
     def set_resource_version(r, resource):
+        if isinstance(resource, ResourceList):
+            for i, item in enumerate(r['items']):
+                base_resource = resource._item_to_resource(item)['resource']
+                r['items'][i] = set_resource_version(item, base_resource)
+            return r
         try:
             r['metadata']['resourceVersion'] = resource.get(r['metadata']['name'], namespace=namespace).metadata.resourceVersion
         except exceptions.NotFoundError:
@@ -183,10 +188,7 @@ def perform_update_action_in_namespace(context, client, action, namespace, defin
     try:
         if action == 'replace':
             replace = load_definition(update)
-            if isinstance(resource, ResourceList):
-                replace['items'] = [set_resource_version(item, resource.resource) for item in replace['items']]
-            else:
-                replace = set_resource_version(replace, resource)
+            replace = set_resource_version(replace, resource)
             context['instance'] = resource.replace(body=replace, namespace=namespace)
         elif action == 'patch':
             patch = load_definition(update)
@@ -247,29 +249,29 @@ def resource_should_match_update(admin_client, namespace, update, definition):
 @then(parsers.parse('The content of <filename> does not exist in <namespace>'))
 def resource_not_in_namespace(admin_client, namespace, definition):
 
-    def assert_resource_does_not_exist(resource, resource_definition, namespace):
+    def assert_resource_does_not_exist(r, resource, namespace):
+        if isinstance(resource, ResourceList):
+            for item in r['items']:
+                resource = resource._item_to_resource(item)['resource']
+                return assert_resource_does_not_exist(item, resource, namespace)
         with pytest.raises(exceptions.NotFoundError):
-            resource.get(resource_definition['metadata']['name'], namespace)
+            resource.get(r['metadata']['name'], namespace)
 
     resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
-    if isinstance(resource, ResourceList):
-        for item in definition['items']:
-            assert_resource_does_not_exist(resource.resource, item, namespace)
-    else:
-        assert_resource_does_not_exist(resource, definition, namespace)
+    assert_resource_does_not_exist(definition, resource, namespace)
 
 
 @then(parsers.parse('The content of <filename> exists in <namespace>'))
 def resource_in_namespace(admin_client, namespace, definition):
 
-    def assert_resource_exists(resource, resource_definition, namespace):
-        instance = resource.get(resource_definition['metadata']['name'], namespace)
-        assert instance.metadata.name == resource_definition['metadata']['name']
+    def assert_resource_exists(r, resource, namespace):
+        if isinstance(resource, ResourceList):
+            for item in r['items']:
+                base_resource = resource._item_to_resource(item)['resource']
+                return assert_resource_exists(item, base_resource, namespace)
+        instance = resource.get(r['metadata']['name'], namespace)
+        assert instance.metadata.name == r['metadata']['name']
         assert instance.metadata.namespace == namespace
 
     resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
-    if isinstance(resource, ResourceList):
-        for item in definition['items']:
-            assert_resource_exists(resource.resource, item, namespace)
-    else:
-        assert_resource_exists(resource, definition, namespace)
+    assert_resource_exists(definition, resource, namespace)
