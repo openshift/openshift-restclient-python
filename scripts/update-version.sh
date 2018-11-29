@@ -11,4 +11,4 @@ sed -i'' "s/^__version__ = .*/__version__ = \\\"${CLIENT_VERSION}\\\"/" "${CLIEN
 sed -i'' "s/^Version:.*/Version:    ${CLIENT_VERSION}/" "${SCRIPT_ROOT}/../python-openshift.spec"
 sed -i'' "s/^kubernetes ~= .*/kubernetes ~= ${KUBERNETES_CLIENT_VERSION}/" "${SCRIPT_ROOT}/../requirements.txt"
 sed -i'' "s/^__k8s_client_version__ = .*/__k8s_client_version__ = \\\"${KUBERNETES_CLIENT_VERSION}\\\"/" "${CLIENT_ROOT}/__init__.py"
-sed -i'' "s/^kubernetes .=.*/kubernetes == ${KUBERNETES_CLIENT_VERSION}/" ${SOURCE_ROOT}/requirements.txt
+sed -i'' "s/^kubernetes .=.*/kubernetes ~= ${KUBERNETES_CLIENT_VERSION}/" ${SOURCE_ROOT}/requirements.txt
