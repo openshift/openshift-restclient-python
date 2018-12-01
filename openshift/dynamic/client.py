@@ -635,6 +635,7 @@ class Discoverer(object):
                 preferred=preferred,
                 subresources=subresources.get(resource['name']),
                 **resource)
+            resources['{}List'.format(resource['kind'])] = ResourceList(resources[resource['kind']])
         return resources
 
 
