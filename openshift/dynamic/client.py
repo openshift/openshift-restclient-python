@@ -735,8 +735,13 @@ class LazyDiscoverer(Discoverer):
                     if not rg.resources:
                         rg.resources = self.get_resources_for_api_version(
                             prefix, group, version, rg.preferred)
+                        self._cache[self.UPDATE_KEY] = True
                     for resource in rg.resources:
                         yield resource
+        # Check if we need to update the cache
+        if self._cache.get(self.UPDATE_KEY):
+            del self._cache[self.UPDATE_KEY]
+            self._write_cache()
 
 class EagerDiscoverer(Discoverer):
     """ A convenient container for storing discovered API resources. Allows
