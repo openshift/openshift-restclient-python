@@ -1,19 +1,33 @@
-%global with_python3 0
+%if 0%{?rhel} == 7
+%bcond_with    python3
+%bcond_without python2
+%else
+%bcond_with    python2
+%bcond_without python3
+%endif
 
 %global library openshift
+
+%if 0%{?rhel} == 7
+
+%global py3 python%{python3_pkgversion}
+%else
+%global py3 python3
+%endif
 
 Name:       python-%{library}
 Version:    0.8.4
 Release:    1%{?dist}
-Summary:    Python client for the OpenShift API  
-License:    MIT
+Summary:    Python client for the OpenShift API
+License:    ASL 2.0
 URL:        https://github.com/openshift/openshift-restclient-python
-Source0:    https://github.com/openshift/openshift-restclient-python/python-openshift-%{version}.tar.gz
+Source0:    https://github.com/openshift/openshift-restclient-python/archive/v%{version}.tar.gz
 BuildArch:  noarch
 Epoch:      1
 
+%if 0%{?with_python2}
 %package -n python2-%{library}
-Summary:    Python client for the OpenShift API  
+Summary:    Python client for the OpenShift API
 %{?python_provide:%python_provide python2-%{library}}
 
 BuildRequires: python2-devel
@@ -31,76 +45,73 @@ Requires: python-jinja2
 
 %description -n python2-%{library}
 Python client for the kubernetes API.
+%endif
 
 %if 0%{?with_python3}
-%package -n python3-%{library}
-Summary: Python client for the OpenShift API 
-%if 0%{?rhel}
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{library}}
-%else
-%{?python_provide:%python_provide python3-%{library}}
-%endif
-
-%if 0%{?rhel}
-BuildRequires: python%{python3_pkgversion}-devel
-BuildRequires: python%{python3_pkgversion}-setuptools
-%else
-BuildRequires: python3-devel
-BuildRequires: python3-setuptools
-%endif
+%package -n %{py3}-%{library}
+Summary: Python client for the OpenShift API
+BuildRequires: %{py3}-devel
+BuildRequires: %{py3}-setuptools
 BuildRequires: git
 
-%if 0%{?rhel}
-Requires: python%{python3_pkgversion}
-Requires: python%{python3_pkgversion}-dictdiffer
-Requires: python%{python3_pkgversion}-jinja2
-Requires: python%{python3_pkgversion}-kubernetes
-Requires: python%{python3_pkgversion}-string_utils
-Requires: python%{python3_pkgversion}-ruamel-yaml
-Requires: python%{python3_pkgversion}-six
+Requires: %{py3}
+Requires: %{py3}-dictdiffer
+Requires: %{py3}-kubernetes
+Requires: %{py3}-string_utils
+Requires: %{py3}-requests
+Requires: %{py3}-ruamel-yaml
+Requires: %{py3}-six
+Requires: %{py3}-jinja2
 
-%else
-Requires: python3
-Requires: python3-dictdiffer
-Requires: python3-jinja2
-Requires: python3-kubernetes
-Requires: python3-string_utils
-Requires: python3-ruamel-yaml
-Requires: python3-six
-%endif
-
-%description -n python3-%{library}
-Python client for the OpenShift API 
+%description -n %{py3}-%{library}
+Python client for the OpenShift API
 %endif # with_python3
 
+#recommonmark not available for docs in EPEL
+%if 0%{?fedora}
+%package doc
+Summary: Documentation for %{name}.
+%if 0%{?with_python3}
+BuildRequires: %{py3}-sphinx
+BuildRequires: %{py3}-recommonmark
+%else
+BuildRequires: python2-sphinx
+BuildRequires: python2-recommonmark
+%endif
+%description doc
+%{summary}
+%endif
+
 %description
-Python client for the OpenShift API 
+Python client for the OpenShift API
 
 %prep
-%autosetup -S git
+%autosetup -n openshift-restclient-python-%{version} -S git
 #there is no include in RHEL7 setuptools find_packages
 #the requirements are also done in an non-backwards compatible way
 %if 0%{?rhel}
 sed -i -e "s/find_packages(include='openshift.*')/['openshift', 'openshift.ansiblegen', 'openshift.client', 'openshift.client.apis', 'openshift.client.models', 'openshift.config', 'openshift.docs', 'openshift.dynamic', 'openshift.helper', 'openshift.test']/g" setup.py
-sed -i -e '30s/^/REQUIRES = [\n    "certifi",\n    "ipaddress",\n    "oauth2client",\n    "setuptools",\n    "six",\n    "urllib3!=1.21",\n    "python-dateutil",\n    "pyyaml",\n    "websocket-client",\n]\n/g' setup.py
+sed -i -e '30s/^/REQUIRES = [\n    "dictdiffer",\n    "jinja2",\n    "kubernetes",\n    "setuptools",\n    "six",\n    "ruamel.yaml",\n    "python-string-utils",\n]\n/g' setup.py
 sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 #sed -i -e '14,21d' setup.py
 %endif
 
 %build
-%if 0%{?rhel}
-%py_build
-%else
+%if 0%{?with_python2}
 %py2_build
 %endif
 %if 0%{?with_python3}
 %py3_build
 %endif
 
+%if 0%{?fedora}
+sphinx-build doc/source/ html
+%{__rm} -rf html/.buildinfo
+%{__rm} -rf html/.doctrees
+%endif
+
 %install
-%if 0%{?rhel}
-%py_install
-%else
+%if 0%{?with_python2}
 %py2_install
 %endif
 %if 0%{?with_python3}
@@ -108,7 +119,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif
 
 %check
+#test dependencies are unpackaged
 
+%if 0%{?with_python2}
 %files -n python2-%{library}
 %license LICENSE
 %{python2_sitelib}/%{library}/*
@@ -116,26 +129,40 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %exclude %{python2_sitelib}/scripts
 %exclude /usr/requirements.txt/requirements.txt
 %exclude /usr/custom_objects_spec.json/custom_objects_spec.json
-#TODO: What about for python3?
-%if %{with_python3} == 0
 %{_bindir}/openshift-ansible-gen
 %endif
 
 %if 0%{?with_python3}
-%files -n python3-%{library}
+%files -n %{py3}-%{library}
 %license LICENSE
 %{python3_sitelib}/%{library}/*
 %{python3_sitelib}/%{library}-*.egg-info
 %exclude %{python3_sitelib}/scripts
+%exclude /usr/requirements.txt/requirements.txt
+%exclude /usr/custom_objects_spec.json/custom_objects_spec.json
 %{_bindir}/openshift-ansible-gen
-%endif # with_python3
+%endif
+
+%if 0%{?fedora}
+%files doc
+%license LICENSE
+%doc html
+%endif
 
 %changelog
+* Thu Dec 20 2018 Daniel Mellado <dmellado@redhat.com> 0.8.1-2
+- Ensure .doctrees directory is also cleaned up
+- Remove unnecessary provides name setting
+
 * Tue Nov 06 2018 Jason Montleon <jmontleo@redhat.com> 0.8.1-1
 - Bump version (fabian@fabianism.us)
 - [release-0.8] When searching for resources, prefer non-List matches (#232)
   (openshift-cherrypick-robot@redhat.com)
 - Version + dependency bump (fabian@fabianism.us)
+- Disable python2 builds for Fedora and python3 for EPEL by default
+
+* Tue Nov 06 2018 Jason Montleon <jmontleo@redhat.com> 0.8.0-1
+- Fix tag condition (fabian@fabianism.us)
 - Add watch to dynamic client (#221) (fabian@fabianism.us)
 - Pin flake8 (fabian@fabianism.us)
 - Do not decode response data in Python2 (#225)
@@ -244,7 +271,7 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
   (ceridwen@users.noreply.github.com)
 
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.4-2
-- Update version 
+- Update version
 
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.3-8
 - Bug 1508969 - Add foreground propagation policy (david.j.zager@gmail.com)
@@ -267,13 +294,13 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 - ignore requirements.txt in packaging
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-4
-- 
+-
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-3
 - make source name match package name
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-2
-- Fix source name 
+- Fix source name
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-1
 - new package built with tito
