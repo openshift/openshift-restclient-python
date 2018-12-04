@@ -58,6 +58,7 @@ def cache_decoder(client):
                 return ResourceList(obj['resource'])
             elif _type == 'ResourceGroup':
                 return ResourceGroup(obj['preferred'], resources=self.object_hook(obj['resources']))
+            return obj
 
     return CacheDecoder
 
