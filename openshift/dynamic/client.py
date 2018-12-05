@@ -271,7 +271,7 @@ class DynamicClient(object):
         :param namespace: The namespace to query
         :param name: The name of the resource instance to query
         :param label_selector: The label selector with which to filter results
-        :param label_selector: The field selector with which to filter results
+        :param field_selector: The field selector with which to filter results
         :param resource_version: The version with which to filter results. Only events with
                                  a resource_version greater than this value will be returned
         :param timeout: The amount of time in seconds to wait before terminating the stream
