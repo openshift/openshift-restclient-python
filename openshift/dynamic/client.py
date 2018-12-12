@@ -647,14 +647,17 @@ class LazyDiscoverer(Discoverer):
         Resources for the cluster are loaded lazily.
     """
 
-    # Special key used to mark when cache needs to be upated
-    UPDATE_KEY = "__needs_update__"
-
     def __init__(self, client, cache_file):
         Discoverer.__init__(self, client, cache_file)
+        self.__update_cache = False
 
     def discover(self):
         self.__resources = self.parse_api_groups(request_resources=False)
+
+    def __maybe_write_cache(self):
+        if self.__update_cache:
+            self._write_cache()
+            self.__update_cache = False
 
     def api_groups(self):
         return self.__resources['apis'].keys()
@@ -681,10 +684,7 @@ class LazyDiscoverer(Discoverer):
         if not results:
             self.invalidate_cache()
             results = self.__search(self.__build_search(**kwargs), self.__resources, [])
-        # Check if we need to update the cache
-        if self._cache.get(self.UPDATE_KEY):
-            del self._cache[self.UPDATE_KEY]
-            self._write_cache()
+        self.__maybe_write_cache()
         return results
 
     def __search(self,  parts, resources, reqParams):
@@ -702,7 +702,7 @@ class LazyDiscoverer(Discoverer):
                     resourcePart.resources = self.get_resources_for_api_version(prefix,
                         group, part, resourcePart.preferred)
                     self._cache['resources'][prefix][group][version] = resourcePart
-                    self._cache[self.UPDATE_KEY] = True
+                    self.__update_cache=True
                 return self.__search(parts[1:], resourcePart.resources, reqParams)
             elif isinstance(resourcePart, dict):
                 # In this case parts [0] will be a specified prefix, group, version
@@ -736,13 +736,11 @@ class LazyDiscoverer(Discoverer):
                     if not rg.resources:
                         rg.resources = self.get_resources_for_api_version(
                             prefix, group, version, rg.preferred)
-                        self._cache[self.UPDATE_KEY] = True
+                        self._cache['resources'][prefix][group][version] = rg
+                        self.__update_cache = True
                     for resource in rg.resources:
                         yield resource
-        # Check if we need to update the cache
-        if self._cache.get(self.UPDATE_KEY):
-            del self._cache[self.UPDATE_KEY]
-            self._write_cache()
+        self.__maybe_write_cache()
 
 class EagerDiscoverer(Discoverer):
     """ A convenient container for storing discovered API resources. Allows
