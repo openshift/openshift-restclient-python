@@ -14,6 +14,7 @@ from kubernetes import watch
 from kubernetes.client.rest import ApiException
 
 from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception, KubernetesValidateMissing
+from openshift import __version__ as LIBRARY_VERSION
 
 try:
     import kubernetes_validate
@@ -52,6 +53,8 @@ def cache_decoder(client):
             _type = obj.pop('_type')
             if _type == 'Resource':
                 return Resource(client=client, **obj)
+            elif _type == 'Subresource':
+                return Subresource(client, **obj)
             elif _type == 'ResourceList':
                 return ResourceList(client, **obj)
             elif _type == 'ResourceGroup':
@@ -101,7 +104,6 @@ class DynamicClient(object):
         self.client = client
         self.configuration = client.configuration
         self.__discoverer = discoverer(self, cache_file)
-
     @property
     def resources(self):
         return self.__discoverer
@@ -317,17 +319,15 @@ class Resource(object):
         self.name = name
         self.preferred = preferred
         self.client = client
-        self.singular_name = singularName or (name[:-1] if name else "")
+        self.singular_name = singularName or ""
         self.short_names = shortNames
         self.categories = categories
-        self.subresources = {
-            k: Subresource(self, **v) for k, v in (subresources or {}).items()
-        }
+        self.subresources = subresources
 
         self.extra_args = kwargs
 
     def to_dict(self):
-        return {
+        ret = {
             '_type': 'Resource',
             'prefix': self.prefix,
             'group': self.group,
@@ -341,8 +341,9 @@ class Resource(object):
             'short_names': self.short_names,
             'categories': self.categories,
             'subresources': {k: sr.to_dict() for k, sr in self.subresources.items()},
-            'extra_args': self.extra_args,
         }
+        ret.update(**self.extra_args)
+        return ret
 
     @property
     def group_version(self):
@@ -507,17 +508,29 @@ class Subresource(Resource):
         like scale, as well as status objects for an instantiated resource
     """
 
-    def __init__(self, parent, **kwargs):
-        self.parent = parent
-        self.prefix = parent.prefix
-        self.group = parent.group
-        self.api_version = parent.api_version
+    def __init__(self, client, **kwargs):
+        self.client = client
+        self.prefix = kwargs.pop('prefix')
+        self.group = kwargs.pop('group')
+        self.api_version = kwargs.pop('api_version')
         self.kind = kwargs.pop('kind')
         self.name = kwargs.pop('name')
-        self.subresource = self.name.split('/')[1]
+        self.parent_name, self.subresource = self.name.split('/')
         self.namespaced = kwargs.pop('namespaced', False)
         self.verbs = kwargs.pop('verbs', None)
         self.extra_args = kwargs
+
+    def get(self, name=None, namespace=None, **kwargs):
+        if not name:
+            raise ValueError('name is a required argument')
+        elif self.namespaced and not namespace:
+            raise ValueError('namespace is a required argument')
+        return self.__get(self, name=name, namespace=namespace, **kwargs)
+
+    @meta_request
+    def __get(self, resource, name=None, namespace=None, **kwargs):
+        path = self.path(name=name, namespace=namespace)
+        return self.client.request('get', path, **kwargs)
 
     #TODO(fabianvf): Determine proper way to handle differences between resources + subresources
     def create(self, body=None, name=None, namespace=None, **kwargs):
@@ -526,32 +539,36 @@ class Subresource(Resource):
     @meta_request
     def __create(self, resource, body=None, name=None, namespace=None, **kwargs):
         name = name or body.get('metadata', {}).get('name')
-        body = self.parent.client.serialize_body(body)
+        body = self.client.serialize_body(body)
         if resource.namespaced:
-            namespace = self.parent.client.ensure_namespace(resource, namespace, body)
+            namespace = self.client.ensure_namespace(resource, namespace, body)
         path = self.path(name=name, namespace=namespace)
-        return self.parent.client.request('post', path, body=body, **kwargs)
+        return self.client.request('post', path, body=body, **kwargs)
 
     @property
     def urls(self):
         full_prefix = '{}/{}'.format(self.prefix, self.group_version)
         return {
-            'full': '/{}/{}/{{name}}/{}'.format(full_prefix, self.parent.name, self.subresource),
-            'namespaced_full': '/{}/namespaces/{{namespace}}/{}/{{name}}/{}'.format(full_prefix, self.parent.name, self.subresource)
+            'full': '/{}/{}/{{name}}/{}'.format(full_prefix, self.parent_name, self.subresource),
+            'namespaced_full': '/{}/namespaces/{{namespace}}/{}/{{name}}/{}'.format(full_prefix, self.parent_name, self.subresource)
         }
 
     def __getattr__(self, name):
-        return partial(getattr(self.parent.client, name), self)
+        return partial(getattr(self.client, name), self)
 
     def to_dict(self):
-        return {
+        ret = {
+            '_type': 'Subresource',
+            'prefix': self.prefix,
+            'group': self.group,
+            'api_version': self.api_version,
             'kind': self.kind,
             'name': self.name,
-            'subresource': self.subresource,
             'namespaced': self.namespaced,
             'verbs': self.verbs,
-            'extra_args': self.extra_args,
         }
+        ret.update(**self.extra_args)
+        return ret
 
 
 class ResourceGroup(object):
@@ -678,10 +695,13 @@ class Discoverer(object):
 
         resources_raw = list(filter(lambda resource: '/' not in resource['name'], resources_response))
         subresources_raw = list(filter(lambda resource: '/' in resource['name'], resources_response))
+
         for subresource in subresources_raw:
             resource, name = subresource['name'].split('/')
             if not subresources.get(resource):
                 subresources[resource] = {}
+            if subresource.get('group'):
+                subresource['_group'] = subresource.pop('group')
             subresources[resource][name] = subresource
 
         for resource in resources_raw:
@@ -695,11 +715,19 @@ class Discoverer(object):
                 api_version=version,
                 client=self.client,
                 preferred=preferred,
-                subresources=subresources.get(resource['name']),
                 **resource
             )
+            resources[resource['kind']].subresources = {
+                k: Subresource(self, prefix=prefix, group=group, api_version=version, **v)
+                for k, v in subresources.get(resource['name'], {}).items()
+            }
             resource_list = ResourceList(self.client, group=group, api_version=version, base_kind=resource['kind'])
             resources[resource_list.kind] = resource_list
+
+            for _, subresource in resources[resource['kind']].subresources.items():
+                if subresource.kind != resource['kind']:
+                    resources[subresource.kind] = subresource
+                    resources['{}List'.format(subresource.kind)] = ResourceList(resources[subresource.kind])
         return resources
 
     def get(self, **kwargs):
