@@ -3,13 +3,12 @@ import pytest
 from kubernetes.client import ApiClient
 
 from openshift.dynamic import (
-        DynamicClient,
-        Resource, 
-        ResourceList, 
-        EagerDiscoverer, 
-        LazyDiscoverer
+    DynamicClient,
+    Resource,
+    ResourceList,
+    EagerDiscoverer,
+    LazyDiscoverer
 )
-
 
 
 @pytest.fixture(scope='module')
@@ -32,23 +31,24 @@ def mock_namespace():
 def mock_namespace_list(mock_namespace):
     return ResourceList(mock_namespace)
 
+
 @pytest.fixture(scope='function', autouse=True)
 def setup_client_monkeypatch(monkeypatch, mock_namespace, mock_namespace_list):
 
     def mock_load_server_info(self):
         self.__version = {'kubernetes': 'mock-k8s-version'}
 
-    def mock_parse_api_groups(self):
+    def mock_parse_api_groups(self, request_resources=False):
             return {
-            'api': {
-                '': {
-                    'v1': {
-                        'Namespace': mock_namespace,
-                        'NamespaceList': mock_namespace_list
+                'api': {
+                    '': {
+                        'v1': {
+                            'Namespace': mock_namespace,
+                            'NamespaceList': mock_namespace_list
+                        }
                     }
                 }
             }
-        }
 
     monkeypatch.setattr(EagerDiscoverer, '_load_server_info', mock_load_server_info)
     monkeypatch.setattr(EagerDiscoverer, 'parse_api_groups', mock_parse_api_groups)
@@ -57,8 +57,8 @@ def setup_client_monkeypatch(monkeypatch, mock_namespace, mock_namespace_list):
 
 
 @pytest.fixture(params=[EagerDiscoverer, LazyDiscoverer])
-def client(strategy):
-    return DynamicClient(ApiClient(), discoverer=strategy.param)
+def client(request):
+    return DynamicClient(ApiClient(), discoverer=request.param)
 
 
 @pytest.mark.parametrize(("attribute", "value"), [
@@ -72,6 +72,7 @@ def test_search_returns_single_and_list(client, mock_namespace, mock_namespace_l
     assert len(resources) == 2
     assert mock_namespace in resources
     assert mock_namespace_list in resources
+
 
 @pytest.mark.parametrize(("attribute", "value"), [
     ('kind', 'Namespace'),

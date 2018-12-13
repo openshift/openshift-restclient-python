@@ -545,10 +545,6 @@ class Discoverer(object):
         pass
 
     @abstractmethod
-    def get(self, prefix=None, group=None, api_version=None, kind=None, **kwargs):
-        pass
-
-    @abstractmethod
     def search(self, prefix=None, group=None, api_version=None, kind=None, **kwargs):
         pass
 
@@ -639,6 +635,27 @@ class Discoverer(object):
             resources['{}List'.format(resource['kind'])] = ResourceList(resources[resource['kind']])
         return resources
 
+    def get(self, **kwargs):
+        """ Same as search, but will throw an error if there are multiple or no
+            results. If there are multiple results and only one is an exact match
+            on api_version, that resource will be returned.
+        """
+        results = self.search(**kwargs)
+        # If there are multiple matches, prefer exact matches on api_version
+        if len(results) > 1 and kwargs.get('api_version'):
+            results = [
+                result for result in results if result.group_version == kwargs['api_version']
+            ]
+        # If there are multiple matches, prefer non-List kinds
+        if len(results) > 1 and not all([isinstance(x, ResourceList) for x in results]):
+            results = [result for result in results if not isinstance(result, ResourceList)]
+        if len(results) == 1:
+            return results[0]
+        elif not results:
+            raise ResourceNotFoundError('No matches found for {}'.format(kwargs))
+        else:
+            raise ResourceNotUniqueError('Multiple matches found for {}: {}'.format(kwargs, results))
+
 
 class LazyDiscoverer(Discoverer):
     """ A convenient container for storing discovered API resources. Allows
@@ -661,23 +678,6 @@ class LazyDiscoverer(Discoverer):
 
     def api_groups(self):
         return self.__resources['apis'].keys()
-
-    def get(self, **kwargs):
-        """ Same as search, but will throw an error if there are multiple or no
-            results. If there are multiple results and only one is an exact match
-            on api_version, that resource will be returned.
-        """
-        results = self.search(**kwargs)
-        if len(results) > 1 and kwargs.get('api_version'):
-            results = [
-                result for result in results if result.group_version == kwargs['api_version']
-            ]
-        if len(results) == 1:
-            return results[0]
-        elif not results:
-            raise ResourceNotFoundError('No matches found for {}'.format(kwargs))
-        else:
-            raise ResourceNotUniqueError('Multiple matches found for {}: {}'.format(kwargs, results))
 
     def search(self, **kwargs):
         results = self.__search(self.__build_search(**kwargs), self.__resources, [])
@@ -763,26 +763,6 @@ class EagerDiscoverer(Discoverer):
         """ list available api groups """
         return self.__resources['apis'].keys()
 
-    def get(self, **kwargs):
-        """ Same as search, but will throw an error if there are multiple or no
-            results. If there are multiple results and only one is an exact match
-            on api_version, that resource will be returned.
-        """
-        results = self.search(**kwargs)
-        # If there are multiple matches, prefer exact matches on api_version
-        if len(results) > 1 and kwargs.get('api_version'):
-            results = [
-                result for result in results if result.group_version == kwargs['api_version']
-            ]
-        # If there are multiple matches, prefer non-List kinds
-        if len(results) > 1 and not all([isinstance(x, ResourceList) for x in results]):
-            results = [result for result in results if not isinstance(result, ResourceList)]
-        if len(results) == 1:
-            return results[0]
-        elif not results:
-            raise ResourceNotFoundError('No matches found for {}'.format(kwargs))
-        else:
-            raise ResourceNotUniqueError('Multiple matches found for {}: {}'.format(kwargs, results))
 
     def search(self, **kwargs):
         """ Takes keyword arguments and returns matching resources. The search
