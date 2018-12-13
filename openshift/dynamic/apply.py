@@ -17,7 +17,7 @@ def apply(resource, definition):
         actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata']['namespace'])
     except NotFoundError:
         return resource.create(body=dict_merge(definition, desired_annotation), namespace=definition['metadata']['namespace'])
-    last_applied = actual.metadata.annotations.get(LAST_APPLIED_CONFIG_ANNOTATION)
+    last_applied = actual.metadata.get('annotations',{}).get(LAST_APPLIED_CONFIG_ANNOTATION)
 
     if last_applied:
         last_applied = json.loads(last_applied)
