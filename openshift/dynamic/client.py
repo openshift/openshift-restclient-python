@@ -8,6 +8,7 @@ import base64
 import tempfile
 from functools import partial
 from six import PY2, PY3
+from abc import abstractmethod, abstractproperty
 
 import yaml
 from pprint import pformat
@@ -31,7 +32,8 @@ __all__ = [
     'Resource',
     'ResourceList',
     'Subresource',
-    'ResourceContainer',
+    'EagerDiscoverer',
+    'LazyDiscoverer',
     'ResourceField',
 ]
 
@@ -54,6 +56,8 @@ def cache_decoder(client):
                 return Resource(client=client, **obj)
             elif _type == 'ResourceList':
                 return ResourceList(obj['resource'])
+            elif _type == 'ResourceGroup':
+                return ResourceGroup(obj['preferred'], resources=self.object_hook(obj['resources']))
             return obj
 
     return CacheDecoder
@@ -91,119 +95,22 @@ class DynamicClient(object):
         the kubernetes API
     """
 
-    def __init__(self, client, cache_file=None):
+    def __init__(self, client, cache_file=None, discoverer=None):
+        # Setting default here to delay evaluation of LazyDiscoverer class
+        # until constructor is called
+        discoverer = discoverer or LazyDiscoverer
+
         self.client = client
         self.configuration = client.configuration
-        default_cache_id = self.configuration.host
-        if PY3:
-            default_cache_id = default_cache_id.encode('utf-8')
-        default_cachefile_name = 'osrcp-{0}.json'.format(base64.b64encode(default_cache_id).decode('utf-8'))
-        self.__resources = ResourceContainer({}, client=self)
-        self.__cache_file = cache_file or os.path.join(tempfile.gettempdir(), default_cachefile_name)
-        self.__init_cache()
-
-    def __init_cache(self, refresh=False):
-        if refresh or not os.path.exists(self.__cache_file):
-            self.__cache = {}
-            refresh = True
-        else:
-            with open(self.__cache_file, 'r') as f:
-                self.__cache = json.load(f, cls=cache_decoder(self))
-        self._load_server_info()
-        self.__resources.update(self.parse_api_groups())
-
-        if refresh:
-            self.__write_cache()
-
-    def __write_cache(self):
-        with open(self.__cache_file, 'w') as f:
-            json.dump(self.__cache, f, cls=CacheEncoder)
-
-    def invalidate_cache(self):
-        self.__init_cache(refresh=True)
-
-    def _load_server_info(self):
-        if not self.__cache.get('version'):
-            self.__cache['version'] = {'kubernetes': load_json(self.request('get', '/version'))}
-            try:
-                self.__cache['version']['openshift'] = load_json(self.request('get', '/version/openshift'))
-            except ApiException:
-                pass
-        self.__version = self.__cache['version']
+        self.__discoverer = discoverer(self, cache_file)
 
     @property
     def resources(self):
-        return self.__resources
+        return self.__discoverer
 
     @property
     def version(self):
-        return self.__version
-
-    def default_groups(self):
-        groups = {}
-        groups['api'] = { '': {
-            'v1': self.get_resources_for_api_version('api', '', 'v1', True)
-        }}
-
-        if self.version.get('openshift'):
-            groups['oapi'] = { '': {
-                'v1': self.get_resources_for_api_version('oapi', '', 'v1', True)
-            }}
-
-        return groups
-
-    def parse_api_groups(self):
-        """ Discovers all API groups present in the cluster """
-        if not self.__cache.get('resources'):
-            prefix = 'apis'
-            groups_response = load_json(self.request('GET', '/{}'.format(prefix)))['groups']
-
-            groups = self.default_groups()
-            groups[prefix] = {}
-
-            for group in groups_response:
-                new_group = {}
-                for version_raw in group['versions']:
-                    version = version_raw['version']
-                    preferred = version_raw == group['preferredVersion']
-                    new_group[version] = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
-                groups[prefix][group['name']] = new_group
-            self.__cache['resources'] = groups
-        return self.__cache['resources']
-
-    def get_resources_for_api_version(self, prefix, group, version, preferred):
-        """ returns a dictionary of resources associated with provided groupVersion"""
-
-        resources = {}
-        subresources = {}
-
-        path = '/'.join(filter(None, [prefix, group, version]))
-        resources_response = load_json(self.request('GET', path))['resources']
-
-        resources_raw = list(filter(lambda resource: '/' not in resource['name'], resources_response))
-        subresources_raw = list(filter(lambda resource: '/' in resource['name'], resources_response))
-        for subresource in subresources_raw:
-            resource, name = subresource['name'].split('/')
-            if not subresources.get(resource):
-                subresources[resource] = {}
-            subresources[resource][name] = subresource
-
-        for resource in resources_raw:
-            # Prevent duplicate keys
-            for key in ('prefix', 'group', 'api_version', 'client', 'preferred'):
-                resource.pop(key, None)
-
-            resources[resource['kind']] = Resource(
-                prefix=prefix,
-                group=group,
-                api_version=version,
-                client=self,
-                preferred=preferred,
-                subresources=subresources.get(resource['name']),
-                **resource
-            )
-            resources['{}List'.format(resource['kind'])] = ResourceList(resources[resource['kind']])
-        return resources
+        return self.__discoverer.version
 
     def ensure_namespace(self, resource, namespace, body):
         namespace = namespace or body.get('metadata', {}).get('namespace')
@@ -304,7 +211,6 @@ class DynamicClient(object):
             yield event
 
     def request(self, method, path, body=None, **params):
-
         if not path.startswith('/'):
             path = '/' + path
 
@@ -362,7 +268,6 @@ class DynamicClient(object):
             _preload_content=False,
             _return_http_data_only=params.get('_return_http_data_only', True)
         )
-
 
     def validate(self, definition, version=None, strict=False):
         """validate checks a kubernetes resource definition
@@ -563,7 +468,6 @@ class Subresource(Resource):
         path = self.path(name=name, namespace=namespace)
         return self.parent.client.request('post', path, body=body, **kwargs)
 
-
     @property
     def urls(self):
         full_prefix = '{}/{}'.format(self.prefix, self.group_version)
@@ -586,22 +490,150 @@ class Subresource(Resource):
         }
 
 
-class ResourceContainer(object):
-    """ A convenient container for storing discovered API resources. Allows
-        easy searching and retrieval of specific resources
+class ResourceGroup(object):
+    """Helper class for Discoverer container"""
+    def __init__(self, preferred, resources=None):
+        self.preferred = preferred
+        self.resources = resources or {}
+
+    def to_dict(self):
+        return {
+            '_type': 'ResourceGroup',
+            'preferred': self.preferred,
+            'resources': self.resources,
+        }
+
+class Discoverer(object):
+    """
+        A convenient container for storing discovered API resources. Allows
+        easy searching and retrieval of specific resources.
+
+        Subclasses implement the abstract methods with different loading strategies.
     """
 
-    def __init__(self, resources, client=None):
-        self.__resources = resources
-        self.__client = client
+    def __init__(self, client, cache_file):
+        self.client = client
+        default_cache_id = self.client.configuration.host
+        if PY3:
+            default_cache_id = default_cache_id.encode('utf-8')
+        default_cachefile_name = 'osrcp-{0}.json'.format(base64.b64encode(default_cache_id).decode('utf-8'))
+        self.__cache_file = cache_file or os.path.join(tempfile.gettempdir(), default_cachefile_name)
+        self.__init_cache()
 
-    def update(self, resources):
-        self.__resources = resources
+    def __init_cache(self, refresh=False):
+        if refresh or not os.path.exists(self.__cache_file):
+            self._cache = {}
+            refresh = True
+        else:
+            with open(self.__cache_file, 'r') as f:
+                self._cache = json.load(f, cls=cache_decoder(self.client))
+        self._load_server_info()
+        self.discover()
+
+        if refresh:
+            self._write_cache()
+
+    def _write_cache(self):
+        with open(self.__cache_file, 'w') as f:
+            json.dump(self._cache, f, cls=CacheEncoder)
+
+    def invalidate_cache(self):
+        self.__init_cache(refresh=True)
+
+    @abstractproperty
+    def api_groups(self):
+        pass
+
+    @abstractmethod
+    def search(self, prefix=None, group=None, api_version=None, kind=None, **kwargs):
+        pass
+
+    @abstractmethod
+    def discover(self):
+        pass
 
     @property
-    def api_groups(self):
-        """ list available api groups """
-        return self.__resources['apis'].keys()
+    def version(self):
+        return self.__version
+
+    def default_groups(self, request_resources=False):
+        groups = {}
+        groups['api'] = { '': {
+            'v1': (ResourceGroup( True, resources=self.get_resources_for_api_version('api', '', 'v1', True) )
+                if request_resources else ResourceGroup(True))
+        }}
+
+        if self.version.get('openshift'):
+            groups['oapi'] = { '': {
+                'v1': (ResourceGroup( True, resources=self.get_resources_for_api_version('oapi', '', 'v1', True) )
+                    if request_resources else ResourceGroup(True))
+                }}
+
+        return groups
+
+    def parse_api_groups(self, request_resources=False):
+        """ Discovers all API groups present in the cluster """
+        if not self._cache.get('resources'):
+            prefix = 'apis'
+            groups_response = load_json(self.client.request('GET', '/{}'.format(prefix)))['groups']
+
+            groups = self.default_groups(request_resources=request_resources)
+            groups[prefix] = {}
+
+            for group in groups_response:
+                new_group = {}
+                for version_raw in group['versions']:
+                    version = version_raw['version']
+                    preferred = version_raw == group['preferredVersion']
+                    resources = {}
+                    if request_resources:
+                        resources = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
+                    new_group[version] = ResourceGroup(preferred, resources=resources)
+                groups[prefix][group['name']] = new_group
+            self._cache['resources'] = groups
+        return self._cache['resources']
+
+    def _load_server_info(self):
+        if not self._cache.get('version'):
+            self._cache['version'] = {'kubernetes': load_json(self.client.request('get', '/version'))}
+            try:
+                self._cache['version']['openshift'] = load_json(self.client.request('get', '/version/openshift'))
+            except ApiException:
+                pass
+        self.__version = self._cache['version']
+
+    def get_resources_for_api_version(self, prefix, group, version, preferred):
+        """ returns a dictionary of resources associated with provided (prefix, group, version)"""
+
+        resources = {}
+        subresources = {}
+
+        path = '/'.join(filter(None, [prefix, group, version]))
+        resources_response = load_json(self.client.request('GET', path))['resources']
+
+        resources_raw = list(filter(lambda resource: '/' not in resource['name'], resources_response))
+        subresources_raw = list(filter(lambda resource: '/' in resource['name'], resources_response))
+        for subresource in subresources_raw:
+            resource, name = subresource['name'].split('/')
+            if not subresources.get(resource):
+                subresources[resource] = {}
+            subresources[resource][name] = subresource
+
+        for resource in resources_raw:
+            # Prevent duplicate keys
+            for key in ('prefix', 'group', 'api_version', 'client', 'preferred'):
+                resource.pop(key, None)
+
+            resources[resource['kind']] = Resource(
+                prefix=prefix,
+                group=group,
+                api_version=version,
+                client=self.client,
+                preferred=preferred,
+                subresources=subresources.get(resource['name']),
+                **resource)
+            resources['{}List'.format(resource['kind'])] = ResourceList(resources[resource['kind']])
+        return resources
 
     def get(self, **kwargs):
         """ Same as search, but will throw an error if there are multiple or no
@@ -624,6 +656,114 @@ class ResourceContainer(object):
         else:
             raise ResourceNotUniqueError('Multiple matches found for {}: {}'.format(kwargs, results))
 
+
+class LazyDiscoverer(Discoverer):
+    """ A convenient container for storing discovered API resources. Allows
+        easy searching and retrieval of specific resources.
+
+        Resources for the cluster are loaded lazily.
+    """
+
+    def __init__(self, client, cache_file):
+        Discoverer.__init__(self, client, cache_file)
+        self.__update_cache = False
+
+    def discover(self):
+        self.__resources = self.parse_api_groups(request_resources=False)
+
+    def __maybe_write_cache(self):
+        if self.__update_cache:
+            self._write_cache()
+            self.__update_cache = False
+
+    def api_groups(self):
+        return self.__resources['apis'].keys()
+
+    def search(self, **kwargs):
+        results = self.__search(self.__build_search(**kwargs), self.__resources, [])
+        if not results:
+            self.invalidate_cache()
+            results = self.__search(self.__build_search(**kwargs), self.__resources, [])
+        self.__maybe_write_cache()
+        return results
+
+    def __search(self,  parts, resources, reqParams):
+        part = parts[0]
+        if part != '*':
+            resourcePart = resources.get(part)
+            if not resourcePart:
+                return []
+            elif isinstance(resourcePart, ResourceGroup):
+                if len(reqParams) != 2:
+                    raise ValueError("prefix and group params should be present, have %s" % reqParams)
+                # Check if we've requested resources for this group
+                if not resourcePart.resources:
+                    prefix, group, version = reqParams[0], reqParams[1], part
+                    resourcePart.resources = self.get_resources_for_api_version(prefix,
+                        group, part, resourcePart.preferred)
+                    self._cache['resources'][prefix][group][version] = resourcePart
+                    self.__update_cache=True
+                return self.__search(parts[1:], resourcePart.resources, reqParams)
+            elif isinstance(resourcePart, dict):
+                # In this case parts [0] will be a specified prefix, group, version
+                # as we recurse
+                return self.__search(parts[1:], resourcePart, reqParams + [part] )
+            else:
+                if parts[1] != '*' and isinstance(parts[1], dict):
+                    for term, value in parts[1].items():
+                        if getattr(resourcePart, term) == value:
+                            return [resourcePart]
+                else:
+                    return [resourcePart]
+        else:
+            matches = []
+            for key in resources.keys():
+                matches.extend(self.__search([key] + parts[1:], resources, reqParams))
+            return matches
+
+    def __build_search(self, prefix=None, group=None, api_version=None, kind=None, **kwargs):
+        if not group and api_version and '/' in api_version:
+            group, api_version = api_version.split('/')
+
+        items = [prefix, group, api_version, kind, kwargs]
+        return list(map(lambda x: x or '*', items))
+
+    def __iter__(self):
+        for prefix, groups in self.__resources.items():
+            for group, versions in groups.items():
+                for version, rg in versions.items():
+                    # Request resources for this groupVersion if we haven't yet
+                    if not rg.resources:
+                        rg.resources = self.get_resources_for_api_version(
+                            prefix, group, version, rg.preferred)
+                        self._cache['resources'][prefix][group][version] = rg
+                        self.__update_cache = True
+                    for resource in rg.resources:
+                        yield resource
+        self.__maybe_write_cache()
+
+class EagerDiscoverer(Discoverer):
+    """ A convenient container for storing discovered API resources. Allows
+        easy searching and retrieval of specific resources.
+
+        All resources are discovered for the cluster upon object instantiation.
+    """
+
+    def update(self, resources):
+        self.__resources = resources
+
+    def __init__(self, client, cache_file):
+        Discoverer.__init__(self, client, cache_file)
+
+    def discover(self):
+        self.__resources = self.parse_api_groups(request_resources=True)
+
+    @property
+    def api_groups(self):
+        """ list available api groups """
+        return self.__resources['apis'].keys()
+
+
     def search(self, **kwargs):
         """ Takes keyword arguments and returns matching resources. The search
             will happen in the following order:
@@ -637,32 +777,33 @@ class ResourceContainer(object):
         """
         results = self.__search(self.__build_search(**kwargs), self.__resources)
         if not results:
-            self.__client.invalidate_cache()
+            self.invalidate_cache()
             results = self.__search(self.__build_search(**kwargs), self.__resources)
         return results
 
-    def __build_search(self, kind=None, api_version=None, prefix=None, **kwargs):
-        if api_version and '/' in api_version:
-            group, version = api_version.split('/')
-            items = [prefix, group, version, kind, kwargs]
-        else:
-            items = [prefix, '*', api_version, kind, kwargs]
+    def __build_search(self, prefix=None, group=None, api_version=None, kind=None, **kwargs):
+        if not group and api_version and '/' in api_version:
+            group, api_version = api_version.split('/')
 
+        items = [prefix, group, api_version, kind, kwargs]
         return list(map(lambda x: x or '*', items))
 
     def __search(self, parts, resources):
         part = parts[0]
-        if part != '*' and resources.get(part):
-            if isinstance(resources.get(part), dict):
-                return self.__search(parts[1:], resources[part])
+        resourcePart = resources.get(part)
+
+        if part != '*' and resourcePart:
+            if isinstance(resourcePart, ResourceGroup):
+                return self.__search(parts[1:], resourcePart.resources)
+            elif isinstance(resourcePart, dict):
+                return self.__search(parts[1:], resourcePart)
             else:
-                resource = resources.get(part)
                 if parts[1] != '*' and isinstance(parts[1], dict):
                     for term, value in parts[1].items():
-                        if getattr(resource, term) == value:
-                            return [resource]
+                        if getattr(resourcePart, term) == value:
+                            return [resourcePart]
                 else:
-                    return [resource]
+                    return [resourcePart]
         elif part == '*':
             matches = []
             for key in resources.keys():
