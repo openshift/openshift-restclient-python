@@ -594,7 +594,7 @@ class Discoverer(object):
 
     def __init__(self, client, cache_file):
         self.client = client
-        default_cache_id = self.client.configuration.host
+        default_cache_id = self.configuration.host + LIBRARY_VERSION
         if six.PY3:
             default_cache_id = default_cache_id.encode('utf-8')
         default_cachefile_name = 'osrcp-{0}.json'.format(base64.b64encode(default_cache_id).decode('utf-8'))
