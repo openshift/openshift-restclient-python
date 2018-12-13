@@ -37,6 +37,8 @@ __all__ = [
     'ResourceField',
 ]
 
+DISCOVERY_PREFIX = 'apis'
+
 class CacheEncoder(json.JSONEncoder):
 
     def default(self, o):
@@ -635,17 +637,17 @@ class Discoverer(object):
                     if request_resources else ResourceGroup(True))
                 }}
 
+            groups[DISCOVERY_PREFIX] = {'': {
+                'v1': ResourceGroup(True, resources = {"List": ResourceList(self.client)})
+            }}
         return groups
 
     def parse_api_groups(self, request_resources=False):
         """ Discovers all API groups present in the cluster """
         if not self._cache.get('resources'):
-            prefix = 'apis'
-            groups_response = load_json(self.client.request('GET', '/{}'.format(prefix)))['groups']
+            groups_response = load_json(self.client.request('GET', '/{}'.format(DISCOVERY_PREFIX)))['groups']
 
             groups = self.default_groups(request_resources=request_resources)
-            groups['api']['']['v1']['List'] = ResourceList(self)
-            groups[prefix] = {}
 
             for group in groups_response:
                 new_group = {}
@@ -654,9 +656,9 @@ class Discoverer(object):
                     preferred = version_raw == group['preferredVersion']
                     resources = {}
                     if request_resources:
-                        resources = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
+                        resources = self.get_resources_for_api_version(DISCOVERY_PREFIX, group['name'], version, preferred)
                     new_group[version] = ResourceGroup(preferred, resources=resources)
-                groups[prefix][group['name']] = new_group
+                groups[DISCOVERY_PREFIX][group['name']] = new_group
             self._cache['resources'] = groups
         return self._cache['resources']
 
@@ -700,7 +702,7 @@ class Discoverer(object):
                 subresources=subresources.get(resource['name']),
                 **resource
             )
-            resource_list = ResourceList(self, group=group, api_version=version, base_kind=resource['kind'])
+            resource_list = ResourceList(self.client, group=group, api_version=version, base_kind=resource['kind'])
             resources[resource_list.kind] = resource_list
         return resources
 
@@ -807,7 +809,7 @@ class LazyDiscoverer(Discoverer):
                             prefix, group, version, rg.preferred)
                         self._cache['resources'][prefix][group][version] = rg
                         self.__update_cache = True
-                    for resource in rg.resources:
+                    for _, resource in rg.resources.items():
                         yield resource
         self.__maybe_write_cache()
 
@@ -985,7 +987,7 @@ def main():
         item = {}
         item[key] = {k: v for k, v in resource.__dict__.items() if k not in ('client', 'subresources', 'resource')}
         if isinstance(resource, ResourceList):
-            item[key]["resource"] = '{}.{}'.format(resource.resource.group_version, resource.resource.kind)
+            item[key]["resource"] = '{}.{}'.format(resource.group_version, resource.kind)
         else:
             item[key]['subresources'] = {}
             for name, value in resource.subresources.items():
