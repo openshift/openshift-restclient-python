@@ -381,11 +381,12 @@ class Resource(object):
     @property
     def urls(self):
         full_prefix = '{}/{}'.format(self.prefix, self.group_version)
+        resource_name = self.name.lower()
         return {
-            'base': '/{}/{}'.format(full_prefix, self.name),
-            'namespaced_base': '/{}/namespaces/{{namespace}}/{}'.format(full_prefix, self.name),
-            'full': '/{}/{}/{{name}}'.format(full_prefix, self.name),
-            'namespaced_full': '/{}/namespaces/{{namespace}}/{}/{{name}}'.format(full_prefix, self.name)
+            'base': '/{}/{}'.format(full_prefix, resource_name),
+            'namespaced_base': '/{}/namespaces/{{namespace}}/{}'.format(full_prefix, resource_name),
+            'full': '/{}/{}/{{name}}'.format(full_prefix, resource_name),
+            'namespaced_full': '/{}/namespaces/{{namespace}}/{}/{{name}}'.format(full_prefix, resource_name)
         }
 
     def path(self, name=None, namespace=None):
