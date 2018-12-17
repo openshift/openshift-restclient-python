@@ -7,9 +7,9 @@ import json
 import base64
 import tempfile
 from functools import partial
-from six import PY2, PY3
 from abc import abstractmethod, abstractproperty
 
+import six
 import yaml
 from pprint import pformat
 
@@ -82,12 +82,12 @@ def serialize(resource, response):
     try:
         return ResourceInstance(resource, load_json(response))
     except ValueError:
-        if PY2:
+        if six.PY2:
             return response.data
         return response.data.decode('utf8')
 
 def load_json(response):
-    if PY2:
+    if six.PY2:
         return json.loads(response.data)
     return json.loads(response.data.decode('utf8'))
 
@@ -582,7 +582,7 @@ class Discoverer(object):
     def __init__(self, client, cache_file):
         self.client = client
         default_cache_id = self.client.configuration.host
-        if PY3:
+        if six.PY3:
             default_cache_id = default_cache_id.encode('utf-8')
         default_cachefile_name = 'osrcp-{0}.json'.format(base64.b64encode(default_cache_id).decode('utf-8'))
         self.__cache_file = cache_file or os.path.join(tempfile.gettempdir(), default_cachefile_name)
@@ -809,7 +809,7 @@ class LazyDiscoverer(Discoverer):
                             prefix, group, version, rg.preferred)
                         self._cache['resources'][prefix][group][version] = rg
                         self.__update_cache = True
-                    for _, resource in rg.resources.items():
+                    for _, resource in six.iteritems(rg.resources):
                         yield resource
         self.__maybe_write_cache()
 
