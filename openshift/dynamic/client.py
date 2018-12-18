@@ -7,9 +7,9 @@ import json
 import base64
 import tempfile
 from functools import partial
-from six import PY2, PY3
 from abc import abstractmethod, abstractproperty
 
+import six
 import yaml
 from pprint import pformat
 
@@ -37,6 +37,8 @@ __all__ = [
     'ResourceField',
 ]
 
+DISCOVERY_PREFIX = 'apis'
+
 class CacheEncoder(json.JSONEncoder):
 
     def default(self, o):
@@ -55,7 +57,7 @@ def cache_decoder(client):
             if _type == 'Resource':
                 return Resource(client=client, **obj)
             elif _type == 'ResourceList':
-                return ResourceList(obj['resource'])
+                return ResourceList(client, **obj)
             elif _type == 'ResourceGroup':
                 return ResourceGroup(obj['preferred'], resources=self.object_hook(obj['resources']))
             return obj
@@ -80,12 +82,12 @@ def serialize(resource, response):
     try:
         return ResourceInstance(resource, load_json(response))
     except ValueError:
-        if PY2:
+        if six.PY2:
             return response.data
         return response.data.decode('utf8')
 
 def load_json(response):
-    if PY2:
+    if six.PY2:
         return json.loads(response.data)
     return json.loads(response.data.decode('utf8'))
 
@@ -387,35 +389,96 @@ class Resource(object):
 class ResourceList(Resource):
     """ Represents a list of API objects """
 
-    def __init__(self, resource):
-        self.resource = resource
-        self.kind = '{}List'.format(resource.kind)
+    def __init__(self, client, group='', api_version='v1', base_kind='', kind=None):
+        self.client = client
+        self.group = group
+        self.api_version = api_version
+        self.kind = kind or '{}List'.format(base_kind)
+        self.base_kind = base_kind
+        self.__base_resource = None
 
-    def get(self, body=None, **kwargs):
+    def base_resource(self):
+        if self.__base_resource:
+            return self.__base_resource
+        elif self.base_kind:
+            self.__base_resource = self.client.resources.get(group=self.group, api_version=self.api_version, kind=self.base_kind)
+            return self.__base_resource
+        return None
+
+    def _items_to_resources(self, body):
+        """ Takes a List body and return a dictionary with the following structure:
+            {
+                'api_version': str,
+                'kind': str,
+                'items': [{
+                    'resource': Resource,
+                    'name': str,
+                    'namespace': str,
+                }]
+            }
+        """
         if body is None:
-            return self.resource.get(**kwargs)
+            raise ValueError("You must provide a body when calling methods on a ResourceList")
+
+        api_version = body['apiVersion']
+        kind = body['kind']
+        items = body.get('items')
+        if not items:
+            raise ValueError('The `items` field in the body must be populated when calling methods on a ResourceList')
+
+        if self.kind != kind:
+            raise ValueError('Methods on a {} must be called with a body containing the same kind. Receieved {} instead'.format(self.kind, kind))
+
+        return {
+            'api_version': api_version,
+            'kind': kind,
+            'items': [self._item_to_resource(item) for item in items]
+        }
+
+    def _item_to_resource(self, item):
+        metadata = item.get('metadata', {})
+        resource = self.base_resource()
+        if not resource:
+            api_version = item.get('apiVersion', self.api_version)
+            kind = item.get('kind', self.base_kind)
+            resource = self.client.resources.get(api_version=api_version, kind=kind)
+        return {
+            'resource': resource,
+            'definition': item,
+            'name': metadata.get('name'),
+            'namespace': metadata.get('namespace')
+        }
+
+    def get(self, body, name=None, namespace=None, **kwargs):
+        if name:
+            raise ValueError('Operations on ResourceList objects do not support the `name` argument')
+        resource_list = self._items_to_resources(body)
         response = copy.deepcopy(body)
-        namespace = kwargs.pop('namespace', None)
+
         response['items'] = [
-            self.resource.get(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs)
-            for item in body['items']
+            item['resource'].get(name=item['name'], namespace=item['namespace'] or namespace, **kwargs)
+            for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
 
-    def delete(self, body=None, *args, **kwargs):
+    def delete(self, body, name=None, namespace=None, **kwargs):
+        if name:
+            raise ValueError('Operations on ResourceList objects do not support the `name` argument')
+        resource_list = self._items_to_resources(body)
         response = copy.deepcopy(body)
-        namespace = kwargs.pop('namespace', None)
+
         response['items'] = [
-            self.resource.delete(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs)
-            for item in body['items']
+            item['resource'].delete(name=item['name'], namespace=item['namespace'] or namespace, **kwargs)
+            for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
 
-    def verb_mapper(self, verb, body=None, **kwargs):
+    def verb_mapper(self, verb, body, **kwargs):
+        resource_list = self._items_to_resources(body)
         response = copy.deepcopy(body)
         response['items'] = [
-            getattr(self.resource, verb)(body=item, **kwargs)
-            for item in body['items']
+            getattr(item['resource'], verb)(body=item['definition'], **kwargs)
+            for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
 
@@ -428,14 +491,19 @@ class ResourceList(Resource):
     def patch(self, *args, **kwargs):
         return self.verb_mapper('patch', *args, **kwargs)
 
-    def __getattr__(self, name):
-        return getattr(self.resource, name)
-
     def to_dict(self):
         return {
             '_type': 'ResourceList',
-            'resource': self.resource.to_dict(),
+            'group': self.group,
+            'api_version': self.api_version,
+            'kind': self.kind,
+            'base_kind': self.base_kind
         }
+
+    def __getattr__(self, name):
+        if self.base_resource():
+            return getattr(self.base_resource(), name)
+        return None
 
 
 class Subresource(Resource):
@@ -514,7 +582,7 @@ class Discoverer(object):
     def __init__(self, client, cache_file):
         self.client = client
         default_cache_id = self.client.configuration.host
-        if PY3:
+        if six.PY3:
             default_cache_id = default_cache_id.encode('utf-8')
         default_cachefile_name = 'osrcp-{0}.json'.format(base64.b64encode(default_cache_id).decode('utf-8'))
         self.__cache_file = cache_file or os.path.join(tempfile.gettempdir(), default_cachefile_name)
@@ -569,16 +637,17 @@ class Discoverer(object):
                     if request_resources else ResourceGroup(True))
                 }}
 
+            groups[DISCOVERY_PREFIX] = {'': {
+                'v1': ResourceGroup(True, resources = {"List": ResourceList(self.client)})
+            }}
         return groups
 
     def parse_api_groups(self, request_resources=False):
         """ Discovers all API groups present in the cluster """
         if not self._cache.get('resources'):
-            prefix = 'apis'
-            groups_response = load_json(self.client.request('GET', '/{}'.format(prefix)))['groups']
+            groups_response = load_json(self.client.request('GET', '/{}'.format(DISCOVERY_PREFIX)))['groups']
 
             groups = self.default_groups(request_resources=request_resources)
-            groups[prefix] = {}
 
             for group in groups_response:
                 new_group = {}
@@ -587,9 +656,9 @@ class Discoverer(object):
                     preferred = version_raw == group['preferredVersion']
                     resources = {}
                     if request_resources:
-                        resources = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
+                        resources = self.get_resources_for_api_version(DISCOVERY_PREFIX, group['name'], version, preferred)
                     new_group[version] = ResourceGroup(preferred, resources=resources)
-                groups[prefix][group['name']] = new_group
+                groups[DISCOVERY_PREFIX][group['name']] = new_group
             self._cache['resources'] = groups
         return self._cache['resources']
 
@@ -631,8 +700,10 @@ class Discoverer(object):
                 client=self.client,
                 preferred=preferred,
                 subresources=subresources.get(resource['name']),
-                **resource)
-            resources['{}List'.format(resource['kind'])] = ResourceList(resources[resource['kind']])
+                **resource
+            )
+            resource_list = ResourceList(self.client, group=group, api_version=version, base_kind=resource['kind'])
+            resources[resource_list.kind] = resource_list
         return resources
 
     def get(self, **kwargs):
@@ -738,7 +809,7 @@ class LazyDiscoverer(Discoverer):
                             prefix, group, version, rg.preferred)
                         self._cache['resources'][prefix][group][version] = rg
                         self.__update_cache = True
-                    for resource in rg.resources:
+                    for _, resource in six.iteritems(rg.resources):
                         yield resource
         self.__maybe_write_cache()
 
@@ -916,7 +987,7 @@ def main():
         item = {}
         item[key] = {k: v for k, v in resource.__dict__.items() if k not in ('client', 'subresources', 'resource')}
         if isinstance(resource, ResourceList):
-            item[key]["resource"] = '{}.{}'.format(resource.resource.group_version, resource.resource.kind)
+            item[key]["resource"] = '{}.{}'.format(resource.group_version, resource.kind)
         else:
             item[key]['subresources'] = {}
             for name, value in resource.subresources.items():

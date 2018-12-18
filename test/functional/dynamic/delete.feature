@@ -1,9 +1,10 @@
 Feature: Delete
 
     Examples:
-    | filename                         | namespace |
-    | definitions/v1_Pod_test.yaml     | test      |
-    | definitions/v1_PodList_test.yaml | test2     |
+    | filename                         | namespace    |
+    | definitions/v1_Pod_test.yaml     | test-delete  |
+    | definitions/v1_PodList_test.yaml | test-delete2 |
+    | definitions/v1_List_test.yaml    | test-delete  |
 
     Scenario Outline: Delete a resource that exists
         Given I have edit permissions in <namespace>

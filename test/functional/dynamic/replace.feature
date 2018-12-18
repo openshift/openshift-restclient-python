@@ -1,9 +1,10 @@
 Feature: Replace
 
     Examples:
-    | filename                                              | namespace    | update                                                        |
-    | definitions/route.openshift.io_v1_Route_test.yaml     | test-replace | definitions/route.openshift.io_v1_Route_test_replace.yaml     |
-    | definitions/route.openshift.io_v1_RouteList_test.yaml | test-replace | definitions/route.openshift.io_v1_RouteList_test_replace.yaml |
+    | filename                                              | namespace     | update                                                        |
+    | definitions/route.openshift.io_v1_Route_test.yaml     | test-replace  | definitions/route.openshift.io_v1_Route_test_replace.yaml     |
+    | definitions/route.openshift.io_v1_RouteList_test.yaml | test-replace2 | definitions/route.openshift.io_v1_RouteList_test_replace.yaml |
+    | definitions/v1_List_test.yaml                         | test-replace  | definitions/v1_List_test_replace.yaml                         |
 
     Scenario Outline: Replace a resource that does not exist
         Given I have edit permissions in <namespace>

@@ -1,9 +1,10 @@
 Feature: Create
 
     Examples:
-    | filename                         | namespace |
-    | definitions/v1_Pod_test.yaml     | test      |
-    | definitions/v1_PodList_test.yaml | test2     |
+    | filename                         | namespace    |
+    | definitions/v1_Pod_test.yaml     | test-create  |
+    | definitions/v1_PodList_test.yaml | test-create2 |
+    | definitions/v1_List_test.yaml    | test-create  |
 
 
     Scenario Outline: Create a resource for the first time
