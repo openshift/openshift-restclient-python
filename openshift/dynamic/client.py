@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import os
 import sys
 import copy
@@ -976,28 +974,3 @@ class ResourceInstance(object):
 
     def __dir__(self):
         return dir(type(self)) + list(self.attributes.__dict__.keys())
-
-
-def main():
-    config.load_kube_config()
-    client = DynamicClient(ApiClient())
-    ret = []
-    for resource in client.resources:
-        key = '{}.{}'.format(resource.group_version, resource.kind)
-        item = {}
-        item[key] = {k: v for k, v in resource.__dict__.items() if k not in ('client', 'subresources', 'resource')}
-        if isinstance(resource, ResourceList):
-            item[key]["resource"] = '{}.{}'.format(resource.group_version, resource.kind)
-        else:
-            item[key]['subresources'] = {}
-            for name, value in resource.subresources.items():
-                item[key]['subresources'][name] = {k: v for k, v in value.__dict__.items() if k != 'parent'}
-            item[key]['urls'] = resource.urls
-        ret.append(item)
-
-    print(yaml.safe_dump(sorted(ret, key=lambda x: x.keys()[0].replace('List', '1')), default_flow_style=False))
-    return 0
-
-
-if __name__ == '__main__':
-    sys.exit(main())
