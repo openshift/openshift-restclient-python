@@ -1,5 +1,4 @@
 import os
-import sys
 import copy
 import json
 import base64
@@ -11,8 +10,7 @@ import six
 import yaml
 from pprint import pformat
 
-from kubernetes import config, watch
-from kubernetes.client.api_client import ApiClient
+from kubernetes import watch
 from kubernetes.client.rest import ApiException
 
 from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception, KubernetesValidateMissing
