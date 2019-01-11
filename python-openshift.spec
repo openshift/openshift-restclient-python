@@ -3,7 +3,7 @@
 %global library openshift
 
 Name:       python-%{library}
-Version:    0.8.2
+Version:    0.8.3
 Release:    1%{?dist}
 Summary:    Python client for the OpenShift API  
 License:    MIT
