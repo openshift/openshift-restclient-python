@@ -12,11 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import openshift.client
-import kubernetes.config
-import kubernetes.watch
-
 # Do not edit these constants. They will be updated automatically
-# by scripts/update-client.sh.
+# by scripts/update-version.sh.
 __version__ = "0.9.0"
 __k8s_client_version__ = "8.0.0"
