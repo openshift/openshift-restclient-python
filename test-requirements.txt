@@ -3,6 +3,6 @@ docker ~= 2.1.0
 flake8 < 3.6.0
 pytest < 3.3
 pytest-bdd
-pytest-cov
+pytest-cov < 2.6
 PyYAML
 dictdiffer
