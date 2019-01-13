@@ -50,10 +50,7 @@ setup(
     packages=find_packages(include='openshift.*'),
     include_package_data=True,
     data_files=[
-        ('requirements.txt', ['requirements.txt']),
-        ('custom_objects_spec.json',
-         ['scripts/from_gen/custom_objects_spec.json']
-        )
+        ('requirements.txt', ['requirements.txt'])
     ],
     long_description='Python client for OpenShift http://openshift.redhat.com/',
     classifiers=[

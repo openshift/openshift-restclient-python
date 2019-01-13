@@ -81,8 +81,8 @@ Python client for the OpenShift API
 #there is no include in RHEL7 setuptools find_packages
 #the requirements are also done in an non-backwards compatible way
 %if 0%{?rhel}
-sed -i -e "s/find_packages(include='openshift.*')/['openshift', 'openshift.ansiblegen', 'openshift.client', 'openshift.client.apis', 'openshift.client.models', 'openshift.config', 'openshift.docs', 'openshift.dynamic', 'openshift.helper', 'openshift.test']/g" setup.py
-sed -i -e '30s/^/REQUIRES = [\n    "certifi",\n    "ipaddress",\n    "oauth2client",\n    "setuptools",\n    "six",\n    "urllib3!=1.21",\n    "python-dateutil",\n    "pyyaml",\n    "websocket-client",\n]\n/g' setup.py
+sed -i -e "s/find_packages(include='openshift.*')/['openshift', 'openshift.client', 'openshift.client.apis', 'openshift.client.models', 'openshift.dynamic', 'openshift.helper']/g" setup.py
+sed -i -e '30s/^/REQUIRES = [\n    "dictdiffer",\n    "jinja2",\n    "kubernetes",\n    "setuptools",\n    "six",\n    "ruamel.yaml",\n    "python-string-utils",\n]\n/g' setup.py
 sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 #sed -i -e '14,21d' setup.py
 %endif
@@ -115,7 +115,6 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %{python2_sitelib}/%{library}-*.egg-info
 %exclude %{python2_sitelib}/scripts
 %exclude /usr/requirements.txt/requirements.txt
-%exclude /usr/custom_objects_spec.json/custom_objects_spec.json
 #TODO: What about for python3?
 %if %{with_python3} == 0
 %{_bindir}/openshift-ansible-gen
@@ -131,6 +130,9 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Sun Jan 13 2019 Jason Montleon <jmontleo@redhat.com> 0.9.0-1
+* Update to 0.9.0
+
 * Tue Nov 06 2018 Jason Montleon <jmontleo@redhat.com> 0.8.0-1
 - Fix tag condition (fabian@fabianism.us)
 - Add watch to dynamic client (#221) (fabian@fabianism.us)
