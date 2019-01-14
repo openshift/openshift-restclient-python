@@ -81,7 +81,7 @@ Python client for the OpenShift API
 #there is no include in RHEL7 setuptools find_packages
 #the requirements are also done in an non-backwards compatible way
 %if 0%{?rhel}
-sed -i -e "s/find_packages(include='openshift.*')/['openshift', 'openshift.client', 'openshift.client.apis', 'openshift.client.models', 'openshift.dynamic', 'openshift.helper']/g" setup.py
+sed -i -e "s/find_packages(include='openshift.*')/['openshift', 'openshift.dynamic', 'openshift.helper']/g" setup.py
 sed -i -e '30s/^/REQUIRES = [\n    "dictdiffer",\n    "jinja2",\n    "kubernetes",\n    "setuptools",\n    "six",\n    "ruamel.yaml",\n    "python-string-utils",\n]\n/g' setup.py
 sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 #sed -i -e '14,21d' setup.py
