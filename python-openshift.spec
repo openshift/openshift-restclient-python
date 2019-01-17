@@ -98,7 +98,7 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif
 
 %build
-%if 0%?{with_python2}
+%if 0%{?with_python2}
 %py2_build
 %endif
 %if 0%{?with_python3}
@@ -111,7 +111,7 @@ sphinx-build doc/source/ html
 %endif
 
 %install
-%if 0%?{with_python2}
+%if 0%{?with_python2}
 %py2_install
 %endif
 %if 0%{?with_python3}
@@ -121,7 +121,7 @@ sphinx-build doc/source/ html
 %check
 #test dependencies are unpackaged
 
-%if 0%?{with_python2}
+%if 0%{?with_python2}
 %files -n python2-%{library}
 %license LICENSE
 %{python2_sitelib}/%{library}/*
