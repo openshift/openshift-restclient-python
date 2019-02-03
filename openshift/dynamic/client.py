@@ -21,6 +21,11 @@ try:
 except ImportError:
     HAS_KUBERNETES_VALIDATE = False
 
+try:
+    from kubernetes_validate.utils import VersionNotSupportedError
+except ImportError:
+    class VersionNotSupportedError(NotImplementedError):
+        pass
 
 __all__ = [
     'DynamicClient',
@@ -335,7 +340,7 @@ class DynamicClient(object):
             kubernetes_validate.validate(definition, version, strict)
         except kubernetes_validate.utils.ValidationError as e:
             errors.append("resource definition validation error at %s: %s" % ('.'.join([str(item) for item in e.path]), e.message))  # noqa: B306
-        except kubernetes_validate.utils.VersionNotSupportedError as e:
+        except VersionNotSupportedError as e:
             errors.append("Kubernetes version %s is not supported by kubernetes-validate" % version)
         except kubernetes_validate.utils.SchemaNotFoundError as e:
             warnings.append("Could not find schema for object kind %s with API version %s in Kubernetes version %s (possibly Custom Resource?)" %
