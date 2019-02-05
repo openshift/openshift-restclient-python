@@ -751,6 +751,7 @@ class LazyDiscoverer(Discoverer):
             self._write_cache()
             self.__update_cache = False
 
+    @property
     def api_groups(self):
         return self.__resources['apis'].keys()
 
