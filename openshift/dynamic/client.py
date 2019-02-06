@@ -640,8 +640,9 @@ class Discoverer(object):
                 'v1': (ResourceGroup( True, resources=self.get_resources_for_api_version('oapi', '', 'v1', True) )
                     if request_resources else ResourceGroup(True))
                 }}
-
-        groups[DISCOVERY_PREFIX] = {}
+        groups[DISCOVERY_PREFIX] = {'': {
+            'v1': ResourceGroup(True, resources = {"List": ResourceList(self.client)})
+        }}
         return groups
 
     def parse_api_groups(self, request_resources=False, update=False):
