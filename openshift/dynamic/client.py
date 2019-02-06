@@ -664,7 +664,7 @@ class Discoverer(object):
                         resources = self.get_resources_for_api_version(DISCOVERY_PREFIX, group['name'], version, preferred)
                     new_group[version] = ResourceGroup(preferred, resources=resources)
                 groups[DISCOVERY_PREFIX][group['name']] = new_group
-                self._cache['resources'].update(groups)
+            self._cache['resources'].update(groups)
             self._write_cache()
 
         return self._cache['resources']
