@@ -640,15 +640,15 @@ class Discoverer(object):
                 'v1': (ResourceGroup( True, resources=self.get_resources_for_api_version('oapi', '', 'v1', True) )
                     if request_resources else ResourceGroup(True))
                 }}
-
-            groups[DISCOVERY_PREFIX] = {'': {
-                'v1': ResourceGroup(True, resources = {"List": ResourceList(self.client)})
-            }}
+        groups[DISCOVERY_PREFIX] = {'': {
+            'v1': ResourceGroup(True, resources = {"List": ResourceList(self.client)})
+        }}
         return groups
 
-    def parse_api_groups(self, request_resources=False):
+    def parse_api_groups(self, request_resources=False, update=False):
         """ Discovers all API groups present in the cluster """
-        if not self._cache.get('resources'):
+        if not self._cache.get('resources') or update:
+            self._cache['resources'] = self._cache.get('resources', {})
             groups_response = load_json(self.client.request('GET', '/{}'.format(DISCOVERY_PREFIX)))['groups']
 
             groups = self.default_groups(request_resources=request_resources)
@@ -657,13 +657,16 @@ class Discoverer(object):
                 new_group = {}
                 for version_raw in group['versions']:
                     version = version_raw['version']
+                    resource_group = self._cache.get('resources', {}).get(DISCOVERY_PREFIX, {}).get(group['name'], {}).get(version)
                     preferred = version_raw == group['preferredVersion']
-                    resources = {}
+                    resources = resource_group.resources if resource_group else {}
                     if request_resources:
                         resources = self.get_resources_for_api_version(DISCOVERY_PREFIX, group['name'], version, preferred)
                     new_group[version] = ResourceGroup(preferred, resources=resources)
                 groups[DISCOVERY_PREFIX][group['name']] = new_group
-            self._cache['resources'] = groups
+            self._cache['resources'].update(groups)
+            self._write_cache()
+
         return self._cache['resources']
 
     def _load_server_info(self):
@@ -751,8 +754,9 @@ class LazyDiscoverer(Discoverer):
             self._write_cache()
             self.__update_cache = False
 
+    @property
     def api_groups(self):
-        return self.__resources['apis'].keys()
+        return self.parse_api_groups(request_resources=False, update=True)['apis'].keys()
 
     def search(self, **kwargs):
         results = self.__search(self.__build_search(**kwargs), self.__resources, [])
@@ -817,6 +821,7 @@ class LazyDiscoverer(Discoverer):
                         yield resource
         self.__maybe_write_cache()
 
+
 class EagerDiscoverer(Discoverer):
     """ A convenient container for storing discovered API resources. Allows
         easy searching and retrieval of specific resources.
@@ -836,7 +841,7 @@ class EagerDiscoverer(Discoverer):
     @property
     def api_groups(self):
         """ list available api groups """
-        return self.__resources['apis'].keys()
+        return self.parse_api_groups(request_resources=True, update=True)['apis'].keys()
 
 
     def search(self, **kwargs):
