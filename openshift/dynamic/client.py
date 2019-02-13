@@ -113,8 +113,11 @@ class DynamicClient(object):
             self.__cache = {}
             refresh = True
         else:
-            with open(self.__cache_file, 'r') as f:
-                self.__cache = json.load(f, cls=cache_decoder(self))
+            try:
+                with open(self.__cache_file, 'r') as f:
+                    self.__cache = json.load(f, cls=cache_decoder(self))
+            except Exception:
+                self.__init_cache(refresh=True)
         self._load_server_info()
         self.__resources.update(self.parse_api_groups())
 
