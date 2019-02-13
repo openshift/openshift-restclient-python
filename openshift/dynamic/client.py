@@ -174,7 +174,7 @@ class DynamicClient(object):
                         version = version_raw['version']
                         preferred = version_raw == group['preferredVersion']
                         new_group[version] = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
-                except DynamicApiError:
+                except ApiException:
                     continue
                 groups[prefix][group['name']] = new_group
             self.__cache['resources'] = groups
