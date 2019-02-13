@@ -16,7 +16,13 @@ from kubernetes import config, watch
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.rest import ApiException
 
-from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception, KubernetesValidateMissing
+from openshift.dynamic.exceptions import (
+    api_exception,
+    DynamicApiError,
+    ResourceNotFoundError,
+    ResourceNotUniqueError,
+    KubernetesValidateMissing
+)
 
 try:
     import kubernetes_validate
@@ -162,11 +168,14 @@ class DynamicClient(object):
             groups[prefix] = {}
 
             for group in groups_response:
-                new_group = {}
-                for version_raw in group['versions']:
-                    version = version_raw['version']
-                    preferred = version_raw == group['preferredVersion']
-                    new_group[version] = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
+                try:
+                    new_group = {}
+                    for version_raw in group['versions']:
+                        version = version_raw['version']
+                        preferred = version_raw == group['preferredVersion']
+                        new_group[version] = self.get_resources_for_api_version(prefix, group['name'], version, preferred)
+                except DynamicApiError:
+                    continue
                 groups[prefix][group['name']] = new_group
             self.__cache['resources'] = groups
         return self.__cache['resources']
