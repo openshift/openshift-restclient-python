@@ -18,7 +18,6 @@ from kubernetes.client.rest import ApiException
 
 from openshift.dynamic.exceptions import (
     api_exception,
-    DynamicApiError,
     ResourceNotFoundError,
     ResourceNotUniqueError,
     KubernetesValidateMissing
