@@ -14,6 +14,7 @@ from kubernetes import watch
 from kubernetes.client.rest import ApiException
 
 from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception, KubernetesValidateMissing
+from urllib3.exceptions import ProtocolError, MaxRetryError
 
 try:
     import kubernetes_validate
@@ -671,7 +672,16 @@ class Discoverer(object):
 
     def _load_server_info(self):
         if not self._cache.get('version'):
-            self._cache['version'] = {'kubernetes': load_json(self.client.request('get', '/version'))}
+            try:
+                self._cache['version'] = {'kubernetes': load_json(self.client.request('get', '/version'))}
+            except (ValueError, MaxRetryError) as e:
+                if isinstance(e, MaxRetryError) and not isinstance(e.reason, ProtocolError):
+                    raise
+                if not self.client.configuration.host.startswith("https://"):
+                    raise ValueError("Host value %s should start with https:// when talking to HTTPS endpoint" %
+                                     self.client.configuration.host)
+                else:
+                    raise
             try:
                 self._cache['version']['openshift'] = load_json(self.client.request('get', '/version/openshift'))
             except ApiException:
