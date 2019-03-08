@@ -26,6 +26,33 @@ def mock_namespace():
         verbs=['create', 'delete', 'get', 'list', 'patch', 'update', 'watch']
     )
 
+@pytest.fixture(scope='module')
+def mock_templates():
+    return Resource(
+        api_version='v1',
+        kind='Template',
+        name='templates',
+        namespaced=True,
+        preferred=True,
+        prefix='api',
+        shorter_names=[],
+        shortNames=[],
+        verbs=['create', 'delete', 'get', 'list', 'patch', 'update', 'watch']
+    )
+
+@pytest.fixture(scope='module')
+def mock_processedtemplates():
+    return Resource(
+        api_version='v1',
+        kind='Template',
+        name='processedtemplates',
+        namespaced=True,
+        preferred=True,
+        prefix='api',
+        shorter_names=[],
+        shortNames=[],
+        verbs=['create', 'delete', 'get', 'list', 'patch', 'update', 'watch']
+    )
 
 @pytest.fixture(scope='module')
 def mock_namespace_list(mock_namespace):
@@ -35,7 +62,7 @@ def mock_namespace_list(mock_namespace):
 
 
 @pytest.fixture(scope='function', autouse=True)
-def setup_client_monkeypatch(monkeypatch, mock_namespace, mock_namespace_list):
+def setup_client_monkeypatch(monkeypatch, mock_namespace, mock_namespace_list, mock_templates, mock_processedtemplates):
 
     def mock_load_server_info(self):
         self.__version = {'kubernetes': 'mock-k8s-version'}
@@ -45,8 +72,9 @@ def setup_client_monkeypatch(monkeypatch, mock_namespace, mock_namespace_list):
                 'api': {
                     '': {
                         'v1': {
-                            'Namespace': mock_namespace,
-                            'NamespaceList': mock_namespace_list
+                            'Namespace': [mock_namespace],
+                            'NamespaceList': [mock_namespace_list],
+                            'Template': [mock_templates, mock_processedtemplates],
                         }
                     }
                 }
@@ -92,3 +120,11 @@ def test_get_namespace_list_kind(client, mock_namespace_list):
     resource = client.resources.get(api_version='v1', kind='NamespaceList')
 
     assert resource == mock_namespace_list
+
+
+def test_search_multiple_resources_for_template(client, mock_templates, mock_processedtemplates):
+    resources = client.resources.search(api_version='v1', kind='Template')
+
+    assert len(resources) == 2
+    assert mock_templates in resources
+    assert mock_processedtemplates in resources

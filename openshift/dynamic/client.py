@@ -3,6 +3,7 @@ import copy
 import json
 import hashlib
 import tempfile
+from collections import defaultdict
 from functools import partial
 from abc import abstractmethod, abstractproperty
 
@@ -642,7 +643,7 @@ class Discoverer(object):
                     if request_resources else ResourceGroup(True))
                 }}
         groups[DISCOVERY_PREFIX] = {'': {
-            'v1': ResourceGroup(True, resources = {"List": ResourceList(self.client)})
+            'v1': ResourceGroup(True, resources = {"List": [ResourceList(self.client)]})
         }}
         return groups
 
@@ -691,7 +692,7 @@ class Discoverer(object):
     def get_resources_for_api_version(self, prefix, group, version, preferred):
         """ returns a dictionary of resources associated with provided (prefix, group, version)"""
 
-        resources = {}
+        resources = defaultdict(list)
         subresources = {}
 
         path = '/'.join(filter(None, [prefix, group, version]))
@@ -710,7 +711,7 @@ class Discoverer(object):
             for key in ('prefix', 'group', 'api_version', 'client', 'preferred'):
                 resource.pop(key, None)
 
-            resources[resource['kind']] = Resource(
+            resourceobj = Resource(
                 prefix=prefix,
                 group=group,
                 api_version=version,
@@ -719,8 +720,10 @@ class Discoverer(object):
                 subresources=subresources.get(resource['name']),
                 **resource
             )
+            resources[resource['kind']].append(resourceobj)
+
             resource_list = ResourceList(self.client, group=group, api_version=version, base_kind=resource['kind'])
-            resources[resource_list.kind] = resource_list
+            resources[resource_list.kind].append(resource_list)
         return resources
 
     def get(self, **kwargs):
@@ -779,6 +782,7 @@ class LazyDiscoverer(Discoverer):
     def __search(self,  parts, resources, reqParams):
         part = parts[0]
         if part != '*':
+
             resourcePart = resources.get(part)
             if not resourcePart:
                 return []
@@ -799,11 +803,14 @@ class LazyDiscoverer(Discoverer):
                 return self.__search(parts[1:], resourcePart, reqParams + [part] )
             else:
                 if parts[1] != '*' and isinstance(parts[1], dict):
-                    for term, value in parts[1].items():
-                        if getattr(resourcePart, term) == value:
-                            return [resourcePart]
+                    for _resource in resourcePart:
+                        for term, value in parts[1].items():
+                            if getattr(_resource, term) == value:
+                                return [_resource]
+
+                    return []
                 else:
-                    return [resourcePart]
+                    return resourcePart
         else:
             matches = []
             for key in resources.keys():
@@ -889,11 +896,13 @@ class EagerDiscoverer(Discoverer):
                 return self.__search(parts[1:], resourcePart)
             else:
                 if parts[1] != '*' and isinstance(parts[1], dict):
-                    for term, value in parts[1].items():
-                        if getattr(resourcePart, term) == value:
-                            return [resourcePart]
+                    for _resource in resourcePart:
+                        for term, value in parts[1].items():
+                            if getattr(_resource, term) == value:
+                                return [_resource]
+                    return []
                 else:
-                    return [resourcePart]
+                    return resourcePart
         elif part == '*':
             matches = []
             for key in resources.keys():
