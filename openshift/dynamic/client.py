@@ -598,8 +598,11 @@ class Discoverer(object):
             self._cache = {}
             refresh = True
         else:
-            with open(self.__cache_file, 'r') as f:
-                self._cache = json.load(f, cls=cache_decoder(self.client))
+            try:
+                with open(self.__cache_file, 'r') as f:
+                    self._cache = json.load(f, cls=cache_decoder(self.client))
+            except Exception:
+                return self.__init_cache(refresh=True)
         self._load_server_info()
         self.discover()
 
