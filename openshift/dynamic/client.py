@@ -6,6 +6,7 @@ import copy
 import json
 import hashlib
 import tempfile
+from collections import defaultdict
 from functools import partial
 from six import PY2, PY3
 
@@ -185,7 +186,7 @@ class DynamicClient(object):
     def get_resources_for_api_version(self, prefix, group, version, preferred):
         """ returns a dictionary of resources associated with provided groupVersion"""
 
-        resources = {}
+        resources = defaultdict(list)
         subresources = {}
 
         path = '/'.join(filter(None, [prefix, group, version]))
@@ -204,7 +205,7 @@ class DynamicClient(object):
             for key in ('prefix', 'group', 'api_version', 'client', 'preferred'):
                 resource.pop(key, None)
 
-            resources[resource['kind']] = Resource(
+            resourceobj = Resource(
                 prefix=prefix,
                 group=group,
                 api_version=version,
@@ -213,7 +214,8 @@ class DynamicClient(object):
                 subresources=subresources.get(resource['name']),
                 **resource
             )
-            resources['{}List'.format(resource['kind'])] = ResourceList(resources[resource['kind']])
+            resources[resource['kind']].append(resourceobj)
+            resources['{}List'.format(resource['kind'])].append(ResourceList(resourceobj))
         return resources
 
     def ensure_namespace(self, resource, namespace, body):
@@ -668,13 +670,13 @@ class ResourceContainer(object):
             if isinstance(resources.get(part), dict):
                 return self.__search(parts[1:], resources[part])
             else:
-                resource = resources.get(part)
                 if parts[1] != '*' and isinstance(parts[1], dict):
-                    for term, value in parts[1].items():
-                        if getattr(resource, term) == value:
-                            return [resource]
+                    for resource in resources.get(part):
+                        for term, value in parts[1].items():
+                            if getattr(resource, term) == value:
+                                return [resource]
                 else:
-                    return [resource]
+                    return resources.get(part)
         elif part == '*':
             matches = []
             for key in resources.keys():
