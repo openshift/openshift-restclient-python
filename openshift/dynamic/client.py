@@ -615,7 +615,7 @@ class ResourceContainer(object):
     @property
     def api_groups(self):
         """ list available api groups """
-        return self.__resources['apis'].keys()
+        return [group['name'] for group in load_json(self.__client.request("GET", '/apis'))['groups']]
 
     def get(self, **kwargs):
         """ Same as search, but will throw an error if there are multiple or no

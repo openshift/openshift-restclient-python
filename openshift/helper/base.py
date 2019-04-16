@@ -609,28 +609,27 @@ class BaseObjectHelper(object):
                         # Object is either added or modified. Check the status and determine if we
                         #  should continue waiting
                         if hasattr(obj, 'status'):
-                            status = getattr(obj, 'status')
-                            if hasattr(status, 'phase'):
-                                if status.phase == 'Active':
+                            if hasattr(obj.status, 'phase'):
+                                if obj.status.phase == 'Active':
                                     # TODO other phase values ??
                                     # TODO test namespaces for OpenShift annotations if needed
                                     return_obj = obj
                                     watcher.stop()
                                     break
-                            elif hasattr(status, 'conditions'):
-                                conditions = getattr(status, 'conditions')
+                            elif hasattr(obj.status, 'conditions'):
+                                conditions = obj.status.conditions
                                 if conditions and len(conditions) > 0:
                                     # We know there is a status, but it's up to the user to determine meaning.
                                     return_obj = obj
                                     watcher.stop()
                                     break
-                            elif obj.kind == 'Service' and status is not None:
+                            elif obj.kind == 'Service' and obj.status is not None:
                                 return_obj = obj
                                 watcher.stop()
                                 break
                             elif obj.kind == 'Route':
                                 route_statuses = set()
-                                for route_ingress in status.ingress:
+                                for route_ingress in obj.status.ingress:
                                     for condition in route_ingress.conditions:
                                         route_statuses.add(condition.type)
                                 if route_statuses <= {'Ready', 'Admitted'}:
