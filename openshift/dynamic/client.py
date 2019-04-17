@@ -14,6 +14,7 @@ from pprint import pformat
 from kubernetes import watch
 from kubernetes.client.rest import ApiException
 
+from openshift import __version__
 from openshift.dynamic.exceptions import ResourceNotFoundError, ResourceNotUniqueError, api_exception, KubernetesValidateMissing
 from urllib3.exceptions import ProtocolError, MaxRetryError
 
@@ -596,17 +597,19 @@ class Discoverer(object):
 
     def __init_cache(self, refresh=False):
         if refresh or not os.path.exists(self.__cache_file):
-            self._cache = {}
+            self._cache = {'library_version': __version__}
             refresh = True
         else:
             try:
                 with open(self.__cache_file, 'r') as f:
                     self._cache = json.load(f, cls=cache_decoder(self.client))
+                if self._cache.get('library_version') != __version__:
+                    # Version mismatch, need to refresh cache
+                    self.invalidate_cache()
             except Exception:
-                return self.__init_cache(refresh=True)
+                self.invalidate_cache()
         self._load_server_info()
         self.discover()
-
         if refresh:
             self._write_cache()
 
