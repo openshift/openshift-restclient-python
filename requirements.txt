@@ -1,6 +1,7 @@
 dictdiffer
 jinja2
 kubernetes ~= 9.0.0
+urllib3 < 1.25
 python-string-utils
 ruamel.yaml >= 0.15
 six
