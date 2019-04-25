@@ -17,6 +17,7 @@ from kubernetes import config, watch
 from kubernetes.client.api_client import ApiClient
 from kubernetes.client.rest import ApiException
 
+from openshift import __version__
 from openshift.dynamic.exceptions import (
     api_exception,
     ResourceNotFoundError,
@@ -110,14 +111,17 @@ class DynamicClient(object):
 
     def __init_cache(self, refresh=False):
         if refresh or not os.path.exists(self.__cache_file):
-            self.__cache = {}
+            self.__cache = {'library_version': __version__}
             refresh = True
         else:
             try:
                 with open(self.__cache_file, 'r') as f:
                     self.__cache = json.load(f, cls=cache_decoder(self))
+                if self.__cache.get('library_version') != __version__:
+                    # Version mismatch, need to refresh cache
+                    self.invalidate_cache()
             except Exception:
-                self.__init_cache(refresh=True)
+                self.invalidate_cache()
         self._load_server_info()
         self.__resources.update(self.parse_api_groups())
 
