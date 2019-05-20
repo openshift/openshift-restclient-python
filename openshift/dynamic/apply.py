@@ -32,7 +32,11 @@ def apply(resource, definition):
         else:
             return actual
     else:
-        return resource.patch(body=definition, name=definition['metadata']['name'], namespace=definition['metadata'].get('namespace'))
+        return resource.patch(
+            body=definition,
+            name=definition['metadata']['name'],
+            namespace=definition['metadata'].get('namespace'),
+            content_type='application/merge-patch+json')
 
 
 # The patch is the difference from actual to desired without deletions, plus deletions
