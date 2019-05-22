@@ -177,7 +177,6 @@ class DynamicClient(object):
 
         return self.request('patch', path, body=body, content_type=content_type, **kwargs)
 
-    @meta_request
     def apply(self, resource, body=None, name=None, namespace=None):
         body = self.serialize_body(body)
         name = name or body.get('metadata', {}).get('name')

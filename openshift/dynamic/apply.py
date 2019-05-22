@@ -14,9 +14,9 @@ def apply(resource, definition):
         )
     )
     try:
-        actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata']['namespace'])
+        actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata'].get('namespace'))
     except NotFoundError:
-        return resource.create(body=dict_merge(definition, desired_annotation), namespace=definition['metadata']['namespace'])
+        return resource.create(body=dict_merge(definition, desired_annotation), namespace=definition['metadata'].get('namespace'))
     last_applied = actual.metadata.get('annotations',{}).get(LAST_APPLIED_CONFIG_ANNOTATION)
 
     if last_applied:
@@ -27,12 +27,12 @@ def apply(resource, definition):
         if patch:
             return resource.patch(body=dict_merge(patch, desired_annotation),
                                   name=definition['metadata']['name'],
-                                  namespace=definition['metadata']['namespace'],
+                                  namespace=definition['metadata'].get('namespace'),
                                   content_type='application/merge-patch+json')
         else:
             return actual
     else:
-        return resource.patch(body=definition, name=definition['metadata']['name'], namespace=definition['metadata']['namespace'])
+        return resource.patch(body=definition, name=definition['metadata']['name'], namespace=definition['metadata'].get('namespace'))
 
 
 # The patch is the difference from actual to desired without deletions, plus deletions
