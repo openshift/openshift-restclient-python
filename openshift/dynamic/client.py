@@ -473,7 +473,7 @@ class ResourceList(Resource):
         response = copy.deepcopy(body)
 
         response['items'] = [
-            item['resource'].get(name=item['name'], namespace=item['namespace'] or namespace, **kwargs)
+            item['resource'].get(name=item['name'], namespace=item['namespace'] or namespace, **kwargs).to_dict()
             for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
@@ -485,7 +485,7 @@ class ResourceList(Resource):
         response = copy.deepcopy(body)
 
         response['items'] = [
-            item['resource'].delete(name=item['name'], namespace=item['namespace'] or namespace, **kwargs)
+            item['resource'].delete(name=item['name'], namespace=item['namespace'] or namespace, **kwargs).to_dict()
             for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
@@ -494,7 +494,7 @@ class ResourceList(Resource):
         resource_list = self._items_to_resources(body)
         response = copy.deepcopy(body)
         response['items'] = [
-            getattr(item['resource'], verb)(body=item['definition'], **kwargs)
+            getattr(item['resource'], verb)(body=item['definition'], **kwargs).to_dict()
             for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
