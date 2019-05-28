@@ -510,7 +510,7 @@ class ResourceList(Resource):
         response = copy.deepcopy(body)
         namespace = kwargs.pop('namespace', None)
         response['items'] = [
-            self.resource.get(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs)
+            self.resource.get(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs).to_dict()
             for item in body['items']
         ]
         return ResourceInstance(self, response)
@@ -519,7 +519,7 @@ class ResourceList(Resource):
         response = copy.deepcopy(body)
         namespace = kwargs.pop('namespace', None)
         response['items'] = [
-            self.resource.delete(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs)
+            self.resource.delete(name=item['metadata']['name'], namespace=item['metadata'].get('namespace', namespace), **kwargs).to_dict()
             for item in body['items']
         ]
         return ResourceInstance(self, response)
@@ -527,7 +527,7 @@ class ResourceList(Resource):
     def verb_mapper(self, verb, body=None, **kwargs):
         response = copy.deepcopy(body)
         response['items'] = [
-            getattr(self.resource, verb)(body=item, **kwargs)
+            getattr(self.resource, verb)(body=item, **kwargs).to_dict()
             for item in body['items']
         ]
         return ResourceInstance(self, response)
@@ -738,6 +738,17 @@ class ResourceInstance(object):
 
     def __init__(self, resource, instance):
         self.resource_type = resource
+        # If we have a list of resources, then set the apiVersion and kind of
+        # each resource in 'items'
+        kind = instance['kind']
+        if kind.endswith('List') and 'items' in instance:
+            kind = instance['kind'][:-4]
+            for item in instance['items']:
+                if 'apiVersion' not in item:
+                    item['apiVersion'] = instance['apiVersion']
+                if 'kind' not in item:
+                    item['kind'] = kind
+
         self.attributes = self.__deserialize(instance)
 
     def __deserialize(self, field):
