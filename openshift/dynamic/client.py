@@ -179,11 +179,12 @@ class DynamicClient(object):
 
     def apply(self, resource, body=None, name=None, namespace=None):
         body = self.serialize_body(body)
-        name = name or body.get('metadata', {}).get('name')
+        body['metadata'] = body.get('metadata', dict())
+        name = name or body['metadata'].get('name')
         if not name:
             raise ValueError("name is required to apply {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
-            namespace = self.ensure_namespace(resource, namespace, body)
+            body['metadata']['namespace'] = self.ensure_namespace(resource, namespace, body)
         return apply(resource, body)
 
     def watch(self, resource, namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None):
