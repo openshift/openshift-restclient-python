@@ -473,7 +473,7 @@ class ResourceList(Resource):
         response = copy.deepcopy(body)
 
         response['items'] = [
-            item['resource'].get(name=item['name'], namespace=item['namespace'] or namespace, **kwargs)
+            item['resource'].get(name=item['name'], namespace=item['namespace'] or namespace, **kwargs).to_dict()
             for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
@@ -485,7 +485,7 @@ class ResourceList(Resource):
         response = copy.deepcopy(body)
 
         response['items'] = [
-            item['resource'].delete(name=item['name'], namespace=item['namespace'] or namespace, **kwargs)
+            item['resource'].delete(name=item['name'], namespace=item['namespace'] or namespace, **kwargs).to_dict()
             for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
@@ -494,7 +494,7 @@ class ResourceList(Resource):
         resource_list = self._items_to_resources(body)
         response = copy.deepcopy(body)
         response['items'] = [
-            getattr(item['resource'], verb)(body=item['definition'], **kwargs)
+            getattr(item['resource'], verb)(body=item['definition'], **kwargs).to_dict()
             for item in resource_list['items']
         ]
         return ResourceInstance(self, response)
@@ -979,6 +979,17 @@ class ResourceInstance(object):
 
     def __init__(self, resource, instance):
         self.resource_type = resource
+        # If we have a list of resources, then set the apiVersion and kind of
+        # each resource in 'items'
+        kind = instance['kind']
+        if kind.endswith('List') and 'items' in instance:
+            kind = instance['kind'][:-4]
+            for item in instance['items']:
+                if 'apiVersion' not in item:
+                    item['apiVersion'] = instance['apiVersion']
+                if 'kind' not in item:
+                    item['kind'] = kind
+
         self.attributes = self.__deserialize(instance)
 
     def __deserialize(self, field):
