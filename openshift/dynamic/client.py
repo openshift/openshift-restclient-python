@@ -49,25 +49,22 @@ class CacheEncoder(json.JSONEncoder):
     def default(self, o):
         return o.to_dict()
 
-def cache_decoder(client):
+class CacheDecoder(json.JSONDecoder):
+    def __init__(self, client, *args, **kwargs):
+        self.client = client
+        json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
-    class CacheDecoder(json.JSONDecoder):
-        def __init__(self, *args, **kwargs):
-            json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
-
-        def object_hook(self, obj):
-            if '_type' not in obj:
-                return obj
-            _type = obj.pop('_type')
-            if _type == 'Resource':
-                return Resource(client=client, **obj)
-            elif _type == 'ResourceList':
-                return ResourceList(client, **obj)
-            elif _type == 'ResourceGroup':
-                return ResourceGroup(obj['preferred'], resources=self.object_hook(obj['resources']))
+    def object_hook(self, obj):
+        if '_type' not in obj:
             return obj
-
-    return CacheDecoder
+        _type = obj.pop('_type')
+        if _type == 'Resource':
+            return Resource(client=self.client, **obj)
+        elif _type == 'ResourceList':
+            return ResourceList(self.client, **obj)
+        elif _type == 'ResourceGroup':
+            return ResourceGroup(obj['preferred'], resources=self.object_hook(obj['resources']))
+        return obj
 
 def meta_request(func):
     """ Handles parsing response structure and translating API Exceptions """
@@ -616,7 +613,7 @@ class Discoverer(object):
         else:
             try:
                 with open(self.__cache_file, 'r') as f:
-                    self._cache = json.load(f, cls=cache_decoder(self.client))
+                    self._cache = json.load(f, cls=CacheDecoder(self.client))
                 if self._cache.get('library_version') != __version__:
                     # Version mismatch, need to refresh cache
                     self.invalidate_cache()
