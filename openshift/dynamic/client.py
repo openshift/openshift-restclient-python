@@ -75,18 +75,16 @@ def meta_request(func):
         except ApiException as e:
             raise api_exception(e)
         if serialize_response:
-            return serialize(resource, resp)
+            try:
+                return ResourceInstance(resource, load_json(resp))
+            except ValueError:
+                if six.PY2:
+                    return resp.data
+                return resp.data.decode('utf8')
         return resp
 
     return inner
 
-def serialize(resource, response):
-    try:
-        return ResourceInstance(resource, load_json(response))
-    except ValueError:
-        if six.PY2:
-            return response.data
-        return response.data.decode('utf8')
 
 def load_json(response):
     if six.PY2:
