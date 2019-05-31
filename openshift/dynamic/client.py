@@ -121,7 +121,7 @@ class DynamicClient(object):
         return namespace
 
     def serialize_body(self, body):
-        if isinstance(body, ResourceInstance):
+        if hasattr(body, 'to_dict'):
             return body.to_dict()
         return body or {}
 
