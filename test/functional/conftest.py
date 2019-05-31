@@ -88,7 +88,13 @@ def kubeconfig(openshift_container, tmpdir_factory):
         openshift_container.exec_run('oc login -u test -p test')
         tar_stream, _ = openshift_container.get_archive(
             '/var/lib/origin/openshift.local.config/master/admin.kubeconfig')
-        tar_obj = tarfile.open(fileobj=io.BytesIO(tar_stream.read()))
+
+        tar_bytes = io.BytesIO()
+        for chunk in tar_stream:
+            tar_bytes.write(chunk)
+        tar_bytes.seek(0)
+
+        tar_obj = tarfile.open(fileobj=tar_bytes)
         kubeconfig_contents = tar_obj.extractfile('admin.kubeconfig').read()
 
         kubeconfig_file = tmpdir_factory.mktemp('kubeconfig').join('admin.kubeconfig')
@@ -106,7 +112,13 @@ def admin_kubeconfig(openshift_container, tmpdir_factory):
         openshift_container.exec_run('oc login -u system:admin')
         tar_stream, _ = openshift_container.get_archive(
             '/var/lib/origin/openshift.local.config/master/admin.kubeconfig')
-        tar_obj = tarfile.open(fileobj=io.BytesIO(tar_stream.read()))
+
+        tar_bytes = io.BytesIO()
+        for chunk in tar_stream:
+            tar_bytes.write(chunk)
+        tar_bytes.seek(0)
+
+        tar_obj = tarfile.open(fileobj=tar_bytes)
         kubeconfig_contents = tar_obj.extractfile('admin.kubeconfig').read()
 
         kubeconfig_file = tmpdir_factory.mktemp('kubeconfig').join('admin.kubeconfig')
