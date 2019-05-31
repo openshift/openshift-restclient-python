@@ -53,9 +53,9 @@ def openshift_container(request, port, pytestconfig):
             # Wait for the container to no longer be in the created state before
             # continuing
             while container.status == u'created':
-                capmanager.suspendcapture()
+                capmanager.suspend()
                 print("\nWaiting for container...")
-                capmanager.resumecapture()
+                capmanager.resume()
                 time.sleep(5)
                 container = client.containers.get(container.id)
 
