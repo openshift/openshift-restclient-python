@@ -37,7 +37,7 @@ def meta_request(func):
     """ Handles parsing response structure and translating API Exceptions """
     def inner(self, *args, **kwargs):
         serialize_response = kwargs.pop('serialize', True)
-        serialized_cls = kwargs.pop('serializer', ResourceInstance)
+        serializer = kwargs.pop('serializer', ResourceInstance)
         try:
             resp = func(self, *args, **kwargs)
         except ApiException as e:
@@ -45,8 +45,8 @@ def meta_request(func):
         if serialize_response:
             try:
                 if six.PY2:
-                    return serialized_cls(json.loads(resp.data))
-                return serialized_cls(json.loads(resp.data.decode('utf8')))
+                    return serializer(self, json.loads(resp.data))
+                return serializer(self, json.loads(resp.data.decode('utf8')))
             except ValueError:
                 if six.PY2:
                     return resp.data

@@ -118,6 +118,7 @@ class Discoverer(object):
     def _load_server_info(self):
         def just_json(_, serialized):
             return serialized
+
         if not self._cache.get('version'):
             try:
                 self._cache['version'] = {
