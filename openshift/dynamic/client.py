@@ -715,7 +715,7 @@ class Discoverer(object):
         subresources = {}
 
         path = '/'.join(filter(None, [prefix, group, version]))
-        resources_response = load_json(self.client.request('GET', path))['resources']
+        resources_response = load_json(self.client.request('GET', path))['resources'] or []
 
         resources_raw = list(filter(lambda resource: '/' not in resource['name'], resources_response))
         subresources_raw = list(filter(lambda resource: '/' in resource['name'], resources_response))
