@@ -62,8 +62,12 @@ class Discoverer(object):
             self._write_cache()
 
     def _write_cache(self):
-        with open(self.__cache_file, 'w') as f:
-            json.dump(self._cache, f, cls=CacheEncoder)
+        try:
+            with open(self.__cache_file, 'w') as f:
+                json.dump(self._cache, f, cls=CacheEncoder)
+        except Exception:
+            # Failing to write the cache shouldn't crash the library
+            pass
 
     def invalidate_cache(self):
         self.__init_cache(refresh=True)
