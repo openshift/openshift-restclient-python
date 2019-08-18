@@ -74,9 +74,7 @@ def get_deletions(last_applied, desired):
     patch = {}
     for k, last_applied_value in last_applied.items():
         desired_value = desired.get(k)
-        if desired_value is None:
-            patch[k] = None
-        elif isinstance(last_applied_value, dict):
+        if isinstance(last_applied_value, dict) and isinstance(desired_value, dict):
             p = get_deletions(last_applied_value, desired_value)
             if p:
                 patch[k] = p
