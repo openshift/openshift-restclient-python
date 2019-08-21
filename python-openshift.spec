@@ -16,7 +16,7 @@
 %endif
 
 Name:       python-%{library}
-Version:    0.8.9
+Version:    0.8.10
 Release:    1%{?dist}
 Summary:    Python client for the OpenShift API
 License:    ASL 2.0
