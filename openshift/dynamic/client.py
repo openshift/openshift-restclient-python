@@ -101,13 +101,24 @@ class DynamicClient(object):
     def __init__(self, client, cache_file=None):
         self.client = client
         self.configuration = client.configuration
-        default_cache_id = self.configuration.host
-        if PY3:
-            default_cache_id = default_cache_id.encode('utf-8')
-        default_cachefile_name = 'osrcp-{0}.json'.format(hashlib.md5(default_cache_id).hexdigest())
+        default_cachefile_name = 'osrcp-{0}.json'.format(hashlib.md5(self.__get_default_cache_id()).hexdigest())
+
         self.__resources = ResourceContainer({}, client=self)
         self.__cache_file = cache_file or os.path.join(tempfile.gettempdir(), default_cachefile_name)
         self.__init_cache()
+
+    def __get_default_cache_id(self):
+        user = ""
+        for func in [os.getlogin, os.getuid]:
+            try:
+                user = str(func())
+            except OSError:
+                pass
+
+        cache_id = "{0}-{1}".format(self.client.configuration.host, user)
+        if PY3:
+            return cache_id.encode('utf-8')
+        return cache_id
 
     def __init_cache(self, refresh=False):
         if refresh or not os.path.exists(self.__cache_file):
@@ -129,8 +140,12 @@ class DynamicClient(object):
             self.__write_cache()
 
     def __write_cache(self):
-        with open(self.__cache_file, 'w') as f:
-            json.dump(self.__cache, f, cls=CacheEncoder)
+        try:
+            with open(self.__cache_file, 'w') as f:
+                json.dump(self._cache, f, cls=CacheEncoder)
+        except Exception:
+            # Failing to write the cache shouldn't crash the library
+            pass
 
     def invalidate_cache(self):
         self.__init_cache(refresh=True)
