@@ -79,6 +79,34 @@ tests = [
         ),
         expected = dict(spec=dict(ports=[dict(port=8081, name="http")]))
     ),
+    # This last one is based on a real world case where definition was mostly
+    # str type and everything else was mostly unicode type (don't ask me how)
+    dict(
+        last_applied = {
+            u'kind': u'ConfigMap',
+            u'data': {u'one': '1', 'three': '3', 'two': '2'},
+            u'apiVersion': u'v1',
+            u'metadata': {u'namespace': u'apply', u'name': u'apply-configmap'}
+        },
+        actual = {
+            u'kind': u'ConfigMap',
+            u'data': {u'one': '1', 'three': '3', 'two': '2'},
+            u'apiVersion': u'v1',
+            u'metadata': {u'namespace': u'apply', u'name': u'apply-configmap',
+                          u'resourceVersion': '1714994',
+                          u'creationTimestamp': u'2019-08-17T05:08:05Z', u'annotations': {},
+                          u'selfLink': u'/api/v1/namespaces/apply/configmaps/apply-configmap',
+                          u'uid': u'fed45fb0-c0ac-11e9-9d95-025000000001'}
+        },
+        desired = {
+            'kind': u'ConfigMap',
+            'data': {'one': '1', 'three': '3', 'two': '2'},
+            'apiVersion': 'v1',
+            'metadata': {'namespace': 'apply', 'name': 'apply-configmap'}
+        },
+        expected = dict()
+    ),
+
 ]
 
 
