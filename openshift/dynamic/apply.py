@@ -5,7 +5,7 @@ from openshift.dynamic.exceptions import NotFoundError
 
 LAST_APPLIED_CONFIG_ANNOTATION = 'kubectl.kubernetes.io/last-applied-configuration'
 
-def apply(resource, definition):
+def apply_object(resource, definition):
     desired_annotation = dict(
         metadata=dict(
             annotations={
@@ -16,7 +16,7 @@ def apply(resource, definition):
     try:
         actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata'].get('namespace'))
     except NotFoundError:
-        return resource.create(body=dict_merge(definition, desired_annotation), namespace=definition['metadata'].get('namespace'))
+        return None, dict_merge(definition, desired_annotation)
     last_applied = actual.metadata.get('annotations',{}).get(LAST_APPLIED_CONFIG_ANNOTATION)
 
     if last_applied:
@@ -25,18 +25,23 @@ def apply(resource, definition):
         del actual_dict['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION]
         patch = merge(last_applied, definition, actual_dict)
         if patch:
-            return resource.patch(body=dict_merge(patch, desired_annotation),
-                                  name=definition['metadata']['name'],
-                                  namespace=definition['metadata'].get('namespace'),
-                                  content_type='application/merge-patch+json')
+            return actual.to_dict(), dict_merge(patch, desired_annotation)
         else:
-            return actual
+            return actual.to_dict(), actual.to_dict()
     else:
-        return resource.patch(
-            body=definition,
-            name=definition['metadata']['name'],
-            namespace=definition['metadata'].get('namespace'),
-            content_type='application/merge-patch+json')
+        return actual.to_dict(), dict_merge(definition, desired_annotation)
+
+
+def apply(resource, definition):
+    existing, desired = apply_object(resource, definition)
+    if not existing:
+        return resource.create(body=desired, namespace=definition['metadata'].get('namespace'))
+    if existing == desired:
+        return resource.get(name=definition['metadata']['name'], namespace=definition['metadata'].get('namespace'))
+    return resource.patch(body=desired,
+                          name=definition['metadata']['name'],
+                          namespace=definition['metadata'].get('namespace'),
+                          content_type='application/merge-patch+json')
 
 
 # The patch is the difference from actual to desired without deletions, plus deletions
@@ -69,11 +74,7 @@ def get_deletions(last_applied, desired):
     patch = {}
     for k, last_applied_value in last_applied.items():
         desired_value = desired.get(k)
-        if desired_value is None:
-            patch[k] = None
-        elif type(last_applied_value) != type(desired_value):
-            patch[k] = desired_value
-        elif isinstance(last_applied_value, dict):
+        if isinstance(last_applied_value, dict) and isinstance(desired_value, dict):
             p = get_deletions(last_applied_value, desired_value)
             if p:
                 patch[k] = p
