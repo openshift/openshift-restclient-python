@@ -1,6 +1,6 @@
 coverage
 docker ~= 2.1.0
-flake8
+flake8 == 3.5.0
 pytest < 3.3
 pytest-cov
 PyYAML

@@ -12,7 +12,6 @@ env:
 - TEST_SUITE=test OPENSHIFT_VERSION=3.7
 - TEST_SUITE=test OPENSHIFT_VERSION=3.6
 - TEST_SUITE=test OPENSHIFT_VERSION=1.5
-- TEST_SUITE=generate
 script: tox
 install:
 - pip install tox-travis coveralls
