@@ -18,5 +18,5 @@ import kubernetes.watch
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-client.sh.
-__version__ = "0.6.3"
+__version__ = "0.6.4"
 __k8s_client_version__ = "6.0.0"
