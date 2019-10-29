@@ -31,17 +31,36 @@ class Discoverer(object):
         self.__init_cache()
 
     def __get_default_cache_id(self):
-        user = ""
-        for func in [os.getlogin, os.getuid]:
-            try:
-                user = str(func())
-            except OSError:
-                pass
+        user = self.__get_user()
+        if user:
+            cache_id = "{0}-{1}".format(self.client.configuration.host, user)
+        else:
+            cache_id = self.client.configuration.host
 
-        cache_id = "{0}-{1}".format(self.client.configuration.host, user)
         if six.PY3:
             return cache_id.encode('utf-8')
+
         return cache_id
+
+    def __get_user(self):
+        if hasattr(os, 'getlogin'):
+            try:
+                user = os.getlogin()
+                if user:
+                    return str(user)
+            except OSError:
+                pass
+        if hasattr(os, 'getuid'):
+            try:
+                user = os.getuid()
+                if user:
+                    return str(user)
+            except OSError:
+                pass
+        user = os.environ.get("USERNAME")
+        if user:
+            return str(user)
+        return None
 
     def __init_cache(self, refresh=False):
         if refresh or not os.path.exists(self.__cache_file):
