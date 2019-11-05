@@ -93,13 +93,13 @@ class Resource(object):
 class ResourceList(Resource):
     """ Represents a list of API objects """
 
-    def __init__(self, client, group='', api_version='v1', base_kind='', kind=None):
+    def __init__(self, client, group='', api_version='v1', base_kind='', kind=None, base_resource=None):
         self.client = client
         self.group = group
         self.api_version = api_version
         self.kind = kind or '{}List'.format(base_kind)
         self.base_kind = base_kind
-        self.__base_resource = None
+        self.__base_resource = base_resource
 
     def base_resource(self):
         if self.__base_resource:
