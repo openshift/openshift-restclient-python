@@ -208,7 +208,14 @@ class Discoverer(object):
             )
             resources[resource['kind']].append(resourceobj)
 
-            resource_list = ResourceList(self.client, group=group, api_version=version, base_kind=resource['kind'])
+            resource_lookup = {
+                'prefix': prefix,
+                'group': group,
+                'api_version': version,
+                'kind': resourceobj.kind,
+                'name': resourceobj.name
+            }
+            resource_list = ResourceList(self.client, group=group, api_version=version, base_kind=resource['kind'], base_resource_lookup=resource_lookup)
             resources[resource_list.kind].append(resource_list)
         return resources
 
@@ -226,6 +233,10 @@ class Discoverer(object):
         # If there are multiple matches, prefer non-List kinds
         if len(results) > 1 and not all([isinstance(x, ResourceList) for x in results]):
             results = [result for result in results if not isinstance(result, ResourceList)]
+        # if multiple resources are found that share a GVK, prefer the one with the most supported verbs
+        if len(results) > 1 and len(set((x.group_version, x.kind) for x in results)) == 1:
+            if len(set(len(x.verbs) for x in results)) != 1:
+                results = [max(results, key=lambda x: len(x.verbs))]
         if len(results) == 1:
             return results[0]
         elif not results:
