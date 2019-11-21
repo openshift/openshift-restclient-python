@@ -192,7 +192,8 @@ def perform_update_action_in_namespace(context, client, action, namespace, defin
             context['instance'] = resource.replace(body=replace, namespace=namespace)
         elif action == 'patch':
             patch = load_definition(update)
-            context['instance'] = resource.patch(body=patch, namespace=namespace)
+            name = definition.get('metadata', {}).get('name')
+            context['instance'] = resource.patch(body=patch, name=name, namespace=namespace)
         else:
             fail = True
             raise ValueError('Unable to {action} resource!'.format(action))
@@ -244,6 +245,23 @@ def resource_should_match_update(admin_client, namespace, update, definition):
     else:
         cluster_instance = resource.get(name=definition['metadata']['name'], namespace=namespace).to_dict()
     assert object_contains(cluster_instance, update)
+
+
+@then('The resource in <filename> in <namespace> should no longer contain the content of <update>')
+def resource_should_no_longer_contain_update(admin_client, namespace, update, definition):
+    update = load_definition(update)
+    resource = admin_client.resources.get(api_version=definition['apiVersion'], kind=definition['kind'])
+    cluster_instance = resource.get(name=definition['metadata']['name'], namespace=namespace).to_dict()
+
+    location = cluster_instance
+    assert update[0]['op'] == 'remove'
+    partial_paths = update[0]['path'].split('/')
+    if not partial_paths[0]:
+        del partial_paths[0]
+
+    for partial_path in partial_paths[:-1]:
+        location = location[partial_path]
+    assert partial_paths[-1] not in location
 
 
 @then(parsers.parse('The content of <filename> does not exist in <namespace>'))

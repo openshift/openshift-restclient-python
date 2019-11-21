@@ -126,7 +126,7 @@ class DynamicClient(object):
         if resource.namespaced:
             namespace = self.ensure_namespace(resource, namespace, body)
 
-        content_type = kwargs.pop('content_type', 'application/strategic-merge-patch+json')
+        content_type = kwargs.pop('content_type', 'application/json-patch+json')
         path = resource.path(name=name, namespace=namespace)
 
         return self.request('patch', path, body=body, content_type=content_type, **kwargs)
