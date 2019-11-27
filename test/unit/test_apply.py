@@ -1,9 +1,7 @@
-# Test ConfigMapHash and SecretHash equivalents
-# tests based on https://github.com/kubernetes/kubernetes/pull/49961
-
 from openshift.dynamic.apply import merge
 
 tests = [
+
     dict(
         last_applied = dict(
             kind="ConfigMap",
@@ -59,7 +57,7 @@ tests = [
             metadata=dict(name="foo"),
             spec=dict(ports=[dict(port=8080, name="http")])
         ),
-        expected = {}
+        expected = dict(spec=dict(ports=[dict(port=8080, protocol='TCP', name="http")]))
     ),
     dict(
         last_applied = dict(
@@ -79,7 +77,43 @@ tests = [
         ),
         expected = dict(spec=dict(ports=[dict(port=8081, name="http")]))
     ),
-    # This last one is based on a real world case where definition was mostly
+    dict(
+        last_applied = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8080, name="http")])
+        ),
+        actual = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8080, protocol='TCP', name="http")])
+        ),
+        desired = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8443, name="https"), dict(port=8080, name="http")])
+        ),
+        expected = dict(spec=dict(ports=[dict(port=8443, name="https"), dict(port=8080, name="http", protocol='TCP')]))
+    ),
+    dict(
+        last_applied = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8443, name="https"), dict(port=8080, name="http")])
+        ),
+        actual = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8443, protocol='TCP', name="https"), dict(port=8080, protocol='TCP', name='http')])
+        ),
+        desired = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8080, name="http")])
+        ),
+        expected = dict(spec=dict(ports=[dict(port=8080, name="http", protocol='TCP')]))
+    ),
+    # This next one is based on a real world case where definition was mostly
     # str type and everything else was mostly unicode type (don't ask me how)
     dict(
         last_applied = {
@@ -106,7 +140,119 @@ tests = [
         },
         expected = dict()
     ),
-
+    # apply a Deployment, then scale the Deployment (which doesn't affect last-applied)
+    # then apply the Deployment again. Should un-scale the Deployment
+    dict(
+        last_applied = {
+            'kind': u'Deployment',
+            'spec': {
+                'replicas': 1,
+                'template': {
+                    'spec': {
+                        'containers': [
+                            {
+                                'name': 'this_must_exist',
+                                'envFrom': [
+                                    {
+                                        'configMapRef': {
+                                            'name': 'config-xyz'
+                                        }
+                                    },
+                                    {
+                                        'secretRef': {
+                                            'name': 'config-wxy'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            'metadata': {
+                'namespace': 'apply',
+                'name': u'apply-deployment'
+            }
+        },
+        actual = {
+            'kind': u'Deployment',
+            'spec': {
+                'replicas': 0,
+                'template': {
+                    'spec': {
+                        'containers': [
+                            {
+                                'name': 'this_must_exist',
+                                'envFrom': [
+                                    {
+                                        'configMapRef': {
+                                            'name': 'config-xyz'
+                                        }
+                                    },
+                                    {
+                                        'secretRef': {
+                                            'name': 'config-wxy'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            'metadata': {
+                'namespace': 'apply',
+                'name': u'apply-deployment'
+            }
+        },
+        desired = {
+            'kind': u'Deployment',
+            'spec': {
+                'replicas': 1,
+                'template': {
+                    'spec': {
+                        'containers': [
+                            {
+                                'name': 'this_must_exist',
+                                'envFrom': [
+                                    {
+                                        'configMapRef': {
+                                            'name': 'config-abc'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            'metadata': {
+                'namespace': 'apply',
+                'name': u'apply-deployment'
+            }
+        },
+        expected = {
+            'spec' : {
+                'replicas': 1,
+                'template': {
+                    'spec': {
+                        'containers': [
+                            {
+                                'name': 'this_must_exist',
+                                'envFrom': [
+                                    {
+                                        'configMapRef': {
+                                            'name': 'config-abc'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    )
 ]
 
 
