@@ -86,7 +86,9 @@ def get_deletions(last_applied, desired):
 def get_delta(actual, desired):
     patch = {}
     for k, desired_value in desired.items():
-        actual_value = actual.get(k)
+        actual_value = None
+        if isinstance(actual, dict):
+            actual_value = actual.get(k)
         if actual_value is None:
             patch[k] = desired_value
         elif isinstance(desired_value, dict):
