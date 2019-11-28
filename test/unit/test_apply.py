@@ -113,6 +113,25 @@ tests = [
         ),
         expected = dict(spec=dict(ports=[dict(port=8080, name="http", protocol='TCP')]))
     ),
+    dict(
+        last_applied = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8443, name="https", madeup="xyz"), dict(port=8080, name="http")])
+        ),
+        actual = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8443, protocol='TCP', name="https", madeup="xyz"), dict(port=8080, protocol='TCP', name='http')])
+        ),
+        desired = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8443, name="https")])
+        ),
+        expected = dict(spec=dict(ports=[dict(port=8443, name="https", protocol='TCP')]))
+    ),
+
     # This next one is based on a real world case where definition was mostly
     # str type and everything else was mostly unicode type (don't ask me how)
     dict(
