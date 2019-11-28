@@ -139,12 +139,9 @@ def list_merge(last_applied, actual, desired, position):
             if key not in actual_dict or key not in last_applied_dict:
                 result.append(desired_dict[key])
             else:
-                # This won't delete any keys that are in last_applied but not in desired
-                if any([desired_dict[key].get(entry) != actual_dict[key].get(entry)
-                        for entry in last_applied_dict[key]]):
-                    result.append(desired_dict[key])
-                else:
-                    result.append(dict_merge(actual_dict[key], desired_dict[key]))
+                deletions = set(last_applied_dict[key].keys()) - set(desired_dict[key].keys())
+                result.append(dict_merge({k: v for k, v in actual_dict[key].items() if k not in deletions},
+                                         desired_dict[key]))
         return result
     else:
         return desired
