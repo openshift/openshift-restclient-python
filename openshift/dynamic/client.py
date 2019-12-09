@@ -601,7 +601,7 @@ class Discoverer(object):
 
     def __init__(self, client, cache_file):
         self.client = client
-        default_cachefile_name = 'osrcp-{0}.json'.format(hashlib.md5(self.__get_default_cache_id()).hexdigest())
+        default_cachefile_name = 'osrcp-{0}.json'.format(hashlib.sha1(self.__get_default_cache_id()).hexdigest())
         self.__cache_file = cache_file or os.path.join(tempfile.gettempdir(), default_cachefile_name)
         self.__init_cache()
 
