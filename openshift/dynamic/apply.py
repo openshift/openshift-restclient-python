@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from copy import deepcopy
 import json
+import sys
 
 from openshift.dynamic.exceptions import NotFoundError, ApplyException
 
@@ -49,31 +50,67 @@ STRATEGIC_MERGE_PATCH_KEYS.update(
 )
 
 
-def apply_object(resource, definition):
-    desired_annotation = dict(
+if sys.version_info.major >= 3:
+    json_loads_byteified = json.loads
+else:
+    # https://stackoverflow.com/a/33571117
+    def json_loads_byteified(json_text):
+        return _byteify(
+            json.loads(json_text, object_hook=_byteify),
+            ignore_dicts=True
+        )
+
+    def _byteify(data, ignore_dicts = False):
+        # if this is a unicode string, return its string representation
+        if isinstance(data, unicode):  # noqa: F821
+            return data.encode('utf-8')
+        # if this is a list of values, return list of byteified values
+        if isinstance(data, list):
+            return [ _byteify(item, ignore_dicts=True) for item in data ]
+        # if this is a dictionary, return dictionary of byteified keys and values
+        # but only if we haven't already byteified it
+        if isinstance(data, dict) and not ignore_dicts:
+            return {
+                _byteify(key, ignore_dicts=True): _byteify(value, ignore_dicts=True)
+                for key, value in data.items()
+            }
+        # if it's anything else, return it in its original form
+        return data
+
+
+def annotate(desired):
+    return dict(
         metadata=dict(
             annotations={
-                LAST_APPLIED_CONFIG_ANNOTATION: json.dumps(definition, separators=(',', ':'), indent=None)
+                LAST_APPLIED_CONFIG_ANNOTATION: json.dumps(desired, separators=(',', ':'), indent=None, sort_keys=True)
             }
         )
     )
+
+
+def apply_patch(actual, desired):
+    last_applied = actual['metadata'].get('annotations',{}).get(LAST_APPLIED_CONFIG_ANNOTATION)
+
+    if last_applied:
+        # ensure that last_applied doesn't come back as a dict of unicode key/value pairs
+        # json.loads can be used if we stop supporting python 2
+        last_applied = json_loads_byteified(last_applied)
+        patch = merge(dict_merge(last_applied, annotate(last_applied)),
+                      dict_merge(desired, annotate(desired)), actual)
+        if patch:
+            return actual, patch
+        else:
+            return actual, actual
+    else:
+        return actual, dict_merge(desired, annotate(desired))
+
+
+def apply_object(resource, definition):
     try:
         actual = resource.get(name=definition['metadata']['name'], namespace=definition['metadata'].get('namespace'))
     except NotFoundError:
-        return None, dict_merge(definition, desired_annotation)
-    last_applied = actual.metadata.get('annotations',{}).get(LAST_APPLIED_CONFIG_ANNOTATION)
-
-    if last_applied:
-        last_applied = json.loads(last_applied)
-        actual_dict = actual.to_dict()
-        del actual_dict['metadata']['annotations'][LAST_APPLIED_CONFIG_ANNOTATION]
-        patch = merge(last_applied, definition, actual_dict)
-        if patch:
-            return actual.to_dict(), dict_merge(patch, desired_annotation)
-        else:
-            return actual.to_dict(), actual.to_dict()
-    else:
-        return actual.to_dict(), dict_merge(definition, desired_annotation)
+        return None, dict_merge(definition, annotate(definition))
+    return apply_patch(actual.to_dict(), definition)
 
 
 def apply(resource, definition):
