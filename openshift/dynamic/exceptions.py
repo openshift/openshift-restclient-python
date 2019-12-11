@@ -69,6 +69,9 @@ class ResourceNotUniqueError(Exception):
 class KubernetesValidateMissing(Exception):
     """ kubernetes-validate is not installed """
 
+class ApplyException(Exception):
+    """ Could not apply patch """
+
 # HTTP Errors
 class BadRequestError(DynamicApiError):
     """ 400: StatusBadRequest """

@@ -1,9 +1,53 @@
+from collections import OrderedDict
 from copy import deepcopy
 import json
 
-from openshift.dynamic.exceptions import NotFoundError
+from openshift.dynamic.exceptions import NotFoundError, ApplyException
 
 LAST_APPLIED_CONFIG_ANNOTATION = 'kubectl.kubernetes.io/last-applied-configuration'
+
+POD_SPEC_SUFFIXES = {
+    'containers': 'name',
+    'initContainers': 'name',
+    'ephemeralContainers': 'name',
+    'volumes': 'name',
+    'imagePullSecrets': 'name',
+    'containers.volumeMounts': 'mountPath',
+    'containers.volumeDevices': 'devicePath',
+    'containers.envVars': 'name',
+    'containers.ports': 'containerPort',
+    'initContainers.volumeMounts': 'mountPath',
+    'initContainers.volumeDevices': 'devicePath',
+    'initContainers.envVars': 'name',
+    'initContainers.ports': 'containerPort',
+    'ephemeralContainers.volumeMounts': 'mountPath',
+    'ephemeralContainers.volumeDevices': 'devicePath',
+    'ephemeralContainers.envVars': 'name',
+    'ephemeralContainers.ports': 'containerPort',
+}
+
+POD_SPEC_PREFIXES = [
+    'Pod.spec',
+    'Deployment.spec.template.spec',
+    'DaemonSet.spec.template.spec',
+    'StatefulSet.spec.template.spec',
+    'Job.spec.template.spec',
+    'Cronjob.spec.jobTemplate.spec.template.spec',
+]
+
+# patch merge keys taken from generated.proto files under
+# staging/src/k8s.io/api in kubernetes/kubernetes
+STRATEGIC_MERGE_PATCH_KEYS = {
+    'Service.spec.ports': 'port',
+    'ServiceAccount.secrets': 'name',
+}
+
+STRATEGIC_MERGE_PATCH_KEYS.update(
+    {"%s.%s" % (prefix, key): value
+     for prefix in POD_SPEC_PREFIXES
+     for key, value in POD_SPEC_SUFFIXES.items()}
+)
+
 
 def apply_object(resource, definition):
     desired_annotation = dict(
@@ -50,7 +94,7 @@ def apply(resource, definition):
 # deletions, and then apply delta to deletions as a patch, which should be strictly additive.
 def merge(last_applied, desired, actual):
     deletions = get_deletions(last_applied, desired)
-    delta = get_delta(actual, desired)
+    delta = get_delta(last_applied, actual, desired, desired['kind'])
     return dict_merge(deletions, delta)
 
 
@@ -70,6 +114,39 @@ def dict_merge(a, b):
     return result
 
 
+def list_to_dict(lst, key, position):
+    result = OrderedDict()
+    for item in lst:
+        try:
+            result[item[key]] = item
+        except KeyError:
+            raise ApplyException("Expected key '%s' not found in position %s" % (key, position))
+    return result
+
+
+# list_merge applies a strategic merge to a set of lists if the patchMergeKey is known
+# each item in the list is compared based on the patchMergeKey - if two values with the
+# same patchMergeKey differ, we take the keys that are in last applied, compare the
+# actual and desired for those keys, and update if any differ
+def list_merge(last_applied, actual, desired, position):
+    result = list()
+    if position in STRATEGIC_MERGE_PATCH_KEYS and last_applied:
+        patch_merge_key = STRATEGIC_MERGE_PATCH_KEYS[position]
+        last_applied_dict = list_to_dict(last_applied, patch_merge_key, position)
+        actual_dict = list_to_dict(actual, patch_merge_key, position)
+        desired_dict = list_to_dict(desired, patch_merge_key, position)
+        for key in desired_dict:
+            if key not in actual_dict or key not in last_applied_dict:
+                result.append(desired_dict[key])
+            else:
+                deletions = set(last_applied_dict[key].keys()) - set(desired_dict[key].keys())
+                result.append(dict_merge({k: v for k, v in actual_dict[key].items() if k not in deletions},
+                                         desired_dict[key]))
+        return result
+    else:
+        return desired
+
+
 def get_deletions(last_applied, desired):
     patch = {}
     for k, last_applied_value in last_applied.items():
@@ -83,14 +160,23 @@ def get_deletions(last_applied, desired):
     return patch
 
 
-def get_delta(actual, desired):
+def get_delta(last_applied, actual, desired, position=None):
     patch = {}
+
     for k, desired_value in desired.items():
+        if position:
+            this_position = "%s.%s" % (position, k)
         actual_value = actual.get(k)
         if actual_value is None:
             patch[k] = desired_value
         elif isinstance(desired_value, dict):
-            p = get_delta(actual_value, desired_value)
+            p = get_delta(last_applied.get(k), actual_value, desired_value, this_position)
             if p:
                 patch[k] = p
+        elif isinstance(desired_value, list):
+            p = list_merge(last_applied.get(k), actual_value, desired_value, this_position)
+            if p:
+                patch[k] = [item for item in p if item]
+        elif actual_value != desired_value:
+            patch[k] = desired_value
     return patch

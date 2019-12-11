@@ -6,7 +6,7 @@ from kubernetes.client.rest import ApiException
 
 from .apply import apply
 from .discovery import EagerDiscoverer, LazyDiscoverer
-from .exceptions import api_exception, KubernetesValidateMissing
+from .exceptions import api_exception, KubernetesValidateMissing, ApplyException
 from .resource import Resource, ResourceList, Subresource, ResourceInstance, ResourceField
 
 try:
@@ -139,7 +139,11 @@ class DynamicClient(object):
             raise ValueError("name is required to apply {}.{}".format(resource.group_version, resource.kind))
         if resource.namespaced:
             body['metadata']['namespace'] = self.ensure_namespace(resource, namespace, body)
-        return apply(resource, body)
+        try:
+            return apply(resource, body)
+        except ApplyException as e:
+            raise ValueError("Could not apply strategic merge to %s/%s: %s" %
+                             (body['kind'], body['metadata']['name'], e))
 
     def watch(self, resource, namespace=None, name=None, label_selector=None, field_selector=None, resource_version=None, timeout=None):
         """
