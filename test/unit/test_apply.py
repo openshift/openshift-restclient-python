@@ -1,7 +1,6 @@
-from openshift.dynamic.apply import merge
+from openshift.dynamic.apply import merge, apply_patch
 
 tests = [
-
     dict(
         last_applied = dict(
             kind="ConfigMap",
@@ -40,6 +39,19 @@ tests = [
             data=dict(one="1", three="3")
         ),
         expected = dict(data=dict(two=None, three="3"))
+    ),
+    dict(
+        last_applied = dict(
+            kind="ConfigMap",
+            metadata=dict(name="foo", annotations=dict(this="one", hello="world")),
+            data=dict(one="1", two="2")
+        ),
+        desired = dict(
+            kind="ConfigMap",
+            metadata=dict(name="foo"),
+            data=dict(one="1", three="3")
+        ),
+        expected = dict(metadata=dict(annotations=None), data=dict(two=None, three="3"))
     ),
     dict(
         last_applied = dict(
@@ -278,3 +290,26 @@ tests = [
 def test_merges():
     for test in tests:
         assert(merge(test['last_applied'], test['desired'], test.get('actual', test['last_applied'])) == test['expected'])
+
+
+def test_apply_patch():
+        actual = dict(
+            kind="ConfigMap",
+            metadata=dict(name="foo",
+                          annotations={'kubectl.kubernetes.io/last-applied-configuration':
+                                       '{"data":{"one":"1","two":"2"},"kind":"ConfigMap",'
+                                       '"metadata":{"annotations":{"hello":"world","this":"one"},"name":"foo"}}',
+                                       'this': 'one', 'hello': 'world'}),
+            data=dict(one="1", two="2")
+        )
+        desired = dict(
+            kind="ConfigMap",
+            metadata=dict(name="foo"),
+            data=dict(one="1", three="3")
+        )
+        expected = dict(
+            metadata=dict(
+                annotations={'kubectl.kubernetes.io/last-applied-configuration': '{"data":{"one":"1","three":"3"},"kind":"ConfigMap","metadata":{"name":"foo"}}',
+                             'this': None, 'hello': None}),
+                data=dict(two=None, three="3"))
+        assert(apply_patch(actual, desired) == (actual, expected))
