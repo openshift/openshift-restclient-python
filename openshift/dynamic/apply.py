@@ -207,11 +207,11 @@ def get_delta(last_applied, actual, desired, position=None):
         if actual_value is None:
             patch[k] = desired_value
         elif isinstance(desired_value, dict):
-            p = get_delta(last_applied.get(k), actual_value, desired_value, this_position)
+            p = get_delta(last_applied.get(k, {}), actual_value, desired_value, this_position)
             if p:
                 patch[k] = p
         elif isinstance(desired_value, list):
-            p = list_merge(last_applied.get(k), actual_value, desired_value, this_position)
+            p = list_merge(last_applied.get(k, []), actual_value, desired_value, this_position)
             if p:
                 patch[k] = [item for item in p if item]
         elif actual_value != desired_value:
