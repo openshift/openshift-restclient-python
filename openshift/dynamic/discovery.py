@@ -9,7 +9,7 @@ from abc import abstractmethod, abstractproperty
 from urllib3.exceptions import ProtocolError, MaxRetryError
 
 from openshift import __version__
-from .exceptions import ResourceNotFoundError, ResourceNotUniqueError, ApiException
+from .exceptions import ResourceNotFoundError, ResourceNotUniqueError, ApiException, ServiceUnavailableError
 from .resource import Resource, ResourceList
 
 
@@ -182,7 +182,10 @@ class Discoverer(object):
         subresources = {}
 
         path = '/'.join(filter(None, [prefix, group, version]))
-        resources_response = self.client.request('GET', path).resources or []
+        try:
+            resources_response = self.client.request('GET', path).resources or []
+        except ServiceUnavailableError:
+            resources_response = []
 
         resources_raw = list(filter(lambda resource: '/' not in resource['name'], resources_response))
         subresources_raw = list(filter(lambda resource: '/' in resource['name'], resources_response))
