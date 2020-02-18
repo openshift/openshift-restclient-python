@@ -283,6 +283,37 @@ tests = [
                 }
             }
         }
+    ),
+    dict(
+        last_applied = {
+            'kind': 'MadeUp',
+            'toplevel': {
+                'original': 'entry'
+            }
+        },
+        actual = {
+            'kind': 'MadeUp',
+            'toplevel': {
+                'original': 'entry',
+                'another': {
+                    'nested': {
+                         'entry': 'value'
+                    }
+                }
+            }
+        },
+        desired = {
+            'kind': 'MadeUp',
+            'toplevel': {
+                'original': 'entry',
+                'another': {
+                    'nested': {
+                         'entry': 'value'
+                    }
+                }
+            }
+        },
+        expected = {}
     )
 ]
 
