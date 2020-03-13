@@ -4,5 +4,4 @@ flake8
 pytest
 pytest-bdd
 pytest-cov
-PyYAML
 dictdiffer
