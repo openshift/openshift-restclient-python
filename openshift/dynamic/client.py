@@ -211,7 +211,7 @@ class DynamicClient(object):
         if params.get('watch') is not None:
             query_params.append(('watch', params['watch']))
         if params.get('dryRun') is not None:
-            query_params.append(('dryRun', params['dryRun']))
+            query_params.append(('dryRun', params['dry_run']))
 
         header_params = params.get('header_params', {})
         form_params = []
