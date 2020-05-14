@@ -141,7 +141,29 @@ tests = [
             metadata=dict(name="foo"),
             spec=dict(ports=[dict(port=8443, name="https")])
         ),
-        expected = dict(spec=dict(ports=[dict(port=8443, name="https", protocol='TCP')]))
+        expected = dict(spec=dict(ports=[dict(madeup=None, port=8443, name="https", protocol='TCP')]))
+    ),
+    dict(
+        last_applied = dict(
+            kind="Pod",
+            metadata=dict(name="foo"),
+            spec=dict(containers=[dict(name="busybox", image="busybox",
+                                       resources=dict(requests=dict(cpu="100m", memory="100Mi"), limits=dict(cpu="100m", memory="100Mi")))])
+        ),
+        actual = dict(
+            kind="Pod",
+            metadata=dict(name="foo"),
+            spec=dict(containers=[dict(name="busybox", image="busybox",
+                                       resources=dict(requests=dict(cpu="100m", memory="100Mi"), limits=dict(cpu="100m", memory="100Mi")))])
+        ),
+        desired = dict(
+            kind="Pod",
+            metadata=dict(name="foo"),
+            spec=dict(containers=[dict(name="busybox", image="busybox",
+                                       resources=dict(requests=dict(cpu="50m", memory="50Mi"), limits=dict(memory="50Mi")))])
+        ),
+        expected=dict(spec=dict(containers=[dict(name="busybox", image="busybox",
+                                                 resources=dict(requests=dict(cpu="50m", memory="50Mi"), limits=dict(cpu=None, memory="50Mi")))]))
     ),
 
     # This next one is based on a real world case where definition was mostly
