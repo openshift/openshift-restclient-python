@@ -210,6 +210,8 @@ class DynamicClient(object):
             query_params.append(('timeoutSeconds', params['timeout_seconds']))
         if params.get('watch') is not None:
             query_params.append(('watch', params['watch']))
+        if params.get('dry_run') is not None:
+            query_params.append(('dryRun', params['dry_run']))
 
         header_params = params.get('header_params', {})
         form_params = []
