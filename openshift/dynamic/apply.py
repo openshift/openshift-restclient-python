@@ -129,9 +129,9 @@ def apply(resource, definition):
 # from last_applied to desired. To find it, we compute deletions, which are the deletions from
 # last_applied to desired, and delta, which is the difference from actual to desired without
 # deletions, and then apply delta to deletions as a patch, which should be strictly additive.
-def merge(last_applied, desired, actual):
+def merge(last_applied, desired, actual, position=None):
     deletions = get_deletions(last_applied, desired)
-    delta = get_delta(last_applied, actual, desired, desired['kind'])
+    delta = get_delta(last_applied, actual, desired, position or desired['kind'])
     return dict_merge(deletions, delta)
 
 
@@ -176,9 +176,8 @@ def list_merge(last_applied, actual, desired, position):
             if key not in actual_dict or key not in last_applied_dict:
                 result.append(desired_dict[key])
             else:
-                deletions = set(last_applied_dict[key].keys()) - set(desired_dict[key].keys())
-                result.append(dict_merge({k: v for k, v in actual_dict[key].items() if k not in deletions},
-                                         desired_dict[key]))
+                patch = merge(last_applied_dict[key], desired_dict[key], actual_dict[key], position)
+                result.append(dict_merge(actual_dict[key], patch))
         return result
     else:
         return desired
