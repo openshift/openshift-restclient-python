@@ -1,4 +1,3 @@
-dictdiffer
 jinja2
 kubernetes
 python-string-utils
