@@ -15,15 +15,15 @@ POD_SPEC_SUFFIXES = {
     'imagePullSecrets': 'name',
     'containers.volumeMounts': 'mountPath',
     'containers.volumeDevices': 'devicePath',
-    'containers.envVars': 'name',
+    'containers.env': 'name',
     'containers.ports': 'containerPort',
     'initContainers.volumeMounts': 'mountPath',
     'initContainers.volumeDevices': 'devicePath',
-    'initContainers.envVars': 'name',
+    'initContainers.env': 'name',
     'initContainers.ports': 'containerPort',
     'ephemeralContainers.volumeMounts': 'mountPath',
     'ephemeralContainers.volumeDevices': 'devicePath',
-    'ephemeralContainers.envVars': 'name',
+    'ephemeralContainers.env': 'name',
     'ephemeralContainers.ports': 'containerPort',
 }
 
