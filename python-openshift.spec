@@ -4,7 +4,7 @@
 
 Name:       python-%{library}
 Version:    0.6.4
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Python client for the OpenShift API
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
@@ -131,6 +131,15 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Thu May 28 2020 jesus m. rodriguez <jesusr@redhat.com> 0.6.4-2
+- Resync changelog with rel-0.7 and update version (jesusr@redhat.com)
+- Bump version to 0.6.4 (fabian@fabianism.us)
+- py3 test fix (#330) (fabian@fabianism.us)
+- Pin more requirements (fabian@fabianism.us)
+- Reduce build matrix (fabian@fabianism.us)
+- Do not decode response data in Python2 (#329) (openshift-cherrypick-robot@redhat.com)
+- Update tests and pin dependencies to prevent irrelevant failures (fabian@fabianism.us)
+- Fix version pin to kubernetes 6.0.0, bump version (fabian@fabianism.us)
 * Mon Aug 06 2018 David Zager <david.j.zager@gmail.com> 0.6.2-12
 - Fix decode issue (#192) (lostonamountain@gmail.com)
 - b64encode expects bytes not string (fridolin@redhat.com)
