@@ -3,9 +3,9 @@
 %global library openshift
 
 Name:       python-%{library}
-Version:    0.6.3
-Release:    10%{?dist}
-Summary:    Python client for the OpenShift API  
+Version:    0.6.4
+Release:    1%{?dist}
+Summary:    Python client for the OpenShift API
 License:    MIT
 URL:        https://github.com/openshift/openshift-restclient-python
 Source0:    https://github.com/openshift/openshift-restclient-python/python-openshift-%{version}.tar.gz
@@ -13,7 +13,7 @@ BuildArch:  noarch
 Epoch:      1
 
 %package -n python2-%{library}
-Summary:    Python client for the OpenShift API  
+Summary:    Python client for the OpenShift API
 %{?python_provide:%python_provide python2-%{library}}
 
 BuildRequires: python2-devel
@@ -34,7 +34,7 @@ Python client for the kubernetes API.
 
 %if 0%{?with_python3}
 %package -n python3-%{library}
-Summary: Python client for the OpenShift API 
+Summary: Python client for the OpenShift API
 %if 0%{?rhel}
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{library}}
 %else
@@ -70,11 +70,11 @@ Requires: python3-six
 %endif
 
 %description -n python3-%{library}
-Python client for the OpenShift API 
+Python client for the OpenShift API
 %endif # with_python3
 
 %description
-Python client for the OpenShift API 
+Python client for the OpenShift API
 
 %prep
 %autosetup -S git
@@ -131,6 +131,15 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 %endif # with_python3
 
 %changelog
+* Mon Aug 06 2018 David Zager <david.j.zager@gmail.com> 0.6.2-12
+- Fix decode issue (#192) (lostonamountain@gmail.com)
+- b64encode expects bytes not string (fridolin@redhat.com)
+- Update releasers for 3.11 (david.j.zager@gmail.com)
+
+* Mon Jul 23 2018 David Zager <david.j.zager@gmail.com> 0.6.2-11
+- include version update script (fabian@fabianism.us)
+- Version bump to 0.6.2 (fabian@fabianism.us)
+
 * Thu Jul 05 2018 David Zager <david.j.zager@gmail.com> 0.6.1-10
 - Install openshift.dynamic in RPM (#180) (dzager@redhat.com)
 
@@ -208,7 +217,7 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
   (ceridwen@users.noreply.github.com)
 
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.4-2
-- Update version 
+- Update version
 
 * Fri Nov 03 2017 Jason Montleon <jmontleo@redhat.com> 0.3.3-8
 - Bug 1508969 - Add foreground propagation policy (david.j.zager@gmail.com)
@@ -237,7 +246,7 @@ sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 - make source name match package name
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-2
-- Fix source name 
+- Fix source name
 
 * Fri Oct 06 2017 Jason Montleon <jmontleo@redhat.com> 0.3.2-1
 - new package built with tito
