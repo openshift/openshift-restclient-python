@@ -178,6 +178,9 @@ def list_merge(last_applied, actual, desired, position):
             else:
                 patch = merge(last_applied_dict[key], desired_dict[key], actual_dict[key], position)
                 result.append(dict_merge(actual_dict[key], patch))
+        for key in actual_dict:
+            if key not in desired_dict and key not in last_applied_dict:
+                result.append(actual_dict[key])
         return result
     else:
         return desired

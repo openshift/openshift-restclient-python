@@ -53,6 +53,7 @@ tests = [
         ),
         expected = dict(metadata=dict(annotations=None), data=dict(two=None, three="3"))
     ),
+
     dict(
         last_applied = dict(
             kind="Service",
@@ -164,6 +165,43 @@ tests = [
         ),
         expected=dict(spec=dict(containers=[dict(name="busybox", image="busybox",
                                                  resources=dict(requests=dict(cpu="50m", memory="50Mi"), limits=dict(cpu=None, memory="50Mi")))]))
+    ),
+    dict(
+        desired = dict(kind='Pod',
+                       spec=dict(containers=[
+                           dict(name='hello',
+                                volumeMounts=[dict(name="test", mountPath="/test")])
+                           ],
+                           volumes=[
+                               dict(name="test", configMap=dict(name="test")),
+                           ])),
+        last_applied = dict(kind='Pod',
+                       spec=dict(containers=[
+                           dict(name='hello',
+                                volumeMounts=[dict(name="test", mountPath="/test")])
+                           ],
+                           volumes=[
+                               dict(name="test", configMap=dict(name="test")),
+                           ])),
+        actual = dict(kind='Pod',
+                       spec=dict(containers=[
+                           dict(name='hello',
+                                volumeMounts=[dict(name="test", mountPath="/test"),
+                                              dict(mountPath="/var/run/secrets/kubernetes.io/serviceaccount", name="default-token-xyz")])
+                           ],
+                           volumes=[
+                               dict(name="test", configMap=dict(name="test")),
+                               dict(name="default-token-xyz", secret=dict(secretName="default-token-xyz")),
+                           ])),
+        expected = dict(spec=dict(containers=[
+                           dict(name='hello',
+                                volumeMounts=[dict(name="test", mountPath="/test"),
+                                              dict(mountPath="/var/run/secrets/kubernetes.io/serviceaccount", name="default-token-xyz")])
+                           ],
+                           volumes=[
+                               dict(name="test", configMap=dict(name="test")),
+                               dict(name="default-token-xyz", secret=dict(secretName="default-token-xyz")),
+                           ])),
     ),
 
     # This next one is based on a real world case where definition was mostly
