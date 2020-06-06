@@ -35,7 +35,6 @@ BuildRequires: python-setuptools
 BuildRequires: git
 
 Requires: python2
-Requires: python2-dictdiffer
 Requires: python2-kubernetes
 Requires: python2-string_utils
 Requires: python-requests
@@ -55,7 +54,6 @@ BuildRequires: %{py3}-setuptools
 BuildRequires: git
 
 Requires: %{py3}
-Requires: %{py3}-dictdiffer
 Requires: %{py3}-kubernetes
 Requires: %{py3}-string_utils
 Requires: %{py3}-requests
@@ -92,7 +90,7 @@ Python client for the OpenShift API
 #the requirements are also done in an non-backwards compatible way
 %if 0%{?rhel}
 sed -i -e "s/find_packages(include='openshift.*')/['openshift', 'openshift.dynamic', 'openshift.helper']/g" setup.py
-sed -i -e '30s/^/REQUIRES = [\n    "dictdiffer",\n    "jinja2",\n    "kubernetes",\n    "setuptools",\n    "six",\n    "ruamel.yaml",\n    "python-string-utils",\n]\n/g' setup.py
+sed -i -e '30s/^/REQUIRES = [\n    "jinja2",\n    "kubernetes",\n    "setuptools",\n    "six",\n    "ruamel.yaml",\n    "python-string-utils",\n]\n/g' setup.py
 sed -i -e "s/extract_requirements('requirements.txt')/REQUIRES/g" setup.py
 #sed -i -e '14,21d' setup.py
 %endif
