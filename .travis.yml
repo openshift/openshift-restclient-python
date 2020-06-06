@@ -8,12 +8,15 @@ python:
 - '2.7'
 - '3.5'
 env:
-- TEST_SUITE=unit OPENSHIFT_VERSION=latest
-- TEST_SUITE=unit OPENSHIFT_VERSION=3.10
-- TEST_SUITE=unit OPENSHIFT_VERSION=3.11
-- TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=3.10
-- TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=3.11
-- TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=latest
+  global:
+    - COVERALLS_PARALLEL=true
+  jobs:
+    - TEST_SUITE=unit OPENSHIFT_VERSION=latest
+    - TEST_SUITE=unit OPENSHIFT_VERSION=3.10
+    - TEST_SUITE=unit OPENSHIFT_VERSION=3.11
+    - TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=3.10
+    - TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=3.11
+    - TEST_SUITE=dynamic-functional OPENSHIFT_VERSION=latest
 script: tox
 install:
 - pip install tox-travis coveralls
@@ -56,3 +59,5 @@ stages:
   if: (tag is present) and (type = push)
 - name: test-deploy
   if: (tag is present) and (type = push)
+notifications:
+  webhooks: https://coveralls.io/webhook
