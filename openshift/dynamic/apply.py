@@ -41,6 +41,8 @@ POD_SPEC_PREFIXES = [
 STRATEGIC_MERGE_PATCH_KEYS = {
     'Service.spec.ports': 'port',
     'ServiceAccount.secrets': 'name',
+    'ValidatingWebhookConfiguration.webhooks': 'name',
+    'MutatingWebhookConfiguration.webhooks': 'name',
 }
 
 STRATEGIC_MERGE_PATCH_KEYS.update(
