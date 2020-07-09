@@ -102,7 +102,7 @@ metadata:
 spec:
   selector:
     app: MyApp
-ports:
+  ports:
   - protocol: TCP
     port: 8080
     targetPort: 9376
