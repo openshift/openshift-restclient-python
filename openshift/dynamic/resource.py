@@ -132,7 +132,7 @@ class ResourceList(Resource):
             raise ValueError('The `items` field in the body must be populated when calling methods on a ResourceList')
 
         if self.kind != kind:
-            raise ValueError('Methods on a {} must be called with a body containing the same kind. Receieved {} instead'.format(self.kind, kind))
+            raise ValueError('Methods on a {} must be called with a body containing the same kind. Received {} instead'.format(self.kind, kind))
 
         return {
             'api_version': api_version,
@@ -154,7 +154,7 @@ class ResourceList(Resource):
             'namespace': metadata.get('namespace')
         }
 
-    def get(self, body, name=None, namespace=None, **kwargs):
+    def get(self, body=None, name=None, namespace=None, **kwargs):
         if name:
             raise ValueError('Operations on ResourceList objects do not support the `name` argument')
         resource_list = self._items_to_resources(body)
@@ -166,7 +166,7 @@ class ResourceList(Resource):
         ]
         return ResourceInstance(self, response)
 
-    def delete(self, body, name=None, namespace=None, **kwargs):
+    def delete(self, body=None, name=None, namespace=None, **kwargs):
         if name:
             raise ValueError('Operations on ResourceList objects do not support the `name` argument')
         resource_list = self._items_to_resources(body)
@@ -178,7 +178,7 @@ class ResourceList(Resource):
         ]
         return ResourceInstance(self, response)
 
-    def verb_mapper(self, verb, body, **kwargs):
+    def verb_mapper(self, verb, body=None, **kwargs):
         resource_list = self._items_to_resources(body)
         response = copy.deepcopy(body)
         response['items'] = [
