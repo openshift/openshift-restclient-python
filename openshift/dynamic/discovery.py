@@ -414,7 +414,7 @@ class EagerDiscoverer(Discoverer):
         for _, groups in self.__resources.items():
             for _, versions in groups.items():
                 for _, resources in versions.items():
-                    for _, resource in resources.items():
+                    for resource in resources:
                         yield resource
 
 
@@ -430,6 +430,12 @@ class ResourceGroup(object):
             'preferred': self.preferred,
             'resources': self.resources,
         }
+
+    def __iter__(self):
+        for _, resource_list in self.resources.items():
+            for r in resource_list:
+                yield r
+
 
 
 class CacheEncoder(json.JSONEncoder):
