@@ -276,7 +276,7 @@ class ResourceInstance(object):
         kind = instance['kind']
         if kind.endswith('List') and 'items' in instance:
             kind = instance['kind'][:-4]
-            if instance['items]:
+            if instance['items']:
                 for item in instance['items']:
                     if 'apiVersion' not in item:
                         item['apiVersion'] = instance['apiVersion']
