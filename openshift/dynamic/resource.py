@@ -276,11 +276,12 @@ class ResourceInstance(object):
         kind = instance['kind']
         if kind.endswith('List') and 'items' in instance:
             kind = instance['kind'][:-4]
-            for item in instance['items']:
-                if 'apiVersion' not in item:
-                    item['apiVersion'] = instance['apiVersion']
-                if 'kind' not in item:
-                    item['kind'] = kind
+            if instance['items']:
+                for item in instance['items']:
+                    if 'apiVersion' not in item:
+                        item['apiVersion'] = instance['apiVersion']
+                    if 'kind' not in item:
+                        item['kind'] = kind
 
         self.attributes = self.__deserialize(instance)
         self.__initialised = True
