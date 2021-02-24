@@ -14,5 +14,5 @@
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-version.sh.
-__version__ = "0.10.0dev1"
-__k8s_client_version__ = "9.0.0"
+__version__ = "0.12.0rc1"
+__k8s_client_version__ = "12.0"
