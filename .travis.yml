@@ -6,7 +6,7 @@ cache:
 language: python
 python:
 - '2.7'
-- '3.5'
+- '3.8'
 env:
   global:
     - COVERALLS_PARALLEL=true
@@ -31,7 +31,7 @@ jobs:
     script: tox -e py27-lint
     env:
     - TEST_SUITE=lint OPENSHIFT_VERSION=latest
-  - python: '3.5'
+  - python: '3.8'
     install:
     - pip install tox-travis
     script: tox -e py35-lint
@@ -39,7 +39,7 @@ jobs:
     - TEST_SUITE=lint OPENSHIFT_VERSION=latest
   - stage: deploy
     script: skip
-    python: '3.5'
+    python: '3.8'
     deploy:
       provider: pypi
       user: openshift
@@ -50,7 +50,7 @@ jobs:
         repo: openshift/openshift-restclient-python
         condition: "$TRAVIS_TAG =~ ^v[0-9]+\\.[0-9]+\\.[0-9]+(([ab]|dev|rc)[0-9]+)?$"
   - stage: test-deploy
-    python: '3.5'
+    python: '3.8'
     script: python -c "import openshift ; print(openshift.__version__)"
     install:
       - pip install openshift
