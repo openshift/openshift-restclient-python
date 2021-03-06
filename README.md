@@ -241,8 +241,8 @@ from openshift.dynamic import DynamicClient
 from openshift.helper.userpassauth import OCPLoginConfiguration
  
 apihost = 'https://api.cluster.example.com:6443'
-#username = 'demo-user'
-#password = 'insecure'
+username = 'demo-user'
+password = 'insecure'
  
 kubeConfig = OCPLoginConfiguration(ocp_username=username, ocp_password=password)
 kubeConfig.host = apihost
