@@ -22,6 +22,7 @@ API servers or Custom Resource Definitions.
   * [Create a Route](#create-a-route)
   * [List Projects](#list-projects)
   * [Custom Resources](#custom-resources)
+  * [OpenShift Login with username and password](#openshift-login-with-username-and-password)
 * [Available Methods for Resources](#available-methods-for-resources)
   * [Get](#get)
   * [Create](#create)
@@ -232,7 +233,7 @@ for item in foo_resources.get().items:
   print(item.metadata.name)
 ```
 
-# OpenShift Login with username and password:
+## OpenShift Login with username and password
 
 ```
 from kubernetes import client
