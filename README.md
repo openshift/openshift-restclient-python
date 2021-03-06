@@ -235,7 +235,7 @@ for item in foo_resources.get().items:
 
 ## OpenShift Login with username and password
 
-```
+```python
 from kubernetes import client
 from openshift.dynamic import DynamicClient
 from openshift.helper.userpassauth import OCPLoginConfiguration
