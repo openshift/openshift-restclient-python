@@ -4,3 +4,4 @@ python-string-utils
 ruamel.yaml
 six
 requests
+requests-oauthlib
