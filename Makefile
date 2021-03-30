@@ -5,10 +5,10 @@ ARTIFACT_DIR ?= ./
 test: test-lint test-unit test-integration
 
 test-lint:
-	flake8 . && (flake8 --format junit-xml . > ${ARTIFACT_DIR}/test-lint.junit.xml)
+	flake8 .
 
 test-unit:
-	pytest test/unit -v -r s --junitxml=${ARTIFACT_DIR}/test-unit.junit.xml
+	pytest test/unit -v -r s
 
 test-integration:
-	pytest test/integration -v -r s --junitxml=${ARTIFACT_DIR}/test-integration.junit.xml
+	pytest test/integration -v -r s
