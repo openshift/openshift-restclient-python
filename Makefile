@@ -1,13 +1,12 @@
 .PHONY: test
 
 test: test-lint test-unit test-integration
-	@echo "This will run all tests"
 
 test-lint:
-	@echo "This will run linting jobs"
+	flake8 .
 
 test-unit:
-	@echo "This will run unit tests"
+	pytest test/unit -v -r s
 
 test-integration:
-	@echo "This will run integration tests"
+	pytest test/integration -v -r s
