@@ -2,3 +2,4 @@ coverage
 flake8
 pytest
 pytest-cov
+flake8_formatter_junit_xml
