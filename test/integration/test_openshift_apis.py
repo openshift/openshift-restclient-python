@@ -87,8 +87,8 @@ class TestOpenshiftApis(unittest.TestCase):
                     "targetPort": 8080
                 },
                 "tls": {
-                    "termination": "edge",
-                    "insecureEdgeTerminationPolicy": "redirect",
+                    "termination": "Edge",
+                    "insecureEdgeTerminationPolicy": "Redirect",
                 }
             }
         }
