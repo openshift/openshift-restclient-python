@@ -19,9 +19,9 @@ class TestDynamicClient(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            config.load_incluster_config()
-        except config.ConfigException:
             config.load_kube_config()
+        except config.ConfigException:
+            config.load_incluster_config()
         cls.config = Configuration.get_default_copy()
 
     def test_cluster_custom_resources(self):
