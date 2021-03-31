@@ -96,3 +96,27 @@ class TestOpenshiftApis(unittest.TestCase):
         url = created_route.spec.host
         response = requests.get("https://{0}".format(url), verify=False)
         assert "Hello Openshift!" in response.text
+
+    def test_templates(self):
+        client = DynamicClient(api_client.ApiClient(configuration=self.config))
+        v1_templates = client.resources.get(api_version='template.openshift.io/v1', name='templates')
+        v1_processed_templates = client.resources.get(api_version='template.openshift.io/v1', name='processedtemplates')
+
+        nginx_template = v1_templates.get(name='nginx-example', namespace='openshift').to_dict()
+        nginx_template = self.update_template_param(nginx_template, 'NAMESPACE', 'default')
+        nginx_template = self.update_template_param(nginx_template, 'NAME', 'test123')
+
+        response = v1_processed_templates.create(body=nginx_template, namespace='default')
+
+        for obj in response.objects:
+            if obj.metadata.namespace:
+                assert obj.metadata.namespace == 'default'
+            assert obj.metadata.name == 'test123'
+
+    def update_template_param(self, template, k, v):
+        for i, param in enumerate(template['parameters']):
+            if param['name'] == k:
+                template['parameters'][i]['value'] = v
+                return template
+        return template
+
