@@ -21,11 +21,13 @@ class TestOpenshiftApis(unittest.TestCase):
         apps_v1_deployments = client.resources.get(api_version='apps/v1', kind='Deployment')
         v1_services = client.resources.get(api_version='v1', kind='Service')
 
+        name = 'hello-openshift'
+
         deployment = {
             "apiVersion": "apps/v1",
             "kind": "Deployment",
             "metadata": {
-                "name": "hello-openshift",
+                "name": name,
                 "namespace": namespace
             },
             "spec": {
@@ -52,7 +54,7 @@ class TestOpenshiftApis(unittest.TestCase):
             "apiVersion": "v1",
             "kind": "Service",
             "metadata": {
-                "name": "hello-openshift",
+                "name": name,
                 "namespace": namespace
             },
             "spec": {
@@ -66,6 +68,22 @@ class TestOpenshiftApis(unittest.TestCase):
             }}
         apps_v1_deployments.create(deployment)
         v1_services.create(service)
+
+        # Wait 1 minute for deployment to become available
+        timeout = 60
+        start = datetime.now()
+        while (datetime.now() - start).seconds < timeout:
+            try:
+                deployment = apps_v1_deployments.get(name=name, namespace=namespace)
+                if (deployment.status
+                    and deployment.spec.replicas == (deployment.status.replicas or 0)
+                    and deployment.status.availableReplicas == deployment.status.replicas
+                    and deployment.status.observedGeneration == deployment.metadata.generation
+                    and not deployment.status.unavailableReplicas):
+                    return
+                time.sleep(1)
+            except Exception:
+                time.sleep(1)
 
     def test_v1_route(self):
         client = DynamicClient(api_client.ApiClient(configuration=self.config))
@@ -119,4 +137,3 @@ class TestOpenshiftApis(unittest.TestCase):
                 template['parameters'][i]['value'] = v
                 return template
         return template
-
