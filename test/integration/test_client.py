@@ -1,12 +1,9 @@
 import time
-import unittest
 import uuid
 
-from kubernetes import config
-from kubernetes.client import api_client, Configuration
-
-from openshift.dynamic import DynamicClient
 from openshift.dynamic.exceptions import ResourceNotFoundError
+
+from . import RestClientTestCase
 
 
 def short_uuid():
@@ -14,24 +11,14 @@ def short_uuid():
     return id[-12:]
 
 
-class TestDynamicClient(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        try:
-            config.load_kube_config()
-        except config.ConfigException:
-            config.load_incluster_config()
-        cls.config = Configuration.get_default_copy()
+class TestDynamicClient(RestClientTestCase):
 
     def test_cluster_custom_resources(self):
-        client = DynamicClient(api_client.ApiClient(configuration=self.config))
-
         with self.assertRaises(ResourceNotFoundError):
-            changeme_api = client.resources.get(
+            changeme_api = self.client.resources.get(
                 api_version='apps.example.com/v1', kind='ClusterChangeMe')
 
-        crd_api = client.resources.get(
+        crd_api = self.client.resources.get(
             api_version='apiextensions.k8s.io/v1beta1',
             kind='CustomResourceDefinition')
         name = 'clusterchangemes.apps.example.com'
@@ -68,12 +55,12 @@ class TestDynamicClient(unittest.TestCase):
         self.assertTrue(resp.status)
 
         try:
-            changeme_api = client.resources.get(
+            changeme_api = self.client.resources.get(
                 api_version='apps.example.com/v1', kind='ClusterChangeMe')
         except ResourceNotFoundError:
             # Need to wait a sec for the discovery layer to get updated
             time.sleep(2)
-        changeme_api = client.resources.get(
+        changeme_api = self.client.resources.get(
             api_version='apps.example.com/v1', kind='ClusterChangeMe')
         resp = changeme_api.get()
         self.assertEqual(resp.items, [])
@@ -118,19 +105,17 @@ class TestDynamicClient(unittest.TestCase):
         )
 
         time.sleep(2)
-        client.resources.invalidate_cache()
+        self.client.resources.invalidate_cache()
         with self.assertRaises(ResourceNotFoundError):
-            changeme_api = client.resources.get(
+            changeme_api = self.client.resources.get(
                 api_version='apps.example.com/v1', kind='ClusterChangeMe')
 
     def test_namespaced_custom_resources(self):
-        client = DynamicClient(api_client.ApiClient(configuration=self.config))
-
         with self.assertRaises(ResourceNotFoundError):
-            changeme_api = client.resources.get(
+            changeme_api = self.client.resources.get(
                 api_version='apps.example.com/v1', kind='ChangeMe')
 
-        crd_api = client.resources.get(
+        crd_api = self.client.resources.get(
             api_version='apiextensions.k8s.io/v1beta1',
             kind='CustomResourceDefinition')
         name = 'changemes.apps.example.com'
@@ -167,12 +152,12 @@ class TestDynamicClient(unittest.TestCase):
         self.assertTrue(resp.status)
 
         try:
-            changeme_api = client.resources.get(
+            changeme_api = self.client.resources.get(
                 api_version='apps.example.com/v1', kind='ChangeMe')
         except ResourceNotFoundError:
             # Need to wait a sec for the discovery layer to get updated
             time.sleep(2)
-        changeme_api = client.resources.get(
+        changeme_api = self.client.resources.get(
             api_version='apps.example.com/v1', kind='ChangeMe')
         resp = changeme_api.get()
         self.assertEqual(resp.items, [])
@@ -186,24 +171,24 @@ class TestDynamicClient(unittest.TestCase):
             'spec': {}
         }
 
-        resp = changeme_api.create(body=changeme_manifest, namespace='default')
+        resp = changeme_api.create(body=changeme_manifest, namespace=self.namespace)
         self.assertEqual(resp.metadata.name, changeme_name)
 
-        resp = changeme_api.get(name=changeme_name, namespace='default')
+        resp = changeme_api.get(name=changeme_name, namespace=self.namespace)
         self.assertEqual(resp.metadata.name, changeme_name)
 
         changeme_manifest['spec']['size'] = 3
         resp = changeme_api.patch(
             body=changeme_manifest,
-            namespace='default',
+            namespace=self.namespace,
             content_type='application/merge-patch+json'
         )
         self.assertEqual(resp.spec.size, 3)
 
-        resp = changeme_api.get(name=changeme_name, namespace='default')
+        resp = changeme_api.get(name=changeme_name, namespace=self.namespace)
         self.assertEqual(resp.spec.size, 3)
 
-        resp = changeme_api.get(namespace='default')
+        resp = changeme_api.get(namespace=self.namespace)
         self.assertEqual(len(resp.items), 1)
 
         resp = changeme_api.get()
@@ -211,10 +196,10 @@ class TestDynamicClient(unittest.TestCase):
 
         resp = changeme_api.delete(
             name=changeme_name,
-            namespace='default'
+            namespace=self.namespace
         )
 
-        resp = changeme_api.get(namespace='default')
+        resp = changeme_api.get(namespace=self.namespace)
         self.assertEqual(len(resp.items), 0)
 
         resp = changeme_api.get()
@@ -225,14 +210,13 @@ class TestDynamicClient(unittest.TestCase):
         )
 
         time.sleep(2)
-        client.resources.invalidate_cache()
+        self.client.resources.invalidate_cache()
         with self.assertRaises(ResourceNotFoundError):
-            changeme_api = client.resources.get(
+            changeme_api = self.client.resources.get(
                 api_version='apps.example.com/v1', kind='ChangeMe')
 
     def test_service_apis(self):
-        client = DynamicClient(api_client.ApiClient(configuration=self.config))
-        api = client.resources.get(api_version='v1', kind='Service')
+        api = self.client.resources.get(api_version='v1', kind='Service')
 
         name = 'frontend-' + short_uuid()
         service_manifest = {'apiVersion': 'v1',
@@ -248,14 +232,14 @@ class TestDynamicClient(unittest.TestCase):
 
         resp = api.create(
             body=service_manifest,
-            namespace='default'
+            namespace=self.namespace
         )
         self.assertEqual(name, resp.metadata.name)
         self.assertTrue(resp.status)
 
         resp = api.get(
             name=name,
-            namespace='default'
+            namespace=self.namespace
         )
         self.assertEqual(name, resp.metadata.name)
         self.assertTrue(resp.status)
@@ -267,19 +251,18 @@ class TestDynamicClient(unittest.TestCase):
         resp = api.patch(
             body=service_manifest,
             name=name,
-            namespace='default'
+            namespace=self.namespace
         )
         self.assertEqual(2, len(resp.spec.ports))
         self.assertTrue(resp.status)
 
         resp = api.delete(
             name=name, body={},
-            namespace='default'
+            namespace=self.namespace
         )
 
     def test_replication_controller_apis(self):
-        client = DynamicClient(api_client.ApiClient(configuration=self.config))
-        api = client.resources.get(
+        api = self.client.resources.get(
             api_version='v1', kind='ReplicationController')
 
         name = 'frontend-' + short_uuid()
@@ -299,21 +282,20 @@ class TestDynamicClient(unittest.TestCase):
                                         'protocol': 'TCP'}]}]}}}}
 
         resp = api.create(
-            body=rc_manifest, namespace='default')
+            body=rc_manifest, namespace=self.namespace)
         self.assertEqual(name, resp.metadata.name)
         self.assertEqual(2, resp.spec.replicas)
 
         resp = api.get(
-            name=name, namespace='default')
+            name=name, namespace=self.namespace)
         self.assertEqual(name, resp.metadata.name)
         self.assertEqual(2, resp.spec.replicas)
 
         resp = api.delete(
-            name=name, body={}, namespace='default')
+            name=name, body={}, namespace=self.namespace)
 
     def test_configmap_apis(self):
-        client = DynamicClient(api_client.ApiClient(configuration=self.config))
-        api = client.resources.get(api_version='v1', kind='ConfigMap')
+        api = self.client.resources.get(api_version='v1', kind='ConfigMap')
 
         name = 'test-configmap-' + short_uuid()
         test_configmap = {
@@ -329,27 +311,26 @@ class TestDynamicClient(unittest.TestCase):
         }
 
         resp = api.create(
-            body=test_configmap, namespace='default'
+            body=test_configmap, namespace=self.namespace
         )
         self.assertEqual(name, resp.metadata.name)
 
         resp = api.get(
-            name=name, namespace='default')
+            name=name, namespace=self.namespace)
         self.assertEqual(name, resp.metadata.name)
 
         test_configmap['data']['config.json'] = "{}"
         resp = api.patch(
-            name=name, namespace='default', body=test_configmap)
+            name=name, namespace=self.namespace, body=test_configmap)
 
         resp = api.delete(
-            name=name, body={}, namespace='default')
+            name=name, body={}, namespace=self.namespace)
 
-        resp = api.get(namespace='default', pretty=True)
+        resp = api.get(namespace=self.namespace, pretty=True)
         self.assertEqual([], resp.items)
 
     def test_node_apis(self):
-        client = DynamicClient(api_client.ApiClient(configuration=self.config))
-        api = client.resources.get(api_version='v1', kind='Node')
+        api = self.client.resources.get(api_version='v1', kind='Node')
 
         for item in api.get().items:
             node = api.get(name=item.metadata.name)
