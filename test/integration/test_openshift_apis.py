@@ -18,19 +18,23 @@ class TestOpenshiftApis(unittest.TestCase):
         except config.ConfigException:
             config.load_incluster_config()
         cls.config = Configuration.get_default_copy()
+        cls.client = DynamicClient(api_client.ApiClient(configuration=cls.config))
 
-    def create_namespace(self, client, namespace):
-        v1_namespaces = client.resources.get(api_version='v1', kind='Namespace')
-        self.addCleanup(v1_namespaces.delete, name=namespace)
+    def setUp(self):
+        # Generate a namespace name from the test case name
+        self.namespace = self.id().split('.')[-1].replace('_', '-')
+        v1_namespaces = self.client.resources.get(api_version='v1', kind='Namespace')
+
+        self.addCleanup(v1_namespaces.delete, name=self.namespace)
         v1_namespaces.create(body=dict(
             apiVersion='v1',
             kind='Namespace',
-            metadata=dict(name=namespace),
+            metadata=dict(name=self.namespace),
         ))
 
-    def create_hello_openshift(self, client, namespace):
-        apps_v1_deployments = client.resources.get(api_version='apps/v1', kind='Deployment')
-        v1_services = client.resources.get(api_version='v1', kind='Service')
+    def create_hello_openshift(self):
+        apps_v1_deployments = self.client.resources.get(api_version='apps/v1', kind='Deployment')
+        v1_services = self.client.resources.get(api_version='v1', kind='Service')
 
         name = 'hello-openshift'
 
@@ -39,7 +43,7 @@ class TestOpenshiftApis(unittest.TestCase):
             "kind": "Deployment",
             "metadata": {
                 "name": name,
-                "namespace": namespace
+                "namespace": self.namespace
             },
             "spec": {
                 "replicas": 3,
@@ -66,7 +70,7 @@ class TestOpenshiftApis(unittest.TestCase):
             "kind": "Service",
             "metadata": {
                 "name": name,
-                "namespace": namespace
+                "namespace": self.namespace
             },
             "spec": {
                 "ports": [{
@@ -77,10 +81,10 @@ class TestOpenshiftApis(unittest.TestCase):
                     "app": "hello-openshift"
                 }
             }}
-        self.addCleanup(apps_v1_deployments.delete, name=name, namespace=namespace)
+        self.addCleanup(apps_v1_deployments.delete, name=name, namespace=self.namespace)
         apps_v1_deployments.create(deployment)
 
-        self.addCleanup(v1_services.delete, name=name, namespace=namespace)
+        self.addCleanup(v1_services.delete, name=name, namespace=self.namespace)
         v1_services.create(service)
 
         # Wait 1 minute for deployment to become available
@@ -88,7 +92,7 @@ class TestOpenshiftApis(unittest.TestCase):
         start = datetime.now()
         while (datetime.now() - start).seconds < timeout:
             try:
-                deployment = apps_v1_deployments.get(name=name, namespace=namespace)
+                deployment = apps_v1_deployments.get(name=name, namespace=self.namespace)
                 if (deployment.status
                     and deployment.spec.replicas == (deployment.status.replicas or 0)
                     and deployment.status.readyReplicas == deployment.spec.replicas
@@ -100,17 +104,15 @@ class TestOpenshiftApis(unittest.TestCase):
                 time.sleep(1)
 
     def test_v1_route(self):
-        namespace = 'osrcp-test-route'
-        client = DynamicClient(api_client.ApiClient(configuration=self.config))
-        self.create_namespace(client, namespace)
-        v1_routes = client.resources.get(api_version='route.openshift.io/v1', kind='Route')
-        self.create_hello_openshift(client, namespace)
+        self.create_hello_openshift()
+
+        v1_routes = self.client.resources.get(api_version='route.openshift.io/v1', kind='Route')
         route = {
             "apiVersion": "route.openshift.io/v1",
             "kind": "Route",
             "metadata": {
                 "name": "test-route",
-                "namespace": namespace,
+                "namespace": self.namespace,
             },
             "spec": {
                 "to": {
@@ -126,8 +128,10 @@ class TestOpenshiftApis(unittest.TestCase):
                 }
             }
         }
-        self.addCleanup(v1_routes.delete, name='test-route', namespace=namespace)
+
+        self.addCleanup(v1_routes.delete, name='test-route', namespace=self.namespace)
         created_route = v1_routes.create(route)
+
         url = created_route.spec.host
         timeout = 10
         start = datetime.now()
@@ -138,21 +142,18 @@ class TestOpenshiftApis(unittest.TestCase):
         assert response.text == "Hello OpenShift!\n"
 
     def test_templates(self):
-        namespace = 'osrcp-test-templates'
-        client = DynamicClient(api_client.ApiClient(configuration=self.config))
-        self.create_namespace(client, namespace)
-        v1_templates = client.resources.get(api_version='template.openshift.io/v1', name='templates')
-        v1_processed_templates = client.resources.get(api_version='template.openshift.io/v1', name='processedtemplates')
+        v1_templates = self.client.resources.get(api_version='template.openshift.io/v1', name='templates')
+        v1_processed_templates = self.client.resources.get(api_version='template.openshift.io/v1', name='processedtemplates')
 
         nginx_template = v1_templates.get(name='nginx-example', namespace='openshift').to_dict()
-        nginx_template = self.update_template_param(nginx_template, 'NAMESPACE', namespace)
+        nginx_template = self.update_template_param(nginx_template, 'NAMESPACE', self.namespace)
         nginx_template = self.update_template_param(nginx_template, 'NAME', 'test123')
 
-        response = v1_processed_templates.create(body=nginx_template, namespace=namespace)
+        response = v1_processed_templates.create(body=nginx_template, namespace=self.namespace)
 
         for obj in response.objects:
             if obj.metadata.namespace:
-                assert obj.metadata.namespace == namespace
+                assert obj.metadata.namespace == self.namespace
             assert obj.metadata.name == 'test123'
 
     def update_template_param(self, template, k, v):
