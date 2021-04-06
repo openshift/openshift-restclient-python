@@ -19,7 +19,9 @@ COPY . /opt/osrcp
 
 WORKDIR /opt/osrcp
 
-RUN pip install -e .
+
+RUN pip install -e . && \
+    pip install -r test-requirements.txt
 
 RUN echo "${USER_NAME}:x:${USER_UID}:0:${USER_NAME} user:${HOME}:/sbin/nologin" >> /etc/passwd \
  && chown -R "${USER_UID}:0" "${HOME}" \
