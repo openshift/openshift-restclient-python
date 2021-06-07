@@ -186,7 +186,7 @@ class DynamicClient(object):
             yield event
 
     @meta_request
-    def request(self, method, path, body=None, **params):
+    def request(self, method, path, body=None, accept_header=None, **params):
         if not path.startswith('/'):
             path = '/' + path
 
@@ -217,7 +217,7 @@ class DynamicClient(object):
         form_params = []
         local_var_files = {}
         # HTTP header `Accept`
-        header_params['Accept'] = self.client.select_header_accept([
+        header_params['Accept'] = accept_header or self.client.select_header_accept([
             'application/json',
             'application/yaml',
             'application/vnd.kubernetes.protobuf'
