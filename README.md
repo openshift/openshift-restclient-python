@@ -440,6 +440,8 @@ v1_services = dyn_client.resources.get(api_version='v1', kind='Service')
 # Prints the resource that triggered each event related to Services in the 'test' namespace
 for event in v1_services.watch(namespace='test'):
     print(event['object'])
+    # If you want to gracefully stop the stream watcher
+    dyn_client.watch_stop()
 ```
 
 # Community, Support, Discussion

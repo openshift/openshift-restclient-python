@@ -170,20 +170,26 @@ class DynamicClient(object):
             for e in v1_pods.watch(resource_version=0, namespace=default, timeout=5):
                 print(e['type'])
                 print(e['object'].metadata)
+                client.watch_stop()
         """
         watcher = watch.Watch()
-        for event in watcher.stream(
-            resource.get,
-            namespace=namespace,
-            name=name,
-            field_selector=field_selector,
-            label_selector=label_selector,
-            resource_version=resource_version,
-            serialize=False,
-            timeout_seconds=timeout
-        ):
-            event['object'] = ResourceInstance(resource, event['object'])
-            yield event
+        self.watch_stop = watcher.stop
+        try:
+            for event in watcher.stream(
+                resource.get,
+                namespace=namespace,
+                name=name,
+                field_selector=field_selector,
+                label_selector=label_selector,
+                resource_version=resource_version,
+                serialize=False,
+                timeout_seconds=timeout
+            ):
+                event['object'] = ResourceInstance(resource, event['object'])
+                yield event
+        except KeyboardInterrupt as err:
+            watcher.stop()
+            raise err
 
     @meta_request
     def request(self, method, path, body=None, accept_header=None, **params):
