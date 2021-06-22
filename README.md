@@ -6,7 +6,7 @@ OpenShift python client
 
 Python client for the [Kubernetes](https://kubernetes.io/) and [OpenShift](http://openshift.redhat.com/) APIs.
 
-There are two ways this project interacts with the Kubernets and OpenShift APIs.
+There are two ways this project interacts with the Kubernetes and OpenShift APIs.
 The first, **now deprecated**, is to use models and functions generated with
 swagger from the API spec. The second, new approach, is to use a single model
 and client to generically interact with all resources on the server. The
