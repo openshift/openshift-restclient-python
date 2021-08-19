@@ -16,9 +16,9 @@ from kubernetes.dynamic.discovery import (  # noqa
     ResourceGroup,
 )
 from kubernetes.dynamic.exceptions import (
+    ApiException,
     ResourceNotFoundError,
     ResourceNotUniqueError,
-    ApiException,
     ServiceUnavailableError,
 )
 
