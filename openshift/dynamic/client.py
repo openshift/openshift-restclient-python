@@ -35,6 +35,10 @@ class DynamicClient(K8sDynamicClient):
         the kubernetes API
     """
 
+    def __init__(self, client, cache_file=None, discoverer=None):
+        discoverer = discoverer or LazyDiscoverer
+        K8sDynamicClient.__init__(self, client, cache_file=cache_file, discoverer=discoverer)
+
     def apply(self, resource, body=None, name=None, namespace=None):
         body = self.serialize_body(body)
         body['metadata'] = body.get('metadata', dict())
