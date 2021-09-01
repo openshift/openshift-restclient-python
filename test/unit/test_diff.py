@@ -61,6 +61,51 @@ tests = [
         expected=(dict(spec=dict(containers=[dict(name="busybox", env=[dict(name="another", value="next"), dict(name="hello", value="world")])])),
                   dict(spec=dict(containers=[dict(name="busybox", env=[dict(name="hello", value="everyone")])])))
     ),
+
+    dict(
+        before = dict(
+            kind="Pod",
+            metadata=dict(name="foo"),
+            spec=dict(containers=[dict(name="busybox", image="busybox")])
+        ),
+        after = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8081, name="http")])
+        ),
+        expected=(dict(kind='Pod', spec=dict(containers=[dict(image='busybox', name='busybox')])),
+                  dict(kind='Service', spec=dict(ports=[dict(name='http', port=8081)])))
+    ),
+
+    dict(
+        before = dict(
+            kind="Pod",
+            metadata=dict(name="foo"),
+            spec=dict(containers=[dict(name="busybox", image="busybox")])
+        ),
+        after = dict(
+            # kind="...",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8081, name="http")])
+        ),
+        expected=(dict(kind='Pod', spec=dict(containers=[dict(image='busybox', name='busybox')])),
+                  dict(spec=dict(ports=[dict(name='http', port=8081)])))
+    ),
+
+    dict(
+        before = dict(
+            # kind="...",
+            metadata=dict(name="foo"),
+            spec=dict(containers=[dict(name="busybox", image="busybox")])
+        ),
+        after = dict(
+            kind="Service",
+            metadata=dict(name="foo"),
+            spec=dict(ports=[dict(port=8081, name="http")])
+        ),
+        expected=(dict(spec=dict(containers=[dict(image='busybox', name='busybox')])),
+                  dict(kind='Service', spec=dict(ports=[dict(name='http', port=8081)])))
+    ),
     ]
 
 

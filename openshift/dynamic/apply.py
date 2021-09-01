@@ -223,8 +223,7 @@ def recursive_diff(dict1, dict2, position=None):
     left = dict((k, v) for (k, v) in dict1.items() if k not in dict2)
     right = dict((k, v) for (k, v) in dict2.items() if k not in dict1)
     for k in (set(dict1.keys()) & set(dict2.keys())):
-        if position:
-            this_position = "%s.%s" % (position, k)
+        this_position = "%s.%s" % (position, k) if position is not None else None
         if isinstance(dict1[k], dict) and isinstance(dict2[k], dict):
             result = recursive_diff(dict1[k], dict2[k], this_position)
             if result:
