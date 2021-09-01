@@ -22,6 +22,7 @@ API servers or Custom Resource Definitions.
   * [Create a Route](#create-a-route)
   * [List Projects](#list-projects)
   * [Custom Resources](#custom-resources)
+  * [OpenShift Login with username and password](#openshift-login-with-username-and-password)
 * [Available Methods for Resources](#available-methods-for-resources)
   * [Get](#get)
   * [Create](#create)
@@ -230,6 +231,44 @@ foo_resources.create(body=yaml.load(foo_resource_cr))
 
 for item in foo_resources.get().items:
   print(item.metadata.name)
+```
+
+## OpenShift Login with username and password
+
+```python
+from kubernetes import client
+from openshift.dynamic import DynamicClient
+from openshift.helper.userpassauth import OCPLoginConfiguration
+ 
+apihost = 'https://api.cluster.example.com:6443'
+username = 'demo-user'
+password = 'insecure'
+ 
+kubeConfig = OCPLoginConfiguration(ocp_username=username, ocp_password=password)
+kubeConfig.host = apihost
+kubeConfig.verify_ssl = True
+kubeConfig.ssl_ca_cert = './ocp.pem' # use a certificate bundle for the TLS validation
+ 
+# Retrieve the auth token
+kubeConfig.get_token()
+ 
+print('Auth token: {0}'.format(kubeConfig.api_key))
+print('Token expires: {0}'.format(kubeConfig.api_key_expires))
+ 
+k8s_client = client.ApiClient(kubeConfig)
+ 
+dyn_client = DynamicClient(k8s_client)
+v1_projects = dyn_client.resources.get(api_version='project.openshift.io/v1', kind='Project')
+project_list = v1_projects.get()
+ 
+for project in project_list.items:
+    print(project.metadata.name)
+ 
+# Renew the auth token
+kubeConfig.get_token()
+ 
+print('Auth token: {0}'.format(kubeConfig.api_key))
+print('Token expires: {0}'.format(kubeConfig.api_key_expires))
 ```
 
 # Available Methods for Resources
