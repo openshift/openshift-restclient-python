@@ -1,11 +1,14 @@
 sudo: required
 services:
-- docker
+  - docker
 cache:
-- pip
+  - pip
 language: python
 python:
-- '3.9'
+  - '3.6'
+  - '3.7'
+  - '3.8'
+  - '3.9'
 env:
   global:
     - COVERALLS_PARALLEL=true
@@ -13,19 +16,13 @@ env:
     - TEST_SUITE=unit
 script: tox
 install:
-- pip install tox-travis coveralls
+  - pip install tox-travis coveralls
 after_success:
-- coveralls
+  - coveralls
 jobs:
   include:
   - stage: lint
     python: '3.9'
-    install:
-    - pip install tox-travis
-    script: tox -e py27-lint
-    env:
-    - TEST_SUITE=lint
-  - python: '3.9'
     install:
     - pip install tox-travis
     script: tox -e py35-lint
@@ -49,11 +46,11 @@ jobs:
     install:
       - pip install openshift
 stages:
-# - lint
-# - test
-- name: deploy
-  if: (tag is present) and (type = push)
-- name: test-deploy
-  if: (tag is present) and (type = push)
+  - lint
+  - test
+  - name: deploy
+    if: (tag is present) and (type = push)
+  - name: test-deploy
+    if: (tag is present) and (type = push)
 notifications:
   webhooks: https://coveralls.io/webhook
