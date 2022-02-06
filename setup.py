@@ -24,7 +24,7 @@ from setuptools import find_packages, setup
 
 # Do not edit these constants. They will be updated automatically
 # by scripts/update-client.sh.
-CLIENT_VERSION = "0.13.0"
+CLIENT_VERSION = "0.13.1"
 PACKAGE_NAME = "openshift"
 DEVELOPMENT_STATUS = "3 - Alpha"
 
@@ -46,7 +46,7 @@ setup(
     license="Apache License Version 2.0",
     url="https://github.com/openshift/openshift-restclient-python",
     keywords=["Swagger", "OpenAPI", "Kubernetes", "OpenShift"],
-    install_requires=extract_requirements('requirements.txt'),
+    install_requires=['kubernetes >= 12.0', 'python-string-utils', 'six'],
     packages=find_packages(include='openshift.*'),
     long_description='Python client for OpenShift http://openshift.redhat.com/',
     classifiers=[
