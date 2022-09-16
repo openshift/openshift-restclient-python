@@ -8,7 +8,7 @@ from urllib3.exceptions import ProtocolError, MaxRetryError
 
 from kubernetes.dynamic.discovery import Discoverer as K8sDiscoverer
 from kubernetes.dynamic.discovery import LazyDiscoverer as K8sLazyDiscoverer
-from kubernetes.dynamic.discovery import LazyDiscoverer as K8sEagerDiscoverer
+from kubernetes.dynamic.discovery import EagerDiscoverer as K8sEagerDiscoverer
 from kubernetes.dynamic.discovery import (  # noqa
     CacheEncoder,
     CacheDecoder,
