@@ -30,11 +30,11 @@ def generate_hash(resource):
     resource['name'] = resource.get('metadata', {}).get('name', '')
     if resource['kind'] == 'ConfigMap':
         marshalled = marshal(sorted_dict(resource), ['data', 'kind', 'name'])
-        del(resource['name'])
+        del (resource['name'])
         return encode(marshalled)
     if resource['kind'] == 'Secret':
         marshalled = marshal(sorted_dict(resource), ['data', 'kind', 'name', 'type'])
-        del(resource['name'])
+        del (resource['name'])
         return encode(marshalled)
     raise NotImplementedError
 
